@@ -10,6 +10,6 @@
   percentage: 70
   color: dark
 
-  - name: Awesome Skill
+- name: Awesome Skill
   percentage: 95
   color: secondary
