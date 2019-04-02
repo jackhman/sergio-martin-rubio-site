@@ -1,5 +1,5 @@
 # Site settings
-title: portfolYOU
+title: Sergio Martin Rubio
 description: >- # this means to ignore newlines until "baseurl:"
   Always code as if the guy who ends up maintaining your code
   will be a violent psychopath who knows where you live.
@@ -21,10 +21,10 @@ author:
   name     : Sergio Martin Rubio
   image    : https://i.ibb.co/CmQVzwz/ATP7514.jpg
   email    : econsergio@gmail.com
-  github   : username
-  twitter  : username
-  linkedin : username
-  facebook : username
+  github   : https://github.com/smartinrub
+  twitter  : https://twitter.com/smartinrub
+  linkedin : www.linkedin.com/in/sergiomartinrubio
+  # facebook : username
 
 
 # Collections
