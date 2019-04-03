@@ -1,7 +1,11 @@
-- name: Adobe Photoshop
-  percentage: 95
-  color: info
+- name: Testing
+  percentage: 90
+  color: success
 
-- name: Adobe Illustrator
+- name: DevOps
+  percentage: 80
+  color: success
+
+- name: Agile
   percentage: 90
   color: success

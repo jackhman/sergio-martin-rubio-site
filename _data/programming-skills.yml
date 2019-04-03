@@ -1,15 +1,23 @@
-- name: HTML5/CSS3
+- name: Java
   percentage: 90
+  color: success
+
+- name: Bash
+  percentage: 70
+  color: info
+
+- name: SQL
+  percentage: 80
+  color: success
+
+- name: Spring
+  percentage: 80
+  color: success
+
+- name: Kotlin
+  percentage: 20
   color: danger
 
-- name: Go
-  percentage: 80
-  color:
-
-- name: Python
-  percentage: 70
-  color: dark
-
-- name: Awesome Skill
-  percentage: 95
-  color: secondary
+- name: Android
+  percentage: 40
+  color: warning
