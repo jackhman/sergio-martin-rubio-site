@@ -1,8 +1,8 @@
 ---
-title: JWTs With Spring Boot and Java 9
-tags: [External Post, Java, Spring, Security]
+title: Storing Passwords Securely With Bcrypt and Java
+tags: [External Post, Java, Security]
 style: fill
 color: warning
-description: Interested in using JWTs for your Java 9/Spring Boot projects? Learn how to set up your dependencies and the use cases for you to consider.
-external_url: https://dzone.com/articles/jwts-with-spring-boot-and-java-9
+description: In this post, we go over how to use this password hashing function to ensure your passwords are properly encrypted and GDPR complaint.
+external_url: https://dzone.com/articles/storing-passwords-securely-with-bcrypt-and-java
 ---
