@@ -358,7 +358,7 @@ class ParameterizedTests {
 ```
 
 > Note: For `@MethodSource`, if method has same name as test, parameter name is not required.
-To use this feature, `junit-jupiter-params` needs to be added to the classpath." %}
+To use this feature, `junit-jupiter-params` needs to be added to the classpath.
 
 # Conclusion
 
