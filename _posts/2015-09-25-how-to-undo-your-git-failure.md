@@ -1,8 +1,8 @@
 ---
-title: How to undo your git failure?
-tags: [External Post, Git]
+title: JWTs With Spring Boot and Java 9
+tags: [External Post, Java, Spring, Security]
 style: fill
 color: warning
-description: Using `git reflog` and `git reset` to save your code.
-external_url: https://blog.usejournal.com/how-to-undo-your-git-failure-b76e31ecac74
+description: Interested in using JWTs for your Java 9/Spring Boot projects? Learn how to set up your dependencies and the use cases for you to consider.
+external_url: https://dzone.com/articles/jwts-with-spring-boot-and-java-9
 ---
