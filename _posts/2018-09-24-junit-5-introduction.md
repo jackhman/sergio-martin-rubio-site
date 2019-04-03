@@ -8,7 +8,7 @@ description: Learn and understand the basics of JUnit 5 with easy examples.
 
 **JUnit** is the most popular testing framework in Java, and with [**JUnit 5**](https://junit.org/junit5/) testing in **Java 8** and beyond takes another step forward. This version was release in September 2017 and has been actively updated to fix bugs and add new features. Moreover, JUnit 5 is also compatible with version 3 and 4 by adding [`junit-vintage-engine`](https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine) to your classpath path.
 
-![](https://drive.google.com/open?id=1fIXogOiAvOlQjj01FBERiVTDXRze-Z24)
+<!-- ![](https://drive.google.com/open?id=1fIXogOiAvOlQjj01FBERiVTDXRze-Z24) -->
 
 ## Migrating from JUnit 4
 
