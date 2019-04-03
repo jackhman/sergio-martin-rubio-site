@@ -1,18 +1,17 @@
 ---
 title: Take Unit Testing to the next level with JUnit 5
 tags: [Java, Testing, JUnit]
-style: fill
-color: danger
+style: border
+color: primary
 description: Learn and understand the basics of JUnit 5 with easy examples.
 ---
 
 **JUnit** is the most popular testing framework in Java, and with [**JUnit 5**](https://junit.org/junit5/) testing in **Java 8** and beyond takes another step forward. This version was release in September 2017 and has been actively updated to fix bugs and add new features. Moreover, JUnit 5 is also compatible with version 3 and 4 by adding [`junit-vintage-engine`](https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine) to your classpath path.
 
-<!-- ![](https://drive.google.com/open?id=1fIXogOiAvOlQjj01FBERiVTDXRze-Z24) -->
-
-## Migrating from JUnit 4
+# Migrating from JUnit 4
 
 When [migrating from JUnit 4](https://junit.org/junit5/docs/current/user-guide/#migrating-from-junit4) there are a few considerations to bear in mind:
+
 - To have **JUnit 5** annotations you need to add to junit-jupiter-api to your classpath.
 - Replace `@BeforeClass`, `@Before`, `@AfterClass` and `@After` annotations with `@BeforeAll`, `@BeforeEach`, `@AfterAll` and `@AfterEach` alternatively.
 
@@ -58,6 +57,7 @@ void sometimesIsExecuted() {
     System.out.println("Running " + counter++);
 }
 ```
+
 - `@Category` need to be replaced with `@Tag`.
 
 ```java
@@ -75,8 +75,10 @@ class TagsTests {
 - `@RunWith` does not exist anymore, use `@ExtendWith` instead.
 - `@Rule` and `@ClassRule` were also removed, use `@ExtendWith` instead.
 
-## New JUnit 5 Features
-### @DisplayName
+# New JUnit 5 Features
+
+## @DisplayName
+
 `@DisplayName` allows you to override a test class or method with a custom message, special characters or even Emojis (😄).
 
 ```java
@@ -93,10 +95,12 @@ class DisplayNamesTests {
 }
 ```
 
-### Assertions
+## Assertions
+
 Assertions include four new improvements:
 
 1. Compatibility with lambda expression.
+
 ```java
 assertEquals(
         Stream.of(1, 4, 5).mapToInt(Integer::intValue).sum(),
@@ -105,7 +109,9 @@ assertEquals(
 ```
 
 2. Group assertions.
-- assertAll()
+
+- **assertAll()**
+
 ```java
 List<String> names = Arrays.asList("Sergio", "Juan", "Adolfo");
 assertAll("names",
@@ -115,7 +121,9 @@ assertAll("names",
 ```
 
 3. More control over exceptions. Now you can even inspect the returning exception to verify message, cause, stacktrace…
-- assertThrows()
+
+- **assertThrows()**
+
 ```java
 Throwable runtimeException = assertThrows(RuntimeException.class, () -> {
     throw new RuntimeException("exception");
@@ -124,7 +132,9 @@ assertEquals("exception", runtimeException.getMessage());
 ```
 
 4. Timeout assertions:
-- assertTimeout() 
+
+- **assertTimeout()**
+
 ```java
 @Test
 void timeoutNotExceeded() {
@@ -144,10 +154,11 @@ void timeoutExceeded() {
 }
 ```
 
-### Assumptions
-- assumeTrue()
-- assumeFalse()
-- assumingThat()
+## Assumptions
+
+- `assumeTrue()`
+- `assumeFalse()`
+- `assumingThat()`
 
 Assumptions are preconditions that need to be satisfied to run subsequent assertions. If the assumption fails TestAbortedException is thrown and the complete test is skipped.
 
@@ -170,7 +181,8 @@ void assumptionThat() {
 }
 ```
 
-### @Nested
+## @Nested
+
 `@Nested` gives your more freedom to create groups of related test in the same test suite.
 
 ```java
@@ -201,14 +213,15 @@ class NestedTests {
 }
 ```
 
-{% include highlight.html text="`@BeforeAll` and `@AfterAll` are only allow if the test class is annotated with `@TestInstance(Lifecycle.PER_CLASS)`." %}
+> Note: `@BeforeAll` and `@AfterAll` are only allow if the test class is annotated with `@TestInstance(Lifecycle.PER_CLASS)`." %}
 
-### Dependency Injection
+## Dependency Injection
+
 **JUnit 5** allows to add parameters in constructors and test methods. Therefore, now constructors and methods annotated with `@Test`, `@TestFactory`, `@BeforeEach`, `@AfterEach`, `@BeforeAll`, `@AfterAll` accept parameters.
 
 There are three kind of allowed parameters:
 
-- TestInfo: allows you to get information related to a test suite or test method such as display name, tags, test class…
+- **TestInfo**: allows you to get information related to a test suite or test method such as display name, tags, test class…
 
 ```java
 DependencyInjectionTests(TestInfo testInfo) {
@@ -233,7 +246,8 @@ class testInfoExamples {
 }
 ```
 
-- TestReporter: is used to print test information to stout or stderr.
+- **TestReporter**: is used to print test information to stout or stderr.
+
 ```java
 @Test
 void testReporterString(TestReporter testReporter) {
@@ -252,7 +266,7 @@ void testReporterMap(TestReporter testReporter) {
 }
 ```
 
-- RepetitionInfo: can be used only on test annotated with @RepeatedTest and provides information regarding current repetition number or total of repetitions.
+- **RepetitionInfo**: can be used only on test annotated with @RepeatedTest and provides information regarding current repetition number or total of repetitions.
 
 ```java
 private static int repetition = 1;
@@ -264,7 +278,8 @@ void repetitionTest(RepetitionInfo repetitionInfo) {
 }
 ```
 
-### Interfaces and Default methods
+## Interfaces and Default methods
+
 Interfaces create contracts to implement in your test suites. Methods declared as default in an interface will always run in a test suite.
 
 ```java
@@ -293,9 +308,11 @@ class ClassImplementingInterfaceTests implements Interfaces {
     }
 }
 ```
-{% include highlight.html text="`@TestInstance(TestInstance.Lifecycle.PER_CLASS)` is required to make `@BeforeAll` and `@AfterAll` work." %}
 
-### @RepeatedTest
+> Note: `@TestInstance(TestInstance.Lifecycle.PER_CLASS)` is required to make `@BeforeAll` and `@AfterAll` work.
+
+## @RepeatedTest
+
 `@RepeatedTest` allows you to repeat a test as many times as you want by passing the number of desire repetitions to the annotation.
 
 ```java
@@ -304,7 +321,8 @@ void repetitionTest() {
 }
 ```
 
-### @ParameterizedTest
+## @ParameterizedTest
+
 When using `@ParameterizedTest` annotation in combination with
 
 - `@ValueSource`
@@ -339,14 +357,13 @@ class ParameterizedTests {
 }
 ```
 
-{% include highlight.html text="For `@MethodSource`, if method has same name as test, parameter name is not required." %}
+> Note: For `@MethodSource`, if method has same name as test, parameter name is not required.
+To use this feature, `junit-jupiter-params` needs to be added to the classpath." %}
 
-{% include highlight.html text="To make use of this feature, `junit-jupiter-params` needs to be added to the classpath." %}
-
-## Conclusion
+# Conclusion
 
 As you can see, JUnit 5 is a huge improvement over previous versions and introduces many new testing features. It also allows you to write more expressive units test when using in combination with lambda expressions from Java 8.
 
-## Code Examples
+# Code Examples
 
 Source code can be found [here](https://github.com/smartinrub/junit5-features).
