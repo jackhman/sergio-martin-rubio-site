@@ -1,6 +1,6 @@
-- title: Student, Harvard CS
-  from: 2014
-  to: 2018
+- title: Software Engineer, Gamesys, UK
+  from: Oct 2017
+  to: Oct 2018
   description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
                sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
@@ -10,8 +10,7 @@
 - title: Full Stack Developer, Accenture, Spain
   from: Mar 2017
   to: Sep 2017
-  description: Lorem ipsum dolor sit amet, consectetur adipiscing elit,
-               sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-               Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris
-               nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-               reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+  description: 
+  • Built new funtionalities in AngularJS and Spring MVC to improve user experience
+  • Involved in SCRUM ceremonies to ensure delivery of value to stakeholders.
+  • Reviewed code and assessed system for bugs and malfunctions
