@@ -144,7 +144,7 @@ void timeoutExceeded() {
 }
 ```
 
-###Assumptions
+### Assumptions
 - assumeTrue()
 - assumeFalse()
 - assumingThat()
