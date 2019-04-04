@@ -47,26 +47,29 @@ public class MyBeforeAspect {
 As a good practice, we will also create another class where all join points will be declared, so we can refer the join points from an advice annotation.
 
 ```java
-public class JoinPoints {
+public class JoinPoints { 
     
     @Pointcut("execution(* org.smartinrub.aopspringdemo.service.*.*(..))")
     public void serviceLayer(){}
-    
+
     @Pointcut(
             value = "execution(* org.smartinrub.aopspringdemo.repository.*.*(..)) && args(id)",
             argNames = "id")
     public void repositoryLayer(int id){}
+
     @Pointcut("execution(* org.smartinrub.aopspringdemo.controller.*.*(..))")
     public void controllerLayer(){}
 }
 ```
 
 ### Types of Advice
+
 - `@Before`: it runs before a join point.
 - `@After`: it runs after a method call
 - `@AfterReturning`: it runs when a join point completes successfully and after @After point join.
 - `@AfterThrowing`: it runs when a method exits because of an exception.
 - `@Around`: it runs before and after the method execution. It allows us to proceed to the join point, return its own object or throw an exception.
+
 #### @Before
 
 ```java
