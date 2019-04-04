@@ -41,7 +41,7 @@ public class SpringBootZipkinSleuthSplunkApplication {
 
 The `application.properties` file will contain the configuration for **Sleuth** and **Zipkin**.
 
-```yaml
+```properties
 spring.application.name=spring-boot-zipkin-sleuth-splunk
 spring.sleuth.sampler.probability=1.0
 spring.zipkin.service.name=spring-boot-zipkin-sleuth-splunk
