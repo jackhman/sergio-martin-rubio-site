@@ -1,0 +1,63 @@
+<p><a href="https://docs.oracle.com/javase/7/docs/api/java/lang/ThreadLocal.html">ThreadLocal</a> variables are usually private static fields in classes and maintain its state inside a thread and generate unique identifiers local to each thread. This meas that every time a different thread accesses to the same instance, a new <code class="highlighter-rouge">ThreadLocal</code> variable is created. Therefore, information saved in a <code class="highlighter-rouge">ThreadLocal</code> can only be accessed by a single thread for a particular instance.</p>
+
+<h2 id="lifecycle">Lifecycle</h2>
+
+<p><code class="highlighter-rouge">ThreadLocal</code> variables are created when a thread accesses an instance, and all the copies of <code class="highlighter-rouge">ThreadLocal</code> variables are ready to be garbage collected when the thread goes away, unless there are other references to the <code class="highlighter-rouge">ThreadLocal</code> variables.</p>
+
+<p>If a class is setting a <code class="highlighter-rouge">ThreadLocal</code> value in a static block, only the thread that initializes the class will be able to retrieve the value, since static blocks are only call during class initialization.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyThreadLocalManager</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">ThreadLocal</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">threadLocal</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ThreadLocal</span><span class="o">&lt;&gt;();</span>
+    <span class="kd">static</span> <span class="o">{</span>
+        <span class="n">threadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="n">Integer</span> <span class="nf">getInteger</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">threadLocal</span><span class="o">.</span><span class="na">get</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setInteger</span><span class="o">(</span><span class="n">Integer</span> <span class="n">integer</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">threadLocal</span><span class="o">.</span><span class="na">set</span><span class="o">(</span><span class="n">integer</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Therefore, if a thread accesses the instance of the previous class, which was originally initialized by another thread, and calls <code class="highlighter-rouge">getInteger()</code>, it will return <code class="highlighter-rouge">null</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MyThreadLocalManager</span> <span class="n">myThreadLocalManager</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MyThreadLocalManager</span><span class="o">();</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">myThreadLocalManager</span><span class="o">.</span><span class="na">getInteger</span><span class="o">());</span> <span class="c1">// prints 10</span>
+<span class="k">new</span> <span class="nf">Thread</span><span class="o">(</span><span class="s">"thread-2"</span><span class="o">)</span> <span class="o">{</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">run</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">myThreadLocalManager</span><span class="o">.</span><span class="na">getInteger</span><span class="o">());</span> <span class="c1">// prints null</span>
+    <span class="o">}</span>
+<span class="o">}.</span><span class="na">start</span><span class="o">();</span>
+</code></pre></div></div>
+
+<p>In order to initialize our <code class="highlighter-rouge">ThreadLocal</code> with a value, we can use the new <strong>Java 8</strong> withInitial()</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">static</span> <span class="o">{</span>
+    <span class="n">threadLocal</span> <span class="o">=</span> <span class="n">ThreadLocal</span><span class="o">.</span><span class="na">withInitial</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="mi">10</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Now the output will be <strong>“10”</strong> for every thread that uses the <code class="highlighter-rouge">MyThreadLocalManager</code> instance.</p>
+
+<h2 id="operations">Operations</h2>
+
+<ul>
+  <li><code class="highlighter-rouge">get()</code></li>
+  <li><code class="highlighter-rouge">set(value)</code></li>
+  <li><code class="highlighter-rouge">remove()</code></li>
+  <li><code class="highlighter-rouge">withInitial(supplier)</code> -&gt; <mark class="px-2">since Java 8</mark></li>
+</ul>
+
+<h2 id="use-cases">Use Cases</h2>
+
+<ul>
+  <li>To avoid <strong>synchronization</strong>: <code class="highlighter-rouge">ThreadLocal</code> is thread safe, since only one thread can access to the data saved in it.</li>
+  <li>To create <strong>global variables</strong> shared by a single thread.</li>
+  <li>In web applications in order to <strong>keep a global state</strong> (context, session…) <strong>during a HTTP request</strong>.  You might need some expensive data which needs to be computed multiple times for each HTTP request, and this date will change for each request, which means that we cannot use a plain cache. So <code class="highlighter-rouge">ThreadLocal</code> can be a solution to store this data, so we only have to calculate it once for each request.</li>
+</ul>
+
+<h2 id="caveats">Caveats</h2>
+
+<p><code class="highlighter-rouge">ThreadLocal</code> can cause memory leaks if it is not used safely. In web applications, thread workers are provided by web servers like <strong>Tomcat</strong> or <strong>Jetty</strong>, and they maintain a thread pool to serve HTTP requests. Therefore, if a request creates a <code class="highlighter-rouge">ThreadLocal</code> and it is not removed before the response is returned, a copy of the object which contains the <code class="highlighter-rouge">ThreadLocal</code> will remain with a worker Thread in the web server, and since lifespan of a worker thread is longer than the webapp itself, it will prevent the object and thus the ClassLoader being responsible for loading the application from being garbage collected. So always remember to remove <code class="highlighter-rouge">ThreadLocal</code> variables when they are not useful anymore.</p>
