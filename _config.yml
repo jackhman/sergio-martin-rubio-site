@@ -12,7 +12,7 @@ repository: YoussefRaafatNasry/portfolYOU
 markdown: kramdown
 remote_theme: YoussefRaafatNasry/portfolYOU
 
-plugins:
+# plugins:
 # - jekyll-feed
 
 
