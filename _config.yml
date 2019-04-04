@@ -12,9 +12,14 @@ repository: YoussefRaafatNasry/portfolYOU
 markdown: kramdown
 remote_theme: YoussefRaafatNasry/portfolYOU
 
-# plugins:
+plugins:
 # - jekyll-feed
+  - jekyll-algolia
 
+algolia:
+  application_id: 09V6SYMNZX
+  index_name:     jekyll # You can replace that with whatever name you want
+  search_only_api_key: fb020dfbffad2bca00f9d84933e17a2f
 
 # Author Info
 author:
