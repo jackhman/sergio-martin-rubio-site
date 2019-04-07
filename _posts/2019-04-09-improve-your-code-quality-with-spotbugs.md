@@ -9,6 +9,7 @@ description: Either you are new in Java or want to make sure you are not introdu
 {%- capture list_items -%}
 Introduction
 SpotBugs
+What it is
 How To Use
 Advance Configuration
 Alternatives
@@ -25,9 +26,14 @@ Every developer should ensure code quality and follow language conventions, othe
 
 ## SpotBugs
 
-[SpotBugs](https://spotbugs.github.io/) helps you analize your **Java** code to find bugs. This is a free open source tool which was previously named [FindBugs](http://findbugs.sourceforge.net/).
+### What it is
 
-### How To Use
+- [SpotBugs](https://spotbugs.github.io/) helps you analize your **Java** code to find bugs.
+- Free open source tool which was previously named [FindBugs](http://findbugs.sourceforge.net/).
+- It is a plugin available for Maven, Gradle, Eclipse, Ant...
+- It looks at your source code and runs a static analysis.
+
+### How To Use It
 
 There are a few ways of using **SpotBugs**, however, we are going to focus on the SpotBugs plugin for Maven. Alternatevely, you can execute SpotBugs on _Windows_, _macOS_ or _Linux_ to run the _SpotBugs GUI_; install a plugin for Eclipse; integrate it with **Ant** or add a **Gradle Plugin**.
 
