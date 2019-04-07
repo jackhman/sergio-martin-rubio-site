@@ -6,6 +6,14 @@ color: primary
 description: Learn and understand the basics of JUnit 5 with easy examples.
 ---
 
+{%- capture list_items -%}
+Migrating from JUnit 4
+New JUnit 5 Features
+Conclusion
+{%- endcapture -%}
+
+{% include list.html title="Content" type="toc" %}
+
 **JUnit** is the most popular testing framework in Java, and with [**JUnit 5**](https://junit.org/junit5/) testing in **Java 8** and beyond takes another step forward. This version was release in September 2017 and has been actively updated to fix bugs and add new features. Moreover, JUnit 5 is also compatible with version 3 and 4 by adding [`junit-vintage-engine`](https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine) to your classpath path.
 
 ## Migrating from JUnit 4
