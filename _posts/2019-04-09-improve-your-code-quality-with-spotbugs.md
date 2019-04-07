@@ -11,6 +11,8 @@ Introduction
 SpotBugs
 How To Use
 Advance Configuration
+Alternatives
+Conclusion
 {%- endcapture -%}
 
 {% include list.html title="Content" type="toc" %}
@@ -54,7 +56,7 @@ There are a few ways of using **SpotBugs**, however, we are going to focus on th
 - **help** goal: shows how to use SpotBugs plugin
 
 ```shell
-mvn clean install spotbugs:gui
+mvn clean install spotbugs:spotbugs
 ```
 
 ### Advance Configuration
@@ -129,7 +131,38 @@ An example with some of the SpotBugs clauses can be found below.
 {% include button.html link="https://github.com/smartinrub/spotbugs-example" text="Code Examples" style="btn-dark" %}
 </p>
 
+### GUI
 
+SpotBugs has a GUI out-of-the-box by simply running
 
+```shell
+mvn spotbugs:gui
+```
 
+> A build and SpotBugs analysis is required
 
+A new window will pop up with a bug tree which gives us the following information:
+- Bug Category
+- Bug Kind
+- Bug Pattern
+- Bug Rank
+
+![SpotBugs GUI - Hierarky](https://lh3.googleusercontent.com/ANLKz0dfuvd1m0fKUhuUkBCGg5mBbObv0li-eiqbHiXeJpdy5a9N8LfJE5KZY0t0KtKjcb4_FntTYwYCsVUiKFQBVUOdGIPIppwLGokGYtoyhIcsda3J8BURIlDj3XCNao7L8uZm=w2400)
+
+When a particular bug is selected we will see a pane with the class and highlighted line code, and at the botton a description and possible solution.
+
+![SpotBugs GUI - Source Code and Description Panel](https://lh3.googleusercontent.com/_Tr_pt9VWpFMnJFYqwTPncFcaXofAyao5qpfG1veW6pEC0h9pzSDwneraWbY1hF3DaiE2Hb6_7xvnswG6lfoPXNHkp2GjJqtTXfcOg_dhaDOjANqkuYqBcmJGbAT1vIpt3ChiyIY=w2400)
+
+You can also save the report and import or export filters.
+
+> The GUI can also be run by itself and load the jar file that we want to analyze.
+
+## Alternatives
+
+Probably you have already heard about ![**SonarQube**](https://www.sonarqube.org/), which basically provides SpotBugs features and a few extra more. In fact, _SonarQube_ used to use _FindBugs_ plugin to generate bug reports, until they decided to used their own analyzer and stop using **[Checkstyle](http://checkstyle.sourceforge.net/)**, **[PMD](https://pmd.github.io/)** and **FindBugs**. 
+
+**Why would you choose SpotBugs?** Because it is easier to integrate into your Maven build, rather than relying on a separate Sonar server, and having to learn an additional _API_. The greatest benefit of **SonarQube** is the GUI, which lets you configure anything easily. Nevertheless, you could run something like [Jenkins Warnings Next Generation Plugin](https://github.com/jenkinsci/warnings-ng-plugin) as part of your **Jenkins CI build** and have nice graphs.
+
+## Conclusion
+
+Whether you are a junior or senior developer, code analysis tools like Spotbugs can be very useful to improve code quality and avoid bugs, so you should consider adding this tool to your build.
