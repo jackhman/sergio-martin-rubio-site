@@ -101,7 +101,8 @@ and add it in your SpotBugs plugin configuration
 ```xml
 <includeFilterFile>spotbugs.xml</includeFilterFile>
 ```
-A filter file is a _XML_ file with a parent FindBugsFilter tag which contains as many `Match` tags as you want, and each `Match` element accepts many ![types of Match clauses](https://spotbugs.readthedocs.io/en/stable/filter.html#types-of-match-clauses). Moreover, you can use [Java regular expressions](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html) to include/exclude classes, methods, fields or sources.
+
+A filter file is a _XML_ file with a parent FindBugsFilter tag which contains as many `Match` tags as you want, and each `Match` element accepts many [types of Match clauses](https://spotbugs.readthedocs.io/en/stable/filter.html#types-of-match-clauses). Moreover, you can use [Java regular expressions](https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html) to include/exclude classes, methods, fields or sources.
 
 An example with some of the SpotBugs clauses can be found below.
 
