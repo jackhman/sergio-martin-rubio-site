@@ -135,7 +135,7 @@ An example with some of the SpotBugs clauses can be found below.
 ```
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/spotbugs-example" text="Code Examples" style="btn-dark" %}
+{% include button.html link="https://github.com/smartinrub/spotbugs-example" text="Code Examples" style="dark" %}
 </p>
 
 ### GUI
