@@ -159,7 +159,7 @@ You can also save the report and import or export filters.
 
 ## Alternatives
 
-Probably you have already heard about ![**SonarQube**](https://www.sonarqube.org/), which basically provides SpotBugs features and a few extra more. In fact, _SonarQube_ used to use _FindBugs_ plugin to generate bug reports, until they decided to used their own analyzer and stop using **[Checkstyle](http://checkstyle.sourceforge.net/)**, **[PMD](https://pmd.github.io/)** and **FindBugs**. 
+Probably you have already heard about ![SonarQube](https://www.sonarqube.org/), which basically provides SpotBugs features and a few extra more. In fact, _SonarQube_ used to use _FindBugs_ plugin to generate bug reports, until they decided to used their own analyzer and stop using **[Checkstyle](http://checkstyle.sourceforge.net/)**, **[PMD](https://pmd.github.io/)** and **FindBugs**. 
 
 **Why would you choose SpotBugs?** Because it is easier to integrate into your Maven build, rather than relying on a separate Sonar server, and having to learn an additional _API_. The greatest benefit of **SonarQube** is the GUI, which lets you configure anything easily. Nevertheless, you could run something like [Jenkins Warnings Next Generation Plugin](https://github.com/jenkinsci/warnings-ng-plugin) as part of your **Jenkins CI build** and have nice graphs.
 
