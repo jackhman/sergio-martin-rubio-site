@@ -154,11 +154,11 @@ A new window will pop up with a bug tree which gives us the following informatio
 - Bug Pattern
 - Bug Rank
 
-![SpotBugs GUI - Hierarky](https://lh3.googleusercontent.com/ANLKz0dfuvd1m0fKUhuUkBCGg5mBbObv0li-eiqbHiXeJpdy5a9N8LfJE5KZY0t0KtKjcb4_FntTYwYCsVUiKFQBVUOdGIPIppwLGokGYtoyhIcsda3J8BURIlDj3XCNao7L8uZm=w2400)
+{% include figure.html image="https://lh3.googleusercontent.com/ANLKz0dfuvd1m0fKUhuUkBCGg5mBbObv0li-eiqbHiXeJpdy5a9N8LfJE5KZY0t0KtKjcb4_FntTYwYCsVUiKFQBVUOdGIPIppwLGokGYtoyhIcsda3J8BURIlDj3XCNao7L8uZm=w2400" caption="SpotBugs GUI - Hierarky" %}
 
 When a particular bug is selected we will see a pane with the class and highlighted line code, and at the botton a description and possible solution.
 
-![SpotBugs GUI - Source Code and Description Panel](https://lh3.googleusercontent.com/_Tr_pt9VWpFMnJFYqwTPncFcaXofAyao5qpfG1veW6pEC0h9pzSDwneraWbY1hF3DaiE2Hb6_7xvnswG6lfoPXNHkp2GjJqtTXfcOg_dhaDOjANqkuYqBcmJGbAT1vIpt3ChiyIY=w2400)
+{% include figure.html image="https://lh3.googleusercontent.com/_Tr_pt9VWpFMnJFYqwTPncFcaXofAyao5qpfG1veW6pEC0h9pzSDwneraWbY1hF3DaiE2Hb6_7xvnswG6lfoPXNHkp2GjJqtTXfcOg_dhaDOjANqkuYqBcmJGbAT1vIpt3ChiyIY=w2400" caption="SpotBugs GUI - Source Code and Description Panel" %}
 
 You can also save the report and import or export filters.
 
