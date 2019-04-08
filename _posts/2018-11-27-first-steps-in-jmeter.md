@@ -88,7 +88,7 @@ This parent object will contain all the necessary components to build your test 
 
 #### Controllers
 
-_Sampler_
+**_Sampler_**
 
 This type of controller let you send different types of requests (e.g. _HTTP, FTP, JDBC_…).
 
@@ -96,15 +96,15 @@ The _HTTP Request_ controller is used to send requests to the web server.
 
 If you are planning to send multiple request to the same server it is recommended to use Config Element components for your Thread Group, so you can set default request values:
 
--  Defaults allows you to specify default values for your HTTP calls (e.g. domain, port, parameters, body…) inside a Thread Group or for the whole Test Plan.
-- _HTTP Header Manager_: allows you add or override HTTP request headers.
-- _HTTP Cookie Manager_: stores and sends cookies like a web browser. It is very useful to keep the same session in a Thread Group.
-- _HTTP Cache Manager_: To simulate browser cache features and with the default **JVM** value, the limit is 5000 items.
-- _HTTP Authorization Manager_: for web pages with restricted access.
+-  **Defaults** allows you to specify default values for your HTTP calls (e.g. domain, port, parameters, body…) inside a Thread Group or for the whole Test Plan.
+- **HTTP Header Manager**: allows you add or override HTTP request headers.
+- **HTTP Cookie Manager**: stores and sends cookies like a web browser. It is very useful to keep the same session in a Thread Group.
+- **HTTP Cache Manager**: To simulate browser cache features and with the default **JVM** value, the limit is 5000 items.
+- **HTTP Authorization Manager**: for web pages with restricted access.
 
 Another interesting option to generate test samplers automatically is [HTTP(S) Test Script Recorder](https://jmeter.apache.org/usermanual/component_reference.html#HTTP(S)_Test_Script_Recorder).
 
-_Logic Controller_
+_**Logic Controller**_
 
 We can use these controller to specified how and when to run the samplers. The most relevant types are:
 
