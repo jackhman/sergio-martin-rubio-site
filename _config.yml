@@ -13,7 +13,7 @@ markdown: kramdown
 remote_theme: YoussefRaafatNasry/portfolYOU
 
 plugins:
-# - jekyll-feed
+  - jekyll-feed
 # - jekyll-algolia
 
 # algolia:
