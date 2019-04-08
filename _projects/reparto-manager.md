@@ -9,7 +9,7 @@ description: Android App to manage your orders.
 
 {% include video.html id="UrYdKVSVUbI" %}
 
-Reparto Manager is a simple and light application made for delivery companies, and its main purpose is to optimize the management of orders based on locations, sale prices, and order priorities. Through an intuitive interface, Reparto Manager will allow you to generate new orders and improve logistics.
+**Reparto Manager** is a simple and light application made for delivery companies, and its main purpose is to optimize the management of orders based on locations, sale prices, and order priorities. Through an intuitive interface, Reparto Manager will allow you to generate new orders and improve logistics.
 
 ## Features
 
@@ -22,16 +22,16 @@ for those who have the same cod_postal. The group price is the sum of all orders
 
 ## Technologies
 
-1. Storate: SQLite Database
-2. Geolocation: Google Maps
+1. **Storate**: **SQLite Database**
+2. **Geolocation**: **Google Maps**
 
 ### Database
 A database is used to store orders with the respective customer information, such as name, zip code, distance, price, phone and email. This information can be retrieve by SQL queries.
 
-SQL has been used, since this application can host a large amount of information, and this technology also makes it easier for us to run complex queries using techniques of
+_SQL_ has been used, since this application can host a large amount of information, and this technology also makes it easier for us to run complex queries using techniques of
 nested subqueries or derived tables.
 
-SQL query to obtain the best order:
+_SQL_ query to obtain the best order:
 
 ```java
 db.rawQuery("SELECT _id, nombre, telefono, email FROM pedidos WHERE _id = (SELECT MIN(_id) FROM pedidos WHERE precio IN (SELECT MAX(precio) FROM pedidos WHERE distancia IN (SELECT MIN(distancia) FROM pedidos)))", null);
@@ -39,43 +39,38 @@ db.rawQuery("SELECT _id, nombre, telefono, email FROM pedidos WHERE _id = (SELEC
 Query to retrieve best group of orders:
 
 ```java
-db.rawQuery("SELECT codigo_postal, MAX(derivada.total)
-FROM (SELECT codigo_postal, SUM(precio) AS total FROM
-pedidos GROUP BY codigo_postal)derivada",null);
-db.rawQuery("SELECT _id, nombre, telefono, email FROM
-pedidos WHERE codigo_postal = " + codigoPostalMejorGrupo
-() ,null);
+db.rawQuery("SELECT codigo_postal, MAX(derivada.total) FROM 
+(SELECT codigo_postal, SUM(precio) AS total FROM pedidos GROUP BY codigo_postal)derivada",null);
+
+db.rawQuery("SELECT _id, nombre, telefono, email FROM pedidos WHERE codigo_postal = " + codigoPostalMejorGrupo() ,null);
 ```
 
 There previous two query are the same as:
 ```sql
 SELECT _id, nombre, codigo_postal, distancia, precio
 FROM pedidos WHERE codigo_postal = (SELECT
-derivada2.codigo_postal FROM (SELECT codigo_postal,
-MAX(derivada.total) FROM (SELECT codigo_postal,
-SUM(precio) AS total FROM pedidos GROUP BY
-codigo_postal)derivada)derivada2)
+derivada2.codigo_postal FROM (SELECT codigo_postal, MAX(derivada.total) FROM (SELECT codigo_postal, SUM(precio) AS total FROM pedidos GROUP BY codigo_postal)derivada)derivada2)
 ```
 
 However, Android is not able to prcess it.
 
-On the other hand, we will use SQL queries to delete ordres or find locations that will be placed on Google Maps.
+On the other hand, we will use _SQL_ queries to delete ordres or find locations that will be placed on **Google Maps**.
 
 ### Geolocation
 
-Google Maps API for Android allows us to place markers to locate orders, showing the best route by postal code on the Google Maps view.
+**Google Maps API** for **Android** allows us to place markers to locate orders, showing the best route by postal code on the Google Maps view.
 
 Moroover, when clicking on one of the personalized markers, a message will pop up and it will show same information like postal code and number of orders for a particular postal code.
 
->Postal codes are retrieved in advance by SQL queries.
+>Postal codes are retrieved in advance by _SQL_ queries.
 
 ## Functional Descripion
 
 Reparto Manager is composed by 6 different views, including the Splash screen which runs during start up. Views:
 
-1.	Splash (Splash)
-2.	Main (Main)
-3.	Create Order (CrearPedido)
-4.	Best Order Information (InfoMejorPedido)
-5.	Best Group of Orders Information (InfoMejorGrupo)
-6.	Map (Mapa)
+1.	**Splash** (Splash)
+2.	**Main** (Main)
+3.	**Create Order** (CrearPedido)
+4.	**Best Order Information** (InfoMejorPedido)
+5.	**Best Group of Orders Information** (InfoMejorGrupo)
+6.	**Map** (Mapa)
