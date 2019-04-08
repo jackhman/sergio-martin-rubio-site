@@ -1,5 +1,5 @@
 ---
-title: Improve your Code Quality with SpotBugs
+title: Improve Code Quality with SpotBugs
 tags: [Java, Code Quality, Performance]
 style: border
 color: primary
