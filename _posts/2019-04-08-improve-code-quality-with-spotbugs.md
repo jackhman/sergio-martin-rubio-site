@@ -1,7 +1,7 @@
 ---
 title: Improve Code Quality with SpotBugs
 tags: [Java, Code Quality, Performance]
-style: border
+style: fill
 color: primary
 description: Either you are new in Java or want to make sure you are not introducing new bugs, learn how to use SpotBugs.
 ---

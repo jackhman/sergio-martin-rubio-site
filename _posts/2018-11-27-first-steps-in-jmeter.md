@@ -1,8 +1,8 @@
 ---
 title: First Steps in JMeter
 tags: [Java, Performance, Testing]
-style: border
-color: primary
+style: fill
+color: warning
 description: Want to know more about performance testing? Then, have a look at how at this article where we explain how to use.
 ---
 

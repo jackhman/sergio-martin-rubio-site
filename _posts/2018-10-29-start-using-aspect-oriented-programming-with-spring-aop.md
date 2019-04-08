@@ -1,7 +1,7 @@
 ---
 title: Start using Aspect Oriented Programming with Spring AOP
 tags: [Java, AOP, Spring, Aspects]
-style: border
+style: fill
 color: primary
 description: Aspect Oriented Programming (AOP) helps us to solve specific situations in a very elegant way and is used to insert code depending on how our code looks.
 ---

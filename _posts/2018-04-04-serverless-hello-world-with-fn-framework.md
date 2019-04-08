@@ -1,8 +1,8 @@
 ---
 title: Serverless “Hello World” with Fn Framework
 tags: [Serverless, Fn Project Oracle]
-style: border
-color: primary
+style: fill
+color: dark
 description: Discover Fn Project, an open source container-native serverless platform that you can run anywhere.
 ---
 
