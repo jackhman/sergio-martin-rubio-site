@@ -1,5 +1,6 @@
 # Site settings
 title: Sergio Martin Rubio
+name: Sergio Martin Rubio
 description: >- # this means to ignore newlines until "baseurl:"
   Always code as if the guy who ends up maintaining your code
   will be a violent psychopath who knows where you live.
