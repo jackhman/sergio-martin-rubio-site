@@ -34,7 +34,7 @@ public boolean equals(Object o) {
 }
 ```
 
-##hashCode
+## hashCode
 
 - Declare an int variable named result and initialise it with the first field.
 - For primitive fields use e.g. `Integer.hashCode(field)`
