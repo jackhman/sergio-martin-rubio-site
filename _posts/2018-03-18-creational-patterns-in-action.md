@@ -13,7 +13,7 @@ description: Creational Patterns Features
  Singleton | It creates a single instance of a class for the entire lifespan of an application | It used to make sure that an object is created only once | It can be applied to a logging class, because a logging class usually needs to be used over and over again by every class in a project. Another applicability it is when you need to configure a network connection, because it will always connect to the same host. | An instance of the singleton class is created when it is called the first time or when getIntance method is called, depending on the implementation. By making the constructor private you are not able to create more than one object of the same singleton class | |
  Factory Method | It creates an object without exposing the implementation logic | It provides a way to encapsulate object of the same type and avoid implementation details on the client side | It can be used to create different database connections. One of the connection object is returned and can be used to open the connection with a particular database | By delegating the creation of the Product to the Factory, clients does not need to know anything about how the Product is created. Therefore, this pattern allows you to separate or decouple your application, and introduces an easy way to customize the concrete products | When implementing this pattern you have to make sure that all products can use the same Product interface. This pattern is suitable when you have many objects of the same family or type and you manipulate them frequently |
 
-## Singleton Pattern Implementation
+## Singleton Pattern
 
 Basically, there four ways to create a singleton class:
 
@@ -240,3 +240,32 @@ public class MySingleton {
     }
 }
 ```
+
+## Factory Pattern
+
+### Use Cases
+
+[BorderFactory.createLineBorder](https://docs.oracle.com/javase/6/docs/api/javax/swing/BorderFactory.html) from **Java API** uses **Factory Pattern**, but in this case there is only one factory family, so no factory interface was created.
+
+```java
+public class BorderFactory
+{
+    private BorderFactory() {
+    }
+    public static Border createLineBorder(Color color) {
+        return new LineBorder(color, 1);
+    }
+    public static Border createLineBorder(Color color, int thickness)  {
+        return new LineBorder(color, thickness);
+    }
+    public static Border createLineBorder(Color color, int thickness, boolean rounded) {
+        return new LineBorder(color, thickness, rounded);
+    }
+}
+```
+
+Learn more [here](http://coding-geek.com/design-pattern-factory-patterns/).
+
+<p class="text-center">
+{% include button.html link="https://github.com/smartinrub/java-factory-pattern" text="Source Code" %}
+</p>
