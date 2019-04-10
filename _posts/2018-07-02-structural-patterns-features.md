@@ -12,6 +12,7 @@ Proxy Pattern
 Adapter Pattern
 Decorator Pattern
 Bridge Pattern
+Choose the Right Pattern
 {%- endcapture -%}
 
 {% include list.html title="Content" type="toc" %}
@@ -77,3 +78,20 @@ while(bis.available() > 0){
 <p class="text-center">
 {% include button.html link="https://github.com/smartinrub/java-bridge-pattern" text="Source Code" %}
 </p>
+
+## Choose the Right Pattern
+
+The following table shows the main five structural patterns with definitions from “Head First Design Patterns” and “Design Patterns: Elements of Reusable Object-Oriented Softwar“.
+
+Pattern | Definition | Technique | When to use
+---------|----------|---------|---------
+ **Decorator** | Attaches additional responsibilities to an object dynamically | Uses composition instead of inheritance to combine classes | To decouple behaviours and compose them in different ways
+ **Facade** | Provides an unified interface to a set of interfaces in a subsystem | Wraps a complex system | To provide a higher level interface that interacts with a complex subsystem
+ **Adapter** | Converts the interface of a class into another interface that the client expects | Wraps an object inside another object | To adapt one interface to another interface
+Proxy
+ **Proxy** | Provides a place holder for another object in order to control access to it | Proxy and target object share same interface | To control access to another object
+ **Bridge** | Decouples an abstraction from its implementation | Abstraction and implementation implement different interfaces | To combine two ways of doing something
+
+As you can see, these patterns are very similar but they solve different problems, so it is important to make sure you use the right one in each architectural problem you want to solve.
+
+
