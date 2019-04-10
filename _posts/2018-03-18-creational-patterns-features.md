@@ -21,6 +21,8 @@ Factory Pattern
 
 ## Singleton Pattern
 
+{% include figure.html image="" caption="Singleton Pattern - UML" %}
+
 Basically, there four ways to create a singleton class:
 
 - Eager initialisation with private constructor and declaring a public final field.
@@ -248,6 +250,8 @@ public class MySingleton {
 ```
 
 ## Factory Pattern
+
+{% include figure.html image="" caption="Factory Pattern - UML" %}
 
 ### Use Cases
 

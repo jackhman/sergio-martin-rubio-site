@@ -9,6 +9,7 @@ description: Structural design patterns reduce complexity in the OOP design by i
 {%- capture list_items -%}
 Structural Patterns Features
 Proxy Pattern
+Adapter Pattern
 {%- endcapture -%}
 
 {% include list.html title="Content" type="toc" %}
@@ -22,6 +23,8 @@ Proxy Pattern
 
 ## Proxy Pattern
 
+{% include figure.html image="" caption="Proxy Pattern - UML" %}
+
 ### Use Cases
 
 - An expensive computation needs to be performed.
@@ -32,6 +35,8 @@ Proxy Pattern
 </p>
 
 ## Adapter Pattern
+
+{% include figure.html image="" caption="Adapter Pattern - UML" %}
 
 ### Use Cases
 
