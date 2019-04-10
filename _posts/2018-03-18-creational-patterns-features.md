@@ -12,6 +12,8 @@ Singleton Pattern
 Factory Pattern
 {%- endcapture -%}
 
+{% include list.html title="Content" type="toc" %}
+
 ## Creational Patterns Features
 
  Name | Intent | Motivation | Applicability | Consequences | Implementation
