@@ -45,7 +45,7 @@ Strategy Pattern
 - Undo and redo actions, since it keeps a history of commands and we can go back and forward as many times as we want.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/java-strategy-pattern" text="Source Code" %}
+{% include button.html link="https://github.com/smartinrub/java-command-pattern" text="Source Code" %}
 </p>
 
 ## Strategy Pattern
@@ -58,3 +58,6 @@ Strategy Pattern
 - Multiple data compression formats.
 - Custom sorting strategies.
 
+<p class="text-center">
+{% include button.html link="https://github.com/smartinrub/java-strategy-pattern" text="Source Code" %}
+</p>
