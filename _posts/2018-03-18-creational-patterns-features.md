@@ -1,10 +1,16 @@
 ---
-title: Creational Patterns In Action
-tags: [Java]
+title: Creational Patterns Features
+tags: [Java, Desgign Pattern]
 style: fill
 color: primary
-description: Creational Patterns Features
+description: Creational design patterns provide object creation mechanisms, which increase flexibility and code reusability
 ---
+
+{%- capture list_items -%}
+Creational Patterns Features
+Singleton Pattern
+Factory Pattern
+{%- endcapture -%}
 
 ## Creational Patterns Features
 
