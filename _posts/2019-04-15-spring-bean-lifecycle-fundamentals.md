@@ -29,8 +29,21 @@ Moreover, I would like to answer some **frequest Java interview questions** like
 - What are different types of auto wiring in Spring?
 - What are different Bean scopes in Spring?
 
+## Main Concepts
 
+### Spring IoC
 
+According to the Spring definition of **Bean**, this special object is managed by the Spring IoC container, which is represented in your application by `org.springframework.context.ApplicationContext`, and this container is responsible for the initiliazation, configuration and assembly. But we will not have to worry about enriching (add metadata) your bean, since it is done by the framework by using XML config files, annotations or Java code.
+
+A Spring IoC container can manage one or more beans and once all the beans are loaded in this container, you can retrieve instances of your beans through the `ApplicationContext` (`getBean()`).
+
+### Dependency Injection
+
+The definition of DI given by Spring is very straightforward, and simply says that DI is the process of defining objects with their dependencies, that are set on the object instance through a constructor or setters.
+
+**DI** is used by the **IoC container**, which injects the dependencies when the bean is created. Therefore, it is not the bean, it is the container the one reposible for injecting the dependencie. The Bean does not need to know anything about the instantiation and location of the dependencies, and that is why it is called Inversion of Control.
+
+### Bean Scopes
 
 
 
