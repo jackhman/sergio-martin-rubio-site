@@ -18,7 +18,7 @@ Introduction
 
 >In Spring, the **objects** that form the backbone of your application and that are **managed by the Spring IoC container** are called beans. **A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container**. Otherwise, **a bean is simply one of many objects in your application**. Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.
 
-{% include highlight.html text="Roughly, we can say that a **Bean** is simply an object with a concrete life cycle managed by the **Spring Framework**." %}
+{% include highlight.html text="Roughly, we can say that a Bean is simply an object with a concrete life cycle managed by the Spring Framework." %}
 
 This definition might seem a little bit abstract, but do not worry we will go into more in depth shortly.
 
@@ -64,19 +64,19 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 {% include figure.html image="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w2400" caption="Spring Bean Creation Lifecycle" %}
 
 1. Instanciate Bean
-2. Spring IoC container add metadata to the bean
-3. If BeanNameAware is implemented, Spring will set the name pass as parameter in setBeanName().
-4. If BeanFactoryAware is implemented, Spring will call setBeanFactory().
-5. If ApplicationContextAware is implemented, Spring will pass a reference to the ApplicationContext in setApplicationContext method.
-6. If BeanPostProcessor is implemented, it will run ProcessBeforeInitialization() method.
-7. If @PostConstruct is used, InitializingBean is implemented, or init() is implicitly called, Spring calls afterPropertiesSet() method.
-8. If BeanPostProcessor is implemented, Spring will run postProcessAfterInitialization() method.
+2. **Spring IoC container add metadata to the bean**
+3. If `BeanNameAware` is implemented, Spring will set the name pass as parameter in `setBeanName()`.
+4. If `BeanFactoryAware` is implemented, Spring will call `setBeanFactory()`.
+5. If `ApplicationContextAware` is implemented, Spring will pass a reference to the `ApplicationContext` in `setApplicationContext()` method.
+6. If `BeanPostProcessor` is implemented, it will run `ProcessBeforeInitialization()` method.
+7. If `@PostConstruct` is used, `InitializingBean` is implemented, or `init()` is implicitly called, Spring calls `afterPropertiesSet()` method.
+8. If `BeanPostProcessor` is implemented, Spring will run `postProcessAfterInitialization()` method.
 9. The bean now can be used and remains in the application context until it is destroyed.
 
 
 ### Spring Bean Destruction Lifecycle
 
-1. Spring IoC Container is shutdown.
-2. If @PreDestroy is used, DisposableBean is implemented, or destroy() method is implicitly called, Spring will run destroy() method.
+1. **Spring IoC container is shutdown**.
+2. If `@PreDestroy` is used, `DisposableBean` is implemented, or `destroy()` method is implicitly called, Spring will run `destroy()` method.
 
 {% include figure.html image="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w2400" caption="Spring Bean Destruction Lifecycle" %}
