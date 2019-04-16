@@ -45,5 +45,38 @@ The definition of DI given by Spring is very straightforward, and simply says th
 
 ### Bean Scopes
 
+All the beans are not the same, and _Spring_ provides a few different recipes to modify the scope. In total there are six scopes:
+- **_singleton_** (default): creates one instance for each **IoC container** (`ApplicationContext`). 
+- **_prototype_**: a new instance is created every time the bean is called.
+- **_request_**: creates a single instance per HTTP request.
+- **_session_**: one instance for each web session.
+- **_application_**: only one instance per `ServletContext`.
+- _**websocket**_: it is tight to the websocket lifecycle.
+
+>Do not confuse _Bean_ with scope singleton with the [Singleton Design Pattern](http://sergiomartinrubio.com/articles/creational-patterns-features#singleton-pattern). The latter creates an instance per `ClassLoader`, wherease the singleton Bean creates a bean per Spring container.
+
+>When using singleton Bean which contains beans with different lifecycles, remember that injection only happens once. We can use beans with different scopes by using `proxyMode = ScopedProxyMode.TARGET_CLASS` in the `@Scope` annotation.
+
+## Lifecycle
+
+### Spring Bean Creation Lifecycle
+
+{% include figure.html image="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w2400" caption="Spring Bean Creation Lifecycle" %}
+
+1. Instanciate Bean
+2. Spring IoC container add metadata to the bean
+3. If BeanNameAware is implemented, Spring will set the name pass as parameter in setBeanName().
+4. If BeanFactoryAware is implemented, Spring will call setBeanFactory().
+5. If ApplicationContextAware is implemented, Spring will pass a reference to the ApplicationContext in setApplicationContext method.
+6. If BeanPostProcessor is implemented, it will run ProcessBeforeInitialization() method.
+7. If @PostConstruct is used, InitializingBean is implemented, or init() is implicitly called, Spring calls afterPropertiesSet() method.
+8. If BeanPostProcessor is implemented, Spring will run postProcessAfterInitialization() method.
+9. The bean now can be used and remains in the application context until it is destroyed.
 
 
+### Spring Bean Destruction Lifecycle
+
+1. Spring IoC Container is shutdown.
+2. If @PreDestroy is used, DisposableBean is implemented, or destroy() method is implicitly called, Spring will run destroy() method.
+
+{% include figure.html image="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w2400" caption="Spring Bean Destruction Lifecycle" %}
