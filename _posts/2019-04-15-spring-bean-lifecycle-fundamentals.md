@@ -80,3 +80,87 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 2. If `@PreDestroy` is used, `DisposableBean` is implemented, or `destroy()` method is implicitly called, Spring will run `destroy()` method.
 
 {% include figure.html image="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w2400" caption="Spring Bean Destruction Lifecycle" %}
+
+### Lifecycle Callbacks
+
+Spring recommend us to use @PostConstruct and @PreDestroy annotations to perform work during bean initialization and bean destruction.
+
+>In case of XML configuration we can use the init-method or destroy-method attributes.
+
+In the following Bean declaration we are combining Lifecycle mechanisms, and each one will have a different precedence.
+
+```java
+@Component
+public class ExampleBean implements InitializingBean, DisposableBean {
+
+    @PostConstruct
+    public void callbackInitMethod() {
+        System.out.println("Call init method from Annotation");
+    }
+
+    @PreDestroy
+    public void callbackDestroyMethod() {
+        System.out.println("Call destroy method from Annotation");
+    }
+
+    // Not recommended! It couples the code to Spring.
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        System.out.println("Call init method from afterPropertiesSet");
+    }
+
+    // Not recommended! It couples the code to Spring.
+    @Override
+    public void destroy() throws Exception {
+        System.out.println("Call destroy method from destroy implementation");
+    }
+
+}
+```
+
+When running the application we can see when these methods are called.
+
+```shell
+2019-04-16 18:07:16.638  INFO 25181 --- [           main] c.s.s.SpringBeanLifecycleApplication     : Starting SpringBeanLifecycleApplication on LONC02WW2Q9JG5L with PID 25181
+2019-04-16 18:07:16.640  INFO 25181 --- [           main] c.s.s.SpringBeanLifecycleApplication     : No active profile set, falling back to default profiles: default
+Call init method from Annotation
+Call init method from afterPropertiesSet
+2019-04-16 18:07:16.925  INFO 25181 --- [           main] c.s.s.SpringBeanLifecycleApplication     : Started SpringBeanLifecycleApplication in 0.453 seconds (JVM running for 0.845)
+Call destroy method from Annotation
+Call destroy method from destroy
+```
+
+As we showed before, the annotations are executed first, and then the overriden methods.
+
+Spring also provides startup and shutdown callbacks and in order to be able to use them, we just need to implement the Lifecycle interface. Additionally, we can implement LifecycleProcessor to react when the context changes through onRefresh() and onClose(). Finally, in case we need a fine-grained control over the startup of a bean we can implement SmartLifecycle, so we can specify when the bean should start and stop, before or after other beans (the default value is 0).
+
+```java
+@Component
+public class ExampleBean implements Lifecycle, LifecycleProcessor, SmartLifecycle {
+    
+    @Override
+    public void start() {
+        System.out.println("Bean is starting");
+    }
+
+    @Override
+    public void stop() {
+        System.out.println("Bean is stopping");
+    }
+
+    @Override
+    public boolean isRunning() {
+        return false;
+    }
+
+    @Override
+    public void onRefresh() {
+        System.out.println("Context is refreshed");
+    }
+
+    @Override
+    public void onClose() {
+        System.out.println("Context is closed");
+    }
+}
+```
