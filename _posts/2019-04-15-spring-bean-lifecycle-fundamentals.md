@@ -23,12 +23,12 @@ Lifecycle
 
 This definition might seem a little bit abstract, but do not worry we will go into more in depth shortly.
 
-Moreover, I would like to answer some **frequest Java interview questions** like:
+Moreover, I would like to answer some [frequest Spring interview questions](https://howtodoinjava.com/interview-questions/top-spring-interview-questions-with-answers/#ioc_in_spring) like:
 
-- Can you explain Bean life cycle in Spring Bean Factory Container?
-- What is auto-wiring?
-- What are different types of auto wiring in Spring?
+- Explain IoC in Spring Framework?
+- Explain Dependency Injection in Spring?
 - What are different Bean scopes in Spring?
+- Can you explain Bean life cycle in Spring Bean Factory Container?
 
 ## Main Concepts
 
@@ -171,4 +171,5 @@ public class ExampleBean implements Lifecycle, LifecycleProcessor, SmartLifecycl
 ```
 
 Finally, **Spring** also provides a wide range of **Aware Interfaces** that let you indicate extra work that needs to be done during the **Bean lifecycle**. The **most important Aware interfaces** are: `ApplicationContextAware`, `ApplicationEventPublisherAware`, `BeanClassLoaderAware`, `BeanFactoryAware`, `BeanNameAware`, `BootstrapContextAware`, `LoadTimeWeaverAware`, `MessageSourceAware`, `NotificationPublisherAware`, `ResourceLoaderAware`, `ServletConfigAware`, `ServletContextAware`.
-\
+
+Further [documentation about Spring Lifecycle](https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans) is avaialable at the official site.
