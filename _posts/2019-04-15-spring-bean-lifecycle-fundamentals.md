@@ -83,11 +83,11 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 
 ### Lifecycle Callbacks
 
-Spring recommend us to use @PostConstruct and @PreDestroy annotations to perform work during bean initialization and bean destruction.
+Spring recommend us to use `@PostConstruct` and `@PreDestroy` annotations to perform work during bean initialization and bean destruction.
 
->In case of XML configuration we can use the init-method or destroy-method attributes.
+>In case of **XML** configuration we can use the _init-method_ or _destroy-method_ attributes.
 
-In the following Bean declaration we are combining Lifecycle mechanisms, and each one will have a different precedence.
+In the following **Bean** declaration we are combining **Lifecycle** mechanisms, and they will be called in a particular order.
 
 ```java
 @Component
@@ -130,9 +130,9 @@ Call destroy method from Annotation
 Call destroy method from destroy
 ```
 
-As we showed before, the annotations are executed first, and then the overriden methods.
+As we showed before, annotations are executed first, and then, overriden methods.
 
-Spring also provides startup and shutdown callbacks and in order to be able to use them, we just need to implement the Lifecycle interface. Additionally, we can implement LifecycleProcessor to react when the context changes through onRefresh() and onClose(). Finally, in case we need a fine-grained control over the startup of a bean we can implement SmartLifecycle, so we can specify when the bean should start and stop, before or after other beans (the default value is 0).
+Spring also provides startup and shutdown callbacks and we can use them b just implementing the `Lifecycle` interface. Additionally, we can implement `LifecycleProcessor` to react when the context changes (`onRefresh()`, `onClose()`). Finally, in case we need a fine-grained control over the startup of a bean we can implement `SmartLifecycle`, so we can specify when the bean should start and stop, before or after other beans (the default value is 0).
 
 ```java
 @Component
