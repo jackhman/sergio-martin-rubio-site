@@ -77,11 +77,9 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 
 ### Spring Bean Destruction Lifecycle
 
+<img align="right" class="figure-img img-fluid rounded" src="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w200" alt="Spring Bean Destruction Lifecycle">
 1. **Spring IoC container is shutdown**.
 2. If `@PreDestroy` is used, `DisposableBean` is implemented, or `destroy()` method is implicitly called, Spring will run `destroy()` method.
-
-<img align="right" class="figure-img img-fluid rounded" src="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w200" alt="Spring Bean Destruction Lifecycle">
-<figcaption class="figure-caption text-center">Spring Bean Destruction Lifecycle</figcaption>
 
 ### Lifecycle Callbacks
 
