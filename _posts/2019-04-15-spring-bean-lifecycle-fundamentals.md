@@ -8,6 +8,7 @@ description: Bean is one of the angular stones in the Spring Framework. What are
 
 {%- capture list_items -%}
 Introduction
+Lifecycle
 {%- endcapture -%}
 
 {% include list.html title="Content" type="toc" %}
@@ -61,7 +62,7 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 
 ### Spring Bean Creation Lifecycle
 
-{% include figure.html image="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w2400" caption="Spring Bean Creation Lifecycle" %}
+{% include figure.html image="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w200" caption="Spring Bean Creation Lifecycle" %}
 
 1. Instanciate Bean
 2. **Spring IoC container add metadata to the bean**
@@ -79,7 +80,8 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 1. **Spring IoC container is shutdown**.
 2. If `@PreDestroy` is used, `DisposableBean` is implemented, or `destroy()` method is implicitly called, Spring will run `destroy()` method.
 
-{% include figure.html image="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w2400" caption="Spring Bean Destruction Lifecycle" %}
+<img align="right" class="figure-img img-fluid rounded" src="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w200" alt="Spring Bean Destruction Lifecycle">
+<figcaption class="figure-caption text-center">Spring Bean Destruction Lifecycle</figcaption>
 
 ### Lifecycle Callbacks
 
@@ -170,3 +172,4 @@ public class ExampleBean implements Lifecycle, LifecycleProcessor, SmartLifecycl
 ```
 
 Finally, **Spring** also provides a wide range of **Aware Interfaces** that let you indicate extra work that needs to be done during the **Bean lifecycle**. The **most important Aware interfaces** are: `ApplicationContextAware`, `ApplicationEventPublisherAware`, `BeanClassLoaderAware`, `BeanFactoryAware`, `BeanNameAware`, `BootstrapContextAware`, `LoadTimeWeaverAware`, `MessageSourceAware`, `NotificationPublisherAware`, `ResourceLoaderAware`, `ServletConfigAware`, `ServletContextAware`.
+\
