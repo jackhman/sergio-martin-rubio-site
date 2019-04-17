@@ -132,7 +132,7 @@ Call destroy method from destroy
 
 As we showed before, annotations are executed first, and then, overriden methods.
 
-Spring also provides startup and shutdown callbacks and we can use them b just implementing the `Lifecycle` interface. Additionally, we can implement `LifecycleProcessor` to react when the context changes (`onRefresh()`, `onClose()`). Finally, in case we need a fine-grained control over the startup of a bean we can implement `SmartLifecycle`, so we can specify when the bean should start and stop, before or after other beans (the default value is 0).
+Spring also provides **startup and shutdown callbacks** and we can use them b just implementing the `Lifecycle` interface. Additionally, we can implement `LifecycleProcessor` to **react when the context changes** (`onRefresh()`, `onClose()`). In case we need a **fine-grained control over the startup** of a bean we can implement `SmartLifecycle`, so we can specify when the bean **should** start and stop. The default value returned by `getPhase()` is 2147483647 (`Integer.MAX_VALUE`), which means last to start and first to stop. If `getPhase()` method is overriden, and returns `Integer.MIN_VALUE`, the **Bean** will be among the first to start and the last to stop.
 
 ```java
 @Component
@@ -162,5 +162,11 @@ public class ExampleBean implements Lifecycle, LifecycleProcessor, SmartLifecycl
     public void onClose() {
         System.out.println("Context is closed");
     }
+    @Override
+    public int getPhase() {
+        return Integer.MIN_VALUE;
+    }
 }
 ```
+
+Finally, **Spring** also provides a wide range of **Aware Interfaces** that let you indicate extra work that needs to be done during the **Bean lifecycle**. The **most important Aware interfaces** are: `ApplicationContextAware`, `ApplicationEventPublisherAware`, `BeanClassLoaderAware`, `BeanFactoryAware`, `BeanNameAware`, `BootstrapContextAware`, `LoadTimeWeaverAware`, `MessageSourceAware`, `NotificationPublisherAware`, `ResourceLoaderAware`, `ServletConfigAware`, `ServletContextAware`.
