@@ -81,6 +81,8 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 1. **Spring IoC container is shutdown**.
 2. If `@PreDestroy` is used, `DisposableBean` is implemented, or `destroy()` method is implicitly called, Spring will run `destroy()` method.
 
+---
+
 ### Lifecycle Callbacks
 
 Spring recommend us to use `@PostConstruct` and `@PreDestroy` annotations to perform work during bean initialization and bean destruction.
