@@ -1,8 +1,8 @@
 ---
 title: Data Migration with Spring Batch
 tags: [Java, Spring Batch, Migration, Database]
-style: border
-color: primary
+style: fill
+color: success
 description: Spring Batch provides reusable functions that are essential in processing large volumes of records.
 ---
 

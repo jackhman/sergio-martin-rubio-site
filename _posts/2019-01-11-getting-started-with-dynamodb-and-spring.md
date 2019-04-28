@@ -1,8 +1,8 @@
 ---
 title: Getting Started With DynamoDB and Spring
 tags: [External Post, Cloud, Database, Java, Spring]
-style: fill
-color: secondary
+style: border
+color: info
 description: Get started with DynamoDB and Spring!
 external_url: https://dzone.com/articles/getting-started-with-dynamodb-and-spring
 ---

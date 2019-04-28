@@ -1,7 +1,7 @@
 ---
 title: Integer Caching in Java
 tags: [Java, Performance]
-style: border
+style: fill
 color: primary
 description: Learn how caching works for encapsulated primitives.
 ---

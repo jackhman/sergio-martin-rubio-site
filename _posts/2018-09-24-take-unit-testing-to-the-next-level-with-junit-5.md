@@ -1,8 +1,8 @@
 ---
 title: Take Unit Testing to the next level with JUnit 5
 tags: [Java, Testing, JUnit]
-style: border
-color: primary
+style: fill
+color: warning
 description: Learn and understand the basics of JUnit 5 with easy examples.
 ---
 

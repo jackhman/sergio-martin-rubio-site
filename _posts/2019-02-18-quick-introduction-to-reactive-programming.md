@@ -1,7 +1,7 @@
 ---
 title: Quick Introduction to Reactive Programming
 tags: [Java, Spring, Project Reactor, Reactive Programming]
-style: border
+style: fill
 color: primary
 description: Reactive programming is based on async and non blocking threads, so that, it allows us to use efficiently all the needed threads..
 ---

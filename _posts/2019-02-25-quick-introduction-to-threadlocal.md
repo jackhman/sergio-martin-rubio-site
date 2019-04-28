@@ -1,7 +1,7 @@
 ---
 title: Quick Introduction to ThreadLocal
 tags: [Java, Threading, ThreadLocal]
-style: border
+style: fill
 color: primary
 description: Lear how to use ThreadLocal variables and what is new since Java 8.
 ---
