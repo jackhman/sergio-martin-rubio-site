@@ -8,6 +8,7 @@ description: Bean is one of the angular stones in the Spring Framework. What are
 
 {%- capture list_items -%}
 Introduction
+Main Concepts
 Lifecycle
 {%- endcapture -%}
 
