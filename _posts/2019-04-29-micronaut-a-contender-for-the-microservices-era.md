@@ -121,6 +121,6 @@ This framework is also a good choice if you are moving your application to the c
 
 ## Caveats
 
-- It is still fairly new, and the community is quite small compare to the Spring one, though big enterprise companies like ThoughtWorks has it already on their tech radar.
+- It is still fairly new, and the community is quite small compare to the Spring one, though big enterprise companies like ThoughtWorks has already included it on their tech radar.
 - Netty is the only client web server available.
 - For new developers who are used to Spring, it might be a little big challenging, because, under the hood it works in a completaly different way.
