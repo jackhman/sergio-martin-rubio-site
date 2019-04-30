@@ -113,9 +113,113 @@ Other features:
 - **Websockets**.
 ...
 
+## Mironaut vs Spring Boot performance
+
+Three metrics will be mesuasure in order to determine which framework performs better. Both, Spring Boot and Micronaut applications contain same features: http web support with only one class where a controller is defined and a single endpoint which converts a string to upper case. The Spring applications uses Tomcat as the embedded web server, whereas the Micronaut one uses Netty.
+
+### Startup Time
+
+```shell
+~/workspace/spring-boot-example  docker run -p 8090:8090 spring-boot-example
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.1.4.RELEASE)
+
+2019-04-30 11:18:47.729  INFO 1 --- [           main] c.s.s.SpringBootExampleApplication       : Starting SpringBootExampleApplication v0.0.1-SNAPSHOT on 960c5b1f8f80 with PID 1 (/spring-boot-example.jar started by root in /)
+2019-04-30 11:18:47.733  INFO 1 --- [           main] c.s.s.SpringBootExampleApplication       : No active profile set, falling back to default profiles: default
+2019-04-30 11:18:49.503  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2019-04-30 11:18:49.546  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-04-30 11:18:49.546  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.17]
+2019-04-30 11:18:49.634  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-04-30 11:18:49.635  INFO 1 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1828 ms
+2019-04-30 11:18:49.974  INFO 1 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2019-04-30 11:18:50.247  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2019-04-30 11:18:50.252  INFO 1 --- [           main] c.s.s.SpringBootExampleApplication       : Started SpringBootExampleApplication in 3.001 seconds (JVM running for 4.299)
+2019-04-30 11:21:49.215  INFO 1 --- [nio-8090-exec-7] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2019-04-30 11:21:49.216  INFO 1 --- [nio-8090-exec-7] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2019-04-30 11:21:49.247  INFO 1 --- [nio-8090-exec-7] o.s.web.servlet.DispatcherServlet        : Completed initialization in 30 ms
+
+```
+
+It takes **~3 seconds** to start the Spring Boot application.
+
+
+```shell
+ ~/workspace/micronaut-example   master  docker run -p 8080:8080 micronaut-example  
+11:19:08.888 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 1352ms. Server Running: http://bca092ae4eb6:8080
+
+```
+
+In only **~1.3 seconds** the Micranaut app is up and running.
+
+Spring Boot startup is more than 50% slower.
+
+**Winner**: **Micronaut**
+
+### Initial Memory Consumption
+
+
+```shell
+docker ps
+
+CONTAINER ID        IMAGE                 COMMAND                  CREATED              STATUS              PORTS
+                             NAMES
+b883c35548e1        spring-boot-example   "/bin/sh -c 'java -X…"   About a minute ago   Up About a minute   8080/t
+cp, 0.0.0.0:8090->8090/tcp   tender_booth
+ba1be364bd13        micronaut-example     "/bin/sh -c 'java -X…"   About a minute ago   Up About a minute   0.0.0.
+0:8080->8080/tcp             crazy_blackwell
+```
+
+```shell
+docker stats
+
+CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+ba1be364bd13        crazy_blackwell     0.11%               47.36MiB / 7.676GiB   0.60%               7.99kB / 168B       34.9MB / 4.1kB      29
+b883c35548e1        tender_booth        0.27%               70.78MiB / 7.676GiB   0.90%               5.87kB / 0B         20.4MB / 4.1kB      45
+
+```
+where b883c35548e1 is the Spring Boot app and ba1be364bd13 is Micronaut.
+
+Micronaut consumes around 30% less memory than Spring Boot.
+
+**Winner: Micronaut**
+
+### Heavy Load Memory Consumption
+
+```shell
+CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+ba1be364bd13        crazy_blackwell     23.80%              339.1MiB / 7.676GiB   4.31%               3.24MB / 2.45MB     38MB / 4.1kB        52
+b883c35548e1        tender_booth        22.52%              123.4MiB / 7.676GiB   1.57%               3.23MB / 2.35MB     21.9MB / 4.1kB      170
+
+```
+
+Surprisingly, under heavy load Micronaut performs much worese in terms of memory consumption. Micronaut uses 65% more memory than Spring under the same conditions.
+
+**Winner: Spring Boot**
+
+### Response Time
+
+```shell
+Micronaut Request	9994	2	2	4	5	9	0	50	0.0	97.26710008953945	12.823299328210767	12.443349718486004
+Spring Boot Request	9994	2	2	3	4	8	0	63	0.0	97.27467393420285	11.114391455372786	12.444318638066965
+```
+
+Both frameworks perform in the same way.
+
+**Winner: tie**
+
+### Conclusion
+
+Micronaut startup time and initial memory consumption are much better than Spring Boot, however, the high memory consumption of Micronaut during heavy load is quite concerning and it seems memory management is not that great.
+
 ## When should I use Micronaut?
 
-**Micronaut** team advertise it as a low memory compsumption framework with a quick startup time, so it is very suitable for the _serverless_ world.
+**Micronaut** team advertise it as a low memory consumption framework with a quick startup time, so it is very suitable for the _serverless_ world.
 
 This framework is also a good choice if you are moving your application to the cloud or you are creating a project from scratch.
 
