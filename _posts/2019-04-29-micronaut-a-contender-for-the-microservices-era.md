@@ -115,7 +115,7 @@ Other features:
 
 ## Mironaut vs Spring Boot performance
 
-Three metrics will be mesuasure in order to determine which framework performs better. Both, Spring Boot and Micronaut applications contain same features: http web support with only one class where a controller is defined and a single endpoint which converts a string to upper case. The Spring applications uses Tomcat as the embedded web server, whereas the Micronaut one uses Netty.
+Three metrics will be mesuasure in order to determine which framework performs better. Both, **Spring Boot** and **Micronaut** applications contain same features: http web support with only one class where a controller is defined, and a single endpoint, which converts a string to upper case. Spring uses Tomcat as the embedded web server, whereas the Micronaut one uses Netty.
 
 ### Startup Time
 
@@ -183,7 +183,7 @@ ba1be364bd13        crazy_blackwell     0.11%               47.36MiB / 7.676GiB 
 b883c35548e1        tender_booth        0.27%               70.78MiB / 7.676GiB   0.90%               5.87kB / 0B         20.4MB / 4.1kB      45
 
 ```
-where b883c35548e1 is the Spring Boot app and ba1be364bd13 is Micronaut.
+where _b883c35548e1_ is the Spring Boot app and _ba1be364bd13_ is Micronaut.
 
 Micronaut consumes around 30% less memory than Spring Boot.
 
