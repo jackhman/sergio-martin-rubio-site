@@ -120,7 +120,7 @@ Three metrics will be mesuasure in order to determine which framework performs b
 ### Startup Time
 
 ```shell
-~/workspace/spring-boot-example  docker run -p 8090:8090 spring-boot-example
+docker run -p 8090:8090 spring-boot-example
 
   .   ____          _            __ _ _
  /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
@@ -150,7 +150,7 @@ It takes **~3 seconds** to start the Spring Boot application.
 
 
 ```shell
- ~/workspace/micronaut-example   master  docker run -p 8080:8080 micronaut-example  
+docker run -p 8080:8080 micronaut-example  
 11:19:08.888 [main] INFO  io.micronaut.runtime.Micronaut - Startup completed in 1352ms. Server Running: http://bca092ae4eb6:8080
 
 ```
