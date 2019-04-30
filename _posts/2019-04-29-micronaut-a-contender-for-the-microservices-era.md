@@ -2,7 +2,7 @@
 title: Micronaut, a Contender for the Microservices Era
 tags: [Java, Web Applications]
 style: fill
-color: primary
+color: dark
 description: Find out more about Micronaut, the next generation web framework which competes with Spring Boot
 ---
 
