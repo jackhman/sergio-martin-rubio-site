@@ -86,9 +86,9 @@ class UpperCaseControllerTest {
 {% include button.html link="https://github.com/smartinrub/micronaut-example" text="Source Code" %}
 </p>
 
-Micronaut provides a compile-time _AOP API_ that does not use reflection. For those who don't know what reflection is, it is basically a way to the program to introspect itself, so it asks itself if a class contains specific methods, annotations, parameters... and Spring uses intensively reflection in order to search for controllers, endpoints, beans... so there is a performance penalty that you pay, and most of this work is done during startup. Therefore, Micronaut has got a great advantage in the serverless model, where startup times are very important.
+Micronaut provides a compile-time _AOP API_ that does not use reflection. For those who don't know what reflection is, it is basically a way to the program to introspect itself, so it asks itself if a class has specific methods, annotations, parameters... and Spring uses intensively reflection to search for controllers, endpoints, beans... so there is a performance penalty that you pay, and most of this work is done during startup. Therefore, Micronaut has a great advantage in the serverless model, where startup times are very important.
 
-Micronaut relies on annoations, it uses these annotations in a differnt way as Spring. During compile-time, it scans all the different annotations and add extra code to hook everything up. This means that once the Java jar is compiled annotations are not needed anymore, so there is no need to do any reflection, because the code is already baked into the jar. Bear in mind that Micranaut doesn't modify the original classes, instead it creates additional classes, so in case you need to debug your code, it will stop on the line you are expecting to stop.
+Micronaut relies on annotations, it uses these annotations in a different way as Spring. During compile-time, it scans all the different annotations and add extra code to hook everything up. This means that once the Java jar is compiled, annotations are not needed anymore, so there is no need to do any reflection, because the code is already baked into the jar. Bear in mind that Micranaut doesn't modify the original classes, instead it creates extra classes, so if you need to debug your code, it will stop on the line you are expecting to stop.
 
 {% include figure.html image="https://lh3.googleusercontent.com/nGgRatrpzZdn-_ZvPwut4KXsFHZqmpOy-EGr7QuDAPuafOhqCQKE4Xon8XxvXV25g9F_BthT9XC6CNP3raJoSk6O10WoHLivEhiWnFRQax5ImF81t4RABMBsjxm6p45wBq8Ml_M4jQ=w400" caption="Micronaut Additional Classes" %}
 
@@ -115,7 +115,7 @@ Other features:
 
 ## Mironaut vs Spring Boot performance
 
-Three metrics will be mesuasure in order to determine which framework performs better. Both, **Spring Boot** and **Micronaut** applications contain same features: http web support with only one class where a controller is defined, and a single endpoint, which converts a string to upper case. Spring uses Tomcat as the embedded web server, whereas the Micronaut one uses Netty.
+Three metrics will be measure to decide which framework performs better. Both, **Spring Boot** and **Micronaut** applications contain same features: http web support with only one class where a controller is defined, and a single endpoint, which converts a string to upper case. Spring uses Tomcat as the embedded web server, whereas the Micronaut one uses Netty.
 
 ### Startup Time
 
@@ -215,7 +215,7 @@ Both frameworks perform in the same way.
 
 ### Conclusion
 
-Micronaut startup time and initial memory consumption are much better than Spring Boot, however, the high memory consumption of Micronaut during heavy load is quite concerning and it seems memory management is not that great.
+Micronaut startup time and initial memory consumption are much better than Spring Boot ones, however, the high memory consumption of Micronaut during heavy load is quite concerning and it seems memory management is not that great.
 
 ## When should I use Micronaut?
 
@@ -227,4 +227,4 @@ This framework is also a good choice if you are moving your application to the c
 
 - It is still fairly new, and the community is quite small compare to the Spring one, though big enterprise companies like ThoughtWorks has already included it on their tech radar.
 - Netty is the only client web server available.
-- For new developers who are used to Spring, it might be a little big challenging, because, under the hood it works in a completaly different way.
+- For new developers used to Spring, it might be a little big challenging, because, under the hood it works in a completely different way.
