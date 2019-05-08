@@ -8,7 +8,7 @@ weight: 3
 # **About Me**
 
 Hi I am **{{ site.author.name }}**,<br>
-a passionate developer who likes challenges and is never afraid of diving into new territories. I enjoy sharing my knowledge with others and get inspired by them.
+a passionate developer who loves challenges and is never afraid of diving into new territories. I enjoy sharing my knowledge with others and get inspired by them.
 
 <div class="row">
 {% include skills.html title="Programming Skills" source=site.data.programming-skills %}
