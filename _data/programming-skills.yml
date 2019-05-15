@@ -1,23 +1,23 @@
 - name: Java
-  percentage: 90
-  color: success
+  percentage: 100
+  color: danger
 
 - name: Bash
-  percentage: 70
-  color: info
+  percentage: 100
+  color: dark
 
 - name: SQL
-  percentage: 80
-  color: success
+  percentage: 100
+  color: primary
 
 - name: Spring
-  percentage: 80
+  percentage: 100
   color: success
 
 - name: Kotlin
-  percentage: 20
-  color: danger
+  percentage: 30
+  color: warning
 
 - name: Android
   percentage: 40
-  color: warning
+  color: info

@@ -1,11 +1,15 @@
 - name: Testing
-  percentage: 90
-  color: success
+  percentage: 100
+  color: warning
 
-- name: DevOps
+- name: Kubernetes
   percentage: 80
-  color: success
+  color: primary
+
+- name: AWS
+  percentage: 70
+  color: danger
 
 - name: Agile
-  percentage: 90
-  color: success
+  percentage: 100
+  color: secondary
