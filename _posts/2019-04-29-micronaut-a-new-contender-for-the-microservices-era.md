@@ -23,7 +23,7 @@ Micranaut is really a competitor for Spring Boot, and if you are comfortable wit
 
 ## Getting Started
 
-A **CLI tool** similar to the one provided by Spring, is avaialable to create your Micronaut applications. The simplest way to start using the CLI tool is to install it through SDKMAM.
+A **CLI tool** similar to the one provided by Spring is avaialable to create your Micronaut applications. The simplest way to start using the CLI tool is to install it through SDKMAM.
 
 ```shell
 curl -s https://get.sdkman.io | bash
@@ -60,7 +60,7 @@ public class UpperCaseController {
 }
 ```
 
-Test are also created in a similar way as the **Spring Boot** way. Instead of 
+Tests are also created in a similar way as the **Spring Boot** way. Instead of 
 `@SpringBootTest` annotation, it uses `@MicronautTest`, and `RxHttpClient` annotated with `@Client` instead of autowiring `TestRestTemplate`, to make HTTP requests to your controller.
 
 ```java
