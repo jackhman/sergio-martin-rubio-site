@@ -20,7 +20,15 @@ Conclusion
 
 When [migrating from JUnit 4](https://junit.org/junit5/docs/current/user-guide/#migrating-from-junit4) there are a few considerations to bear in mind:
 
-- To have **JUnit 5** annotations you need to add to junit-jupiter-api to your classpath.
+- To have **JUnit 5** annotations you need to add to your pom file:
+```xml
+<dependency>
+    <groupId>org.junit.jupiter</groupId>
+    <artifactId>junit-jupiter</artifactId>
+    <version>${junit.jupiter.version}</version>
+    <scope>test</scope>
+</dependency>
+```
 - Replace `@BeforeClass`, `@Before`, `@AfterClass` and `@After` annotations with `@BeforeAll`, `@BeforeEach`, `@AfterAll` and `@AfterEach` alternatively.
 
 ```java
