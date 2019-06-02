@@ -8,6 +8,12 @@ description: In a microservices architecture, each microservice is developed ind
 
 {%- capture list_items -%}
 Introduction
+What to test
+Tools
+Spring Cloud Contract
+Producer
+Consumer
+Conclusion
 {%- endcapture -%}
 
 {% include list.html title="Content" type="toc" %}
