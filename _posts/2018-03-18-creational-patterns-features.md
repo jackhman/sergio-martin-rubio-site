@@ -23,7 +23,7 @@ Factory Pattern
 
 ## Singleton Pattern
 
-{% include figure.html image="" caption="Singleton Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/y6HYS9ZeQz-tuXRWp7BLIpM8F2KD1d0mAXeWRkFxPB8Ou7Mmunh3H7By7SS6FjPJ9b88cPVMV97bANjSzb00DVg0m9-WAwAgfan7QfCUQskx93LaDSQVmtmJw92H9d5bAAmIIItzxQ=w2400" caption="Singleton Pattern - UML" %}
 
 Basically, there four ways to create a singleton class:
 
@@ -253,7 +253,7 @@ public class MySingleton {
 
 ## Factory Pattern
 
-{% include figure.html image="" caption="Factory Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/UbIAskG0a_pIJPpalwxriPYjvChkluvI-BlboqbP-EiA7kIyaYznailcvHAvVGR3Onqd3wLvwcGe4ON5hV8JqPCtLKkLeEZNoYsrqevtbXuD7WgtSkKeUrv4o_qlyfK99GsgzegIdg=w2400" caption="Factory Pattern - UML" %}
 
 ### Use Cases
 
