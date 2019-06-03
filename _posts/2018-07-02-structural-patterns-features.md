@@ -28,7 +28,7 @@ Choose the Right Pattern
 
 ## Proxy Pattern
 
-{% include figure.html image="" caption="Proxy Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/kxocuD48AXcfJ0Fj-VuM9_AAJCsEQhMrXM1orNdEUgwqGeZMEoo7utS6eX7bZGhJ0S070bri6xmJ5Hine0bkZQVrVPGMmIZuUoAmFEuSSEMZrRKzSJIoA1D9gRDNs0sO1l6LhTj6PA=w2400" caption="Proxy Pattern - UML" %}
 
 ### Use Cases
 
