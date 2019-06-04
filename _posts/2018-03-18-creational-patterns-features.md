@@ -253,7 +253,7 @@ public class MySingleton {
 
 ## Factory Pattern
 
-{% include figure.html image="https://lh3.googleusercontent.com/UbIAskG0a_pIJPpalwxriPYjvChkluvI-BlboqbP-EiA7kIyaYznailcvHAvVGR3Onqd3wLvwcGe4ON5hV8JqPCtLKkLeEZNoYsrqevtbXuD7WgtSkKeUrv4o_qlyfK99GsgzegIdg=w2400" caption="Factory Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/WQnQslVBGEOfhXwmhgOkDgXBXrDRsnR8D1p6GYQNpI4H6ZxhodCYsvxTIvD4dvUFOX-mgdUzdZqneg3JbfKkgp_nDqIIGMqOqn8bVMwz6nEOtY07WzSplfUPdNxpIoHg0gIb5nVZnw=w2400" caption="Factory Pattern - UML" %}
 
 ### Use Cases
 
