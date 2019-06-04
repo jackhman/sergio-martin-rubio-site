@@ -41,7 +41,7 @@ Choose the Right Pattern
 
 ## Adapter Pattern
 
-{% include figure.html image="" caption="Adapter Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/vZA2TM2eVe2R6KBc022BYmGFB5D09ktaytHFJnDUTLPfblNGUgyOZs8qHN9voJAbsukihubjZypPiGSivlswyz4AskDIGGQkU6hIksAswN8PRaPQVB4_yDeXsFdDVcm56L9Wqmvtzw=w2400" caption="Adapter Pattern - UML" %}
 
 ### Use Cases
 
@@ -53,7 +53,7 @@ Choose the Right Pattern
 
 ## Decorator Pattern
 
-{% include figure.html image="" caption="Decorator Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/ltO5XFAoBiJCieliVbbkPjFTXBk2POGgKz0fz0KP236sbWeZl1t_b3TsXyazmFSESgdQdqe8bZ9YT8loHFut9vCS3H8iyuMZ4ffCVp0d_Z4Q_Bbj3AiISRkPl7A9jFgDB0r36sUJPg=w2400" caption="Decorator Pattern - UML" %}
 
 ### Use Cases
 
@@ -73,7 +73,7 @@ while(bis.available() > 0){
 
 ## Bridge Pattern
 
-{% include figure.html image="" caption="Bridge Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/T1SOpKGNRgTcSoIy737rYAbJ6nSGqEoPfCBzdy0RIvmBJYMOpa1vYOi-6Zm9uaioFAGiejVz726pxa2RCox7m67fWCC3k8RQAD6UfY8E2ZYTLPqhA5zPI-ESk9NZVmI2e8vjK2YcUQ=w2400" caption="Bridge Pattern - UML" %}
 
 <p class="text-center">
 {% include button.html link="https://github.com/smartinrub/java-bridge-pattern" text="Source Code" %}

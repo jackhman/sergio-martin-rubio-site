@@ -25,7 +25,7 @@ Strategy Pattern
 
 ## Observer Pattern
 
-{% include figure.html image="" caption="Observer Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/obfvPJdabip5sx9d-P3SvrPZiZmdgX_wcIm1r9Xuyj29gGB6E3HthjAAEqwQrGvh92Da5wS2htC23uH3vM6E_lwAYwfLfvH9lJuxHt_HpDuvT1KNeu3MxM91Md0OtNPQexzrfFZQNQ=w2400" caption="Observer Pattern - UML" %}
 
 ### Use Cases
 
@@ -38,7 +38,7 @@ Strategy Pattern
 
 ## Command Pattern
 
-{% include figure.html image="" caption="Command Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/JJ1ZiakDWMEFaipz1uV9HT30a8psUDEnM4X84v0_uqRPqz_sQYyVhXY2tq5T2BbKaGIr6-0mizA3XKhBsr6gu8mGZJp_wsxWRXr6qYVWkM2zmtTCl1R2ccSGYDC8klByVYpMqvvXiA=w2400" caption="Command Pattern - UML" %}
 
 ### Use Cases
 
@@ -50,7 +50,7 @@ Strategy Pattern
 
 ## Strategy Pattern
 
-{% include figure.html image="" caption="Strategy Pattern - UML" %}
+{% include figure.html image="https://lh3.googleusercontent.com/Df1Mtbk97ZIaV3yjQFscOnOn9Pcfl74gUnbCG7fxyrQPVHPN27dn6OW_naO8QuI75zxq3xz6dH4rGxZ9iVmzxv7302NQwT3LsnEJ0yBcQyT-cFt4jaQCdX9DKWye-2v3HPxkZ_hnuQ=w2400" caption="Strategy Pattern - UML" %}
 
 ### Use Cases
 
