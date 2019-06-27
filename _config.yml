@@ -37,6 +37,9 @@ collections:
   projects:
     output: true
     permalink: /projects/:name
+  tutorials:
+    output: true
+    permalink: /tutorials/:name
 
 
 # Default values for collections
@@ -44,6 +47,11 @@ defaults:
   - scope:
       path: ""
       type: "projects"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
+      type: "tutorials"
     values:
       layout: "page"
 
