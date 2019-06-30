@@ -6,8 +6,16 @@
   percentage: 80
   color: primary
 
-- name: AWS
-  percentage: 50
+- name: SQL
+  percentage: 80
+  color: primary
+
+- name: Non-SQL
+  percentage: 80
+  color: primary
+
+- name: Git
+  percentage: 90
   color: danger
 
 - name: Agile

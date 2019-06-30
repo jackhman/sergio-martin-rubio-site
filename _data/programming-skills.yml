@@ -6,10 +6,6 @@
   percentage: 80
   color: dark
 
-- name: SQL
-  percentage: 80
-  color: primary
-
 - name: Spring MVC
   percentage: 80
   color: success
