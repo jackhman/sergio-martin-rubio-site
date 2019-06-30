@@ -3,15 +3,15 @@
   color: danger
 
 - name: Bash
-  percentage: 100
+  percentage: 80
   color: dark
 
 - name: SQL
-  percentage: 100
+  percentage: 80
   color: primary
 
-- name: Spring
-  percentage: 100
+- name: Spring MVC
+  percentage: 80
   color: success
 
 - name: Kotlin

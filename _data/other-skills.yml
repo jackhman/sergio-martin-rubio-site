@@ -7,7 +7,7 @@
   color: primary
 
 - name: AWS
-  percentage: 70
+  percentage: 50
   color: danger
 
 - name: Agile
