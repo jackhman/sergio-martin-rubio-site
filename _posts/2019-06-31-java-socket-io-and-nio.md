@@ -28,7 +28,7 @@ The Java bloking IO API is included in **JDK** under the package `java.net` and 
 
 This API is based on flows of byte streams and character streams that can be read or wrriten. There is not an index that you can use to move forth and back, like in an array, it is simply a continuos flow of data.
 
-{% include figure.html image="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w300" caption="Spring Bean Creation Lifecycle" %}
+{% include figure.html image="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w600" caption="Spring Bean Creation Lifecycle" %}
 
 Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have a lot of simultanous connections.
 
@@ -82,7 +82,7 @@ As you can see, this API has some limitations. We won't be able to accept more c
 
 **java.nio** is a non blocking API for socket connetions which means you are not tight to the number of threads available. With this library one thread can handle multiple connections at once.
 
-{% include figure.html image="https://lh3.googleusercontent.com/UPsm3Jc2Gicv6fHuIqnSjOrwvXhO73u5bDYcWMU2WtuCKM9Q6ePPEGoJPKxKA0dl9DQwrkr5B3YNcQ505xgQUtwZB-jKnSx3uetK0bkRK01g9S1lsWWAPZ-hSfVfeP0ZpvL7ap3RrA=w300" caption="Spring Bean Creation Lifecycle" %}
+{% include figure.html image="https://lh3.googleusercontent.com/UPsm3Jc2Gicv6fHuIqnSjOrwvXhO73u5bDYcWMU2WtuCKM9Q6ePPEGoJPKxKA0dl9DQwrkr5B3YNcQ505xgQUtwZB-jKnSx3uetK0bkRK01g9S1lsWWAPZ-hSfVfeP0ZpvL7ap3RrA=w600" caption="Spring Bean Creation Lifecycle" %}
 
 Main elements:
 
