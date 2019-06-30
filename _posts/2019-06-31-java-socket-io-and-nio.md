@@ -1,0 +1,214 @@
+---
+title: Java Socket IO and NIO
+tags: [Java]
+style: fill
+color: primary
+description: Learn how to use Java Socket IO and NIO
+---
+
+{%- capture list_items -%}
+Introduction
+Java Blocking IO
+Java NIO
+{%- endcapture -%}
+
+{% include list.html title="Content" type="toc" %}
+
+## Introduction
+
+Sockets use _TCP/IP_ transport protocol and are the last piece of a network communication between two hosts. You do not usually have to deal with them, since there are protocols built on top of them like _HTTP_ or _FTP_, however it is important to know how they work.
+
+>TCP: It is a reliable data transfer protocol that ensures that the data sent is complete and correct and requires to stablish a connection.
+
+Java offers a blocking and non blocking alternative to create sockets, and depending on your requirements you might consider the one or the other.
+
+## Java Blocking IO
+
+The Java bloking IO API is included in **JDK** under the package `java.net` and is generally the simplest to use.
+
+This API is based on flows of byte streams and character streams that can be read or wrriten. There is not an index that you can use to move forth and back, like in an array, it is simply a continuos flow of data.
+
+{% include figure.html image="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w300" caption="Spring Bean Creation Lifecycle" %}
+
+Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have a lot of simultanous connections.
+
+```java
+public class RawSocket {
+
+    private static final int PORT_NUMBER = 8082;
+
+    public static void main(String[] args) throws IOException {
+        ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
+        
+        while (true) {
+            Socket client = serverSocket.accept();
+            try {
+                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
+                OutputStream out = client.getOutputStream();
+                in.lines().forEach(line -> {
+                    try {
+                        out.write(line.getBytes());
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                });
+                client.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
+```
+
+1. A `ServerSocket` is created with a given port to listen on.
+2. The server will block when `accept()` is invoked and starts listening for clients connections.
+3. If a client requests a connection a Socket is returned by `accept()`.
+4. Now we can read from the client (InputStream) and send data back to the client (OutputStream).
+
+If we want to allow multiple connections we will have to create a Thread Pool:
+
+```java
+ExecutorService threadPool = Executors.newFixedThreadPool(100);
+
+ threadPool.execute(() -> {
+     // SOCKET CREATION
+ });
+```
+
+As you can see, this API has some limitations. We won't be able to accept more connections than threads available in our machine. Therefore, if you are expecting to have many connections, you need an alternative.
+
+## Java NIO
+
+**java.nio** is a non blocking API for socket connetions which means you are not tight to the number of threads available. With this library one thread can handle multiple connections at once.
+
+{% include figure.html image="https://lh3.googleusercontent.com/UPsm3Jc2Gicv6fHuIqnSjOrwvXhO73u5bDYcWMU2WtuCKM9Q6ePPEGoJPKxKA0dl9DQwrkr5B3YNcQ505xgQUtwZB-jKnSx3uetK0bkRK01g9S1lsWWAPZ-hSfVfeP0ZpvL7ap3RrA=w300" caption="Spring Bean Creation Lifecycle" %}
+
+Main elements:
+
+- **Channel**: channels are a combination of input and output streams, so they allow you to read and write, and they use a Buffer to read and write.
+- **Buffer**: it is a block of memory used to read from a Channel and write into a Channel. When you want to read data from a Buffer to write it into a Channel you need to invoke`flip()`, so that it will set `pos` to 0. e.g.
+```java
+int read = socketChannel.read(buffer); // pos = n & lim = 1024
+while (read != -1) {
+    buffer.flip(); // set buffer in read mode - pos = 0 & lim = n
+    while(buffer.hasRemaining()){
+        System.out.print((char) buffer.get()); // read 1 byte at a time
+    }
+    buffer.clear(); // make buffer ready for writing - pos = 0 & lim = 1024
+    read = socketChannel.read(buffer); // set to -1
+}
+```
+1. On line 1, pos will be equals to the number of bytes written into the Buffer.
+2. On line 3, `flip()` is called to set position to 0 and limit to the number of bytes previouly written.
+3. On line 5, it reads from Buffer one byte at a time up to the limit.
+4. On line 7, finally we clear the **Buffer**.
+- **Selector**: A Selector can register multiple Channels and will check which ones are ready for accepting new connection, reading or writing. Similar to `accept()` method of blocking IO, when `select()` is invoked it will block the appliction until a channel is ready to do an operation. Because a Selector can register many channels, only one thread is required to handler multiple connections.
+- **Selection Key**: contains properties for a particular **Channel** (interest set, ready set, selector/channel and an optional attached object). Selection keys are mainly use to know the current interest of the channel (`isAcceptable()`, `isReadable()`, `isWritable()`), get the channel and do operations with that channel.
+
+### Example
+
+We will use an Echo Socket Channel server will show how NIO works.
+
+```java
+var serverSocketChannel = ServerSocketChannel.open();
+serverSocketChannel.configureBlocking(false);
+serverSocketChannel.socket().bind(new InetSocketAddress(8080));
+
+var selector = Selector.open();
+serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
+
+while (true) {
+    selector.select();
+    var keys = selector.selectedKeys().iterator();
+
+    while (keys.hasNext()) {
+        var selectionKey = (SelectionKey) keys.next();
+
+        if (selectionKey.isAcceptable()) {
+            createChannel(serverSocketChannel, selectionKey);
+        } else if (selectionKey.isReadable()) {
+            doRead(selectionKey);
+        } else if (selectionKey.isWritable()) {
+            doWrite(selectionKey);
+        }
+        keys.remove();
+    }
+}
+```
+1. From lines 1 to 3 a `ServerSocketChannel` is created, and you have to set it to non-blocking mode explicitly. The socket is also configure to listen on port 8080.
+2. On line 5 and 6, a Selector is created and `ServerSocketChannel` is registed on the Selector with a `SelectionKey` pointing to ACCEPT operations.
+3. To keep the application listening all the time the blocking method `select()` is inside an infinite while loop, and `select()` will return when at least one channel is selected `wakeup()` is invoked or the thread is interrupted.
+4. Then on line 10 a set of keys are returned from the Selector and we will iterate through them in order to execute the ready channels.
+
+```java
+private static void createChannel(ServerSocketChannel serverSocketChannel, SelectionKey selectionKey) throws IOException {
+    var socketChannel = serverSocketChannel.accept();
+    LOGGER.info("Accepted connection from " + socketChannel);
+    socketChannel.configureBlocking(false);
+    socketChannel.write(ByteBuffer.wrap(("Welcome: " + socketChannel.getRemoteAddress() +
+            "\nThe thread assigned to you is: " + Thread.currentThread().getId() + "\n").getBytes()));
+    dataMap.put(socketChannel, new LinkedList<>()); // store socket connection
+    LOGGER.info("Total clients connected: " + dataMap.size());
+    socketChannel.register(selectionKey.selector(), SelectionKey.OP_READ); // selector pointing to READ operation
+}
+```
+
+5. Every time a new connection is created `isAcceptable()` will be true and a new Channel will be registed into the `Selector`.
+6. To keep track of the data of each channel, it is put in a `Map` with the socket channel as the key and a list of ByteBuffers.
+7. Then the selector will point to READ operation.
+
+```java
+private static void doRead(SelectionKey selectionKey) throws IOException {
+    LOGGER.info("Reading...");
+    var socketChannel = (SocketChannel) selectionKey.channel();
+    var byteBuffer = ByteBuffer.allocate(1024); // pos=0 & lim=1024
+    int read = socketChannel.read(byteBuffer); // pos=numberOfBytes & lim=1024
+    if (read == -1) { // if connection is closed by the client
+        doClose(socketChannel);
+    } else {
+        byteBuffer.flip(); // put buffer in read mode by setting pos=0 and lim=numberOfBytes
+        dataMap.get(socketChannel).add(byteBuffer); // find socket channel and add new byteBuffer queue
+        selectionKey.interestOps(SelectionKey.OP_WRITE); // set mode to WRITE to send data
+    }
+}
+```
+
+8. In the read block the channel will be retrieved and the incoming data will be write into a ByteBuffer.
+9. On line 6 we check if the connection has been closed.
+10. On line 9 and 10, the buffer is set to read mode with `flip()` and added to the Map.
+11. Then, `interestOps()` is invoked to point to WRITE operation.
+```java
+private static void doWrite(SelectionKey selectionKey) throws IOException {
+    LOGGER.info("Writing...");
+    var socketChannel = (SocketChannel) selectionKey.channel();
+    var pendingData = dataMap.get(socketChannel); // find channel
+    while (!pendingData.isEmpty()) { // start sending to client from queue
+        var buf = pendingData.poll();
+        socketChannel.write(buf);
+    }
+    selectionKey.interestOps(SelectionKey.OP_READ); // change the key to READ
+}
+```
+12. Once again, the channel is retrieve in order to write into it the data saved in the `Map`.
+13. Then, we set the Selector to READ operations.
+```java
+private static void doClose(SocketChannel socketChannel) throws IOException {
+    dataMap.remove(socketChannel);
+    var socket = socketChannel.socket();
+    var remoteSocketAddress = socket.getRemoteSocketAddress();
+    LOGGER.info("Connection closed by client: " + remoteSocketAddress);
+    socketChannel.close(); // closes channel and cancels selection key
+}
+
+```
+14. In case the connection is close, the channel is removed from the Map and then is closed.
+
+## Java IO vs NIO
+
+Choosing between IO and NIO will depend on the use case. For fewer connections and a simple solution, IO might be better fit for you.
+Whereas, if you want something more efficient which can handle thousands of connections simultanously NIO is probably a better choice, but bear in mind that it will introduce much code complexity, however, there frameworks like [Netty](https://netty.io/) or [Apache MINA](https://mina.apache.org/) that are built on top of NIO and hide the programming complexity.
+
+<p class="text-center">
+{% include button.html link="https://github.com/smartinrub/java-sockets" text="Source Code" %}
+</p>
