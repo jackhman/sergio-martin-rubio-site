@@ -178,6 +178,7 @@ private static void doRead(SelectionKey selectionKey) throws IOException {
 9. On line 6 we check if the connection has been closed.
 10. On line 9 and 10, the buffer is set to read mode with `flip()` and added to the Map.
 11. Then, `interestOps()` is invoked to point to WRITE operation.
+
 ```java
 private static void doWrite(SelectionKey selectionKey) throws IOException {
     LOGGER.info("Writing...");
@@ -190,8 +191,10 @@ private static void doWrite(SelectionKey selectionKey) throws IOException {
     selectionKey.interestOps(SelectionKey.OP_READ); // change the key to READ
 }
 ```
+
 12. Once again, the channel is retrieve in order to write into it the data saved in the `Map`.
 13. Then, we set the Selector to READ operations.
+
 ```java
 private static void doClose(SocketChannel socketChannel) throws IOException {
     dataMap.remove(socketChannel);
@@ -200,7 +203,6 @@ private static void doClose(SocketChannel socketChannel) throws IOException {
     LOGGER.info("Connection closed by client: " + remoteSocketAddress);
     socketChannel.close(); // closes channel and cancels selection key
 }
-
 ```
 14. In case the connection is close, the channel is removed from the Map and then is closed.
 
