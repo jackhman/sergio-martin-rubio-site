@@ -34,30 +34,25 @@ This API is based on flows of byte streams and character streams that can be rea
 Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have a lot of simultanous connections.
 
 ```java
-public class RawSocket {
+ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
 
-    private static final int PORT_NUMBER = 8082;
-
-    public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
-        
-        while (true) {
-            Socket client = serverSocket.accept();
+while (true) {
+    Socket client = serverSocket.accept();
+    try {
+        BufferedReader in = new BufferedReader(
+            new InputStreamReader(client.getInputStream())
+        );
+        OutputStream out = client.getOutputStream();
+        in.lines().forEach(line -> {
             try {
-                BufferedReader in = new BufferedReader(new InputStreamReader(client.getInputStream()));
-                OutputStream out = client.getOutputStream();
-                in.lines().forEach(line -> {
-                    try {
-                        out.write(line.getBytes());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                });
-                client.close();
+                out.write(line.getBytes());
             } catch (IOException e) {
                 e.printStackTrace();
             }
-        }
+        });
+        client.close();
+    } catch (IOException e) {
+        e.printStackTrace();
     }
 }
 ```
