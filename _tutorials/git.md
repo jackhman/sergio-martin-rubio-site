@@ -3,7 +3,7 @@ name: Git
 tags: [Version Control]
 style: fill
 color: primary
-description: Tutorial which covers git fundamentals.
+description: Git Fundamentals.
 ---
 
 # Git
@@ -22,6 +22,9 @@ Now if you track new files or make changes on the already tracked ones, you need
 2. `git add <file or directory name>`: adds files to the staging area. To commit changes, firstly files need to be added to staging.
 3. `git commit -m "message"`: moves tracked files from staging to your local repository. 
 4. `git status`: non tracked and modified files will be displayed.
+5. `git push`: it will push your local repository to the configured remote repository (Github, Gitlab, Bitbucket...).
+6. `git config --global user.name/use.email`: configure the name and email to be used with your commits.
+7. `git clone`: 
 
 ## .gitignore
 
