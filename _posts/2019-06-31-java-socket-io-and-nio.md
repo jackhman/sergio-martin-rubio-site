@@ -10,6 +10,7 @@ description: Learn how to use Java Socket IO and NIO
 Introduction
 Java Blocking IO
 Java NIO
+Java IO vs NIO
 {%- endcapture -%}
 
 {% include list.html title="Content" type="toc" %}
@@ -18,7 +19,7 @@ Java NIO
 
 Sockets use _TCP/IP_ transport protocol and are the last piece of a network communication between two hosts. You do not usually have to deal with them, since there are protocols built on top of them like _HTTP_ or _FTP_, however it is important to know how they work.
 
->TCP: It is a reliable data transfer protocol that ensures that the data sent is complete and correct and requires to stablish a connection.
+>_TCP_: It is a reliable data transfer protocol that ensures that the data sent is complete and correct and requires to stablish a connection.
 
 Java offers a blocking and non blocking alternative to create sockets, and depending on your requirements you might consider the one or the other.
 
@@ -64,9 +65,9 @@ public class RawSocket {
 1. A `ServerSocket` is created with a given port to listen on.
 2. The server will block when `accept()` is invoked and starts listening for clients connections.
 3. If a client requests a connection a Socket is returned by `accept()`.
-4. Now we can read from the client (InputStream) and send data back to the client (OutputStream).
+4. Now we can read from the client (`InputStream`) and send data back to the client (`OutputStream`).
 
-If we want to allow multiple connections we will have to create a Thread Pool:
+If we want to allow multiple connections we will have to create a **Thread Pool**:
 
 ```java
 ExecutorService threadPool = Executors.newFixedThreadPool(100);
@@ -99,16 +100,16 @@ while (read != -1) {
     read = socketChannel.read(buffer); // set to -1
 }
 ```
-1. On line 1, pos will be equals to the number of bytes written into the Buffer.
+1. On line 1, pos will be equals to the number of bytes written into the `Buffer`.
 2. On line 3, `flip()` is called to set position to 0 and limit to the number of bytes previouly written.
-3. On line 5, it reads from Buffer one byte at a time up to the limit.
-4. On line 7, finally we clear the **Buffer**.
+3. On line 5, it reads from `Buffer` one byte at a time up to the limit.
+4. On line 7, finally we clear the `Buffer`.
 - **Selector**: A Selector can register multiple Channels and will check which ones are ready for accepting new connection, reading or writing. Similar to `accept()` method of blocking IO, when `select()` is invoked it will block the appliction until a channel is ready to do an operation. Because a Selector can register many channels, only one thread is required to handler multiple connections.
 - **Selection Key**: contains properties for a particular **Channel** (interest set, ready set, selector/channel and an optional attached object). Selection keys are mainly use to know the current interest of the channel (`isAcceptable()`, `isReadable()`, `isWritable()`), get the channel and do operations with that channel.
 
 ### Example
 
-We will use an Echo Socket Channel server will show how NIO works.
+We will use an **Echo Socket Channel** server will show how NIO works.
 
 ```java
 var serverSocketChannel = ServerSocketChannel.open();
@@ -136,10 +137,10 @@ while (true) {
     }
 }
 ```
-1. From lines 1 to 3 a `ServerSocketChannel` is created, and you have to set it to non-blocking mode explicitly. The socket is also configure to listen on port 8080.
-2. On line 5 and 6, a Selector is created and `ServerSocketChannel` is registed on the Selector with a `SelectionKey` pointing to ACCEPT operations.
+1. From lines 1 to 3 a `ServerSocketChannel` is created, and you have to set it to non-blocking mode explicitly. The socket is also configure to listen on _port 8080_.
+2. On line 5 and 6, a `Selector` is created and `ServerSocketChannel` is registed on the Selector with a `SelectionKey` pointing to ACCEPT operations.
 3. To keep the application listening all the time the blocking method `select()` is inside an infinite while loop, and `select()` will return when at least one channel is selected `wakeup()` is invoked or the thread is interrupted.
-4. Then on line 10 a set of keys are returned from the Selector and we will iterate through them in order to execute the ready channels.
+4. Then on line 10 a set of keys are returned from the `Selector` and we will iterate through them in order to execute the ready channels.
 
 ```java
 private static void createChannel(ServerSocketChannel serverSocketChannel, SelectionKey selectionKey) throws IOException {
@@ -154,9 +155,9 @@ private static void createChannel(ServerSocketChannel serverSocketChannel, Selec
 }
 ```
 
-5. Every time a new connection is created `isAcceptable()` will be true and a new Channel will be registed into the `Selector`.
+5. Every time a new connection is created `isAcceptable()` will be true and a new `Channel` will be registed into the `Selector`.
 6. To keep track of the data of each channel, it is put in a `Map` with the socket channel as the key and a list of ByteBuffers.
-7. Then the selector will point to READ operation.
+7. Then the selector will point to _READ_ operation.
 
 ```java
 private static void doRead(SelectionKey selectionKey) throws IOException {
@@ -174,10 +175,10 @@ private static void doRead(SelectionKey selectionKey) throws IOException {
 }
 ```
 
-8. In the read block the channel will be retrieved and the incoming data will be write into a ByteBuffer.
+8. In the read block the channel will be retrieved and the incoming data will be written into a `ByteBuffer`.
 9. On line 6 we check if the connection has been closed.
 10. On line 9 and 10, the buffer is set to read mode with `flip()` and added to the Map.
-11. Then, `interestOps()` is invoked to point to WRITE operation.
+11. Then, `interestOps()` is invoked to point to _WRITE_ operation.
 
 ```java
 private static void doWrite(SelectionKey selectionKey) throws IOException {
@@ -193,7 +194,7 @@ private static void doWrite(SelectionKey selectionKey) throws IOException {
 ```
 
 12. Once again, the channel is retrieve in order to write into it the data saved in the `Map`.
-13. Then, we set the Selector to READ operations.
+13. Then, we set the `Selector` to _READ_ operations.
 
 ```java
 private static void doClose(SocketChannel socketChannel) throws IOException {
@@ -204,7 +205,7 @@ private static void doClose(SocketChannel socketChannel) throws IOException {
     socketChannel.close(); // closes channel and cancels selection key
 }
 ```
-14. In case the connection is close, the channel is removed from the Map and then is closed.
+14. In case the connection is close, the channel is removed from the `Map` and then is closed.
 
 ## Java IO vs NIO
 
