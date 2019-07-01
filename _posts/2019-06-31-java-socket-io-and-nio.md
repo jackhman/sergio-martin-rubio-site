@@ -83,7 +83,7 @@ As you can see, this API has some limitations. We won't be able to accept more c
 Main elements:
 
 - **Channel**: channels are a combination of input and output streams, so they allow you to read and write, and they use buffers to do this operations.
-- **Buffer**: it is a block of memory used to read from a Channel and write into a Channel. When you want to read data from a Buffer to write it into a Channel you need to invoke`flip()`, so that it will set `pos` to 0. e.g.
+- **Buffer**: it is a block of memory used to read from a `Channel` and write into it. When you want to read data from a `Buffer` you need to invoke`flip()`, so that it will set `pos` to 0.
 ```java
 int read = socketChannel.read(buffer); // pos = n & lim = 1024
 while (read != -1) {
