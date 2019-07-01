@@ -31,7 +31,7 @@ This API is based on flows of byte streams and character streams that can be rea
 
 {% include figure.html image="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w600" caption="Spring Bean Creation Lifecycle" %}
 
-Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have a lot of simultaneous connections.
+Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have many simultaneous connections.
 
 ```java
 ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
@@ -62,7 +62,7 @@ while (true) {
 3. If a client requests a connection a Socket is returned by `accept()`.
 4. Now we can read from the client (`InputStream`) and send data back to the client (`OutputStream`).
 
-If we want to allow multiple connections we will have to create a **Thread Pool**:
+If we want to allow multiple connections, we have to create a **Thread Pool**:
 
 ```java
 ExecutorService threadPool = Executors.newFixedThreadPool(100);
