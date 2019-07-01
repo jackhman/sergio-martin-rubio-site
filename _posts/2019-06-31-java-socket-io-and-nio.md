@@ -19,19 +19,19 @@ Java IO vs NIO
 
 Sockets use _TCP/IP_ transport protocol and are the last piece of a network communication between two hosts. You do not usually have to deal with them, since there are protocols built on top of them like _HTTP_ or _FTP_, however it is important to know how they work.
 
->_TCP_: It is a reliable data transfer protocol that ensures that the data sent is complete and correct and requires to stablish a connection.
+>_TCP_: It is a reliable data transfer protocol that ensures that the data sent is complete and correct and requires to establish a connection.
 
 Java offers a blocking and non blocking alternative to create sockets, and depending on your requirements you might consider the one or the other.
 
 ## Java Blocking IO
 
-The Java bloking IO API is included in **JDK** under the package `java.net` and is generally the simplest to use.
+The Java blocking IO API is included in **JDK** under the package `java.net` and is generally the simplest to use.
 
-This API is based on flows of byte streams and character streams that can be read or wrriten. There is not an index that you can use to move forth and back, like in an array, it is simply a continuos flow of data.
+This API is based on flows of byte streams and character streams that can be read or written. There is not an index that you can use to move forth and back, like in an array, it is simply a continuous flow of data.
 
 {% include figure.html image="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w600" caption="Spring Bean Creation Lifecycle" %}
 
-Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have a lot of simultanous connections.
+Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have a lot of simultaneous connections.
 
 ```java
 ServerSocket serverSocket = new ServerSocket(PORT_NUMBER);
@@ -76,7 +76,7 @@ As you can see, this API has some limitations. We won't be able to accept more c
 
 ## Java NIO
 
-**java.nio** is a non blocking API for socket connetions which means you are not tight to the number of threads available. With this library one thread can handle multiple connections at once.
+**java.nio** is a non blocking API for socket connections which means you are not tight to the number of threads available. With this library one thread can handle multiple connections at once.
 
 {% include figure.html image="https://lh3.googleusercontent.com/UPsm3Jc2Gicv6fHuIqnSjOrwvXhO73u5bDYcWMU2WtuCKM9Q6ePPEGoJPKxKA0dl9DQwrkr5B3YNcQ505xgQUtwZB-jKnSx3uetK0bkRK01g9S1lsWWAPZ-hSfVfeP0ZpvL7ap3RrA=w600" caption="Spring Bean Creation Lifecycle" %}
 
@@ -96,15 +96,15 @@ while (read != -1) {
 }
 ```
 1. On line 1, pos will be equals to the number of bytes written into the `Buffer`.
-2. On line 3, `flip()` is called to set position to 0 and limit to the number of bytes previouly written.
+2. On line 3, `flip()` is called to set position to 0 and limit to the number of bytes previously written.
 3. On line 5, it reads from `Buffer` one byte at a time up to the limit.
 4. On line 7, finally we clear the `Buffer`.
-- **Selector**: A Selector can register multiple Channels and will check which ones are ready for accepting new connection, reading or writing. Similar to `accept()` method of blocking IO, when `select()` is invoked it will block the appliction until a channel is ready to do an operation. Because a Selector can register many channels, only one thread is required to handler multiple connections.
+- **Selector**: A Selector can register multiple Channels and will check which ones are ready for accepting new connection, reading or writing. Similar to `accept()` method of blocking IO, when `select()` is invoked it will block the application until a channel is ready to do an operation. Because a Selector can register many channels, only one thread is required to handler multiple connections.
 - **Selection Key**: contains properties for a particular **Channel** (interest set, ready set, selector/channel and an optional attached object). Selection keys are mainly use to know the current interest of the channel (`isAcceptable()`, `isReadable()`, `isWritable()`), get the channel and do operations with that channel.
 
 ### Example
 
-We will use an **Echo Socket Channel** server will show how NIO works.
+We will use an **Echo Socket Channel** server to show how NIO works.
 
 ```java
 var serverSocketChannel = ServerSocketChannel.open();
@@ -133,7 +133,7 @@ while (true) {
 }
 ```
 1. From lines 1 to 3 a `ServerSocketChannel` is created, and you have to set it to non-blocking mode explicitly. The socket is also configure to listen on _port 8080_.
-2. On line 5 and 6, a `Selector` is created and `ServerSocketChannel` is registed on the Selector with a `SelectionKey` pointing to ACCEPT operations.
+2. On line 5 and 6, a `Selector` is created and `ServerSocketChannel` is registered on the Selector with a `SelectionKey` pointing to ACCEPT operations.
 3. To keep the application listening all the time the blocking method `select()` is inside an infinite while loop, and `select()` will return when at least one channel is selected `wakeup()` is invoked or the thread is interrupted.
 4. Then on line 10 a set of keys are returned from the `Selector` and we will iterate through them in order to execute the ready channels.
 
@@ -150,7 +150,7 @@ private static void createChannel(ServerSocketChannel serverSocketChannel, Selec
 }
 ```
 
-5. Every time a new connection is created `isAcceptable()` will be true and a new `Channel` will be registed into the `Selector`.
+5. Every time a new connection is created `isAcceptable()` will be true and a new `Channel` will be registered into the `Selector`.
 6. To keep track of the data of each channel, it is put in a `Map` with the socket channel as the key and a list of ByteBuffers.
 7. Then the selector will point to _READ_ operation.
 
@@ -188,7 +188,7 @@ private static void doWrite(SelectionKey selectionKey) throws IOException {
 }
 ```
 
-12. Once again, the channel is retrieve in order to write into it the data saved in the `Map`.
+12. Once again, the channel is retrieved in order to write the data saved in the `Map` into it.
 13. Then, we set the `Selector` to _READ_ operations.
 
 ```java
@@ -200,12 +200,12 @@ private static void doClose(SocketChannel socketChannel) throws IOException {
     socketChannel.close(); // closes channel and cancels selection key
 }
 ```
-14. In case the connection is close, the channel is removed from the `Map` and then is closed.
+14. In case the connection is closed, the channel is removed from the `Map` and we close the channel.
 
 ## Java IO vs NIO
 
 Choosing between IO and NIO will depend on the use case. For fewer connections and a simple solution, IO might be better fit for you.
-Whereas, if you want something more efficient which can handle thousands of connections simultanously NIO is probably a better choice, but bear in mind that it will introduce much code complexity, however, there frameworks like [Netty](https://netty.io/) or [Apache MINA](https://mina.apache.org/) that are built on top of NIO and hide the programming complexity.
+Whereas, if you want something more efficient which can handle thousands of connections simultaneously NIO is probably a better choice, but bear in mind that it will introduce much code complexity, however, there frameworks like [Netty](https://netty.io/) or [Apache MINA](https://mina.apache.org/) that are built on top of NIO and hide the programming complexity.
 
 <p class="text-center">
 {% include button.html link="https://github.com/smartinrub/java-sockets" text="Source Code" %}
