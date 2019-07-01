@@ -23,8 +23,19 @@ Now if you track new files or make changes on the already tracked ones, you need
 3. `git commit -m "message"`: moves tracked files from staging to your local repository. 
 4. `git status`: non tracked and modified files will be displayed.
 5. `git push`: it will push your local repository to the configured remote repository (Github, Gitlab, Bitbucket...).
-6. `git config --global user.name/use.email`: configure the name and email to be used with your commits.
-7. `git clone`: 
+6. `git config --global user.name/use.email`: configures the name and email to be used with your commits.
+7. `git clone`: clones a repository in a new directory.
+8. `git fetch`: downloads remote repository changes.
+9. `git merge <branch_name>`: merges branch into current branch.
+10. `git pull`: fetches and merge remote changes on your local repository (`git fetch` + `git merge`).
+11. `git rebase <branch_name>`: reapplies commits of a branch on top of your current branch.
+12. `git stash`: parks unfinished changes that you can reapply later.
+13. `git stash list`: shows stored stashes.
+14. `git stash apply`: applies most recent stash. Supply a stash id to apply a particular stash.
+15. `git log`: lists the commits made in your local repository. You can add options and filters (`-p`: difference in each commit; `--stat`: abreviated stats for each commit; `--pretty=<oneline/short/full/format:"%h - %an, %ar : %s">`; `--graph`:graph with branch and merge history).
+15. `git branch <branch_name>`: creates branch with the given name.
+16. `git checkout <branch_name>`: switch to given branch name. If `-b` option is provided it will create the branch if it does not exist.
+
 
 ## .gitignore
 
