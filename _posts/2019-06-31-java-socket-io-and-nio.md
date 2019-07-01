@@ -99,8 +99,8 @@ while (read != -1) {
 2. On line 3, `flip()` is called to set position to 0 and limit to the number of bytes previously written.
 3. On line 5, it reads from `Buffer` one byte at a time up to the limit.
 4. On line 7, finally we clear the `Buffer`.
-- **Selector**: A Selector can register multiple Channels and will check which ones are ready for accepting new connection, reading or writing. Similar to `accept()` method of blocking IO, when `select()` is invoked it will block the application until a channel is ready to do an operation. Because a Selector can register many channels, only one thread is required to handler multiple connections.
-- **Selection Key**: contains properties for a particular **Channel** (interest set, ready set, selector/channel and an optional attached object). Selection keys are mainly use to know the current interest of the channel (`isAcceptable()`, `isReadable()`, `isWritable()`), get the channel and do operations with that channel.
+- **Selector**: A `Selector` can register multiple Channels and will check which ones are ready for accepting new connections. Similar to `accept()` method of blocking IO, when `select()` is invoked it will block the application until a `Channel` is ready to do an operation. Because a `Selector` can register many channels, only one thread is required to handler multiple connections.
+- **Selection Key**: It contains properties for a particular **Channel** (interest set, ready set, selector/channel and an optional attached object). Selection keys are mainly use to know the current interest of the channel (`isAcceptable()`, `isReadable()`, `isWritable()`), get the channel and do operations with that channel.
 
 ### Example
 
