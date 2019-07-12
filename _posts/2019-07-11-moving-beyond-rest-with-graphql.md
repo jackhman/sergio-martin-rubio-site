@@ -25,7 +25,7 @@ Companies like _Pivotal_ are already supporting _GraphQL_, in fact it was one of
 
 ## Specification
 
-This API Query Language allows you to retrive data from a service in one go. How can I do that? A single endpoint is exposed by GraphQL, and given a schema which contains your models and operations, you can make HTTP requests to this single endpoint by providing operation names and fields. 
+This API Query Language allows you to retrive data from a service in one go. How can I do that? A single endpoint is exposed by GraphQL, and given a schema which contains your models and operations, you can make HTTP requests to this single endpoint by providing operation names, payload and variables. 
 
 GraphQL supports both, GET and POST HTTP methods. In case of GET, we have to use a query parameter (`?query={operationName{field}}`) and do URL encoding. On the other hand, we could do a standard POST request with a JSON payload.
 
@@ -37,6 +37,61 @@ e.g.
   "operationName": "...",
 }
 ```
+
+### Query
+
+Queries are read operations, and they correspond with the R (Read) from the four basic functions of persistent storage (cRud). You could do other kind of operations, but it is important to follow these conventions. Here is an example:
+
+```graphql
+query {
+  findHotelById(id: 2) {
+      name
+      address
+      room {
+          type
+      }
+  }
+}
+```
+
+The _findHotelById_ is the operation of the query, and everything else inside the operation is called _payload_. We can use arguments like the one in the previos example (id: 2), that will return the Hotel with id 2.
+
+Queries also support _dynamic_ arguments, and provides a way to pass them as JSON in the operation. We will use them like this:
+```graphql
+query($hotelId:ID) {
+  findHotelById(id:$hotelId) {
+    name
+    room {
+      type
+      occupants
+    }
+  }
+}
+```
+
+```json
+{
+  "hotelId": "1"
+}
+```
+
+### Mutation
+
+Mutations are used for Create, Update and Delete data (CrUD). We can create mutation by replacing query with the mutation keyword. This is an example:
+
+```
+mutation {
+  newHotel(name:"test 1", address: "test 1"){
+    id
+  }
+}
+```
+This creates a new Hotel and returns the id for the created hotel.
+>To get the id back we need to define in our schema a field of type ID.
+
+## Conclusion
+
+GraphQL is like an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for.
 
 <p class="text-center">
 {% include button.html link="https://github.com/smartinrub/spring-boot-graphql" text="Source Code" %}
