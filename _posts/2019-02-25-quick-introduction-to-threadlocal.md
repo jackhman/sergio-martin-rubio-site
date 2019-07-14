@@ -57,7 +57,7 @@ Now the output will be **“10”** for every thread that uses the `MyThreadLoca
 - `get()`
 - `set(value)`
 - `remove()`
-- `withInitial(supplier)` -> {% include highlight.html text="since Java 8" %}
+- `withInitial(supplier)` -> {% include elements/highlight.html text="since Java 8" %}
 
 ## Use Cases
 

@@ -96,7 +96,7 @@ After running the init command all the boilerplate has been created:
 fn run
 ```
 
-{% include highlight.html text="First time you run this command will take longer." %}
+{% include elements/highlight.html text="First time you run this command will take longer." %}
 
 ```shell
 {"message":"Hello World"}

@@ -20,7 +20,7 @@ Lifecycle
 
 >In Spring, the **objects** that form the backbone of your application and that are **managed by the Spring IoC container** are called beans. **A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container**. Otherwise, **a bean is simply one of many objects in your application**. Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.
 
-{% include highlight.html text="Roughly, we can say that a Bean is simply an object with a concrete life cycle managed by the Spring Framework." %}
+{% include elements/highlight.html text="Roughly, we can say that a Bean is simply an object with a concrete life cycle managed by the Spring Framework." %}
 
 This definition might seem a little bit abstract, but do not worry we will go into more in depth shortly.
 
