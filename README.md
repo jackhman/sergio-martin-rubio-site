@@ -10,7 +10,7 @@ Short blog post about Java, Testing, Spring, microservices, Docker, Kubernetes a
 ### About
 Skillset and relevant work experiences in awesome companies :grinning:
 
-- Follow me on :point_right: [Twitter](https://twitter.com/smartinrub)
+- Follow me on :point_right: [Twitter](https://twitter.com/smartinrubio)
 
 ## Resources
 
