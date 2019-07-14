@@ -7,7 +7,7 @@ description: Android App to manage your orders.
 
 # Reparto Manager
 
-{% include video.html id="UrYdKVSVUbI" %}
+{% include elements/video.html id="UrYdKVSVUbI" %}
 
 **Reparto Manager** is a simple and light application made for delivery companies, and its main purpose is to optimize the management of orders based on locations, sale prices, and order priorities. Through an intuitive interface, Reparto Manager will allow you to generate new orders and improve logistics.
 
