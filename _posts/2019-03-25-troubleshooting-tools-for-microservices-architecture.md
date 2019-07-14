@@ -179,17 +179,17 @@ As we can see the **trace ID** is the same as the **span ID**, since only one se
 
 **Zipkin** interface is available at *[http://localhost:9411](http://localhost:9411)*
 
-{% include figure.html image="https://lh3.googleusercontent.com/Idvgyeh6Fa7ryJMsC1JaebEf-HRCm7o6Ha_BFUTcwP79Qgv95TOcJYnhPBLhCwCd4YMNELlNXAWrCM-ojJh_0EXoaTwhJapZ8vIMaeVKbyhKUjeCSlAzVQuq0rZk7gr3pBoqTbnb=w2400" caption="Zipkin UI." %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/Idvgyeh6Fa7ryJMsC1JaebEf-HRCm7o6Ha_BFUTcwP79Qgv95TOcJYnhPBLhCwCd4YMNELlNXAWrCM-ojJh_0EXoaTwhJapZ8vIMaeVKbyhKUjeCSlAzVQuq0rZk7gr3pBoqTbnb=w2400" caption="Zipkin UI." %}
 
 
 Now login into Splunk web console ([*http://localhost:8000*](http://localhost:8000)) and search for “*73d169f5b5e76599*”.
 
-{% include figure.html image="https://lh3.googleusercontent.com/61G5AkQxY04-ZUX69Khlb5nSkzfPs2p5aId2utTRFbXwQmGY0c-RsvsalyCafZPiLnB-UyarqcYkTw-qwC5E6qBgDUWiIxADHbxqyeE9dWFUbSzqQ_ZiHHPdYXB_WJpSENCWdT46=w2400" caption="Splunk UI" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/61G5AkQxY04-ZUX69Khlb5nSkzfPs2p5aId2utTRFbXwQmGY0c-RsvsalyCafZPiLnB-UyarqcYkTw-qwC5E6qBgDUWiIxADHbxqyeE9dWFUbSzqQ_ZiHHPdYXB_WJpSENCWdT46=w2400" caption="Splunk UI" %}
 
 ## Conclusion
 
 Both **logging** and **instrumentation** are essential in any enterprise microservices architecture, and tools like Splunk and **Zipkin** can be exellent allies to act fast and precisely when issues arise.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/spring-boot-zipkin-sleuth-splunk" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/spring-boot-zipkin-sleuth-splunk" text="Source Code" %}
 </p>

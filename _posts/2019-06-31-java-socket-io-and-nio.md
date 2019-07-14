@@ -13,7 +13,7 @@ Java NIO
 Java IO vs NIO
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 ## Introduction
 
@@ -29,7 +29,7 @@ The Java blocking IO API is included in **JDK** under the package `java.net` and
 
 This API is based on flows of byte streams and character streams that can be read or written. There is not an index that you can use to move forth and back, like in an array, it is simply a continuous flow of data.
 
-{% include figure.html image="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w600" caption="Java Blocking IO" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w600" caption="Java Blocking IO" %}
 
 Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have many simultaneous connections.
 
@@ -78,7 +78,7 @@ As you can see, this API has some limitations. We won't be able to accept more c
 
 **java.nio** is a non blocking API for socket connections which means you are not tight to the number of threads available. With this library one thread can handle multiple connections at once.
 
-{% include figure.html image="https://lh3.googleusercontent.com/UPsm3Jc2Gicv6fHuIqnSjOrwvXhO73u5bDYcWMU2WtuCKM9Q6ePPEGoJPKxKA0dl9DQwrkr5B3YNcQ505xgQUtwZB-jKnSx3uetK0bkRK01g9S1lsWWAPZ-hSfVfeP0ZpvL7ap3RrA=w600" caption="Java NIO" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/UPsm3Jc2Gicv6fHuIqnSjOrwvXhO73u5bDYcWMU2WtuCKM9Q6ePPEGoJPKxKA0dl9DQwrkr5B3YNcQ505xgQUtwZB-jKnSx3uetK0bkRK01g9S1lsWWAPZ-hSfVfeP0ZpvL7ap3RrA=w600" caption="Java NIO" %}
 
 Main elements:
 
@@ -208,5 +208,5 @@ Choosing between IO and NIO will depend on the use case. For fewer connections a
 Whereas, if you want something more efficient which can handle thousands of connections simultaneously NIO is probably a better choice, but bear in mind that it will introduce much code complexity, however, there frameworks like [Netty](https://netty.io/) or [Apache MINA](https://mina.apache.org/) that are built on top of NIO and hide the programming complexity.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/java-sockets" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/java-sockets" text="Source Code" %}
 </p>

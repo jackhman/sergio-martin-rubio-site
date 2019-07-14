@@ -12,7 +12,7 @@ New JUnit 5 Features
 Conclusion
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 **JUnit** is the most popular testing framework in Java, and with [**JUnit 5**](https://junit.org/junit5/) testing in **Java 8** and beyond takes another step forward. This version was release in September 2017 and has been actively updated to fix bugs and add new features. Moreover, JUnit 5 is also compatible with version 3 and 4 by adding [`junit-vintage-engine`](https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine) to your classpath path.
 
@@ -383,5 +383,5 @@ To use this feature, `junit-jupiter-params` needs to be added to the classpath.
 As you can see, JUnit 5 is a huge improvement over previous versions and introduces many new testing features. It also allows you to write more expressive units test when using in combination with lambda expressions from Java 8.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/junit5-features" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/junit5-features" text="Source Code" %}
 </p>

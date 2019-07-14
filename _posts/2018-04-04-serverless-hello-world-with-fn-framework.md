@@ -22,7 +22,7 @@ I found out about **[Fn Project](https://github.com/fnproject/fn)** during _Demo
 - Supports many languages: Java, Golang, Ruby, Python, PHP, and Node.js
 - Easy to use.
 
-{% include figure.html image="https://lh3.googleusercontent.com/YixY7IJ-0e53by1N1FrZANp22E9zZ89rycnqbBZlXh2TBtIzQvEgWcYQre8_2njGDybbgj733sIPhMjZR6BAeUhEbHuT_w-dGuKmuo_4cj6CSrbm3-W1tLRPS2-04yQILiyINlUB=w2400" caption="Fn Project Architecture" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/YixY7IJ-0e53by1N1FrZANp22E9zZ89rycnqbBZlXh2TBtIzQvEgWcYQre8_2njGDybbgj733sIPhMjZR6BAeUhEbHuT_w-dGuKmuo_4cj6CSrbm3-W1tLRPS2-04yQILiyINlUB=w2400" caption="Fn Project Architecture" %}
 
 ## Requirements
 

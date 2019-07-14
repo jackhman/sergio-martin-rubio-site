@@ -13,7 +13,7 @@ When should I use Micronaut?
 Caveats
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 ## Introduction
 
@@ -83,14 +83,14 @@ class UpperCaseControllerTest {
 ```
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/micronaut-example" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/micronaut-example" text="Source Code" %}
 </p>
 
 Micronaut provides a compile-time _AOP API_ that does not use reflection. For those who don't know what reflection is, it is basically a way to the program to introspect itself, so it asks itself if a class has specific methods, annotations, parameters... and Spring uses intensively reflection to search for controllers, endpoints, beans... so there is a performance penalty that you pay, and most of this work is done during startup. Therefore, Micronaut has a great advantage in the serverless model, where startup times are very important.
 
 Micronaut relies on annotations, it uses these annotations in a different way as Spring. During compile-time, it scans all the different annotations and add extra code to hook everything up. This means that once the Java jar is compiled, annotations are not needed anymore, so there is no need to do any reflection, because the code is already baked into the jar. Bear in mind that Micranaut doesn't modify the original classes, instead it creates extra classes, so if you need to debug your code, it will stop on the line you are expecting to stop.
 
-{% include figure.html image="https://lh3.googleusercontent.com/nGgRatrpzZdn-_ZvPwut4KXsFHZqmpOy-EGr7QuDAPuafOhqCQKE4Xon8XxvXV25g9F_BthT9XC6CNP3raJoSk6O10WoHLivEhiWnFRQax5ImF81t4RABMBsjxm6p45wBq8Ml_M4jQ=w400" caption="Micronaut Additional Classes" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/nGgRatrpzZdn-_ZvPwut4KXsFHZqmpOy-EGr7QuDAPuafOhqCQKE4Xon8XxvXV25g9F_BthT9XC6CNP3raJoSk6O10WoHLivEhiWnFRQax5ImF81t4RABMBsjxm6p45wBq8Ml_M4jQ=w400" caption="Micronaut Additional Classes" %}
 
 Micranaut tries to make it compatible with **GraalVM** as much as possible, and even has a feature to generate a project with Graal support. This is done by creating a Docker image with GraalVM, _JDK_ and the Java binaries.
 

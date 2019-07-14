@@ -15,7 +15,7 @@ Running Test Plan
 Conclusion
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 ## Introduction
 
@@ -126,25 +126,25 @@ Some of the most relevant listeners are:
 
 - **View Results Tree**: this listeners shows requests and responses to see if something went wrong during the calls. Since it consumes a lot of resources, it is only recommended to use for debugging purposes.
 
-{% include figure.html image="https://lh3.googleusercontent.com/u_v6Qrm-B4udK88lY1kZmbmPqH5b7VDJFf_lK8qWQqqKEHP3MEnRPE6FowK22DeqGwOKafTql-8lxN82i_7cP8APG1Lm27Od9ctlOaKgW2SgRoY_u24p4f6_ZLmq-a5xUZ5gFLcO=w2400" caption="JMeter - Results Tree" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/u_v6Qrm-B4udK88lY1kZmbmPqH5b7VDJFf_lK8qWQqqKEHP3MEnRPE6FowK22DeqGwOKafTql-8lxN82i_7cP8APG1Lm27Od9ctlOaKgW2SgRoY_u24p4f6_ZLmq-a5xUZ5gFLcO=w2400" caption="JMeter - Results Tree" %}
 
 - **Aggregate Report**: it gives you some statistics parameters (average, median, min, max, 90th percentile…) in form of a table.
 
-{% include figure.html image="https://lh3.googleusercontent.com/T5PuPN_vbh1_8fAEerkeJ9U9vqqY6sSnV2ymdD9xhj6yt73ZZmrzvdGt6ouxMqlb4WxoaCLCYjQD0-RKjKZJwRZTLoHoPxaPOKTu64sECW0O1RF3hNK85S8iL9dGvNiJ19wFrBP-=w2400" caption="JMeter - Aggreate Report" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/T5PuPN_vbh1_8fAEerkeJ9U9vqqY6sSnV2ymdD9xhj6yt73ZZmrzvdGt6ouxMqlb4WxoaCLCYjQD0-RKjKZJwRZTLoHoPxaPOKTu64sECW0O1RF3hNK85S8iL9dGvNiJ19wFrBP-=w2400" caption="JMeter - Aggreate Report" %}
 
 - **View Results in Table**: it creates a row for every sample result, so you can see in depth what is happening during each result. Bear in mind that this listener also consumes a lot of memory.
 
-{% include figure.html image="https://lh3.googleusercontent.com/YQoPGodxuxrR2oASmwutuYi3PPyShOLvTQ4oeWFbM1h9_RNvEIomH5RI6rH9fixCHKHY1AF1d5ZFHjvxmsh7swrB3B1TFbYMLlGjD378z0nwx7moG-WJMBFEc9RRxdbRFcmivLxM=w2400" caption="JMeter - View Results" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/YQoPGodxuxrR2oASmwutuYi3PPyShOLvTQ4oeWFbM1h9_RNvEIomH5RI6rH9fixCHKHY1AF1d5ZFHjvxmsh7swrB3B1TFbYMLlGjD378z0nwx7moG-WJMBFEc9RRxdbRFcmivLxM=w2400" caption="JMeter - View Results" %}
 
 - **Simple Data Writer**: this is the most performance listeners, since the only thing it does it is write the metrics in a external file.
 
-{% include figure.html image="https://lh3.googleusercontent.com/M4lMFtgCsby8bUbn13ajQP21_e337vMV5U6tWR8O8lMMfzbcu9yMeqi1A-pg3Rg44w8TFRvWrBCgsoxEws0AzuGsP_pAb6QKYCCBSNV5D6tOyfMlGb6BW2uxyWrV-_4ewbrs7m3L=w2400" caption="JMeter - Data Writer" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/M4lMFtgCsby8bUbn13ajQP21_e337vMV5U6tWR8O8lMMfzbcu9yMeqi1A-pg3Rg44w8TFRvWrBCgsoxEws0AzuGsP_pAb6QKYCCBSNV5D6tOyfMlGb6BW2uxyWrV-_4ewbrs7m3L=w2400" caption="JMeter - Data Writer" %}
 
 - **Backend Listener**: you can even push data to your Graphite server. You can try this listener by running a dockerized version of Graphite.
 
-{% include figure.html image="https://lh3.googleusercontent.com/YcEchTIoon604za-_lyi46qa_PL5QgqpDlWD4x1K6w9YZgeO-ygEPv90u_F3NxY62_RyXnzrr_C19e2xnLpxOS7fIcLaxCsfcZed_CkPBWNqY9KLApb4j7BtP5CxhEQJ_Sp7Sj8P=w2400" caption="JMeter - Listener" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/YcEchTIoon604za-_lyi46qa_PL5QgqpDlWD4x1K6w9YZgeO-ygEPv90u_F3NxY62_RyXnzrr_C19e2xnLpxOS7fIcLaxCsfcZed_CkPBWNqY9KLApb4j7BtP5CxhEQJ_Sp7Sj8P=w2400" caption="JMeter - Listener" %}
 
-{% include figure.html image="https://lh3.googleusercontent.com/aJCQJxCmuZHXJ752dD1ShhmQ1O6susVSbZL7lRvC2qQpDDw9d8K6ANTPj7vcEGs2OokC5ez1ruxTiRId9buFdyNzlpr45r4zv-eSSojB3Hg1tJfKf8SYSwJxrbg7XsWWadEZnG-f=w2400" caption="Graphite Dashboard" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/aJCQJxCmuZHXJ752dD1ShhmQ1O6susVSbZL7lRvC2qQpDDw9d8K6ANTPj7vcEGs2OokC5ez1ruxTiRId9buFdyNzlpr45r4zv-eSSojB3Hg1tJfKf8SYSwJxrbg7XsWWadEZnG-f=w2400" caption="Graphite Dashboard" %}
 
 In order to save these reports into **CSV** files you only need give a path a filename. For **XML** output Save as XML option needs to be selected in Configure.
 
@@ -162,12 +162,12 @@ In order to save these reports into **CSV** files you only need give a path a fi
 
 The most relevant assertion for HTTP requests is _Response Assertion_. This assertion allows you to set patterns for _Request and Response Headers_, _Request Data_ or _Response Message_.
 
-{% include figure.html image="https://lh3.googleusercontent.com/p1Vv4dj72ETMp9WgjB-1p_bkZesmDZRhY0GXIoKcplZkEy1h-qDbUB6sCzR2s7Wk2FoL5-AOP9ykvASy1E3L0HOUafPfq7r978AFOOiAtDWwEuE3DQdJX8fVUYQF1O29Kzl2ynVB=w2400" caption="JMeter - Response Assertion" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/p1Vv4dj72ETMp9WgjB-1p_bkZesmDZRhY0GXIoKcplZkEy1h-qDbUB6sCzR2s7Wk2FoL5-AOP9ykvASy1E3L0HOUafPfq7r978AFOOiAtDWwEuE3DQdJX8fVUYQF1O29Kzl2ynVB=w2400" caption="JMeter - Response Assertion" %}
 
 #### Templates
 **JMeter** includes some templates to get started. Building an **Advanced Web Test Plan** is one of them and includes many of the elements described before (config elements, controllers, assertions, listeners, timers…).
 
-{% include figure.html image="https://lh3.googleusercontent.com/e-xiY2-yPEOh1jWAKSJQmudPzZflCFbbFrNOrjm8uWcyA2eEuG2G7BUXMAJPIOYIfVG9FIYR23e-RpFLGYclYdJ9EgD8GGluyiX8X1HUZK6VawlevnVqzfsdDQXA0u_vKlDGY-u2=w2400" caption="JMeter - Left Pane" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/e-xiY2-yPEOh1jWAKSJQmudPzZflCFbbFrNOrjm8uWcyA2eEuG2G7BUXMAJPIOYIfVG9FIYR23e-RpFLGYclYdJ9EgD8GGluyiX8X1HUZK6VawlevnVqzfsdDQXA0u_vKlDGY-u2=w2400" caption="JMeter - Left Pane" %}
 
 ### Running Test Plan
 

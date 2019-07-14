@@ -11,7 +11,7 @@ Introduction
 
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 ## Introduction
 
@@ -94,5 +94,5 @@ This creates a new Hotel and returns the id for the created hotel.
 GraphQL is like an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/spring-boot-graphql" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/spring-boot-graphql" text="Source Code" %}
 </p>

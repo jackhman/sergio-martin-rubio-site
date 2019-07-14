@@ -12,7 +12,7 @@ Main Concepts
 Lifecycle
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 ## Introduction
 
@@ -63,7 +63,7 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 
 ### Spring Bean Creation Lifecycle
 
-{% include figure.html image="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w300" caption="Spring Bean Creation Lifecycle" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w300" caption="Spring Bean Creation Lifecycle" %}
 
 1. Instanciate Bean
 2. **Spring IoC container add metadata to the bean**
@@ -78,7 +78,7 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 
 ### Spring Bean Destruction Lifecycle
 
-{% include figure.html image="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w300" caption="Spring Bean Destruction Lifecycle" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w300" caption="Spring Bean Destruction Lifecycle" %}
 
 1. **Spring IoC container is shutdown**.
 2. If `@PreDestroy` is used, `DisposableBean` is implemented, or `destroy()` method is implicitly called, Spring will run `destroy()` method.

@@ -13,7 +13,7 @@ Command Pattern
 Strategy Pattern
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 ## Structural Patterns Features
 
@@ -25,7 +25,7 @@ Strategy Pattern
 
 ## Observer Pattern
 
-{% include figure.html image="https://lh3.googleusercontent.com/obfvPJdabip5sx9d-P3SvrPZiZmdgX_wcIm1r9Xuyj29gGB6E3HthjAAEqwQrGvh92Da5wS2htC23uH3vM6E_lwAYwfLfvH9lJuxHt_HpDuvT1KNeu3MxM91Md0OtNPQexzrfFZQNQ=w2400" caption="Observer Pattern - UML" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/obfvPJdabip5sx9d-P3SvrPZiZmdgX_wcIm1r9Xuyj29gGB6E3HthjAAEqwQrGvh92Da5wS2htC23uH3vM6E_lwAYwfLfvH9lJuxHt_HpDuvT1KNeu3MxM91Md0OtNPQexzrfFZQNQ=w2400" caption="Observer Pattern - UML" %}
 
 ### Use Cases
 
@@ -33,24 +33,24 @@ Strategy Pattern
 - UI: Swing or Android Listeners make extensively use of this pattern in order to get events and display changes.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/java-observer-pattern" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/java-observer-pattern" text="Source Code" %}
 </p>
 
 ## Command Pattern
 
-{% include figure.html image="https://lh3.googleusercontent.com/JJ1ZiakDWMEFaipz1uV9HT30a8psUDEnM4X84v0_uqRPqz_sQYyVhXY2tq5T2BbKaGIr6-0mizA3XKhBsr6gu8mGZJp_wsxWRXr6qYVWkM2zmtTCl1R2ccSGYDC8klByVYpMqvvXiA=w2400" caption="Command Pattern - UML" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/JJ1ZiakDWMEFaipz1uV9HT30a8psUDEnM4X84v0_uqRPqz_sQYyVhXY2tq5T2BbKaGIr6-0mizA3XKhBsr6gu8mGZJp_wsxWRXr6qYVWkM2zmtTCl1R2ccSGYDC8klByVYpMqvvXiA=w2400" caption="Command Pattern - UML" %}
 
 ### Use Cases
 
 - Undo and redo actions, since it keeps a history of commands and we can go back and forward as many times as we want.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/java-command-pattern" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/java-command-pattern" text="Source Code" %}
 </p>
 
 ## Strategy Pattern
 
-{% include figure.html image="https://lh3.googleusercontent.com/Df1Mtbk97ZIaV3yjQFscOnOn9Pcfl74gUnbCG7fxyrQPVHPN27dn6OW_naO8QuI75zxq3xz6dH4rGxZ9iVmzxv7302NQwT3LsnEJ0yBcQyT-cFt4jaQCdX9DKWye-2v3HPxkZ_hnuQ=w2400" caption="Strategy Pattern - UML" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/Df1Mtbk97ZIaV3yjQFscOnOn9Pcfl74gUnbCG7fxyrQPVHPN27dn6OW_naO8QuI75zxq3xz6dH4rGxZ9iVmzxv7302NQwT3LsnEJ0yBcQyT-cFt4jaQCdX9DKWye-2v3HPxkZ_hnuQ=w2400" caption="Strategy Pattern - UML" %}
 
 ### Use Cases
 
@@ -59,5 +59,5 @@ Strategy Pattern
 - Custom sorting strategies.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/java-strategy-pattern" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/java-strategy-pattern" text="Source Code" %}
 </p>

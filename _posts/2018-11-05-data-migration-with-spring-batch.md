@@ -194,5 +194,5 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
 ```
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/spring-batch-demo" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/spring-batch-demo" text="Source Code" %}
 </p>

@@ -172,5 +172,5 @@ public String getSomething(int id) throws InterruptedException {
 **Aspect-oriented programming** is intended to address common problems that **object-oriented programming** doesn’t address well and can avoid code duplication in some situations. However, AOP is a extreme solution that can hide parts of your code and could make debugging a difficult task, so it can cause more harm than good.
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/aop-spring-demo" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/aop-spring-demo" text="Source Code" %}
 </p>

@@ -12,7 +12,7 @@ Singleton Pattern
 Factory Pattern
 {%- endcapture -%}
 
-{% include list.html title="Content" type="toc" %}
+{% include elements/list.html %}
 
 ## Creational Patterns Features
 
@@ -23,7 +23,7 @@ Factory Pattern
 
 ## Singleton Pattern
 
-{% include figure.html image="https://lh3.googleusercontent.com/y6HYS9ZeQz-tuXRWp7BLIpM8F2KD1d0mAXeWRkFxPB8Ou7Mmunh3H7By7SS6FjPJ9b88cPVMV97bANjSzb00DVg0m9-WAwAgfan7QfCUQskx93LaDSQVmtmJw92H9d5bAAmIIItzxQ=w2400" caption="Singleton Pattern - UML" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/y6HYS9ZeQz-tuXRWp7BLIpM8F2KD1d0mAXeWRkFxPB8Ou7Mmunh3H7By7SS6FjPJ9b88cPVMV97bANjSzb00DVg0m9-WAwAgfan7QfCUQskx93LaDSQVmtmJw92H9d5bAAmIIItzxQ=w2400" caption="Singleton Pattern - UML" %}
 
 Basically, there four ways to create a singleton class:
 
@@ -253,7 +253,7 @@ public class MySingleton {
 
 ## Factory Pattern
 
-{% include figure.html image="https://lh3.googleusercontent.com/WQnQslVBGEOfhXwmhgOkDgXBXrDRsnR8D1p6GYQNpI4H6ZxhodCYsvxTIvD4dvUFOX-mgdUzdZqneg3JbfKkgp_nDqIIGMqOqn8bVMwz6nEOtY07WzSplfUPdNxpIoHg0gIb5nVZnw=w2400" caption="Factory Pattern - UML" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/WQnQslVBGEOfhXwmhgOkDgXBXrDRsnR8D1p6GYQNpI4H6ZxhodCYsvxTIvD4dvUFOX-mgdUzdZqneg3JbfKkgp_nDqIIGMqOqn8bVMwz6nEOtY07WzSplfUPdNxpIoHg0gIb5nVZnw=w2400" caption="Factory Pattern - UML" %}
 
 ### Use Cases
 
@@ -279,5 +279,5 @@ public class BorderFactory
 Learn more [here](http://coding-geek.com/design-pattern-factory-patterns/).
 
 <p class="text-center">
-{% include button.html link="https://github.com/smartinrub/java-factory-pattern" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/java-factory-pattern" text="Source Code" %}
 </p>
