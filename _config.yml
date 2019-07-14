@@ -58,7 +58,7 @@ defaults:
       type: "projects"
     values:
       layout: "page"
-        - scope:
+  - scope:
       path: ""
       type: "tutorials"
     values:
