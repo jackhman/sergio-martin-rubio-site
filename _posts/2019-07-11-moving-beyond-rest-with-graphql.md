@@ -8,7 +8,10 @@ description: GraphQL is an innovative query language which allows you to get wha
 
 {%- capture list_items -%}
 Introduction
-
+Specification
+Query
+Mutation
+Conclusion
 {%- endcapture -%}
 
 {% include elements/list.html %}
