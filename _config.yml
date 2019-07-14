@@ -46,7 +46,7 @@ collections:
   projects:
     output: true
     permalink: /projects/:name
-      tutorials:
+  tutorials:
     output: true
     permalink: /tutorials/:name
 
