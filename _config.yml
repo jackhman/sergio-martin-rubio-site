@@ -3,67 +3,76 @@ title: Sergio Martin Rubio
 description: >- # this means to ignore newlines until "baseurl:"
   Always code as if the guy who ends up maintaining your code
   will be a violent psychopath who knows where you live.
-baseurl: ""  # the subpath of your site, e.g. /blog
+
 url: "http://sergiomartinrubio.com" # the base hostname & protocol for your site, e.g. http://example.com
-repository: YoussefRaafatNasry/portfolYOU
+baseurl: ""  # the subpath of your site, e.g. /blog
+repository: smartinrub/sergio-martin-rubio-site
+remote_theme       : YoussefRaafatNasry/portfolYOU    # uncomment this if you are using it as a remote theme
 
-
-# Build settings
-markdown: kramdown
-remote_theme: YoussefRaafatNasry/portfolYOU
-
-plugins:
-  - jekyll-feed
-# - jekyll-algolia
-
-# algolia:
-#   application_id: 09V6SYMNZX
-#   index_name:     jekyll # You can replace that with whatever name you want
-#   search_only_api_key: fb020dfbffad2bca00f9d84933e17a2f
-
-# Author Info
+### Author Info ###
 author:
-  name     : Sergio Martin Rubio
-  image    : https://i.ibb.co/CmQVzwz/ATP7514.jpg
-  email    : econsergio@gmail.com
-  github   : smartinrub
-  twitter  : smartinrub
-  linkedin : sergiomartinrubio
-  # facebook : username
+  name              : Sergio Martin Rubio
+  image             : https://i.ibb.co/CmQVzwz/ATP7514.jpg
+# behance           : your_username
+# dribbble          : your_username
+  email             : me@sergiomartinrubio.com
+# facebook          : your_username
+  github            : smartinrub
+# gitlab            : your_username
+# instagram         : your_username
+  linkedin          : sergiomartinrubio
+# medium            : your_username
+# soundcloud        : your_username
+# spotify           : your_username
+# stackoverflow     : your_user_id
+# tumblr            : your_username.tumblr.com
+# twitch            : your_username
+  twitter           : smartinrubio
+# vimeo             : your_username
+# youtube           : your_channel_name
 
 
-# Collections
+### Pagination ###
+paginate: 6
+paginate_path: "/articles/page-:num/"
+
+
+### Posts Permalink ###
+permalink: articles/:title
+
+
+### Collections ###
 collections:
   projects:
     output: true
     permalink: /projects/:name
-  tutorials:
+      tutorials:
     output: true
     permalink: /tutorials/:name
 
 
-# Default values for collections
+### Defaults for collections ###
 defaults:
   - scope:
       path: ""
       type: "projects"
     values:
       layout: "page"
-  - scope:
+        - scope:
       path: ""
       type: "tutorials"
     values:
       layout: "page"
 
 
-# Posts default Permalink
-permalink: articles/:title
 
-
-# Exclude from processing.
+### Exclude from processing ###
 exclude:
 - README.md
 - CONTRIBUTING.md
 - LICENSE
 - Gemfile
 - Gemfile.lock
+
+plugins:
+  - jekyll-feed
