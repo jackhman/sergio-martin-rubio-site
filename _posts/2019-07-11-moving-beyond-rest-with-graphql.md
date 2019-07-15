@@ -115,6 +115,40 @@ Just like in queries, if the mutation returns an object type, you can ask for ne
 
 {% include elements/highlight.html text="Apart from sintax, queries and mutations differ from one more thing, query fields are executed in parallel, whereas mutations run sequencially." %}
 
+### Subscription
+
+_GraphQL_ _subscriptions_ are a way to **stream data** from the server to the clients that are listening. In the same way as queries, subscriptions allow you to ask for a set of fields, but instead of making a stateless HTTP request, a **websocket conexion** is used to have a stream of data coming from the server, so that everytime there is a change on the server,  results are sent to the client, or in other words, when a client runs a mutation the subscription is triggered.
+
+>"Executing a _subscription_ creates a persistent function on the server that maps an underlying Source Stream to a returned Response Stream."
+
+`/subscriptions` is by default the **WebSocket** subscriptions endpoint. Here's an example of a subscription client in _Javascript_:
+
+```javascript
+function subscribeToHotels() {
+    let socket = new WebSocket("ws://localhost:8080/subscriptions");
+
+    socket.onopen = function () {
+        let query = `
+              subscription MySubscription {
+                getNewHotel {
+                  name
+                  address
+                  creationDate
+                }
+              }
+        `;
+        let graphqlRequest = {
+            query: query,
+            variables: {}
+        };
+        socket.send(JSON.stringify(graphqlRequest));
+    };
+    socket.onmessage = function (event) {
+      // handle response
+    }
+}
+```
+
 ## Conclusion
 
 GraphQL is like an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for.
