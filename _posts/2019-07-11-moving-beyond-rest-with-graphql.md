@@ -8,9 +8,10 @@ description: GraphQL is an innovative query language which allows you to get wha
 
 {%- capture list_items -%}
 Introduction
-Specification
+Operations
 Query
 Mutation
+Subscription
 Conclusion
 {%- endcapture -%}
 
@@ -26,8 +27,6 @@ To start using **GraphQL** you will have to learn a **new specification**, becau
 
 Companies like _Pivotal_ are already supporting _GraphQL_, in fact it was one of the topics presented in [Spring IO 2019](https://2019.springio.net/sessions/moving-beyond-rest-graphql-and-java-spring).
 
-## Specification
-
 This API Query Language allows you to retrive data from a service in one go. How can I do that? A single endpoint is exposed by GraphQL, and given a schema which contains your models and operations, you can make HTTP requests to this single endpoint by providing operation names, payload and variables. 
 
 GraphQL supports both, GET and POST HTTP methods. In case of GET, we have to use a query parameter (`?query={operationName{field}}`) and do URL encoding. On the other hand, we could do a standard POST request with a JSON payload.
@@ -40,7 +39,7 @@ e.g.
   "operationName": "...",
 }
 ```
-
+## Operations
 ### Query
 
 Queries are read operations, and they correspond with the R (Read) from the four basic functions of persistent storage (cRud). You could do other kind of operations, but it is important to follow these conventions. Here is an example:
@@ -149,9 +148,23 @@ function subscribeToHotels() {
 }
 ```
 
+## Highlights and Challenges
+
+The main benefit of using GraphQL is that you get what you ask for in a single request, whereas with REST we tend to do "overfetching" or "underfetching".
+
+Versioning is not supported, instead you will have to deprecate fields and will not be able to know if a field has changed over time.
+
+GraphQL can be simpler and faster, however you may face unpredictable performance when multiple fields are combined.
+
+Another point against GraphQL is caching. In GraphQL, you cannot use URLs as cache identifiers, so you need to create unique keys and implement caching in your application.
+
+There is also an extra overhead since the server needs to do more processing to parse the query and verify parameters.
+
+Lastly, in case of a simple API, the extra complexity added by GraphQL is not worth.
+
 ## Conclusion
 
-GraphQL is like an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for.
+GraphQL is like an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for. It is also an alternative to REST, SOAP or gRPC, but this does not mean you have to through away your current archicture, for instance you could have GraphQL on top of your REST services.
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-boot-graphql" text="Source Code" %}
