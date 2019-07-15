@@ -13,7 +13,7 @@ When should I use Micronaut?
 Caveats
 {%- endcapture -%}
 
-{% include elements/list.html %}
+{% include elements/list.html title="Table of Contents" type="toc" %} %}
 
 ## Introduction
 

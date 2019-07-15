@@ -15,7 +15,7 @@ Bridge Pattern
 Choose the Right Pattern
 {%- endcapture -%}
 
-{% include elements/list.html %}
+{% include elements/list.html title="Table of Contents" type="toc" %} %}
 
 ## Structural Patterns Features
 

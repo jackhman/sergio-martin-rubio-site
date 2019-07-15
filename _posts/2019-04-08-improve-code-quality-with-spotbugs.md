@@ -16,7 +16,7 @@ Alternatives
 Conclusion
 {%- endcapture -%}
 
-{% include elements/list.html %}
+{% include elements/list.html title="Table of Contents" type="toc" %} %}
 
 ## Introduction
 

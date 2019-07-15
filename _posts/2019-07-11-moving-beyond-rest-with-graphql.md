@@ -14,7 +14,7 @@ Mutation
 Conclusion
 {%- endcapture -%}
 
-{% include elements/list.html title="Table of Contents" type="toc" %}
+{% include elements/list.html title="Table of Contents" type="toc" %} title="Table of Contents" type="toc" %}
 
 ## Introduction
 
