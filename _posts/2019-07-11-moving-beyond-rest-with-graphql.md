@@ -31,7 +31,7 @@ Companies like _Pivotal_ are already supporting _GraphQL_, in fact it was one of
 
 ## Getting Started
 
-This API Query Language allows you to retrive data from a service in one go. How can I do that? A single endpoint is exposed by GraphQL, and given a schema which contains your models and operations, you can make HTTP requests to this single endpoint by providing operation names, payload and variables. 
+This API Query Language allows you to retrive data from a service in one go. How can I do that? A single endpoint is exposed by GraphQL, and given a schema which contains your models and operations, you can make HTTP requests to this single endpoint by providing operation names, a payload and variables. 
 
 GraphQL supports both, GET and POST HTTP methods. In case of GET, we have to use a query parameter (`?query={operationName{field}}`) and do URL encoding. On the other hand, we could do a standard POST request with a JSON payload.
 
@@ -46,7 +46,7 @@ e.g.
 ## Operations
 ### Query
 
-Queries are read operations, and they correspond with the R (Read) from the four basic functions of persistent storage (cRud). You could do other kind of operations, but it is important to follow these conventions. Here is an example:
+Queries are read operations, and they correspond with the R (Read) from the four basic functions of persistent storage (cRud). You could do other kind of operations, but it is important to follow GraphQL conventions. Here is an example:
 
 ```graphql
 query {
@@ -83,7 +83,7 @@ query MyQuery($hotelId:ID) {
 >You could use the shorthand syntax and omit both the _query_ keyword and the _query name_, but it is a good practice to use these to make our code more readable, and they can be useful for debugging or identify different GraphQL requests.
 
 In case we have to create a complex query we could use _Fragments_. Fragments are reusable blocks that contain set of fields. For example:
-```
+```graphql
 query MyQuery {
   firstHotel: findHotelById(id:1) {
     ...compareHotels
@@ -101,13 +101,13 @@ fragment compareHotels on Hotel {
     }
 }
 ```
->We have to use three dots followed by the fragment name to reuse a frament.
+>We have to use three dots followed by the fragment name to call a frament.
 
 ### Mutation
 
 **Mutations** are used for **Create**, **Update** and **Delete** data (**CrUD**). We can create a mutation by replacing the _query_ with the _mutation_ keyword. This is an example:
 
-```
+```graphql
 mutation {
   newHotel(name:"test 1", address: "test 1"){
     id
