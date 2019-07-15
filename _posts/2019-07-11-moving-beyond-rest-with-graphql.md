@@ -152,20 +152,16 @@ function subscribeToHotels() {
 
 The main benefit of using GraphQL is that you get what you ask for in a single request, whereas with REST we tend to do "overfetching" or "underfetching".
 
-Versioning is not supported, instead you will have to deprecate fields and will not be able to know if a field has changed over time.
+GraphQL can also be simpler and faster, however you may face unpredictable performance when multiple fields are combined.
 
-GraphQL can be simpler and faster, however you may face unpredictable performance when multiple fields are combined.
+One of the challenges is versioning. You will have to deprecate fields and will not be able to know if a field has changed over time.
 
 Another point against GraphQL is caching. In GraphQL, you cannot use URLs as cache identifiers, so you need to create unique keys and implement caching in your application.
 
-There is also an extra overhead since the server needs to do more processing to parse the query and verify parameters.
+There is also an extra overhead, since the server needs to do more processing to parse the query and verify parameters.
 
 Lastly, in case of a simple API, the extra complexity added by GraphQL is not worth.
 
 ## Conclusion
 
 GraphQL is like an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for. It is also an alternative to REST, SOAP or gRPC, but this does not mean you have to through away your current archicture, for instance you could have GraphQL on top of your REST services.
-
-<p class="text-center">
-{% include elements/button.html link="https://github.com/smartinrub/spring-boot-graphql" text="Source Code" %}
-</p>
