@@ -24,7 +24,7 @@ Conclusion
 
 This query language was created by **Facebook** and **open sourced** later **in 2015**, and since then it has been **maitained by the community**.
 
-To start using **GraphQL** you will have to learn a **new specification**, because it is not a simple implementation, however it is pretty **simple** and if you are familiar with other query languages it will take you a couple of days to understand how it works. The [GraphQL spec](https://graphql.github.io/graphql-spec/June2018/#) is very well documented and shows you how to use operations like queries or mutations, define schemas or what good practicies you should follow.
+To start using **GraphQL** you will have to learn a **new specification**, because it is not a simple implementation, however it is pretty **simple** and if you are familiar with other query languages it will take you a few hours to understand how it works. The [GraphQL spec](https://graphql.github.io/graphql-spec/June2018/#) is very well documented and shows you how to use operations like queries or mutations, define schemas or what good practicies you should follow.
 
 Companies like _Pivotal_ are already supporting _GraphQL_, in fact it was one of the topics presented in [Spring IO 2019](https://2019.springio.net/sessions/moving-beyond-rest-graphql-and-java-spring).
 
