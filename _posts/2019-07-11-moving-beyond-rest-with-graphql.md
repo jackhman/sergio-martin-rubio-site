@@ -13,6 +13,7 @@ Operations
 Query
 Mutation
 Subscription
+How to create a GraphQL Java Server?
 Highlights and Challenges
 Conclusion
 {%- endcapture -%}
@@ -151,6 +152,17 @@ function subscribeToHotels() {
     }
 }
 ```
+
+## How to create a GraphQL Java Server?
+
+You need to:
+
+1. Define GraphQL Schema. Here's an example:
+{% gist 9e6069efb65747a6ef9e1993dfb1733c schema.graphql %}
+2. Decide how the data for a query is fetched. Service example:
+<p class="text-center">
+{% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Example" %}
+</p>
 
 ## Highlights and Challenges
 
