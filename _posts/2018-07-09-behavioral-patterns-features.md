@@ -13,7 +13,7 @@ Command Pattern
 Strategy Pattern
 {%- endcapture -%}
 
-{% include elements/list.html title="Table of Contents" type="toc" %} %}
+{% include elements/list.html title="Table of Contents" type="toc" %}
 
 ## Structural Patterns Features
 
