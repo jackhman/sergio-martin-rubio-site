@@ -152,10 +152,9 @@ function subscribeToHotels() {
     }
 }
 ```
-
 ## How to create a GraphQL Java Server?
 
-You need to:
+We need to:
 
 1. Define GraphQL Schema. Here's an example:
 {% gist 9e6069efb65747a6ef9e1993dfb1733c schema.graphql %}
@@ -163,6 +162,78 @@ You need to:
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Example" %}
 </p>
+
+### Schema
+
+As mention before, you need to define on your schema operations and models, and in order to do that GraphQL provides a schema language, and some of the types available are: Schema, Query, Mutation and Subscription, but you can define our types to create your models.
+
+Built-in scalar types are:
+
+| GraphQL Type        | Serialized as      |
+| ------------- |:-------------:|
+| Int     | Signed 32‐bit integer |
+| Float      | Signed double-precision floating-point value      |
+| String | UTF‐8 character sequence      | 
+| Boolean | true or false      | 
+| ID | String      | 
+
+Type Markers
+
+| GraphQL Marker        | Equivalent     |
+| ------------- |:-------------:|
+| <type>!     | Not Null |
+| [<type>]     | List      |
+| [<type>!] | List of Not Null Elements      | 
+| [<type>]! | Not Null list      | 
+| [<type>!]! | Not Null list of Not Null Elements      | 
+
+Here's you have an example:
+
+```graphql
+type Hotel {
+    id: ID!
+    # Hotel name
+    name: String!
+    # Hotel address
+    address: String!
+    # Date of the hotel registry creation
+    creationDate: String!
+    # List of rooms for a particular hotel
+    room: [Room]!
+}
+```
+
+>We call also add comments to document your schema, and to do so, you just need to add them before each field, type or argument.
+
+There are also other more advance elements like `interface`, `union`, `enum` or `scalar`.
+
+Queries, mutations and subscriptions can be created as follows:
+
+```graphql
+# The Root Query for the application
+type Query {
+    # Retrieves all hotels
+    findAllHotels: [Hotel]
+    # Retrieves a Hotel given an ID (eg: '1, 4, 12')
+    findHotelById(id: ID): Hotel
+    # Number of Hotel available
+    countHotels: Int
+    # Finds all payment methods
+    findAllPayments: [Payment]
+}
+```
+
+You just need to define the name of the operation with optional parameters followed by the returned type.
+
+Query, Mutaion and Subscription keywords are used as the root of each type of operation for the application. But it is easy to add additional operations by using the `extend` keyword. e.g.
+
+```graphql
+extend type Query {
+    foos: [Foo]!
+}
+```
+
+>Custom types are also extendible to avoid large list of fields.
 
 ## Highlights and Challenges
 
