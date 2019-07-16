@@ -216,7 +216,7 @@ type Query {
 
 You just need to define the name of the operation with optional parameters followed by the returned type.
 
-Query, Mutaion and Subscription keywords are used as the root of each type of operation for the application. But it is easy to add additional operations by using the `extend` keyword. e.g.
+_Query_, _Mutation_ and _Subscription_ keywords are used as the root of each type of operation for the application. But it is easy to add additional operations by using the `extend` keyword. e.g.
 
 ```graphql
 extend type Query {
@@ -224,7 +224,7 @@ extend type Query {
 }
 ```
 
->Custom types are also extendible to avoid large list of fields.
+>_Custom types_ are also extendible to avoid large list of fields.
 
 ## How to create a GraphQL Spring Boot Server?
 
