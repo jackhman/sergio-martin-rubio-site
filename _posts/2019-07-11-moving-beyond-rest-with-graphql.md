@@ -13,7 +13,8 @@ Operations
 Query
 Mutation
 Subscription
-How to create a GraphQL Java Server?
+Schema
+How to create a GraphQL Spring Boot Server?
 Highlights and Challenges
 Conclusion
 {%- endcapture -%}
@@ -152,18 +153,8 @@ function subscribeToHotels() {
     }
 }
 ```
-## How to create a GraphQL Java Server?
 
-We need to:
-
-1. Define GraphQL Schema. Here's an example:
-{% gist 9e6069efb65747a6ef9e1993dfb1733c schema.graphql %}
-2. Decide how the data for a query is fetched. Service example:
-<p class="text-center">
-{% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Example" %}
-</p>
-
-### Schema
+## Schema
 
 As mention before, you need to define on your schema operations and models, and in order to do that GraphQL provides a schema language, and some of the types available are: Schema, Query, Mutation and Subscription, but you can define our types to create your models.
 
@@ -234,6 +225,17 @@ extend type Query {
 ```
 
 >Custom types are also extendible to avoid large list of fields.
+
+## How to create a GraphQL Spring Boot Server?
+
+We need to:
+
+1. Define GraphQL Schema. Here's an example:
+{% gist 9e6069efb65747a6ef9e1993dfb1733c schema.graphql %}
+2. Decide how the data for a query is fetched. Service example:
+<p class="text-center">
+{% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Example" %}
+</p>
 
 ## Highlights and Challenges
 
