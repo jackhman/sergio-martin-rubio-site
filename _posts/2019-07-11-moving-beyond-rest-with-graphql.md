@@ -156,21 +156,21 @@ function subscribeToHotels() {
 
 ## Schema
 
-As mention before, you need to define on your schema operations and models, and in order to do that GraphQL provides a schema language, and some of the types available are: Schema, Query, Mutation and Subscription, but you can define our types to create your models.
+As mention before, you need to define on your schema operations and models, and in order to do that GraphQL provides a schema language, and some of the types available are: _Schema_, _Query_, _Mutation_ and _Subscription_, but you can define our types to create your models.
 
 Built-in scalar types are:
 
-| GraphQL Type        | Serialized as      |
+| **GraphQL Type**        | **Serialized as**      |
 | ------------- |:-------------:|
-| Int     | Signed 32‐bit integer |
-| Float      | Signed double-precision floating-point value      |
-| String | UTF‐8 character sequence      | 
-| Boolean | true or false      | 
-| ID | String      | 
+| **Int**     | Signed 32‐bit integer |
+| **Float**      | Signed double-precision floating-point value      |
+| **String** | UTF‐8 character sequence      | 
+| **Boolean** | true or false      | 
+| **ID** | String      | 
 
-Type Markers
+Type Markers:
 
-| GraphQL Marker        | Equivalent     |
+| **GraphQL Marker**        | **Equivalent**     |
 | ------------- |:-------------:|
 | `<type>!`     | Not Null |
 | `[<type>]`     | List      |
