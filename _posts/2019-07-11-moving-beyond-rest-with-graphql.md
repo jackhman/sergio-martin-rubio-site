@@ -172,11 +172,11 @@ Type Markers
 
 | GraphQL Marker        | Equivalent     |
 | ------------- |:-------------:|
-| <type>!     | Not Null |
-| [<type>]     | List      |
-| [<type>!] | List of Not Null Elements      | 
-| [<type>]! | Not Null list      | 
-| [<type>!]! | Not Null list of Not Null Elements      | 
+| `<type>!`     | Not Null |
+| `[<type>]`     | List      |
+| `[<type>!]` | List of Not Null Elements      | 
+| `[<type>]!` | Not Null list      | 
+| `[<type>!]!` | Not Null list of Not Null Elements      | 
 
 Here's you have an example:
 
