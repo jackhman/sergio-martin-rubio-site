@@ -158,7 +158,7 @@ function subscribeToHotels() {
 
 ## Schema
 
-Schema files are text files with `.grapqhl` extension. Operations and models are define within, and in order to do that GraphQL provides a schema language, and some of the types available are: _Schema_, _Query_, _Mutation_ and _Subscription_, but you can define our types to create your models.
+Schema files are text files with `.grapqhl` extension. Operations and models are define there, and in order to do that GraphQL provides a schema language which inclues scalar types, markers and other keywords to build complex schemas 
 
 Built-in scalar types are:
 
@@ -180,7 +180,7 @@ Type Markers:
 | `[<type>]!` | Not Null list      | 
 | `[<type>!]!` | Not Null list of Not Null Elements      | 
 
-Here's you have an example:
+Here you have an example:
 
 ```graphql
 type Hotel {
@@ -198,9 +198,7 @@ type Hotel {
 
 >We call also add comments to document your schema, and to do so, you just need to add them before each field, type or argument.
 
-There are also other more advance elements like `interface`, `union`, `enum` or `scalar`.
-
-Queries, mutations and subscriptions can be created as follows:
+_Queries_, _mutations_ and _subscriptions_ can be created as follows:
 
 ```graphql
 # The Root Query for the application
@@ -227,6 +225,8 @@ extend type Query {
 ```
 
 >_Custom types_ are also extendible to avoid large list of fields.
+
+There are also other more advance elements like `interface`, `union`, `enum` or `scalar`.
 
 ## How to create a GraphQL Spring Boot Server?
 
@@ -255,6 +255,6 @@ We need to:
 
 ## Conclusion
 
-GraphQL is like an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for. It is also an alternative to REST, SOAP or gRPC, but this does not mean you have to through away your current archicture, for instance you could have GraphQL on top of your REST services.
+GraphQL is similar to an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for. It is also an alternative to REST, SOAP or gRPC, but this does not mean you have to through away your current archicture, for instance you could have GraphQL on top of your REST services.
 
 This technology is becoming more mature and is available for multiple languages, including JavaScript, Python, Ruby, C#, Go, Scala or Java, and companies like _Pivotal_ are heavily supporting _GraphQL_. In fact it was one of the topics presented in [Spring IO 2019](https://2019.springio.net/sessions/moving-beyond-rest-graphql-and-java-spring). 
