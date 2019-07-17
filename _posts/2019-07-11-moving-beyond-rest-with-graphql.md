@@ -158,7 +158,7 @@ function subscribeToHotels() {
 
 ## Schema
 
-You need to define on your schema operations and models, and in order to do that GraphQL provides a schema language, and some of the types available are: _Schema_, _Query_, _Mutation_ and _Subscription_, but you can define our types to create your models.
+Schema files are text files with `.grapqhl` extension. Operations and models are define within, and in order to do that GraphQL provides a schema language, and some of the types available are: _Schema_, _Query_, _Mutation_ and _Subscription_, but you can define our types to create your models.
 
 Built-in scalar types are:
 
