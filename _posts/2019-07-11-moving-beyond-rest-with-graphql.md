@@ -232,9 +232,68 @@ There are also other more advance elements like `interface`, `union`, `enum` or 
 
 We need to:
 
-1. Define GraphQL Schema. Here's an example:
+1. Define GraphQL Schema.
+2. Decide how the data for a query is fetched.
+
+### Define GraphQL Schema
+
+Here there is an example:
+
 {% gist 9e6069efb65747a6ef9e1993dfb1733c schema.graphql %}
-2. Decide how the data for a query is fetched. Service example:
+
+There is a [Java GraphQL tool library](https://github.com/graphql-java-kickstart/graphql-java-tools#why-graphql-java-tools) that parses your schema to Java and configure classes for creating a GraphQLSchema. 
+
+>By default GraphQL tools uses the location pattern `**/*.graphqls` to scan for GraphQL schemas on the classpath.
+
+```xml
+<dependency>
+    <groupId>com.graphql-java</groupId>
+    <artifactId>graphql-java-tools</artifactId>
+    <version>5.2.4</version>
+</dependency>
+```
+
+### Build Spring Boot application
+
+These two libraries are required to start using GraphQL with Spring, and basically there are setting up the servlet
+```xml
+<properties>
+  <kotlin.version>1.3.10</kotlin.version>
+</properties>
+
+<dependencies>
+    ...
+    <dependency>
+        <groupId>com.graphql-java</groupId>
+        <artifactId>graphql-java</artifactId>
+        <version>11.0</version>
+    </dependency>
+    <dependency>
+        <groupId>com.graphql-java</groupId>
+        <artifactId>graphql-spring-boot-starter</artifactId>
+        <version>5.0.2</version>
+    </dependency>
+</dependencies>
+```
+
+The first one is the GraphQL Java implementation, while the second one makes available the servlet at `/graphql`.
+
+>graphl-java-tools requires kotlin.version Kotlin 1.3.10, because Spring Boot Starter parent currently overrides it with a 1.2.* version of Kotlin. Spring Boot team has indicated the Kotlin version will be upgraded to 1.3 in Spring Boot 2.2.
+
+
+For this example we will use a MongoDB repository, since we want to use Reactive Programming to get updates on real time with GraphQL Subscription.
+
+```java
+public interface HotelRepository extends ReactiveCrudRepository<Hotel, String> {
+    @Tailable
+    Flux<Hotel> findWithTailableCursorBy();
+}
+```
+
+>@Tailable is required to query capped collections in MongoDB. Capped collections will keep the curson open even after reaching the end of the collection.
+
+Next step is to create the resolvers for each operation defined in the schema.
+
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Example" %}
 </p>
