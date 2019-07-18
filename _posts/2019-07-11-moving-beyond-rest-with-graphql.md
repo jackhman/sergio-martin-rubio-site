@@ -292,11 +292,70 @@ public interface HotelRepository extends ReactiveCrudRepository<Hotel, String> {
 
 >@Tailable is required to query capped collections in MongoDB. Capped collections will keep the curson open even after reaching the end of the collection.
 
-Next step is to create the resolvers for each operation defined in the schema.
+The next step is to create resolvers for each object defined in your schema. _Query_, _Mutation_ and _Subscription_ are root GraphQL objects, and you need to implement GraphQLQueryResolver, GraphQLMutationResolver and GraphQLSubscriptionResolver respectively so that `graphql-java-tools` will be able to map the GraphQL operations with the methods created in the resolvers. Here there is an example:
+
+```java
+@Component
+@RequiredArgsConstructor
+public class Query implements GraphQLQueryResolver {
+
+    private final HotelRepository hotelRepository;
+    private final PaymentRepository paymentRepository;
+
+    public Iterable<Hotel> findAllHotels() {
+        return hotelRepository.findAll().toIterable();
+    }
+
+    public Optional<Hotel> findHotelById(String id) {
+        return hotelRepository.findById(id).blockOptional();
+    }
+
+    public Optional<Long> countHotels() {
+        return hotelRepository.count().blockOptional();
+    }
+
+    public Iterable<Payment> findAllPayments() {
+        return paymentRepository.findAll().toIterable();
+    }
+}
+```
+
+{% include elements/highlight.html text="Method name and signature have to match with GraphQL the corresponding operation definition." %}
+
+Additionally, you might need to create resolvers for nested fields. e.g.
+
+```java
+@Component
+@RequiredArgsConstructor
+public class HotelResolver implements GraphQLResolver<Hotel> {
+
+    private final RoomRepository roomRepository;
+
+    public Iterable<Room> getRoom(Hotel hotel) {
+        return roomRepository.findAllByHotelId(hotel.getId()).toIterable();
+    }
+}
+```
+
+In the previous example, when we retrieve hotels we might ask for rooms as well, therefore a method to retrieve rooms by hotel ID needs to be provided.
 
 <p class="text-center">
-{% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Example" %}
+{% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Source Code" %}
 </p>
+
+### GraphiQL, a GraphQL client
+
+GraphiQL is a very useful tool to explore your GraphQL schema and make requests. The most simple way to start using Graphiql is to added to your `pom.xml` file as a dependency.
+
+```xml
+<dependency>
+    <groupId>com.graphql-java-kickstart</groupId>
+    <artifactId>graphiql-spring-boot-starter</artifactId>
+    <version>5.7.0</version>
+</dependency>
+```
+
+By default you can hit it at `/graphiql`.
 
 ## Highlights and Challenges
 
