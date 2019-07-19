@@ -15,6 +15,9 @@ Mutation
 Subscription
 Schema
 How to create a GraphQL Spring Boot Server?
+Define GraphQL Schema
+Build Spring Boot application
+GraphiQL, a GraphQL client
 Highlights and Challenges
 Conclusion
 {%- endcapture -%}
