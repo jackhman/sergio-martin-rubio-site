@@ -38,6 +38,19 @@ Inside the Young Generation there are three areas: Eden, Survivor Space 0, and S
 
 ### Old Generation
 
-The Old Generation is used to store long surviving objects. To clasify an object as a candidate to be moved from the young generation to the old generation a threshold is set. Eventually the old generation needs to be collected. This event is called a major garbage collection.
+The Old Generation is used to store long surviving objects. To clasify an object as a candidate to be moved from the young generation to the old generation a threshold is set. Eventually the old generation needs to be collected and this event is called a major garbage collection.
 
-A mayor garbage collection is also a Stop the World event. However, this type of Stop the World is much slower since it involves live objects, so this kind of events should be minimized.
+A mayor garbage collection is also a _Stop the World_ event. However, this type of Stop the World is much slower since it involves live objects, so this kind of events should be minimized.
+
+### Generational Garbage Collection Process
+
+The Garbage Collector is an automatic process reponsible for identifying and delete unsed objects. Steps:
+
+1. New objects are put in the eden and survivor spaces start empty.
+2. When the eden space is full a minor garbage collection is triggered. Referenced objects are moved to the first survivor space (S0) and unreferenced objects are removed.
+3. Next time the eden fills up it will happen the same, but this time referenced objects are moved to the second survivor space (S1), and referenced objects from S0 are also moved to S1 and age is incremented. Unreferenced object in S0 are removed.
+4. During the next minor GC, the same process occurs, but this time survivor spaces switch. Referenced objects are moved to S0, survivors are aged and unreferenced objects from eden and S1 are removed.
+5. When objects reach a particular age they are promoted from the young generation to the old generation.
+6. The previous 5 steps repeat until a major GC is performed on the old generation which cleans up and compact the space.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/6kG2UoBc7HukZR2RZMJibHe26taUkakclIKEpLKFG7Q-KrJJVDZGzmqdrB2jWh31PZmZaturViAkuPDW2VdyPqLiPf42FCkF82QrlC7UTNGd0XDh0RdYomeVuRzBrT1q1Z5k56v6bA=w800" caption="Generational Garbage Collection Process Diagram" %}
