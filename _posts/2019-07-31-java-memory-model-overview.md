@@ -53,4 +53,4 @@ The Garbage Collector is an automatic process reponsible for identifying and del
 5. When objects reach a particular age they are promoted from the young generation to the old generation.
 6. The previous 5 steps repeat until a major GC is performed on the old generation which cleans up and compact the space.
 
-{% include elements/figure.html image="https://lh3.googleusercontent.com/6kG2UoBc7HukZR2RZMJibHe26taUkakclIKEpLKFG7Q-KrJJVDZGzmqdrB2jWh31PZmZaturViAkuPDW2VdyPqLiPf42FCkF82QrlC7UTNGd0XDh0RdYomeVuRzBrT1q1Z5k56v6bA=w800" caption="Generational Garbage Collection Process Diagram" %}
+{% include elements/figure.html image="https://lh3.googleusercontent.com/ivTrcU07m2JP3rt2XJLHNvE2ZBjbWA5agQ9_IvYep4OLRVz-iMRpoq3e8Tw53EalyefEaekQOyeV0VNMtHaxeJWjTbw3RAFFO2xKJaAQ-3V3Lj9OXEoyTjTpOP4eJ27vIzHs83d14w=w800" caption="Generational Garbage Collection Process Diagram" %}
