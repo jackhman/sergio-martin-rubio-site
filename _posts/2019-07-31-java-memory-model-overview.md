@@ -54,3 +54,34 @@ The Garbage Collector is an automatic process reponsible for identifying and del
 6. The previous 5 steps repeat until a major GC is performed on the old generation which cleans up and compact the space.
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/5li9Ai49SfxisvdcKlUS3s3ryvNSn7yDeGq4CsLC3dORyuumzV3ih41jXfNr0Q-gH_tLIc58as8CLybPTng8D7Uar1cCRN4r4lD8jDTfmP2YBIVRcsbmkzhcriQ0tnA1pJO1-xqEnQ=w800" caption="Generational Garbage Collection Process Diagram" %}
+
+### Garbage Collector Selection
+
+When no Garbage Collector is selected by CLI (e.g. `-XX:+UseSerialGC`), the JVM selects a GC base on the platform is running on, heap size and runtime compiler. The process of selecting a particular GC is called **[Ergonomics](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/ergonomics.html#ergonomics)**.
+
+[GC Types](https://javapapers.com/java/types-of-java-garbage-collectors/):
+
+1. _Serial Garbage Collector_ - S GC: It uses a single thread for garbage collection and freezes all the threads while doing the garbage collection.
+2. _Parallel Garbage Collector_ - P GC: It uses multiple threads and also freezes all the threads during garbabe collection.
+3. _CMS (Concurrent Mark Sweep) Garbage Collector_ - CMS GC: It uses multiple threads and only freezes the threads while marking the referenced objects in the tenured generation space, and if there is a change in heap memory in parallel while doing the garbage collection. It uses more CPU to improve throughput.
+4. _[G1 Garbage Collector](https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)_ - G1 GC: It is used for multi-processor machines with large memories. It supposed to replace CMS in the long term and the main differences with CMS are:
+- It uses regions to simplify the collection and avoid fragmentation issues.
+- G1 offers more predictable garbage collection pauses and allows users to specify desired pause targets.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/wZSqu7r16KpwA2-7pbQFzorYharzcuhnLi5R21xcYpzQ2zf0F_D3HOE7aUP_sRo3TNWT6nf3XzZx5JWT0-nTnsLBubzp21BnJfJDno5fj1lzkS12CaJ9a4CKtp4l7XMxlPRPqQ9JFg=w800" caption="Generational Garbage Collection Process Diagram" %}
+
+5. _[The Z Garbage Collector](https://www.opsian.com/blog/javas-new-zgc-is-very-exciting/)_ - ZGC: Is designed to offer very low pause times on large heaps and it does this through the use of coloured pointers and load barriers.
+
+The GC selected by default in your machine can be checked with:
+
+```shell
+java -XX:+PrintCommandLineFlags -version
+```
+
+If a parallel GC is selected we can tune a couple of parameters:
+
+- _Maximum Pause Time Goal_ (`-XX:MaxGCPauseMillis=<milliseconds>`): The JVM will ajust the heap size and other GC parameters to reduce the pause time during garbage collector stops. This might cause more frequent GC and reduce the application throughput.
+- _Throughput Goal_ (`-XX:GCTimeRatio=<milliseconds>`): The ratio is `1 / (1 + <milliseconds>)`. For instance, if it is set to 19, it will be 1/20th or 5% of the total time for the garbage collection. This ratio affects both the young and old generation time. The JVM might increase the size of the generations, so the application will run for longer without having to execute a garbage collection.
+
+> Oracle docummentation advices to not choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Instead choose a throughput goal that is sufficient for your application.
+
