@@ -8,6 +8,11 @@ description: Discover how the JMV manage the memory internally
 
 {%- capture list_items -%}
 Introduction
+Heap Memory
+Young Generation
+Old Generation
+Generational Garbage Collection Process
+Garbage Collector Selection
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
