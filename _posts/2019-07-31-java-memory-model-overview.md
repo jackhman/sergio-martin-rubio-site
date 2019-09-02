@@ -88,5 +88,5 @@ If a parallel GC is selected we can tune a couple of parameters:
 - _Maximum Pause Time Goal_ (`-XX:MaxGCPauseMillis=<milliseconds>`): The JVM will ajust the heap size and other GC parameters to reduce the pause time during garbage collector stops. This might cause more frequent GC and reduce the application throughput.
 - _Throughput Goal_ (`-XX:GCTimeRatio=<milliseconds>`): The ratio is `1 / (1 + <milliseconds>)`. For instance, if it is set to 19, it will be 1/20th or 5% of the total time for the garbage collection. This ratio affects both the young and old generation time. The JVM might increase the size of the generations, so the application will run for longer without having to execute a garbage collection.
 
-> Oracle docummentation advices to not choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Instead choose a throughput goal that is sufficient for your application.
+> Oracle docummentation advices not to choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Instead choose a throughput goal that is sufficient for your application.
 
