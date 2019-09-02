@@ -98,15 +98,13 @@ System performance is greatly influenced by the size of the Java heap available 
 - Young Generation Size < Total Heap Size/2
 - It's recommended to use same values for minimum and maximum heap size to prevent wasting VM resources used to constantly grow and shrink the heap.
 
-Options:
+**Options**:
 
 Functionality | Option
 ---------|----------
- Young Generation Size | `-Xns`
- Minimum Heap Size | `-Xms`
+ Initial java heap size | `-Xms`
  Maximum Heap Size | `-Xmx`
- Garbage Collection | `-Xgc: parallel`
- Quick Adaptative Optmizations | `-XXaggressive:memory`
+ Initial and maximum size of the young generation | `-Xmn`
 
 > Oracle docummentation advices not to choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Instead choose a throughput goal that is sufficient for your application.
 
