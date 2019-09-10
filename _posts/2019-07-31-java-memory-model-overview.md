@@ -109,3 +109,17 @@ Functionality | Option
 > Oracle docummentation advices not to choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Instead choose a throughput goal that is sufficient for your application.
 
 ## Metaspace
+
+Metaspace is the memory allocated for metadata. In _JDK 8_, the permanent generation was replace with metaspace, and now class metadata is stored in native memory.
+
+The memory is allocated in the same as C does (Metadata uses space allocated by mmap, not by malloc).The amount of native memory that can be used by **Metaspace** area is by default unlimited, however you can use the option `MaxMetaspaceSize` to set an upper limit. The GC will also run on metaspace when is getting full.
+
+### Java Class Metadata
+_Java Class Metadata_ is JVM's **internal model of everything in the bytecode**. The _JVM_ gets all the bytecode, creates the model and throughs away the bytecode (bycode is not used because of complexity reasons).
+
+It also contains:
+- _Resolution state_ (linkage to other classes/interfaces, fields, methods and constants).
+- _Interpretation state_ (quick acces resources for resolved references and basic profile counters) 
+- _Compilation state_ (conde entry addresses, linking stubs and sophisticated profile counters).
+
+**Why Java Class Metadata?** It's needed to model the code base at runtime; for the interpreter and JIT, so they know about the class organization; for reflection; and for the JVM Tool Interface to query or update classes at runtime.
