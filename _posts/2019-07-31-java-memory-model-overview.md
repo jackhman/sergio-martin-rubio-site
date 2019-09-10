@@ -13,6 +13,7 @@ Young Generation
 Old Generation
 Generational Garbage Collection Process
 Garbage Collector Selection
+Metaspace
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
