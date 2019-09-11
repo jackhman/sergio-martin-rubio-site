@@ -67,17 +67,17 @@ When no Garbage Collector is selected by CLI (e.g. `-XX:+UseSerialGC`), the JVM 
 
 [HotSpot Garbage Collection Types](https://javapapers.com/java/types-of-java-garbage-collectors/):
 
-**Young Generation Collection**
-– **Serial** (S GC) is a stop-the-world. It uses a single thread for garbage collection and freezes all the threads while doing the garbage collection.
-– **Parallel Scavenge** is a stop-the-world, copying collector that uses multiple GC threads 
-– **ParNew** (P GC) is a stop-the-world. It uses multiple threads and also freezes all the threads during garbabe collection. It differs from _Parallel Scavenge_ in that it has enhancements that make it usable with CMS. For example, _ParNew_ does the synchronization needed so that it can run during the concurrent phases of CMS.
+1. **Young Generation Collection**
+-  **Serial** (S GC) is a stop-the-world. It uses a single thread for garbage collection and freezes all the threads while doing the garbage collection.
+-  **Parallel Scavenge** is a stop-the-world, copying collector that uses multiple GC threads 
+-  **ParNew** (P GC) is a stop-the-world. It uses multiple threads and also freezes all the threads during garbabe collection. It differs from _Parallel Scavenge_ in that it has enhancements that make it usable with CMS. For example, _ParNew_ does the synchronization needed so that it can run during the concurrent phases of CMS.
 
-**Old Generation Collection**
-– **Serial Old** is a stop-the-world, mark-sweep-compact collector that uses a single GC thread
-– **CMS** (Concurrent Mark Sweep, CMS GC) is a mostly concurrent, low-pause collector. It uses multiple threads and only freezes the threads while marking the referenced objects in the tenured generation space, and if there is a change in heap memory in parallel while doing the garbage collection. It uses more CPU to improve throughput.
-– **Parallel Old** is a compacting collector that uses multiple GC threads
+2. **Old Generation Collection**
+-  **Serial Old** is a stop-the-world, mark-sweep-compact collector that uses a single GC thread
+-  **CMS** (Concurrent Mark Sweep, CMS GC) is a mostly concurrent, low-pause collector. It uses multiple threads and only freezes the threads while marking the referenced objects in the tenured generation space, and if there is a change in heap memory in parallel while doing the garbage collection. It uses more CPU to improve throughput.
+-  **Parallel Old** is a compacting collector that uses multiple GC threads
 
-**[G1](https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)** (G1 GC) is the Garbage First collector for large heaps and provides reliable short GC pauses
+3. **[G1](https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)** (G1 GC) is the Garbage First collector for large heaps and provides reliable short GC pauses
 - Has generations but uses different memory layout
 - Default collector in JDK 9
 - It supposed to replace CMS in the long term and the main differences with CMS are:
