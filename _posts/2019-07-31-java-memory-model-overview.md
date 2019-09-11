@@ -14,6 +14,8 @@ Old Generation
 Generational Garbage Collection Process
 Garbage Collector Selection
 Metaspace
+Stack Memory
+Code Cache
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
