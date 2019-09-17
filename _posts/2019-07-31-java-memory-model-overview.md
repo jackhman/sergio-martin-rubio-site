@@ -14,6 +14,8 @@ Old Generation
 Generational Garbage Collection Process
 Garbage Collector Selection
 Metaspace
+Stack Memory
+Code Cache
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -65,24 +67,36 @@ The Garbage Collector is an automatic process reponsible for identifying and del
 
 When no Garbage Collector is selected by CLI (e.g. `-XX:+UseSerialGC`), the JVM selects a GC base on the platform is running on, heap size and runtime compiler. The process of selecting a particular GC is called **[Ergonomics](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/ergonomics.html#ergonomics)**.
 
-[GC Types](https://javapapers.com/java/types-of-java-garbage-collectors/):
+[HotSpot Garbage Collection Types](https://javapapers.com/java/types-of-java-garbage-collectors/):
 
-1. _Serial Garbage Collector_ - S GC: It uses a single thread for garbage collection and freezes all the threads while doing the garbage collection.
-2. _Parallel Garbage Collector_ - P GC: It uses multiple threads and also freezes all the threads during garbabe collection.
-3. _CMS (Concurrent Mark Sweep) Garbage Collector_ - CMS GC: It uses multiple threads and only freezes the threads while marking the referenced objects in the tenured generation space, and if there is a change in heap memory in parallel while doing the garbage collection. It uses more CPU to improve throughput.
-4. _[G1 Garbage Collector](https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)_ - G1 GC: It is used for multi-processor machines with large memories. It supposed to replace CMS in the long term and the main differences with CMS are:
-- It uses regions to simplify the collection and avoid fragmentation issues.
-- G1 offers more predictable garbage collection pauses and allows users to specify desired pause targets.
+1. **Young Generation Collection**
+-  **Serial** (S GC) is a stop-the-world. It uses a single thread for garbage collection and freezes all the threads while doing the garbage collection.
+-  **Parallel Scavenge** is a stop-the-world, copying collector that uses multiple GC threads 
+-  **ParNew** (P GC) is a stop-the-world. It uses multiple threads and also freezes all the threads during garbabe collection. It differs from _Parallel Scavenge_ in that it has enhancements that make it usable with CMS. For example, _ParNew_ does the synchronization needed so that it can run during the concurrent phases of CMS.
+
+2. **Old Generation Collection**
+-  **Serial Old** is a stop-the-world, mark-sweep-compact collector that uses a single GC thread
+-  **CMS** (Concurrent Mark Sweep, CMS GC) is a mostly concurrent, low-pause collector. It uses multiple threads and only freezes the threads while marking the referenced objects in the tenured generation space, and if there is a change in heap memory in parallel while doing the garbage collection. It uses more CPU to improve throughput.
+-  **Parallel Old** is a compacting collector that uses multiple GC threads
+
+3. **[G1](https://www.oracle.com/technetwork/tutorials/tutorials-1876574.html)** (G1 GC) is the Garbage First collector for large heaps and provides reliable short GC pauses
+- Has generations but uses different memory layout
+- Default collector in JDK 9
+- It supposed to replace CMS in the long term and the main differences with CMS are:
+    - It uses regions to simplify the collection and avoid fragmentation issues.
+    - G1 offers more predictable garbage collection pauses and allows users to specify desired pause targets.
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/wZSqu7r16KpwA2-7pbQFzorYharzcuhnLi5R21xcYpzQ2zf0F_D3HOE7aUP_sRo3TNWT6nf3XzZx5JWT0-nTnsLBubzp21BnJfJDno5fj1lzkS12CaJ9a4CKtp4l7XMxlPRPqQ9JFg=w800" caption="Generational Garbage Collection Process Diagram" %}
 
 5. _[The Z Garbage Collector](https://www.opsian.com/blog/javas-new-zgc-is-very-exciting/)_ - ZGC: Is designed to offer very low pause times on large heaps and it does this through the use of coloured pointers and load barriers.
 
-The GC selected by default in your machine can be checked with:
+The GC selected by default in your machine can be checked with the following JVM option:
 
 ```shell
 java -XX:+PrintCommandLineFlags -version
 ```
+
+>All options are set or retrieve with `-XX`. Options that have true/false values are specified using + for true and - for false. e.g. `-XX:+PrintCommandLineFlags` sets this option to true. To see all you default JVM options you can run `XX:+PrintFlagsFinal`.
 
 If a parallel GC is selected we can tune a couple of parameters:
 
@@ -101,7 +115,7 @@ System performance is greatly influenced by the size of the Java heap available 
 
 **Options**:
 
-Functionality | Option
+Description | Option
 ---------|----------
  Initial java heap size | `-Xms`
  Maximum Heap Size | `-Xmx`
@@ -124,3 +138,39 @@ It also contains:
 - _Compilation state_ (conde entry addresses, linking stubs and sophisticated profile counters).
 
 **Why Java Class Metadata?** It's needed to model the code base at runtime; for the interpreter and JIT, so they know about the class organization; for reflection; and for the JVM Tool Interface to query or update classes at runtime.
+
+## Stack Memory
+
+Java Stack memory is used for static memory allocation and during the execution of threads, it stores method specific values that are short-lived and references to other objects in the heap that are getting referred from the method. 
+
+Whenever a method is invoked, a new block is created in the stack memory for the method to hold local primitive values and reference to other objects in the method. As soon as method ends, the block becomes unused and become available for next method.
+
+Features:
+
+- Access to this memory is in LIFO (last-in-first-out).
+- Size depends on the OS and is relatively small compared to Heap memory.
+- This memory exists as long as the method is running.
+- When it's full it throws a java.langStackOverFlowException.
+- Access to this memory is faster than heap memory.
+
+## Code Cache
+
+Code Cache is the memory area where the JVM stores the compiled code generated by the Just-In-Time (JIT) compiler. Code Cache uses native memory and is managed by the Code Cache Sweeper.
+
+### Code Cache Tuning
+
+We can use _JVM_ option to tweak the codecache comsumption by the _JIT_.
+
+Some common Codecache **options**:
+
+Option | Default | Description 
+---------|----------|--------- 
+InitialCodeCacheSize | 160K (varies) | Initial code cache size (in bytes) 
+ReservedCodeCacheSize | 32M/48M | Reserved code cache size (in bytes) - maximum code cache size 
+CodeCacheExpansionSize | 32K/64K | Code cache expansion size (in bytes) 
+UseCodeCacheFlushing | false | Attempt to sweep the codecache before shutting off compiler 
+CodeCacheMinimumFreeSpace | 500K | When less than the specified amount of space remains, stop compiling. This space is reserved for code that is not compiled methods, for example, native adapters 
+PrintCodeCache | false | Print the code cache memory usage when exiting 
+
+You can **benefit** from codecache restriction when a lot of code is stored during startup, but very little of this compiled code is needed afterward. By doing this codecache flushing will be likely triggered and make room for the code needed during runtime.
+
