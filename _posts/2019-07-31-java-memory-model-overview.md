@@ -171,15 +171,14 @@ We can use JVM option to tweak the codecache comsumption by the JIT.
 
 Some common Codecache options:
 
-Option | Default | Description
----------|----------|---------
- InitialCodeCacheSize | 160K (varies) | Initial code cache size (in bytes)
- ReservedCodeCacheSize | 32M/48M | 	
- Reserved code cache size (in bytes) - maximum code cache size
- CodeCacheExpansionSize | 32K/64K | Code cache expansion size (in bytes)
- UseCodeCacheFlushing | false | Attempt to sweep the codecache before shutting off compiler
- CodeCacheMinimumFreeSpace | 500K | When less than the specified amount of space remains, stop compiling. This space is reserved for code that is not compiled methods, for example, native adapters.
- PrintCodeCache | false | Print the code cache memory usage when exiting
+Option | Default | Description 
+---------|----------|--------- 
+InitialCodeCacheSize | 160K (varies) | Initial code cache size (in bytes) 
+ReservedCodeCacheSize | 32M/48M | Reserved code cache size (in bytes) - maximum code cache size 
+CodeCacheExpansionSize | 32K/64K | Code cache expansion size (in bytes) 
+UseCodeCacheFlushing | false | Attempt to sweep the codecache before shutting off compiler 
+CodeCacheMinimumFreeSpace | 500K | When less than the specified amount of space remains, stop compiling. This space is reserved for code that is not compiled methods, for example, native adapters 
+PrintCodeCache | false | Print the code cache memory usage when exiting 
 
 
 
