@@ -171,7 +171,6 @@ We can use JVM option to tweak the codecache comsumption by the JIT.
 
 Some common Codecache options:
 
-
 Option | Default | Description
 ---------|----------|---------
  InitialCodeCacheSize | 160K (varies) | Initial code cache size (in bytes)
