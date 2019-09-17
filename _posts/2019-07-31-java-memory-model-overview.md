@@ -3,7 +3,7 @@ title: Java Memory Model Overview
 tags: [Java]
 style: fill
 color: primary
-description: Discover how the JMV manages the memory internally. This article is an instroduction of the Java Memory Model fundamentals.
+description: Discover how the JMV manages the memory internally. This article is an introduction of the Java Memory Model fundamentals.
 ---
 
 {%- capture list_items -%}
