@@ -179,6 +179,7 @@ Option | Default | Description
  CodeCacheExpansionSize | 32K/64K | Code cache expansion size (in bytes)
  UseCodeCacheFlushing | false | Attempt to sweep the codecache before shutting off compiler
  CodeCacheMinimumFreeSpace | 500K | When less than the specified amount of space remains, stop compiling. This space is reserved for code that is not compiled methods, for example, native adapters.
+ PrintCodeCache | false | Print the code cache memory usage when exiting
 
 
 
