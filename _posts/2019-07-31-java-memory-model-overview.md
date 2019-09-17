@@ -115,7 +115,7 @@ System performance is greatly influenced by the size of the Java heap available 
 
 **Options**:
 
-Functionality | Option
+Description | Option
 ---------|----------
  Initial java heap size | `-Xms`
  Maximum Heap Size | `-Xmx`
