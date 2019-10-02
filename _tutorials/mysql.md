@@ -335,9 +335,9 @@ SELECT <column_name> FROM <table_name> WHERE <condition>;
 
 Expression:
 
-- **Numeric expressions**: +, -, *, /, %
-- **Rational expressions**: >, <, <> (!=), >=, <=, =
-- **Logical expressions**: AND(&&), OR(||), NOT
+- **Numeric expressions**: `+`, `-`, `*`, `/`, `%`
+- **Rational expressions**: `>`, `<`, `<>` (`!=`), `>=`, `<=`, `=`
+- **Logical expressions**: `AND`(`&&`), `OR`(`||`), `NOT`
 
 
 Filters inclusion operands:
