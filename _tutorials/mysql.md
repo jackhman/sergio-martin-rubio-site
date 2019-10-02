@@ -23,7 +23,7 @@ mysql -u sergio -p123456 -h 192.168.0.5
 # Server Info
 
 ```sql
-SELECT VERSINO();
+SELECT VERSION();
 
 SELECT CURRENT_DATE();
 
