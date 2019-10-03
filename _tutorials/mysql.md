@@ -285,24 +285,24 @@ It is just a hint for the engine about the memory use.
 
 # Column Types
 
-Type | Description | Format | Size
----------|----------|---------|---------
- `INT` | Integer | N/A | 4 bytes
- `DOUBLE` | A normal precision number | N/A | 8 bytes
- `FLOAT` | A mall precision number | N/A | 4 bytes
- `DECIMAL` | Exact decimal number | N/A | variable
- `BOOLEAN` | 0 is false and 1 true | | 1 byte
- `YEAR` | A year in four-digit format. | `YYYY` | 1 byte
- `DATE` | A date | `aaaa-mm-dd` | 3 bytes
- `TIME` | A time | `hh:mm:ss` | 3 bytes
- `DATETIME` | Date and time | `aaaa-mm-dd hh:mm:ss` | 8 bytes
- `TIMESTAMP` | Stores time as an integer | `aaaa-mm-dd hh:mm:ss` | 4 bytes
- `CHAR` | Characters | N/A | fix-length defined when stored
- `VARCHAR` | Characters | N/A | variable-length string
- `BLOB` | Binary objects like pictures | N/A | variable
- `TEXT` | Texts | N/A | variable
- `ENUM` | It is a string with a value chosen from a list of values | N/A | 1 or 2 bytes
- `SET` | It can have zero or more values from a list of allowed values | N/A | 1, 2, 3, 4, or 8 bytes
+Type | Description | Size
+---------|----------|---------
+ `INT` | Integer | 4 bytes
+ `DOUBLE` | A normal precision number | 8 bytes
+ `FLOAT` | A mall precision number | 4 bytes
+ `DECIMAL` | Exact decimal number | variable
+ `BOOLEAN` | 0 is false and 1 true | 1 byte
+ `YEAR` | A year in four-digit format `YYYY` | 1 byte
+ `DATE` | A date `aaaa-mm-dd` | 3 bytes
+ `TIME` | A time `hh:mm:ss` | 3 bytes
+ `DATETIME` | Date and time `aaaa-mm-dd hh:mm:ss` | 8 bytes
+ `TIMESTAMP` | Stores time as an integer `aaaa-mm-dd hh:mm:ss` | 4 bytes
+ `CHAR` | Characters fix-length defined when stored
+ `VARCHAR` | Characters | variable-length string
+ `BLOB` | Binary objects like pictures | variable
+ `TEXT` | Texts | variable
+ `ENUM` | It is a string with a value chosen from a list of values | 1 or 2 bytes
+ `SET` | It can have zero or more values from a list of allowed values | 1, 2, 3, 4, or 8 bytes
 
 >`TIMESTAMP` only allows dates between `1970-01-01 00:00:00 UTC` and `2038-19-01 03:14:07 UTC`
 
