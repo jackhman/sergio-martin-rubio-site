@@ -484,13 +484,13 @@ MIN(<expression>) | Return the minimum value
 MAX(<expression>) | Return the maximum value
 COUNT(<expression>) | Returns a count of the number of non-NULL values
 
- >Note: COUNT(*) will return the total number of rows in a table.
+>Note: COUNT(*) will return the total number of rows in a table.
 
- ## Grouping (GROUP BY, HAVING)
+## Grouping (GROUP BY, HAVING)
 
- The `GROUP BY` keyword groups table rows into a set of rows by values of columns or expressions. It will return one row for each group.
+The `GROUP BY` keyword groups table rows into a set of rows by values of columns or expressions. It will return one row for each group.
 
- e.g. 
+e.g. 
 
 The following query will return the number of vehicle by brand.
 
