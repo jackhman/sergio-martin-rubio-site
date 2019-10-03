@@ -478,13 +478,13 @@ To sort in reverse order you need to add `DESC` keyword at the end.
 
 Name | Description
 ---------|----------
-SUM() | Return the sum
-AVG() | Return the average value of the argument
-MIN() | Return the minimum value
-MAX() | Return the maximum value
-COUNT() | Returns a count of the number of non-NULL values
+`SUM(<expression>)` | Return the sum
+`AVG(<expression>)` | Return the average value of the argument
+`MIN(<expression>)` | Return the minimum value
+`MAX(<expression>)` | Return the maximum value
+`COUNT(<expression>)` | Returns a count of the number of non-NULL values
 
->Note: COUNT(*) will return the total number of rows in a table.
+>Note: `COUNT(*)` will return the total number of rows in a table.
 
 ## Grouping (GROUP BY, HAVING)
 
