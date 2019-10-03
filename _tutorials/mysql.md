@@ -83,7 +83,7 @@ CREATE TABLE (<columns_name_type_and_attributes>) <table_options>;
 e.g.
 
 ```sql
-CREATE TABLE users(
+CREATE TABLE user(
     email VARCHAR(30) NOT NULL,
     name VARCHAR(20) NOT NULL,
     age INTEGER,
@@ -125,7 +125,7 @@ post_code DEFAULT W2 3ES
 
 ## PRIMARY KEY
 
-A column is referenced as primary key.
+The primary key constraint identify unique records in a table and only one primery key is allowed per table, however you can define a compound primary key wich contains multiple columns.
 
 How to set:
 
@@ -148,7 +148,17 @@ CREATE TABLE <table_name>(
 );
 ```
 
->This sintax is mandatory when the primary is composite.
+>Note: The second way is required when the primary is compound.
+e.g.
+
+```sql
+CREATE TABLE contact(
+    id INTEGER,
+    email VARCHAR(20),
+    ...,
+    PRIMARY KEY(id, email)
+);
+```
 
 ## UNIQUE KEY
 
@@ -156,7 +166,7 @@ Same as `PRIMARY KEY` but it allows null entries.
 
 ## FOREIGN KEY
 
-A column is referenced as foreign key.
+They are used to link two tables. A foreign key is a column in a table that points to a primary key of another table.
 
 How to set:
 
@@ -178,13 +188,9 @@ CREATE TABLE <table_name>(
 );
 ```
 
-## CONSTRAINT
-
-It is used to mark tables, so they can be referenced easier.
-
 ## ON DELETE and ON UPDATE
 
-Behaviours:
+MySQL provides some actions to automate changes from children tables which refer to a parent table:
 
 * `NO ACTION`: not changes will be made to children tables.
 * `CASCADE`: it will update or delete entries on children tables.
@@ -195,55 +201,82 @@ Behaviours:
 e.g. 
 
 ```sql
-CREATE TABLE pets(
+CREATE TABLE pet(
     code INTEGER PRIMARY KEY,
     name VARCHAR(50),
     type VARCHAR(50),
-    client VARCHAR(9) REFERENCES clients(id) ON DELETE CASCADE ON UPDATE SET NULL
+    client VARCHAR(9) REFERENCES client(id) ON DELETE CASCADE ON UPDATE SET NULL
 );
 ```
 
-For this particular example if a particular `id` of an entry is deleted from `clients`, all the entries in the table `pets` with that client `id` will be deleted. In case of an update of the client `id` all the pet entries with that client `id` will be set to 0. Alternativily you could set the foreign key as `NO ACTION`, and nothing will change in the `pets` table when changes are made on `clients` table.
+For this particular example if one of the records is deleted from `client`, all the entries in the table `pet` with the matching client `id` will be deleted. In case of an update all the pet entries with the same client `id` will be set to 0. Alternativily you could set the foreign key as `NO ACTION`, and nothing will change in the `pet` table when changes are made on `client` table.
+
+>Note: On delete and on update only work for with tables with store engines that support foreign keys like InnoDB.
 
 ## AUTO_INCREMENT
 
-It allows you to set an initial value for a partilar column. Entry value is incremented after each insertion. Only numeric columns and set as primary key allow this attribute.
+It allows you to generate unique value for new rows and every time a new record is added the field gets incremented.
 
 ## CHARACTER SET
 
+MySQL support multiple charater sets to define what characters are legal in your table.
+
+To get avaialble character sets:
+
+```sql
+SHOW CHARACTER SET;
+```
+
+The character set can be specified for at a database or table level.
+
+```sql
+CREATE DATABASE <db_name>
+CHARACTER SET character_set_name;
+```
+
+```sql
+CREATE TABLE <table_name>(
+   ...
+)
+CHARACTER SET <character_set_name>
+```
+
 ## CHECKSUM
 
-It generates a number base on the table content. It will slow down the creation process.
+It generates a number base on the table content. This could take a long time if the table is very large.
 
 ## COMMENT
 
+Comments can be added when a table is created.
+
 ## MAX_ROWS
+
+It is the maximum number of entries you are planning to store in a table, but is not a hard limit and only a hint.
 
 ## MIN_ROWS
 
-# Column Types
+It is just a hint for the engine about the memory use.
 
+# Column Types
 
 Type | Description | Format | Size
 ---------|----------|---------|---------
  `INT` | Integer | N/A | 4 bytes
- `INTEGER` | Integer | N/A | 4 bytes
- `DOUBLE` | Real Number | N/A | 8 bytes
- `FLOAT` | Real Number | N/A | 4 bytes
- `DECIMAL` | Exact Real Number | N/A | variable
- `NUMERIC` | Exact Real Number | N/A | variable
- `YEAR` | Year | N/A | N/A
- `DATE` | Date | `aaaa-mm-dd` | N/A
- `TIME` | Time | `hh:mm:ss` | N/A
+ `DOUBLE` | A normal precision number | N/A | 8 bytes
+ `FLOAT` | A mall precision number | N/A | 4 bytes
+ `DECIMAL` | Exact decimal number | N/A | variable
+ `BOOLEAN` | 0 is false and 1 true | | 1 byte
+ `YEAR` | A year in four-digit format. | `YYYY` | 1 byte
+ `DATE` | A date | `aaaa-mm-dd` | 3 bytes
+ `TIME` | A time | `hh:mm:ss` | 3 bytes
  `DATETIME` | Date and time | `aaaa-mm-dd hh:mm:ss` | 8 bytes
  `TIMESTAMP` | Stores time as an integer which represents the time since `1970-01-01 00:00:00 UTC`. This type does not allow dates after `2038-19-01 03:14:07 UTC` | `aaaa-mm-dd hh:mm:ss` | 4 bytes
- `CHAR` | Characters | N/A | N/A
- `VARCHAR` | Characters | N/A | variable
- `BLOB` | Binary objects like pictures | N/A | N/A
- `TEXT` | Texts | N/A | N/A
- `CLOB` | N/A | N/A | N/A
- `ENUM('<value_1>', '<value_2>', ...)` | It represents a list of values or options. e.g. `color ENUM('red', 'yellow', 'green')` | N/A | N/A
- `SET('<value_1>', '<value_2>', ...)` | Values set | N/A | N/A
+ `CHAR` | Characters | N/A | fix-length defined when stored
+ `VARCHAR` | Characters | N/A | variable-length string
+ `BLOB` | Binary objects like pictures | N/A | variable
+ `TEXT` | Texts | N/A | variable
+ `ENUM` | It is a string with a value chosen from a list of values. e.g. `color ENUM('red', 'yellow', 'green')` | N/A | 1 or 2 bytes
+ `SET` | It can have zero or more values from a list of allowed values | N/A | 1, 2, 3, 4, or 8 bytes
 
 # Modify Table
 
@@ -317,7 +350,7 @@ mysql -u <username> -p<password> < path_to_file/file_name.sql
 SELECT <column_name> FROM <table_name>;
 ```
 
-Avoid duplicates:
+To return only different values:
 
 ```sql
 SELECT DISTINCT <column_name> FROM <table_name>;
@@ -340,7 +373,7 @@ Expression:
 - **Logical expressions**: `AND`(`&&`), `OR`(`||`), `NOT`
 
 
-Filters inclusion operands:
+Select rows with an assined group:
 
 ```sql
 SELECT <column_name> 
@@ -352,11 +385,11 @@ e.g.
 
 ```sql
 SELECT name, height, nationality 
-FROM players 
+FROM player 
 WHERE team_name='Lakers' AND nationality IN ('Spain', 'Slovenia', 'Serbia');
 ```
 
-Filters with range operands:
+To retrieve values within a range:
 
 The `BETWEEN` expression allows you to select entries in an specific range.
 
@@ -364,7 +397,7 @@ The `BETWEEN` expression allows you to select entries in an specific range.
 SELECT <column_name> FROM <table_name> WHERE <condition> BETWEEN <lower_value> AND <upper_value>;
 ```
 
-Filters with regular expressions:
+To search for a specified pattern in a column:
 
 - `%`: any number of characters.
 - `_`: single character.
@@ -389,14 +422,14 @@ All entries wich contains 'o' on the second position.
 SELECT <column_name> FROM <table_name> WHERE <condition> LIKE '_o%';
 ```
 
-Filter number of entries returend:
+To constrain the number of rows to return:
 
 ```sql
-SELECT <column_name> FROM <table_name> LIMIT <number_of_entries>;
+SELECT <column_name> FROM <table_name> LIMIT <number_of_rows>;
 ```
 
-You can also get a range:
+To constrain the number of rows to return with an offset.
 
 ```sql
-SELECT <column_name> FROM <table_name> LIMIT <initial_entry_position>, <quantity>;
+SELECT <column_name> FROM <table_name> LIMIT <offset>, <number_of_rows>;
 ```
