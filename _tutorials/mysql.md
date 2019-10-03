@@ -30,6 +30,8 @@ Grouping (GROUP BY, HAVING)
 Subqueries
 {%- endcapture -%}
 
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
 # Access
 
 You can acceess a MySQL DB with the following command:
