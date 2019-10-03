@@ -296,13 +296,15 @@ Type | Description | Format | Size
  `DATE` | A date | `aaaa-mm-dd` | 3 bytes
  `TIME` | A time | `hh:mm:ss` | 3 bytes
  `DATETIME` | Date and time | `aaaa-mm-dd hh:mm:ss` | 8 bytes
- `TIMESTAMP` | Stores time as an integer which represents the time since `1970-01-01 00:00:00 UTC`. This type does not allow dates after `2038-19-01 03:14:07 UTC` | `aaaa-mm-dd hh:mm:ss` | 4 bytes
+ `TIMESTAMP` | Stores time as an integer | `aaaa-mm-dd hh:mm:ss` | 4 bytes
  `CHAR` | Characters | N/A | fix-length defined when stored
  `VARCHAR` | Characters | N/A | variable-length string
  `BLOB` | Binary objects like pictures | N/A | variable
  `TEXT` | Texts | N/A | variable
- `ENUM` | It is a string with a value chosen from a list of values. e.g. `color ENUM('red', 'yellow', 'green')` | N/A | 1 or 2 bytes
+ `ENUM` | It is a string with a value chosen from a list of values | N/A | 1 or 2 bytes
  `SET` | It can have zero or more values from a list of allowed values | N/A | 1, 2, 3, 4, or 8 bytes
+
+>`TIMESTAMP` only allows dates between `1970-01-01 00:00:00 UTC` and `2038-19-01 03:14:07 UTC`
 
 # Modify Table
 
