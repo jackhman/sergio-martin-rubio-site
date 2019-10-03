@@ -243,7 +243,7 @@ CHARACTER SET <character_set_name>
 
 ## CHECKSUM
 
-It generates a number base on the table content. This could take a long time if the table is very large.
+It generates a number based on the table content. This could take a long time if the table is very large.
 
 ## COMMENT
 
@@ -432,4 +432,59 @@ To constrain the number of rows to return with an offset.
 
 ```sql
 SELECT <column_name> FROM <table_name> LIMIT <offset>, <number_of_rows>;
+```
+
+## Sorting (ORDER BY)
+
+You can sort table rows by columns with the following sintax:
+
+```sql
+SELECT <column_name> <other_column_name>
+FROM <table_name>
+ORDER BY <column_name>, <other_column_name>;
+```
+
+>Note: the first specified column with have precedence when sorting.
+
+To sort in reverse order you need to add `DESC` keyword at the end.
+
+## Agregate Functions
+
+
+Name | Description
+---------|----------
+ SUM(<expression>) | Return the sum
+ AVG(<expression>) | Return the average value of the argument
+ MIN(<expression>) | Return the minimum value
+ MAX(<expression>) | Return the maximum value
+ COUNT(<expression>) | Returns a count of the number of non-NULL values
+
+ >Note: COUNT(*) will return the total number of rows in a table.
+
+ ## Grouping (GROUP BY, HAVING)
+
+ The `GROUP BY` keyword groups table rows into a set of rows by values of columns or expressions. It will return one row for each group.
+
+ e.g. 
+
+The following query will return the number of vehicle by brand.
+
+```sql
+ SELECT brand, COUNT(*) FROM vehicle GROUP BY brand;
+```
+
+`HAVING` clause is usually used in combination with `GROUP BY` clause to filter groups based on a specified condition. When `GROUP BY` is not specified `HAVING` behaves in the same way as `WHERE` clause. 
+
+>Note: `HAVING` clause must come after any `GROUP BY` clause and before any `ORDER BY` clause.
+
+>Note: you should NOT use `WHERE` clause to filter groups, since `WHERE` will do the filtering before `GROUP BY`.
+
+e.g. 
+
+```sql
+SELECT team_name, AVG(weight) 
+FROM player 
+GROUP BY team_name 
+HAVING AVG(weight) > 228 
+ORDER BY AVG(weight);
 ```
