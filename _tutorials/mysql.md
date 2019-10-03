@@ -366,11 +366,11 @@ SELECT <column_name> FROM <table_name> WHERE <condition>;
 
 >You can use more than one condition by using logic operands: &&, ||...
 
-Expression:
+Condition operators:
 
-- **Numeric expressions**: `+`, `-`, `*`, `/`, `%`
-- **Rational expressions**: `>`, `<`, `<>` (`!=`), `>=`, `<=`, `=`
-- **Logical expressions**: `AND`(`&&`), `OR`(`||`), `NOT`
+- **Numeric operators**: `+`, `-`, `*`, `/`, `%`
+- **Rational operators**: `>`, `<`, `<>` (`!=`), `>=`, `<=`, `=`
+- **Logical operators**: `AND`(`&&`), `OR`(`||`), `NOT`
 
 
 Select rows with an assined group:
@@ -487,4 +487,65 @@ FROM player
 GROUP BY team_name 
 HAVING AVG(weight) > 228 
 ORDER BY AVG(weight);
+```
+
+## Subqueries
+
+Subqueries are nested queries. Inner subqueries will run first and then the outer query. Subqueries can be use in combination with `WHERE` and `HAVING` clause.
+
+Comparison operators:
+
+- `=`: returns a single value.
+- `=`, `<`, `>`, `>=`, `<=`, `<>`: to compare
+
+>Note: You can also do subquery of another subquery, and this is called nested subqueries.
+
+### IN
+
+`IN`: returns values that match with an expression.
+
+```sql
+SELECT <column_name> 
+FROM <table_name> 
+WHERE <expression> 
+IN (
+    SELECT <inner_table_column_name> 
+    FROM <inner_table_name> 
+    WHERE <expression>
+);
+```
+
+### ALL or ANY
+
+`ALL`: it must follow a comparison operator and will return `TRUE` if all the values returned by the subquery satisfy the condition.
+
+`ANY` or `SOME`: it must follow a comparison operator and will return `TRUE` if any of the values returned by the subquery satisfy the condition.
+
+The following example will return the name and weight of the players who have position 'G' and whose weight is greater than any player whose position is 'C'.
+e.g.
+
+```sql
+SELECT name, weight 
+FROM player 
+WHERE position =' G' AND weight > ANY (
+    SELECT weight 
+    FROM player 
+    WHERE position = 'C'
+);
+```
+
+### EXISTS or NOT EXISTS
+
+It returns `TRUE`if the inner table contains any rows.
+
+e.g.
+
+```sql
+SELECT store_type 
+FROM store
+WHERE EXISTS (
+    SELECT * 
+    FROM city_store
+    WHERE city_store.store_type = store.store_type
+);
 ```
