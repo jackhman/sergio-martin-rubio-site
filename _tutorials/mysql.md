@@ -44,22 +44,22 @@ Show information about existing tables:
 SHOW TABLES;
 
 /* Show table columns */
-DESCRIBE table_name;
+DESCRIBE <table_name>;
 
 /* Show table creation command */
-SHOW CREATE TABLE table_name;
+SHOW CREATE TABLE <table_name>;
 ```
 
 # Use database
 
 ```sql
-USE db_name;
+USE <db_name>;
 ```
 
 # Create Database
 
 ```sql
-CREATE DATABASE db_name CHARACTER SET character_set COLLATE collation_name;
+CREATE DATABASE <db_name> CHARACTER SET <character_set> COLLATE <collation_name>;
 ```
 
 e.g.
@@ -71,13 +71,13 @@ CREATE DATATABSE contacts CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 # Delete Database
 
 ```sql
-DROP DATABASE db_name;
+DROP DATABASE <db_name>;
 ```
 
 # Create Table
 
 ```sql
-CREATE TABLE (columns_name_type_and_attributes) table_options;
+CREATE TABLE (<columns_name_type_and_attributes>) <table_options>;
 ```
 
 e.g.
@@ -94,13 +94,13 @@ CREATE TABLE user(
 # Delete Table
 
 ```sql
-DROP TABLE table_name;
+DROP TABLE <table_name>;
 ```
 
 # Rename Table
 
 ```sql
-RENAME TABLE table_name TO new_table_name;
+RENAME TABLE <table_name> TO <new_table_name>;
 ```
 
 # Table Attributes
@@ -132,8 +132,8 @@ How to set:
 1. Next to the column name:
 
 ```sql
-CREATE TABLE table_name(
-    column_name VARCHAR(5) PRIMARY KEY,
+CREATE TABLE <table_name>(
+    <column_name> VARCHAR(5) PRIMARY KEY,
     ...
 );
 ```
@@ -141,10 +141,10 @@ CREATE TABLE table_name(
 2. As a separate declaration:
 
 ```sql
-CREATE TABLE table_name(
-    column_name VARCHAR(5),
+CREATE TABLE <table_name>(
+    <column_name> VARCHAR(5),
     ...,
-    PRIMARY KEY(column_name)
+    PRIMARY KEY(<column_name>)
 );
 ```
 
@@ -173,8 +173,8 @@ How to set:
 1. Next to the column name:
 
 ```sql
-CREATE TABLE table_name(
-    column_name VARCHAR(5) REFERENCES other_table_name(other_column_name),
+CREATE TABLE <table_name>(
+    <column_name> VARCHAR(5) REFERENCES <other_table_name>(<other_column_name>),
     ...
 );
 ```
@@ -182,9 +182,9 @@ CREATE TABLE table_name(
 2. As a separate declaration:
 
 ```sql
-CREATE TABLE table_name(
+CREATE TABLE <table_name>(
     ...,
-    FOREIGN KEY(column_name) REFERENCES other_table_name(other_column_name)
+    FOREIGN KEY(<column_name>) REFERENCES <other_table_name>(<other_column_name>)
 );
 ```
 
@@ -230,15 +230,15 @@ SHOW CHARACTER SET;
 The character set can be specified for at a database or table level.
 
 ```sql
-CREATE DATABASE db_name
+CREATE DATABASE <db_name>
 CHARACTER SET character_set_name;
 ```
 
 ```sql
-CREATE TABLE table_name(
+CREATE TABLE <table_name>(
    ...
 )
-CHARACTER SET character_set_name
+CHARACTER SET <character_set_name>
 ```
 
 ## CHECKSUM
@@ -283,32 +283,31 @@ Type | Description | Format | Size
 * Add column:
 
 ```sql
-ALTER TABLE table_name ADD new_column_name columns_type_and_attributes AFTER;
-ALTER TABLE table_name ADD new_column_name columns_type_and_attributes FIRST;
+ALTER TABLE <table_name> ADD <new_column_name> <columns_type_and_attributes> <AFTER/FIRST>;
 ```
 
 * Modify column type:
 
 ```sql
-ALTER TABLE table_name> MODIFY column_name columns_type;
+ALTER TABLE <table_name> MODIFY <column_name> <columns_type>;
 ```
 
 * Remove primary key and foreign key restrictions:
 
 ```sql
-ALTER TABLE table_name DROP PRIMARY KEY;
+ALTER TABLE <table_name> DROP PRIMARY KEY;
 ```
 
 * Remove column:
 
 ```sql
-ALTER TABLE table_name DROP column_name;
+ALTER TABLE <table_name> DROP <column_name>;
 ```
 
 * Change column name:
 
 ```sql
-ALTER TABLE table_name CHANGE old_name new_name columns_type_and_attributes;
+ALTER TABLE <table_name> CHANGE <old_name> <new_name> <columns_type_and_attributes>;
 ```
 
 # Table Engines
@@ -316,9 +315,9 @@ ALTER TABLE table_name CHANGE old_name new_name columns_type_and_attributes;
 Set table engine:
 
 ```sql
-CREATE TABLE table_name(
+CREATE TABLE <table_name>(
     ...
-)ENGINE=engine_name;
+)ENGINE=<engine_name>;
 ```
 
 Each DB engine has different features like table struture, therefore you have to decide which one is better for your use case.
@@ -348,13 +347,13 @@ mysql -u <username> -p<password> < path_to_file/file_name.sql
 ## SELECT expression
 
 ```sql
-SELECT column_name FROM table_name;
+SELECT <column_name> FROM <table_name>;
 ```
 
 To return only different values:
 
 ```sql
-SELECT DISTINCT column_name FROM table_name;
+SELECT DISTINCT <column_name> FROM <table_name>;
 ```
 
 >You can display data by chunks with the option `\G` at the end of the query.
@@ -362,10 +361,10 @@ SELECT DISTINCT column_name FROM table_name;
 ## Query Filters
 
 ```sql
-SELECT column_name FROM table_name WHERE condition;
+SELECT <column_name> FROM <table_name> WHERE <condition>;
 ```
 
->Note: You can use more than one condition by using logic operands: `&&`, `||`...
+>You can use more than one condition by using logic operands: &&, ||...
 
 Expression:
 
@@ -377,9 +376,9 @@ Expression:
 Select rows with an assined group:
 
 ```sql
-SELECT column_name 
-FROM table_name 
-WHERE condition IN (value_1, value_2, ...);
+SELECT <column_name> 
+FROM <table_name> 
+WHERE <condition> IN (<value_1>, <value_2>, ...);
 ```
 
 e.g. 
@@ -395,7 +394,7 @@ To retrieve values within a range:
 The `BETWEEN` expression allows you to select entries in an specific range.
 
 ```sql
-SELECT column_name FROM table_name WHERE condition BETWEEN lower_bound AND upper_bound;
+SELECT <column_name> FROM <table_name> WHERE <condition> BETWEEN <lower_value> AND <upper_value>;
 ```
 
 To search for a specified pattern in a column:
@@ -408,29 +407,29 @@ e.g.
 All entry which contains _name_.
 
 ```sql
-SELECT column_name FROM table_name WHERE condition LIKE '%name%';
+SELECT <column_name> FROM <table_name> WHERE <condition> LIKE '%name%';
 ```
 
 All entries wich contains R as the first letter, S as the last letter and 
 
 ```sql
-SELECT column_name FROM table_name WHERE condition LIKE 'R_ _ _ _ _S';
+SELECT <column_name> FROM <table_name> WHERE <condition> LIKE 'R_ _ _ _ _S';
 ```
 
 All entries wich contains 'o' on the second position.
 
 ```sql
-SELECT column_name FROM table_name WHERE condition LIKE '_o%';
+SELECT <column_name> FROM <table_name> WHERE <condition> LIKE '_o%';
 ```
 
 To constrain the number of rows to return:
 
 ```sql
-SELECT column_name FROM table_name LIMIT number_of_rows;
+SELECT <column_name> FROM <table_name> LIMIT <number_of_rows>;
 ```
 
 To constrain the number of rows to return with an offset.
 
 ```sql
-SELECT column_name FROM table_name LIMIT offset, number_of_rows;
+SELECT <column_name> FROM <table_name> LIMIT <offset>, <number_of_rows>;
 ```
