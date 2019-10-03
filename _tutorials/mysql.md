@@ -6,6 +6,30 @@ color: primary
 description: MySQL fundamental.
 ---
 
+{%- capture list_items -%}
+Access
+Server Info
+DB Info
+Use Database
+Create Database
+Delete Database
+Create Table
+Delete Table
+Rename Table
+Table Attributes
+Column Types
+Modify Table
+Table Engines
+Load Databases
+Queries
+WHERE clause
+LIMIT clause
+Sorting (ORDER BY)
+Agregate Functions
+Grouping (GROUP BY, HAVING)
+Subqueries
+{%- endcapture -%}
+
 # Access
 
 You can acceess a MySQL DB with the following command:
@@ -50,7 +74,7 @@ DESCRIBE <table_name>;
 SHOW CREATE TABLE <table_name>;
 ```
 
-# Use database
+# Use Database
 
 ```sql
 USE <db_name>;
@@ -358,7 +382,7 @@ SELECT DISTINCT <column_name> FROM <table_name>;
 
 >You can display data by chunks with the option `\G` at the end of the query.
 
-## Query Filters
+## WHERE clause
 
 ```sql
 SELECT <column_name> FROM <table_name> WHERE <condition>;
@@ -422,6 +446,8 @@ All entries wich contains 'o' on the second position.
 SELECT <column_name> FROM <table_name> WHERE <condition> LIKE '_o%';
 ```
 
+## LIMIT clause
+
 To constrain the number of rows to return:
 
 ```sql
@@ -449,7 +475,6 @@ ORDER BY <column_name>, <other_column_name>;
 To sort in reverse order you need to add `DESC` keyword at the end.
 
 ## Agregate Functions
-
 
 Name | Description
 ---------|----------
