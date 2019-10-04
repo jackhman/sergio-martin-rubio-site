@@ -578,3 +578,37 @@ WHERE EXISTS (
     WHERE city_store.store_type = store.store_type
 );
 ```
+
+## Join clauses
+
+### The Full Join
+
+It is also called cross join because each row of each table is crossed with each row in every other table and generates a cartesian product. This is not very useful, since it generates unrelated rows, so you need to use the `WHERE` clause in order to match columns from two tables.
+
+### JOIN syntax
+
+The `JOIN` syntax is an alternative to the full join with conditions. Some of the options are:
+
+1. `INNER JOIN`: same as full join but replace `WHERE` with `ON`;
+2. `NATURAL JOIN`: it will match columns from two tables which have same name.
+3. `RIGHT OUTER JOIN` and `LEFT OUTER JOIN`: they will return the matched rows and the unmatched rows from the right or left.
+
+e.g.
+Return all the pets even if some they do not have an owner.
+
+```sql
+SELECT * 
+FROM pet LEFT OUTER JOIN owner 
+ON pet.owner=owner.id;
+```
+
+4. `UNION`: to combine `RIGHT OUTER JOIN` and `LEFT OUTER JOIN`.
+
+e.g. 
+Return all the owners without pets and all the pets without owners.
+```sql
+SELECT * FROM pet LEFT OUTER JOIN owner ON pet.owner=owner.id 
+UNION 
+SELECT * FROM pet RIGHT OUTER JOIN owner ON pet.owner=owner.id;
+```
+
