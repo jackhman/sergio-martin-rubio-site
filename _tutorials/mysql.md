@@ -30,6 +30,7 @@ Grouping (GROUP BY, HAVING)
 Subqueries
 Join clauses
 Derived Tables
+INSERT syntax
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
