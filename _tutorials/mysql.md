@@ -28,6 +28,8 @@ Sorting (ORDER BY)
 Agregate Functions
 Grouping (GROUP BY, HAVING)
 Subqueries
+Join clauses
+Derived Tables
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -200,7 +202,7 @@ How to set:
 
 ```sql
 CREATE TABLE <table_name>(
-    <column_name> VARCHAR(5) REFERENCES <other_table_name>(<other_column_name>),
+    <column_name> VARCHAR(5) REFERENCES <another_table_name>(<another_column_name>),
     ...
 );
 ```
@@ -210,7 +212,7 @@ CREATE TABLE <table_name>(
 ```sql
 CREATE TABLE <table_name>(
     ...,
-    FOREIGN KEY(<column_name>) REFERENCES <other_table_name>(<other_column_name>)
+    FOREIGN KEY(<column_name>) REFERENCES <another_table_name>(<another_column_name>)
 );
 ```
 
@@ -469,9 +471,9 @@ SELECT <column_name> FROM <table_name> LIMIT <offset>, <number_of_rows>;
 You can sort table rows by columns with the following sintax:
 
 ```sql
-SELECT <column_name> <other_column_name>
+SELECT <column_name> <another_column_name>
 FROM <table_name>
-ORDER BY <column_name>, <other_column_name>;
+ORDER BY <column_name>, <another_column_name>;
 ```
 
 >Note: the first specified column with have precedence when sorting.
@@ -634,3 +636,47 @@ AS <temp_table>;
 ```
 
 The dereived table will only exist during the query.
+
+# INSERT syntax
+
+```sql
+INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...) 
+VALUES(<value_one>, <value_two>, ...);
+```
+
+>Note: You can ommit column names if all the values are provides in the correct order.
+
+```sql
+INSERT INTO <table_name> 
+VALUES(<value_one>, <value_two>, ...);
+```
+
+>Note: For string values single quotes are mandatory.
+
+You can also use the `DEFAULT` keyword in order to use the default value set during the table creation.
+
+```sql
+INSERT INTO <table_name> 
+VALUES(<value_one>, <value_two>, DEFAULT);
+```
+
+If you need to add more than one entry you can take advantage of the extended version of the `INSERT` clause:
+
+```sql
+INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...)  
+    VALUES(<value_one>, <value_two>, ...),
+    VALUES(<value_one>, <value_two>, ...),
+    VALUES(<value_one>, <value_two>, ...);
+```
+
+>Note: Remember that primary key column do not allow duplicated values.
+
+Moreover, you can also copy rows from one table into another if you combine the `INSERT` and the `SELECT` clause.
+
+```sql
+INSERT INTO <table_name> 
+SELECT <column_name> FROM <another_table_name>;
+```
+
+>Note: The table where the rows are pasted must exists and will copy only values.
+
