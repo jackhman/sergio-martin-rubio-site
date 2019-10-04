@@ -612,3 +612,25 @@ UNION
 SELECT * FROM pet RIGHT OUTER JOIN owner ON pet.owner=owner.id;
 ```
 
+### Self Join
+
+When you need to join a table with itself you can use self join queries. To join a table to itself you need to give the table an alias and then select from both the table and its alias.
+
+e.g.
+
+```sql
+SELECT CONCAT(emp.name, ' ', emp.surname) AS employee, CONCAT(manager.name, ' ', manager.surname) AS manager 
+FROM employee emp INNER JOIN employee manager ON emp.manager_id=manager.employee_id;
+```
+
+## Derived Tables
+
+A derived table is a subquery that can take the place of a table in the `FROM`.
+
+```sql
+SELECT <column_name> 
+FROM (SELECT <column_name> FROM <table_name> WHERE <expression>) 
+AS <temp_table>;
+```
+
+The dereived table will only exist during the query.
