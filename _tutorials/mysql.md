@@ -120,6 +120,12 @@ CREATE TABLE user(
 )ENGINE=InnoDB;
 ```
 
+You can also copy an existing table schema:
+
+```sql
+CREATE TABLE <new_table_name> LIKE <table_name>;
+```
+
 # Delete Table
 
 ```sql
@@ -680,4 +686,12 @@ SELECT <column_name> FROM <another_table_name>;
 ```
 
 >Note: The table where the rows are pasted must exists and will copy only values.
+
+# Update Table
+
+The `UPDATE` statement updates columns of existing rows.
+
+```sql
+UPDATE <table_name> SET <column_name> = <new_value> WHERE <expression>;
+```
 
