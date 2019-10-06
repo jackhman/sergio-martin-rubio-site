@@ -704,3 +704,20 @@ The `DELETE` clause is used to delete data from a table.
 ```sql
 DELETE FROM <table_name> WHERE <expression>;
 ```
+
+# Transactions
+
+A transaction is a set of grouped statements and defined as a single unit of work, this means that if a transaction is successful, all the modifucations will be saved and became permanent part of the database, otherwise the transaction will be cancelled and rolled back. MySQL provides the following sintax to use transactions:
+
+* `START TRANSACTION` or `BEGIN [WORK]`: To start a new transaction.
+* `COMMIT`: Statements are accepted.
+* `ROLLBACK`: Cancell current changes.
+* `SET AUTOCOMMIT={0|1}`: It disables or enables the default autocommit mode for the current session.  
+
+```sql
+START TRANSACTION;
+SELECT @A:=SUM(<column_name) FROM <first_table_name> WHERE <expression>;
+UPDATE <second_table_name SET <column_name>=@A WHERE <expression>;
+COMMIT;
+```
+
