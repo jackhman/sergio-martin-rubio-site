@@ -31,6 +31,9 @@ Subqueries
 Join clauses
 Derived Tables
 INSERT syntax
+Update Table
+Delete Entries
+Transactions
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
