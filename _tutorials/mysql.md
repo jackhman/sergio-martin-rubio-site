@@ -132,6 +132,8 @@ CREATE TABLE <new_table_name> LIKE <table_name>;
 DROP TABLE <table_name>;
 ```
 
+>Note: This will also delete all the entries stored in the table.
+
 # Rename Table
 
 ```sql
@@ -695,3 +697,10 @@ The `UPDATE` statement updates columns of existing rows.
 UPDATE <table_name> SET <column_name> = <new_value> WHERE <expression>;
 ```
 
+# Delete Entries
+
+The `DELETE` clause is used to delete data from a table.
+
+```sql
+DELETE FROM <table_name> WHERE <expression>;
+```
