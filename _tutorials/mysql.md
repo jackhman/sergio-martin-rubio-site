@@ -34,6 +34,7 @@ INSERT syntax
 Update Table
 Delete Entries
 Transactions
+Backup and Recovery
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
