@@ -724,3 +724,30 @@ UPDATE <second_table_name SET <column_name>=@A WHERE <expression>;
 COMMIT;
 ```
 
+# Backup and Recovery
+
+## Backup Types
+
+### Online vs Offline:
+
+1. **Online**: The server will keep running, so clients can connect to the database while doing the backup. However, cache issues can arise and it could compromise data integrity.
+2. **Offline**: The server will be unavailable. This process will be simpler and there will be no risk of integrity issues or blocks.
+
+### Physical vs Logical:
+
+1. **Physical**:
+    - It is faster than a logical backup.
+    - It can be done online or offline.
+    - It might cause incompatibility issues between different database systems.
+    - Tools used for physical backups are: _mysqlbackup_ or system commands like `cp`, `scp`, `tar`...
+2. **Logical**:
+    - It is slower since the server must access database information and convert it to logical format (SQL statements).
+    - It can be only doe online.
+    - Better compatibility between different DBMS (DataBase Management System) such as MySQL and Oracle.
+    - For logical backups you can use `mysqldump` and `SELECT ... INTO OUTFILE` statement.
+
+### Full vs Incremental:
+
+1. **Full**: It includes the entired database managed by MySQL.
+2. **Incremental**: It is the backup from the last full or incremental backup. To restore an incremental backup, the full and all the previous incremental backups are required.
+
