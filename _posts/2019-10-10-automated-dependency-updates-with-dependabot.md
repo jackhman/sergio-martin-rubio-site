@@ -64,4 +64,4 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 
 ## Advance Integrations
 
-Dependabot can be also used by itself. The oficial repository provides a script to run it with Docker or have a repository dedicated to the script and configure a GitLab CI pipeline to run it periodically.
+**Dependabot** can be also used by itself. The oficial repository provides a _Ruby_ script to run it with _Docker_ or have a repository dedicated to the script and configure a _GitLab CI_ pipeline to run it periodically.
