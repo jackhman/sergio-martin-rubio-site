@@ -36,3 +36,7 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 5. Tweat Dependabot settings for your projects: how frequent it runs (daily, weekly...), directory, branch, GitHub Pull Requests info...
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/WTi5NcbLw96prl8jRf9HXQ9FJJRmWQVJsddeGyLXG_5Asqcdw9Vqdv5-esoIN_L1tb7Ps92MLW27zOUkyw=w800-no-tmp.jpg" caption="Depedabot Project Settings" %}
+
+6. Run Dependabot and review PR. A relevant branch name, PR title, comment and labels are created.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/cnB2V_3V22hqUt4vH57167KfX-bKA7Z75523xiZfIdwbvGnx5ykJNBaHiqGLDHRujoVP_nUSZ7-9s5C6kw=w800-no-tmp.jpg" caption="Depedabot Project Settings" %}
