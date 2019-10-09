@@ -725,6 +725,54 @@ UPDATE <second_table_name SET <column_name>=@A WHERE <expression>;
 COMMIT;
 ```
 
+# Account Management
+
+## CREATE USER
+
+The `CREATE USER` clause creates new MySQL accounts and it enables authentication, SSL/TLS, resource access limitations and password management.
+
+```sql
+CREATE USER '<user_name>'@'<host_name>' IDENTIFIED BY '<password>';
+```
+
+>Note: if the host name part is omitted, it defaults to `%`, which means that all the hosts are allowed for the new user.
+
+Users are created in `mysql.user` table, so they can be retrieved with the following SQL query:
+
+```sql
+SELECT * FROM mysql.user;
+SELECT host, user, password FROM mysql.user;
+```
+
+## Remove User
+
+`DROP USER` sintax deletes one or more MySQL accounts.
+
+```sql
+DROP USER '<user_name>'@'<host_name>';
+```
+
+## Give Privileges
+
+Users can get permission with the `GRANT` clause.
+
+```sql
+GRANT <option> ON <db_name>.<table_name> TO '<user_name>'@'<host_name>';
+```
+
+Some of the options available:
+
+* `ALL PRIVILEGES` -> total access
+* `CREATE` -> enables database and table creation
+* `DELETE` -> enables the use of `DELETE`
+* `DROP` -> enables the use of `DROP`
+* `INSERT` -> enables the use of `INSERT`
+* `SELECT` -> enables the use of `SELECT`
+* `UPDATE` -> enables the use of `UPDATE`
+* `GRANT OPTION` -> allows the user to remove or grant privileges to other users
+
+>Note: to make the privileges active you might need to run `FLUSH PRIVILEGES;`.
+
 # Backup and Recovery
 
 ## Backup Types
