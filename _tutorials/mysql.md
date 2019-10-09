@@ -34,6 +34,7 @@ INSERT syntax
 Update Table
 Delete Entries
 Transactions
+Account Management
 Backup and Recovery
 {%- endcapture -%}
 
