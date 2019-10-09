@@ -18,6 +18,21 @@ Introduction
 
 ## How to use
 
-You can start using Dependabot as a standalone 
+Dependabot is fully integrated with GitHub and only in a few steps you will be able to add it to your current GitHub projects.
 
-1. Login at Dependabot site with your GitHub
+1. Go to [Dependabot site](https://dependabot.com) or [GitHub marketplace and search for Dependabot](https://github.com/marketplace?utf8=%E2%9C%93&query=dependabot).
+2. Install Dependabot to your GitHub account.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/2LF49w-QRKtX7eEMkjZM83Dn6eJVvdKblx7dRomTj9QKBZ7zZHIf2BKDohN-1eXZmUU4DJUeibuE2FhSeg=w800-no-tmp.jpg" caption="Install Dependabot GitHub" %}
+
+3. Give permission to all your repositories or selected ones.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/w-nGjPm9AMsVfvkcbSYhu9j482Z55OUdrhOSA6tFupSXRFv9tTD2f2ZAFn6AHRGzLC_MMDGHGK4t-aj8Fg=w800-no-tmp.jpg" caption="Install Dependabot Preview" %}
+
+4. Start adding repositories to the Dependabot dashboard.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/j4edb8TzKBqykrV_j62qvPQ0ME5NCH3YCD--UynTcIwPdHzUZdxJEshexS-4IdIkX5Evil88lN_tGXNP-Q=w800-no-tmp.jpg" caption="Add Repos Dependabot" %}
+
+5. Tweat Dependabot settings for your projects: how frequent it runs (daily, weekly...), directory, branch, GitHub Pull Requests info...
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/WTi5NcbLw96prl8jRf9HXQ9FJJRmWQVJsddeGyLXG_5Asqcdw9Vqdv5-esoIN_L1tb7Ps92MLW27zOUkyw=w800-no-tmp.jpg" caption="Depedabot Project Settings" %}
