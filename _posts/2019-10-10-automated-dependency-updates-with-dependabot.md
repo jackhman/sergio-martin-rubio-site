@@ -17,7 +17,27 @@ How to use
 
 [Dependabot](https://dependabot.com) is a free and open source tool that has been bought by _GitHub_ and allows you to check for updates on you dependency files.
 
-## How to use
+It can be used to update dependencies in _Ruby_, _JavaScript_, _Python_, _PHP_, _Elixir_, _Elm_, _Go_, _Rust_, _Java_ and _.NET_, as well as, git submodules, _Docker_ files and _Terraform_ files.
+
+## Package Manger Options
+
+- bundler
+- pip (includes pipenv)
+- npm_and_yarn
+- maven
+- gradle
+- cargo
+- hex
+- composer
+- nuget
+- dep
+- go_modules
+- elm
+- submodules
+- docker
+- terraform
+
+## GitHub Integration Guide
 
 Dependabot is fully integrated with GitHub and only in a few steps you will be able to add it to your current GitHub projects.
 
@@ -41,3 +61,7 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 6.Run Dependabot and review PR. A relevant branch name, PR title, comment and labels are created.
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/cnB2V_3V22hqUt4vH57167KfX-bKA7Z75523xiZfIdwbvGnx5ykJNBaHiqGLDHRujoVP_nUSZ7-9s5C6kw=w800-no-tmp.jpg" caption="Depedabot Project Settings" %}
+
+## Advance Integrations
+
+Dependabot can be also used by itself. The oficial repository provides a script to run it with Docker or have a repository dedicated to the script and configure a GitLab CI pipeline to run it periodically.
