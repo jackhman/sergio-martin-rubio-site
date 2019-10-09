@@ -774,6 +774,20 @@ Some of the options available:
 
 >Note: to make the privileges active you might need to run `FLUSH PRIVILEGES;`.
 
+## Revoke Privilege
+
+The `REVOKE` sintax allows you to remove privileges from MySQL accounts.
+
+```sql
+REVOKE <option> ON <db_name>.<table_name> TO '<user_name>'@'<host_name>';
+```
+
+## Show Privileges
+
+```sql
+SHOW GRANTS FOR '<user_name>'@'<host_name>';
+```
+
 # Backup and Recovery
 
 ## Backup Types
