@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting Tools for Microservices Architecture
-tags: [Microservices, Zipkin, Splunk, Spring Boot, tracing, docker]
+tags: [Microservices, Zipkin, Splunk, Spring Boot, Tracing, Docker]
 style: fill
 color: dark
 description: Learn how to tackle troubleshooting and debugging in a microservices architecture.

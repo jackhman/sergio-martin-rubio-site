@@ -1,6 +1,6 @@
 ---
 title: Automated Dependency Updates With Dependabot
-tags: [Git]
+tags: [Dependency Management, Git]
 style: border
 color: dark
 description: Through the integration of Dependabot you can automate dependecy updates on your projects. Do you want to know more?
