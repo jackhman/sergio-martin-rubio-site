@@ -33,7 +33,7 @@ Derived Tables
 INSERT syntax
 Update Table
 Delete Entries
-Transactions
+Transactional statements
 Account Management
 Backup and Recovery
 {%- endcapture -%}
@@ -710,7 +710,7 @@ The `DELETE` clause is used to delete data from a table.
 DELETE FROM <table_name> WHERE <expression>;
 ```
 
-# Transactions
+# Transactional statements
 
 A transaction is a set of grouped statements and defined as a single unit of work, this means that if a transaction is successful, all the modifucations will be saved and became permanent part of the database, otherwise the transaction will be cancelled and rolled back. MySQL provides the following sintax to use transactions:
 
