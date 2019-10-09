@@ -736,19 +736,99 @@ COMMIT;
 
 ### Physical vs Logical:
 
-1. **Physical**:
+#### Physical
+
     - It is faster than a logical backup.
     - It can be done online or offline.
     - It might cause incompatibility issues between different database systems.
     - Tools used for physical backups are: _mysqlbackup_ or system commands like `cp`, `scp`, `tar`...
-2. **Logical**:
+
+#### Logical
+
     - It is slower since the server must access database information and convert it to logical format (SQL statements).
     - It can be only doe online.
     - Better compatibility between different DBMS (DataBase Management System) such as MySQL and Oracle.
     - For logical backups you can use `mysqldump` and `SELECT ... INTO OUTFILE` statement.
 
+
+To export and import only the data of your database you can use the following sintax:
+
+**EXPORT**
+
+```sql
+SELECT ... INTO OUTFILE '<file_name>' <export_options> 
+FROM <table_name>;
+```
+e.g.
+
+All the entries and columns together without any kind of separator:
+
+```sql
+SELECT * INTO OUTFILE '/tmp/users.txt'
+FROM user;
+```
+
+This is an example that produces a file in the comma-separated values (CSV) format:
+
+```sql
+SELECT * INTO OUTFILE '/tmp/users.txt'
+FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+LINES TERMINATED BY '\n'
+FROM user;
+```
+
+**IMPORT**
+
+```sql
+LOAD DATA INFILE '<file_name>'
+INTO TABLE <table_name>
+FIELDS <import_options>;
+```
+
+>Note: import and export options should match for the same backup.
+
+The [_mysqldump_](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html) is a tool to create logical backups producing DML and DDL commands, so it will reproduce the original database object definitions and table data.
+
+```shell
+mysqldump <options> > <file_name>.sql
+```
+ Some examples:
+
+ - Backup all user databases:
+
+```shell
+mysqldump -u root -p --all-databases > backup.slq
+```
+
+- Backup a single database:
+
+```shell
+mysqldump -u root -p --databases store > backup.slq
+```
+
+- Backup a single table:
+
+```shell
+mysqldump -u root -p store customer > backup.slq
+```
+
+>Note: _mysqldump_ is not compatible with Oracle databases.
+
+There are two ways to import a _sql_ file:
+
+1. Use a MySQL statement:
+
+```sql
+SOURCE /path/<file_name>.sql
+```
+
+2. Use CLI
+
+```shell
+mysql -u root -p < <file_name>.sql
+```
+
 ### Full vs Incremental:
 
 1. **Full**: It includes the entired database managed by MySQL.
 2. **Incremental**: It is the backup from the last full or incremental backup. To restore an incremental backup, the full and all the previous incremental backups are required.
-
