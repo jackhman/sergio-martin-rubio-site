@@ -8,18 +8,21 @@ description: Through the integration of Dependabot you can automate dependecy up
 
 {%- capture list_items -%}
 Introduction
-How to use
+Package Manger Options
+GitHub Integration Guide
+Advance Integrations
+Conclusion
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+# Introduction
 
 [Dependabot](https://dependabot.com) is a free and open source tool that has been bought by _GitHub_ and allows you to check for updates on you dependency files.
 
 It can be used to update dependencies in _Ruby_, _JavaScript_, _Python_, _PHP_, _Elixir_, _Elm_, _Go_, _Rust_, _Java_ and _.NET_, as well as, git submodules, _Docker_ files and _Terraform_ files.
 
-## Package Manger Options
+# Package Manger Options
 
 - _bundler_
 - _pip_ (includes pipenv)
@@ -37,7 +40,7 @@ It can be used to update dependencies in _Ruby_, _JavaScript_, _Python_, _PHP_, 
 - _docker_
 - _terraform_
 
-## GitHub Integration Guide
+# GitHub Integration Guide
 
 Dependabot is fully integrated with GitHub and only in a few steps you will be able to add it to your current GitHub projects.
 
@@ -62,7 +65,7 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/cnB2V_3V22hqUt4vH57167KfX-bKA7Z75523xiZfIdwbvGnx5ykJNBaHiqGLDHRujoVP_nUSZ7-9s5C6kw=w800-no-tmp.jpg" caption="Depedabot Project Settings" %}
 
-## Advance Integrations
+# Advance Integrations
 
 **Dependabot** can be also used by itself. The oficial repository provides a [_Ruby_ script](https://github.com/dependabot/dependabot-script) to run it with _Docker_ or have a repository dedicated to the script and configure a _GitLab CI_ pipeline to run it periodically.
 
