@@ -21,21 +21,21 @@ It can be used to update dependencies in _Ruby_, _JavaScript_, _Python_, _PHP_, 
 
 ## Package Manger Options
 
-- bundler
-- pip (includes pipenv)
-- npm_and_yarn
-- maven
-- gradle
-- cargo
-- hex
-- composer
-- nuget
-- dep
-- go_modules
-- elm
-- submodules
-- docker
-- terraform
+- _bundler_
+- _pip_ (includes pipenv)
+- _npm_and_yarn_
+- _maven_
+- _gradle_
+- _cargo_
+- _hex_
+- _composer_
+- _nuget_
+- _dep_
+- _go_modules_
+- _elm_
+- _submodules_
+- _docker_
+- _terraform_
 
 ## GitHub Integration Guide
 
@@ -65,3 +65,25 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 ## Advance Integrations
 
 **Dependabot** can be also used by itself. The oficial repository provides a [_Ruby_ script](https://github.com/dependabot/dependabot-script) to run it with _Docker_ or have a repository dedicated to the script and configure a _GitLab CI_ pipeline to run it periodically.
+
+For instance, you could setup a **GitLab CI** with an **Azure** repo by following the next steps:
+
+1. Clone the [dependabot-script repo](https://github.com/dependabot/dependabot-script.git) and create a new project on **GitLab**
+2. Rename `.gitlab-ci.example.yml` to `.gitlab-ci.yml`
+3. Get the values of the required global variables: 
+    - `AZURE_ACCESS_TOKEN` -> Go to your _Azure Devops profile_, _Security_, _Personal access tokens_, _+ New Token_
+    - `PROJECT_PATH` -> For _https://dev.azure.com/econsergio/_git/spring-boot-demo_ will be `econsergio/_git/spring-boot-demo`
+    - `PACKAGE_MANAGER_SET` -> _maven_ for this example
+4. Create a new pipeline schedule -> Go to _CI/CD_, _Schedules_
+5. Set in the schedule the required variables
+6. The script creates a branch and PR on _Azure_
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/f-IlBiczAsWjFzgZahHugQ4vLGsD3qUTChuJl1vCT11IYsWJ9ysoJrP5sjXYD7VDUc7y3aMz1EctSw_QVQ=w800-no-tmp.jpg" caption="Azure Dependabot Branch" %}
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/MRbvNKE_m5SkUZY5wgkEup_6tf0Vzu23rEI8cEsta-FzIeYMf8Tz7zeaBVwa7wjP1M9UHul3C1-lv5pq4Q=w800-no-tmp.jpg" caption="Azure Dependabot Dependecy Diff Updates" %}
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/KK1HqPnX3wTNFH2qT5ljWRjmDMWn1UJw6dBaeawaNYklHd7F27sjrZn_A27rNu-xrsk_Mov6ggkkqQC1kQ=w800-no-tmp.jpg" caption="Azure Dependabot PR" %}
+
+# Conclusion
+
+As you can see Dependabot is very flexible and will take care of all your projects dependency updates. Despite it has been adquired by GitHub, you can run it on GitLab and point to projects on **Azure** or **GitLab**.
