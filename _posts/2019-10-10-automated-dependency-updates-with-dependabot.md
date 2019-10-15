@@ -64,7 +64,7 @@ Dependabot also provides a way to give you more confidence in case of possible b
 
 How does it work?
 
-- Dependabot retrieve metrics of similar updates from other repos.
+- Dependabot retrieves metrics of similar updates from other repos.
 - It creates a score based on each repo that runs a CI with passed test suite.
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/BeLflCYfw-UbUS4qOro8GMjzoAJGE44bYhztT6peQp_t7c1g0WpByBgI6MKtos2wEtkYbC8H1BMvXUYqTA=w800-no-tmp.jpg" caption="Compatibility Score Page" %}
