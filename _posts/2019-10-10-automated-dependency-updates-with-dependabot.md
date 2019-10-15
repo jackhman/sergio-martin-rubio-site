@@ -46,13 +46,9 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 
 1. Go to [Dependabot site](https://dependabot.com) or [GitHub marketplace and search for Dependabot](https://github.com/marketplace?utf8=%E2%9C%93&query=dependabot).
 2. Install Dependabot to your GitHub account.
-
-![alt text](https://lh3.googleusercontent.com/2LF49w-QRKtX7eEMkjZM83Dn6eJVvdKblx7dRomTj9QKBZ7zZHIf2BKDohN-1eXZmUU4DJUeibuE2FhSeg=w600-no-tmp.jpg "Install Dependabot GitHub")
-
+    ![alt text](https://lh3.googleusercontent.com/2LF49w-QRKtX7eEMkjZM83Dn6eJVvdKblx7dRomTj9QKBZ7zZHIf2BKDohN-1eXZmUU4DJUeibuE2FhSeg=w600-no-tmp.jpg "Install Dependabot GitHub")
 3. Give permission to all your repositories or selected ones.
-
-    {% include elements/figure.html image="https://lh3.googleusercontent.com/w-nGjPm9AMsVfvkcbSYhu9j482Z55OUdrhOSA6tFupSXRFv9tTD2f2ZAFn6AHRGzLC_MMDGHGK4t-aj8Fg=w600-no-tmp.jpg" caption="Install Dependabot Preview" %}
-
+    ![alt text](https://lh3.googleusercontent.com/w-nGjPm9AMsVfvkcbSYhu9j482Z55OUdrhOSA6tFupSXRFv9tTD2f2ZAFn6AHRGzLC_MMDGHGK4t-aj8Fg=w600-no-tmp.jpg "Install Dependabot Preview")
 4. Start adding repositories to the Dependabot dashboard.
 
     {% include elements/figure.html image="https://lh3.googleusercontent.com/j4edb8TzKBqykrV_j62qvPQ0ME5NCH3YCD--UynTcIwPdHzUZdxJEshexS-4IdIkX5Evil88lN_tGXNP-Q=w600-no-tmp.jpg" caption="Add Repos Dependabot" %}
