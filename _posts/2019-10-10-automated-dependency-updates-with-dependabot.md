@@ -47,7 +47,7 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 1. Go to [Dependabot site](https://dependabot.com) or [GitHub marketplace and search for Dependabot](https://github.com/marketplace?utf8=%E2%9C%93&query=dependabot).
 2. Install Dependabot to your GitHub account.
 
-    {% include elements/figure.html image="https://lh3.googleusercontent.com/2LF49w-QRKtX7eEMkjZM83Dn6eJVvdKblx7dRomTj9QKBZ7zZHIf2BKDohN-1eXZmUU4DJUeibuE2FhSeg=w600-no-tmp.jpg" caption="Install Dependabot GitHub" %}
+![alt text](https://lh3.googleusercontent.com/2LF49w-QRKtX7eEMkjZM83Dn6eJVvdKblx7dRomTj9QKBZ7zZHIf2BKDohN-1eXZmUU4DJUeibuE2FhSeg=w600-no-tmp.jpg "Install Dependabot GitHub")
 
 3. Give permission to all your repositories or selected ones.
 
