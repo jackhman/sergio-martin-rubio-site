@@ -56,6 +56,23 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 6. Run Dependabot and review PR. A relevant branch name, PR title, comment and labels are created.
     ![alt text](https://lh3.googleusercontent.com/cnB2V_3V22hqUt4vH57167KfX-bKA7Z75523xiZfIdwbvGnx5ykJNBaHiqGLDHRujoVP_nUSZ7-9s5C6kw=w800-no-tmp.jpg "Depedabot Pull Request")
 
+## Breaking Changes
+
+Dependabot also provides a way to give you more confidence in case of possible breaking changes. From the PR page a link is shown and it will take you to a page where you can see PRs that failed CI.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/SmtZ5Ujm1c9x6L5Tp1rm3frPr8nn9PchqU1VD0Y5nmMtew5vwvVRU4NHN9t_czdbaSyVVhC7-QqBwA51QA=w800-no-tmp.jpg" caption="Dependabot Compatibility Rate" %}
+
+How does it work?
+
+- Dependabot retrieve metrics of similar updates from other repos.
+- It creates a score based on each repo that runs a CI with passed test suite.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/BeLflCYfw-UbUS4qOro8GMjzoAJGE44bYhztT6peQp_t7c1g0WpByBgI6MKtos2wEtkYbC8H1BMvXUYqTA=w800-no-tmp.jpg" caption="Compatibility Score Page" %}
+
+>Note: private repositories are not included on the score calculation.
+
+However, to be 100% sure that you are not introducing breaking changes with the dependecy updates, you should create a build with the new branch created by Dependabot.
+
 # Advance Integrations
 
 **Dependabot** can be also used by itself. The oficial repository provides a [_Ruby_ script](https://github.com/dependabot/dependabot-script) that you can run with _Docker_. Another option is to create a repository dedicated to the script and configure a _GitLab CI_ pipeline to run it periodically.
