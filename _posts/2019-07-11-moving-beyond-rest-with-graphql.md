@@ -1,6 +1,6 @@
 ---
 title: Moving Beyond REST with GraphQL
-tags: [API Integration, GraphQL]
+tags: [API Integration, GraphQL, Spring]
 style: fill
 color: dark
 description: GraphQL is an innovative query language which allows you to get what you ask for in a single request. What are you waiting for to know more about GraphQL?
