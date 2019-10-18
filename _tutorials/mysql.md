@@ -36,6 +36,11 @@ Delete Entries
 Transactional statements
 Account Management
 Backup and Recovery
+Views
+CREATE VIEW
+ALTER VIEW
+DROP VIEW
+Retrieve Views
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -895,3 +900,58 @@ mysql -u root -p < <file_name>.sql
 
 1. **Full**: It includes the entired database managed by MySQL.
 2. **Incremental**: It is the backup from the last full or incremental backup. To restore an incremental backup, the full and all the previous incremental backups are required.
+
+# Views
+
+Views are stored queries with name that allows the DB administrator to restrict direct access to tables and implement additional security measures, so you can grant or revoke permissions as you do with tables.
+
+View entries can also be deleted or updated and these changes will be reflected in the tables used to create the view.
+
+## CREATE VIEW
+
+Views can be created from multiple `SELECT` statements or other views.
+
+```sql
+CREATE 
+ALGORITHM=<UNDEFINED|MERGE|TEMPTABLE>
+DEFINER=<user|CURRENT_USER>
+SQL_SECURITY=<DEFINER|INVOKER>
+VIEW <view_name>
+AS SELECT ...;
+WITH CHECK OPTION
+```
+>Note: Only `CREATE`, `VIEW` and `AS` clauses are mandatory.
+
+
+ Clause | Description
+---------|----------
+ `ALGORITHM` | `UNDEFINED` MySQL decides; `MERGE` changes on tables are allowed; `TEMPTABLE` changes are not allowed
+ `DEFINER` | adds creators name 
+ `SQL_SECURITY` | defines permissions on the view: `DEFINER` permissions or `INVOKER`(default) permissions
+ `WITH CHECK OPTION` | `WITH CHECK OPTION` clause is used to prevent inserts or updates to rows which do not satisfy the `WHERE` statement. `LOCAL` will only affect to the actual view, `CASCADED` will affect views used to create the view
+
+## ALTER VIEW
+
+The `ALTER VIEW` clause is used to modify views.
+
+```sql
+ALTER <options>
+VIEW <view_name>
+AS SELECT ...
+...;
+```
+
+## DROP VIEW
+
+You can delete a view with the following sintax:
+
+```sql
+DROP VIEW <view_name>;
+```
+
+## Retrieve Views
+
+```sql
+SHOW CREATE VIEW <view_name>;
+SELECT * FROM information_schema.views;
+```
