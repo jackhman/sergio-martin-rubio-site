@@ -115,3 +115,62 @@ where `server.port` is used to run the application in a different port from the 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
 </p>
+
+## Storing Passwords
+
+Spring Cloud Config Server provides support to ecrypt property values. You can use either symmetric or asymmetric key, however Spring recommends to use a symmetric key since you will only need to configure a single value in the bootstrap property file.
+
+The server also exposes `/encrypt` and `/decrypt` endpoints.
+
+To encrypt a value:
+
+```shell
+curl localhost:8888/encrypt -d mysecret
+```
+
+and to decrypt it:
+
+```shell
+curl localhost:8888/decrypt -d 682bc583f4641835fa2db009355293665d2647dade3375c0ee201de2a49f7bda
+```
+
+>Note: The encrypted vales requires the prefix `{cipher}` when you put it in the YAML or properties.
+
+### Asymmetric
+
+To configure an asymmetric key use a keystore. Thi will require a password which itself would have to be stored unencrypted and set the keystore password as an environment variable.
+
+```shell
+keytool -genkeypair -alias myKeyStore -keyalg RSA \
+  -dname "CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US" \
+  -keystore server.jks -storepass password123
+```
+
+then export the environment variable
+
+```shell
+export ENCRYPT_KEY=password123
+```
+
+and finally set the keystore configuration in both server and client:
+
+```yml
+encrypt:
+  key-store:
+    location: classpath:keys/server.jks
+    password: ${ENCRYPT_KEY}
+    alias: myKeyStore
+```
+
+>Note: If a value cannot be decrypted the value will be replaced with `<n/a>`.
+
+### Symmetric
+
+The asymmetric key is inferior in terms of security, but it is usually more convinient, since only one property has to be set.
+
+```yml
+encrypt:
+  key: ${ENCRYPT_KEY} # any string
+```
+
+Again, to configure a symmetric key, you need to set `encrypt.key` to a plain text string and use the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files, for example you can pass it using Jenkins while generating a pipeline.
