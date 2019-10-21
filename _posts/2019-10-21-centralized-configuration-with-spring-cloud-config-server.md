@@ -110,6 +110,7 @@ spring:
 
 where `server.port` is used to run the application in a different port from the client; and `spring.cloud.config.server.git.uri` is the url to the git repository where the property files are.
 
+>Note: You could create a git repository in your local machine, commit the changes and set `spring.cloud.config.server.git.uri` to somthing like `file://${user.home}/config-repo` to test your configuration locally.
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
