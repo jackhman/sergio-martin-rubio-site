@@ -11,6 +11,9 @@ Introduction
 Getting Started
 Client Side
 Server Side
+Encrypted Properties
+Asymmetric
+Symmetric
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -116,7 +119,7 @@ where `server.port` is used to run the application in a different port from the 
 {% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
 </p>
 
-## Storing Passwords
+## Encrypted Properties
 
 Spring Cloud Config Server provides support to ecrypt property values. You can use either symmetric or asymmetric key, however Spring recommends to use a symmetric key since you will only need to configure a single value in the bootstrap property file.
 
