@@ -8,7 +8,9 @@ description: Spring Cloud Config Server allows you to centralized your configura
 
 {%- capture list_items -%}
 Introduction
-
+Getting Started
+Client Side
+Server Side
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -17,7 +19,7 @@ Introduction
 
 [Spring Cloud Config Server](https://cloud.spring.io/spring-cloud-config/reference/html/) provides remote configuration for your Spring applications or any application running in any language. This tool has been out there for a long time, so it is very mature and reliable. Spring Cloud Config Server comes in handy when you need to set up configurations for microservices in multiple environments, so you can manage your properties separately and avoid the hassle of building your whole application when global variables are updated.
 
-# How does it work?
+# Getting Started
 
 By default _Spring Cloud Config Server_ uses git to store the configuration files, however you could write your own implementation and use a different VCS. 
 
