@@ -93,3 +93,18 @@ public class SpringConfigServerApplication {
 }
 ```
 
+A couple of properties have to be set on the application property file:
+
+```yml
+server:
+  port: 8888
+spring:
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/smartinrub/spring-centralized-configuration.git 
+```
+
+where `server.port` is used to run the application in a different port from the client; and `spring.cloud.config.server.git.uri` is the url to the git repository where the property files are.
+
