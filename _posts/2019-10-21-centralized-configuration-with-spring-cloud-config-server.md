@@ -174,7 +174,7 @@ encrypt:
 
 Again, to configure a symmetric key, you need to set `encrypt.key` to a plain text string and use the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files, for example you can pass it using Jenkins while generating a pipeline.
 
-{% include elements/highlight.html text="`ENCRYPT_KEY` overrides `encrypt.key` value." %}
+{% include elements/highlight.html text="Important: `ENCRYPT_KEY` overrides `encrypt.key` value." %}
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
