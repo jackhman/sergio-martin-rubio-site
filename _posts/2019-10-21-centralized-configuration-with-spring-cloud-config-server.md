@@ -115,10 +115,6 @@ where `server.port` is used to run the application in a different port from the 
 
 >Note: You could create a git repository in your local machine, commit the changes and set `spring.cloud.config.server.git.uri` to somthing like `file://${user.home}/config-repo` to test your configuration locally.
 
-<p class="text-center">
-{% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
-</p>
-
 ## Encrypted Properties
 
 Spring Cloud Config Server provides support to ecrypt property values. You can use either symmetric or asymmetric key, however Spring recommends to use a symmetric key since you will only need to configure a single value in the bootstrap property file.
@@ -177,3 +173,7 @@ encrypt:
 ```
 
 Again, to configure a symmetric key, you need to set `encrypt.key` to a plain text string and use the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files, for example you can pass it using Jenkins while generating a pipeline.
+
+<p class="text-center">
+{% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
+</p>
