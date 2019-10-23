@@ -12,8 +12,9 @@ Getting Started
 Client Side
 Server Side
 Encrypted Properties
-Asymmetric
 Symmetric
+Asymmetric
+Other Features
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -135,9 +136,26 @@ curl localhost:8888/decrypt -d 682bc583f4641835fa2db009355293665d2647dade3375c0e
 
 >Note: The encrypted vales requires the prefix `{cipher}` when you put it in the YAML or properties.
 
+### Symmetric
+
+```yml
+encrypt:
+  key: ${ENCRYPT_KEY} # any string
+```
+
+To configure a symmetric key, you need to set `encrypt.key` to a plain text string in the Spring _Cloud Config Server_ (the client does not require this key since values are decrypted automatically before they are sent to the client, see below) and use the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files, for example you can pass it using Jenkins while generating a pipeline.
+
+{% include elements/highlight.html text="Update (23/10/2019): [Automatic decryption is not working for 2.2.0.M3](https://github.com/spring-cloud/spring-cloud-config/issues/1493) when headers contain `application/vnd.spring-cloud.config-server.v2+json`, since `includeOrigin` is set to true. This is happening because the property source now contains a  `PropertyValueDescriptor` instead of a string value, so `toString()` method returns the object address. In the meantime you are force to decrypt the values in the client by setting the `encrypt.key` property. %}
+
+>Note: `ENCRYPT_KEY` overrides `encrypt.key` value.
+
+You can also disable decryption of properties before sending them to the client. To do this you have to set `spring.cloud.config.server.encrypt.enabled` to `false` (`true` is the default value). When this property is set to `false`, `encrypt.key` is required in the client for decryption during start up.
+
 ### Asymmetric
 
-To configure an asymmetric key use a keystore. Thi will require a password which itself would have to be stored unencrypted and set the keystore password as an environment variable.
+The symmetric key is superior in terms of security, but it is usually less convinient since you have to set a few properties.
+
+To configure an asymmetric key use a keystore. This will require a password which itself would have to be stored unencrypted and set the keystore password as an environment variable.
 
 ```shell
 keytool -genkeypair -alias myKeyStore -keyalg RSA \
@@ -145,7 +163,7 @@ keytool -genkeypair -alias myKeyStore -keyalg RSA \
   -keystore server.jks -storepass password123
 ```
 
-then export the environment variable
+then export the environment variable as we did for symmetric encryption:
 
 ```shell
 export ENCRYPT_KEY=password123
@@ -163,18 +181,11 @@ encrypt:
 
 >Note: If a value cannot be decrypted the value will be replaced with `<n/a>`.
 
-### Symmetric
+## Other Features
 
-The asymmetric key is inferior in terms of security, but it is usually more convinient, since only one property has to be set.
-
-```yml
-encrypt:
-  key: ${ENCRYPT_KEY} # any string
-```
-
-Again, to configure a symmetric key, you need to set `encrypt.key` to a plain text string and use the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files, for example you can pass it using Jenkins while generating a pipeline.
-
-{% include elements/highlight.html text="Important: `ENCRYPT_KEY` overrides `encrypt.key` value." %}
+- Set multiple repositories with `spring.cloud.config.server.git.repo`.
+- Set the timeout for retrieven properties from git  with `spring.cloud.config.server.git.timeout` (default value is 5 seconds).
+- Force the pull from git if you set `spring.cloud.config.server.git.force-pull` to true.
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
