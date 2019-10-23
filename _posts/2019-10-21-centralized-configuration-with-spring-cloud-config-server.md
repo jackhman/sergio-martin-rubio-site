@@ -145,7 +145,7 @@ encrypt:
 
 To configure a symmetric key, you need to set `encrypt.key` to a plain text string in the Spring _Cloud Config Server_ (the client does not require this key since values are decrypted automatically before they are sent to the client, see below) and use the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files, for example you can pass it using Jenkins while generating a pipeline.
 
-{% include elements/highlight.html text="Update (23/10/2019): [Automatic decryption is not working for 2.2.0.M3](https://github.com/spring-cloud/spring-cloud-config/issues/1493) when headers contain `application/vnd.spring-cloud.config-server.v2+json`, since `includeOrigin` is set to true. This is happening because the property source now contains a  `PropertyValueDescriptor` instead of a string value, so `toString()` method returns the object address. In the meantime you are force to decrypt the values in the client by setting the `encrypt.key` property. %}
+>Important: [Automatic decryption is not working for 2.2.0.M3](https://github.com/spring-cloud/spring-cloud-config/issues/1493) when headers contain `application/vnd.spring-cloud.config-server.v2+json`, since `includeOrigin` is set to true. This is happening because the property source now contains a  `PropertyValueDescriptor` instead of a string value, so `toString()` method returns the object address. In the meantime you are force to decrypt the values in the client by setting the `encrypt.key` property.
 
 >Note: `ENCRYPT_KEY` overrides `encrypt.key` value.
 
