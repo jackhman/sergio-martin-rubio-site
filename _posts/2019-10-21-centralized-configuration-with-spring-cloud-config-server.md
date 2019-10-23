@@ -209,7 +209,7 @@ curl -X POST localhost:8080/actuator/refresh
 ## Other Features
 
 - Set multiple repositories with `spring.cloud.config.server.git.repo`.
-- Set the timeout for retrieven properties from git  with `spring.cloud.config.server.git.timeout` (default value is 5 seconds).
+- Set the timeout for retrieving properties from git with `spring.cloud.config.server.git.timeout` (default value is 5 seconds).
 - Force the pull from git if you set `spring.cloud.config.server.git.force-pull` to true.
 
 <p class="text-center">
