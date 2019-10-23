@@ -204,7 +204,7 @@ Once the endpoint is enabled in the client you can hit the `/refresh` endpoint:
 curl -X POST localhost:8080/actuator/refresh
 ```
 
->Note: What is happening under the hood? The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys current instance of all beans in this scope and forces a refresh on next method execution.
+>Note: What is it happening under the hood? The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys current instance of all beans in this scope and forces a refresh on next method execution.
 
 ## Other Features
 
