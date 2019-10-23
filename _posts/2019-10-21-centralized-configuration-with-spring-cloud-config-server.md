@@ -181,6 +181,22 @@ encrypt:
 
 >Note: If a value cannot be decrypted the value will be replaced with `<n/a>`.
 
+## Dynamic Configuration Changes
+
+Another important feature of Spring Cloud Config Server is the posibility of refreshing the client configuration at runtime, without restarting the JVM, and you only need to enable the `/refresh` endpoint to take adavantage of this feature.
+
+Go to your client application properties file and include the endpoint:
+
+```yml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh
+```
+
+>Note: `spring-boot-starter-actuator` dependency is required in order to active management endpoints.
+
 ## Other Features
 
 - Set multiple repositories with `spring.cloud.config.server.git.repo`.
