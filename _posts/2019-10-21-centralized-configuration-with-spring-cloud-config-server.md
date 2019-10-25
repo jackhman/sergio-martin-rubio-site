@@ -206,7 +206,7 @@ curl -X POST localhost:8080/actuator/refresh
 
 >Note: What is it happening under the hood? The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys current instance of all beans in this scope and forces a refresh on next method execution.
 
-As you can see this is a very nice feature, however it is not very convient out-of-the-box, because once you start having many services, refreshing each one will become a hassle. In order to automate this task Spring provides [Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html) to [notify your services](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html) when changes happen in the configuration files hosted in your favourite git repository.
+As you can see this is a very nice feature, however it is not very convient out-of-the-box, because once you start having many services, refreshing each one will become a hassle. In order to automate this task Spring provides [Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html) to [notify your services](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html) when changes happen in the configuration files stored in your favourite source code repository.
 
 Spring Cloud Bus provides a `/monitor` endpoint which is enabled when including:
 
