@@ -210,6 +210,8 @@ As you can see this is a very nice feature, however it is not very convinient ou
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/1q2yDsOwMiJfWOjB7QTH6nCpYhcbJtW2STgYF-SUxM4iCtgza239ByUJSi275Ok_jce8sDeGSCkSSEFY_Q=w800-no-tmp.jpg" caption="Spring Cloud Config Server Diagram" %}
 
+![alt text](https://lh3.googleusercontent.com/1q2yDsOwMiJfWOjB7QTH6nCpYhcbJtW2STgYF-SUxM4iCtgza239ByUJSi275Ok_jce8sDeGSCkSSEFY_Q=w800-no-tmp.jpg "Spring Cloud Config Server Diagram")
+
 Spring Cloud Bus uses a message broker, and you can choose between [RabbitMQ](https://www.rabbitmq.com) or [Kafka](http://kafka.apache.org).
 
 ```xml
