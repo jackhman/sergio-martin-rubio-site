@@ -212,7 +212,7 @@ As you can see this is a very nice feature, however it is not very convinient ou
 
 Spring Cloud Bus uses a message broker, and you can choose between [RabbitMQ](https://www.rabbitmq.com) or [Kafka](http://kafka.apache.org).
 
-In case of _RabbitQM_ you can run it with **Docker**:
+In case of _RabbitQM_ you can [run it with Docker](https://hub.docker.com/_/rabbitmq/):
 
 ```shell
 docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
@@ -251,7 +251,40 @@ The broker message configuration can be shared by creating a `application.yml` o
 
 ### What's next?
 
-You can go a step further by automating the task of hitting the bus refresh endpoing. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a [webhook](https://developer.github.com/webhooks/). The [webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html). 
+You can go a step further by automating the task of hitting the bus refresh endpoing. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a [webhook](https://developer.github.com/webhooks/). The [webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html).
+
+A couple of dependencies have to be added to the Spring Cloud Config Server application:
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+</dependency>
+
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-config-monitor</artifactId>
+</dependency>
+```
+
+and set to true `spring.cloud.bus.enabled` property in `application.yml` (or `.properties`).
+
+Then you have to set up a webhook on Github as follows:
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/rgL3p_tEbYVIs3mQVfr7dmV1BOyD8LOwYv_pizN-h1PgomG9ScA3lCMeQ4Yzs2cM-BY13JtLLcCkGaupX8UmO1sSzYTy5860ceETXYKSC8Kt9NCNyA_oBurqz0rUPpFa6CofSzh2Tw=w1000" caption="Spring Cloud Config Server GitHub Webhooks" %}
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/P8iTW8qq9SlaiSI-uC2uzLCk-OSWH01lexYdPlvXmOZTbVRwmnFLFbwivH3npV5E0DDP2Kc9YaZABbbWyAxH8cSCxr4szTzgK1ciQeXvnm3neZelg4NPK_sDeZOiUDYoP-vThcbOHQ=w1000" caption="GitHub Webhooks Deliveries" %}
+
+To try this out you can either make the Spring Cloud Config Server application public, for example you can set up you router and configure a port forwarding rule; or you can sumulate a git push.
+
+```shell
+curl -v -X POST "http://localhost:8888/monitor" \
+-H "Content-Type: application/json" \
+-H "X-Event-Key: repo:push" \
+-H "X-Hook-UUID: webhook-uuid" \
+-d '{"push": {"changes": []} }'
+```
+
 
 ## Other Features
 
