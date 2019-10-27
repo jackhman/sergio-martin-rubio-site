@@ -66,14 +66,15 @@ Then you only need to set a few Spring properties in `bootstrap.yml`:
 ```yml
 spring:
   application:
-    name: config-server-client
+    name: first-client
   cloud:
     config:
       uri: http://localhost:8888
-      profile: development
+  profiles: 
+    active: development
 ```
 
-where the `spring.application.name` will be mapped to the `{application}` part of the property file stored in git; `spring.cloud.config.uri` is the `Spring Config Server` address; and `spring.cloud.config.profile` will be mapped to the `{profile}` part of the property file. Addionally, you could set `spring.cloud.config.label` which would be mapped to the commit id, branch name, or tag. For the previous example you should have a property file named `config-server-client-development.yml` on your git config repo in order to use the remote cofiguration.
+where the `spring.application.name` will be mapped to the `{application}` part of the property file stored in git; `spring.cloud.config.uri` is the `Spring Config Server` address; and `spring.cloud.config.profile` will be mapped to the `{profile}` part of the property file. Addionally, you could set `spring.cloud.config.label` which would be mapped to the commit id, branch name, or tag. For the previous example you should have a property file named `first-client-development.yml` on your git config repo in order to use the remote cofiguration.
 
 >Note: Remember that `bootstrap.yml` is loaded before `application.yml`, and it is needed if your application's configuration is stored on a remote configuration server and to decrypt properties in the local external configuration files.
 
@@ -93,9 +94,9 @@ By simply using the `@EnableConfigServer` annotation, the server is configured i
 ```java
 @EnableConfigServer
 @SpringBootApplication
-public class SpringConfigServerApplication {
+public class ConfigServerApplication {
     public static void main(String[] args) {
-        SpringApplication.run(SpringConfigServerApplication.class, args);
+        SpringApplication.run(ConfigServerApplication.class, args);
     }
 }
 ```
@@ -110,7 +111,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/smartinrub/spring-centralized-configuration.git 
+          uri: https://github.com/smartinrub/spring-cloud-bus-config-server.git 
 ```
 
 where `server.port` is used to run the application in a different port from the client; and `spring.cloud.config.server.git.uri` is the url to the git repository where the property files are.
@@ -278,13 +279,19 @@ Then you have to set up a webhook on Github as follows:
 To try this out you can either make the Spring Cloud Config Server application public, for example you can set up you router and configure a port forwarding rule; or you can sumulate a git push.
 
 ```shell
-curl -v -X POST "http://localhost:8888/monitor" \
--H "Content-Type: application/json" \
--H "X-Event-Key: repo:push" \
--H "X-Hook-UUID: webhook-uuid" \
--d '{"push": {"changes": []} }'
+curl -X POST "http://localhost:8888/monitor" 
+-H 'X-GitHub-Event: push' 
+-H "Content-Type: application/json" 
+-d '{
+    "commits": [
+        {
+            "modified": [
+                "application.yml"
+            ]
+        }
+    ]
+}'
 ```
-
 
 ## Other Features
 
@@ -293,5 +300,5 @@ curl -v -X POST "http://localhost:8888/monitor" \
 - Force the pull from git if you set `spring.cloud.config.server.git.force-pull` to true.
 
 <p class="text-center">
-{% include elements/button.html link="https://github.com/smartinrub/spring-centralized-configuration" text="Source Code" %}
+{% include elements/button.html link="https://github.com/smartinrub/spring-cloud-bus-config-server" text="Source Code" %}
 </p>
