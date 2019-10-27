@@ -244,6 +244,10 @@ curl -X POST localhost:{server-port}/actuator/bus-refresh
 
 the selected service will publish a refresh event in the chosen message broker and it will broadcast it across all the connected services.
 
+The broker message configuration can be shared by creating a `application.yml` or `application.properties` to the root of your configuration repo and adding the connection properties to it.
+
+>Note: Any property that is added in to the `application.properties` (or `.yml`) in the root of your configuration repository is shared among all services. This is very useful for common configuration among many related services.
+
 ## Other Features
 
 - Set multiple repositories with `spring.cloud.config.server.git.repo`.
