@@ -212,6 +212,14 @@ As you can see this is a very nice feature, however it is not very convinient ou
 
 Spring Cloud Bus uses a message broker, and you can choose between [RabbitMQ](https://www.rabbitmq.com) or [Kafka](http://kafka.apache.org).
 
+In case of _RabbitQM_ you can run it with **Docker**:
+
+```shell
+docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
+```
+
+and add the following dependency to all the client services:
+
 ```xml
 <dependency>
     <groupId>org.springframework.cloud</groupId>
@@ -219,14 +227,7 @@ Spring Cloud Bus uses a message broker, and you can choose between [RabbitMQ](ht
 </dependency>
 ```
 
-```xml
-<dependency>
-    <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-starter-bus-kafka</artifactId>
-</dependency>
-```
-
-When you add one of the previous dependencies the `/actuator/bus-refresh` is available and you only need to add another inclusion to all the config server clients:
+Finally, you have to add the another exclusion in the services that will consume the properties to enable `/actuator/bus-refresh`:
 
 ```yml
 management:
@@ -236,7 +237,7 @@ management:
         include: refresh, bus-refresh
 ```
 
-Now if you hit the endpoint `/actuator/bus-refresh` of one of your services like this:
+Now if you hit the endpoint `/actuator/bus-refresh` of one of your services:
 
 ```shell
 curl -X POST localhost:{server-port}/actuator/bus-refresh
@@ -247,6 +248,10 @@ the selected service will publish a refresh event in the chosen message broker a
 The broker message configuration can be shared by creating a `application.yml` or `application.properties` to the root of your configuration repo and adding the connection properties to it.
 
 >Note: Any property that is added in to the `application.properties` (or `.yml`) in the root of your configuration repository is shared among all services. This is very useful when you want to share common configuration (like database addresses) across applications.
+
+### What's next?
+
+You can go a step further by automating the task of hitting the bus refresh endpoing. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a [webhook](https://developer.github.com/webhooks/). The [webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html). 
 
 ## Other Features
 
