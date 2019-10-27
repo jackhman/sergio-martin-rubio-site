@@ -206,15 +206,34 @@ curl -X POST localhost:8080/actuator/refresh
 
 >Note: What is it happening under the hood? The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys current instance of all beans in this scope and forces a refresh on next method execution.
 
-As you can see this is a very nice feature, however it is not very convient out-of-the-box, because once you start having many services, refreshing each one will become a hassle. In order to automate this task Spring provides [Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html) to [notify your services](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html) when changes happen in the configuration files stored in your favourite source code repository.
+As you can see this is a very nice feature, however it is not very convinient out-of-the-box, because once you start having many services running, refreshing each one will become a hassle. Spring provides a practical way to trigger the refresh event for all the related services when a property changes, and this can be achieved with [Spring Cloud Bus](https://cloud.spring.io/spring-cloud-bus/reference/html/). How does it work? When the refresh event of one of the services is triggered, this event is automatically broadcasted through all the other services by using a message broker. Spring Clud Bus through the message broker behaves as a distributed **Actuator**.
 
-Spring Cloud Bus provides a `/monitor` endpoint which is enabled when including:
+{% include elements/figure.html image="https://lh3.googleusercontent.com/1q2yDsOwMiJfWOjB7QTH6nCpYhcbJtW2STgYF-SUxM4iCtgza239ByUJSi275Ok_jce8sDeGSCkSSEFY_Q=w800-no-tmp.jpg" caption="Spring Cloud Config Server Diagram" %}
+
+Spring Cloud Bus uses a message broker, and you can choose between [RabbitMQ](https://www.rabbitmq.com) or [Kafka](http://kafka.apache.org).
 
 ```xml
 <dependency>
     <groupId>org.springframework.cloud</groupId>
-    <artifactId>spring-cloud-config-monitor</artifactId>
+    <artifactId>spring-cloud-starter-bus-amqp</artifactId>
 </dependency>
+```
+
+```xml
+<dependency>
+    <groupId>org.springframework.cloud</groupId>
+    <artifactId>spring-cloud-starter-bus-kafka</artifactId>
+</dependency>
+```
+
+When you add one of the previous dependencies the `/actuator/bus-refresh` is available and you only need to add another inclusion to all the config server clients:
+
+```yml
+management:
+  endpoints:
+    web:
+      exposure:
+        include: refresh, bus-refresh
 ```
 
 ## Other Features
