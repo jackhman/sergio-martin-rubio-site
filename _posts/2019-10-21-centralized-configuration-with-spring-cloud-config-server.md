@@ -3,7 +3,7 @@ title: Centralized Configuration With Spring Cloud Config Server
 tags: [Spring, Spring Boot, Spring Cloud, Configuration, Microservices]
 style: fill
 color: success
-description: Spring Cloud Config Server allows you to centralized your configuration in your microservices architecture across all environments. Keep reading to learn how to set up the config server!
+description: Spring Cloud Config Server allows you to centralize your configuration in your microservices architecture across all environments. Keep reading to learn how to set up the config server!
 ---
 
 {%- capture list_items -%}
