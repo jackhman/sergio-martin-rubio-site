@@ -3,7 +3,7 @@ title: Centralized Configuration With Spring Cloud Config Server
 tags: [Spring, Spring Boot, Spring Cloud, Configuration, Microservices]
 style: fill
 color: success
-description: Spring Cloud Config Server allows you to centralized your configuration in your microservices architecture across all evironments. Keep reading to learn how to set up the config server!
+description: Spring Cloud Config Server allows you to centralized your configuration in your microservices architecture across all environments. Keep reading to learn how to set up the config server!
 ---
 
 {%- capture list_items -%}
@@ -253,6 +253,8 @@ The broker message configuration can be shared by creating a `application.yml` o
 ### What's next?
 
 You can go a step further by automating the task of hitting the bus refresh endpoing. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a [webhook](https://developer.github.com/webhooks/). The [webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html).
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/SNicX8hqYJ_D_WMTQiE3fMc88PYqfe5NWn7gffw3xXxxZLDsqVhYKOxu7MWrQ17GhUEvJ1qYN66UBjOijojPXySYZxFPcrkn8cudR4BZQM616P88mWdfw-P0DfXhC5hl1slyBKlJLQ=w1000" caption="Spring Cloud Config Server With Webhook Diagram" %}
 
 A couple of dependencies have to be added to the Spring Cloud Config Server application:
 
