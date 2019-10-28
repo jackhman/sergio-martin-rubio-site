@@ -22,13 +22,13 @@ Other Features
 
 # Introduction
 
-[Spring Cloud Config Server](https://cloud.spring.io/spring-cloud-config/reference/html/) provides remote configuration for your Spring applications or any application running in any language. This tool has been out there for a long time, so it is very mature and reliable. Spring Cloud Config Server comes in handy when you need to set up configurations for microservices in multiple environments, so you can manage your properties separately and avoid the hassle of building your whole application when global variables are updated.
+[Spring Cloud Config Server](https://cloud.spring.io/spring-cloud-config/reference/html/) provides remote configuration for your Spring applications or any application running in any language. This tool has been out there for a long time, so it is very mature and reliable. Spring Cloud Config Server comes in handy when you need to set up configurations for microservices in multiple environments, so you can manage properties separately and avoid the hassle of triggering application builds when only the configuration is updated.
 
 # Getting Started
 
-By default _Spring Cloud Config Server_ uses git to store the configuration files, however you could write your own implementation and use a different VCS. 
+By default _Spring Cloud Config Server_ uses git to store the configuration files, however you could write your own implementation and use a different version control system (VCS). 
 
-Clients retrieve the configuration through the Spring Cloud Config Server and both client and server have to be mapped to the Spring `Environment`, which includes:
+Clients retrieve the configuration through Spring Cloud Config Server and both client and server have to be mapped to the Spring `Environment`, which contains:
 
 - `{application}` is `spring.application.name` on the client side.
 
@@ -36,7 +36,7 @@ Clients retrieve the configuration through the Spring Cloud Config Server and bo
 
 - `{label}` is the commit id, branch name, or tag.
 
-Property files formats allowed:
+Property files can be named and located as follows:
 
 ```shell
  /{application}/{profile}[/{label}]
@@ -48,7 +48,7 @@ Property files formats allowed:
 
 >Note: Active profiles take precedence over defaults. When multiple profiles are selected, the last one will be chosen.
 
->Note: If the git branch or tag name contains slashes (`/`) they must be replace with underscores (`_`).
+>Note: If the git branch or tag name contains slashes (`/`) they must be replaced with underscores (`_`).
 
 ## Client Side
 
