@@ -197,15 +197,13 @@ Once the endpoint is enabled in the client you can hit the `/refresh` endpoint:
 curl -X POST localhost:8080/actuator/refresh
 ```
 
->Note: **What's happening under the hood?** The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys current instance of all beans in this scope and forces a refresh on next method execution.
+>Note: **What's happening under the hood?** The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys the current instance of all beans in this scope and forces a refresh on next method execution.
 
-As you can see this is a very nice feature, however it is not very convinient out-of-the-box, because once you start having many services running, refreshing each one will become a hassle. Spring provides a practical way to trigger the refresh event for all the related services when a property changes, and this can be achieved with [Spring Cloud Bus](https://cloud.spring.io/spring-cloud-bus/reference/html/). How does it work? When the refresh event of one of the services is triggered, this event is automatically broadcasted through all the other services by using a message broker. Spring Clud Bus through the message broker behaves as a distributed **Actuator**.
+As you can see this is a very nice feature, however it is not very convinient out-of-the-box, because once you start having many services running refreshing each one will become a hassle, that's why Spring provides a practical way to trigger the refresh event for all related services when property change, and this can be achieved with [Spring Cloud Bus](https://cloud.spring.io/spring-cloud-bus/reference/html/). How does it work? When the refresh event of one of the services is triggered, this event is automatically broadcasted through all the other services by using a message broker, and this can be traslated as a distributed **Actuator**.
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/miHCBc1VpFzGFG3SW3mqLSVFE8iGHew2vGhpDdi8gxB8jglRk2qe5G9LBUXwdopQfMPseQV_2nXZMbUbJcLUNelLUm5k5Vk66faEUUfDXTSKurO2bLBdak3JHGWxUmMO__ZyYOchWw=w1000" caption="Spring Cloud Config Server Diagram" %}
 
-Spring Cloud Bus uses a message broker, and you can choose between [RabbitMQ](https://www.rabbitmq.com) or [Kafka](http://kafka.apache.org).
-
-In case of _RabbitQM_ you can [run it with Docker](https://hub.docker.com/_/rabbitmq/):
+Spring Cloud Bus uses a message broker, and you can choose between [RabbitMQ](https://www.rabbitmq.com) or [Kafka](http://kafka.apache.org). In case of _RabbitQM_ you can [run it with Docker](https://hub.docker.com/_/rabbitmq/) as follows:
 
 ```shell
 docker run -d --hostname my-rabbit --name some-rabbit -p 15672:15672 -p 5672:5672 rabbitmq:3-management
@@ -220,7 +218,7 @@ and add the following dependency to all the client services:
 </dependency>
 ```
 
-Finally, you have to add the another exclusion in the services that will consume the properties to enable `/actuator/bus-refresh`:
+In order to enable `/actuator/bus-refresh` you have to add another exclusion in the services consuming the properties:
 
 ```yml
 management:
