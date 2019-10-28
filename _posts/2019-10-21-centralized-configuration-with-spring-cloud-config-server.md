@@ -145,7 +145,7 @@ encrypt:
   key: ${ENCRYPT_KEY} # any string
 ```
 
-To configure a symmetric key, you need to set `encrypt.key` to a plain text string in the Spring _Cloud Config Server_ (the client does not require this key since values are decrypted automatically before they are sent to the client) and set the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files. For example, you can pass it using Jenkins while running your pipeline.
+To configure a symmetric key, you need to set `encrypt.key` to a plain text string in Spring _Cloud Config Server_ (the client does not require this key since values are decrypted automatically before they are sent to the client) and set the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files. For example, you can pass it using Jenkins while running your pipeline.
 
 >Important: [Automatic decryption is not working for 2.2.0.M3](https://github.com/spring-cloud/spring-cloud-config/issues/1493) when headers contain `application/vnd.spring-cloud.config-server.v2+json`, since `includeOrigin` is set to true. This is happening because the property source now contains a  `PropertyValueDescriptor` instead of a string value, so `toString()` method returns the object address. In the meantime you are force to decrypt the values in the client by setting the `encrypt.key` property.
 
@@ -157,7 +157,7 @@ You can also disable decryption of properties before sending them to the client.
 
 The symmetric key is superior in terms of security, but it is usually less convinient since you have to set a few properties.
 
-To configure an asymmetric key use a keystore. This will require a password which itself would have to be stored unencrypted and set the keystore password as an environment variable.
+A keystore is needed to set up an asymmetric key. This requires a password which itself would have to be stored unencrypted and then set the keystore password as an environment variable.
 
 ```shell
 keytool -genkeypair -alias myKeyStore -keyalg RSA \
@@ -165,13 +165,7 @@ keytool -genkeypair -alias myKeyStore -keyalg RSA \
   -keystore server.jks -storepass password123
 ```
 
-then export the environment variable as we did for symmetric encryption:
-
-```shell
-export ENCRYPT_KEY=password123
-```
-
-and finally set the keystore configuration in both server and client:
+Finally, set the keystore configuration in the _Spring Cloud Config Server_:
 
 ```yml
 encrypt:
@@ -181,13 +175,11 @@ encrypt:
     alias: myKeyStore
 ```
 
->Note: If a value cannot be decrypted the value will be replaced with `<n/a>`.
+>Note: If a property cannot be decrypted the value will be replaced with `<n/a>`.
 
 ## Dynamic Configuration Changes
 
-Another important feature of Spring Cloud Config Server is the posibility of refreshing the client configuration at runtime without restarting the JVM. By default, the configuration values are read on the client’s startup. To take advantage of this feature you need to enable the `/refresh` endpoint.
-
-Go to your client application properties file and include the endpoint:
+Another important feature of _Spring Cloud Config Server_ is the posibility of refreshing the client configuration at runtime without restarting the JVM. By default, configuration values are read on the client’s startup. To take advantage of this feature you need to enable the `/refresh` endpoint. To do so, go to your client application properties file and include the endpoint:
 
 ```yml
 management:
@@ -197,7 +189,7 @@ management:
         include: refresh
 ```
 
->Note: `spring-boot-starter-actuator` dependency is required in order to active management endpoints.
+>Note: `spring-boot-starter-actuator` dependency is required in order to activate management endpoints.
 
 Once the endpoint is enabled in the client you can hit the `/refresh` endpoint:
 
