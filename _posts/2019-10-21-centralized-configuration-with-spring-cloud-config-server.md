@@ -197,7 +197,7 @@ Once the endpoint is enabled in the client you can hit the `/refresh` endpoint:
 curl -X POST localhost:8080/actuator/refresh
 ```
 
->Note: What is it happening under the hood? The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys current instance of all beans in this scope and forces a refresh on next method execution.
+>Note: **What's happening under the hood?** The `ContextRefresher` class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys current instance of all beans in this scope and forces a refresh on next method execution.
 
 As you can see this is a very nice feature, however it is not very convinient out-of-the-box, because once you start having many services running, refreshing each one will become a hassle. Spring provides a practical way to trigger the refresh event for all the related services when a property changes, and this can be achieved with [Spring Cloud Bus](https://cloud.spring.io/spring-cloud-bus/reference/html/). How does it work? When the refresh event of one of the services is triggered, this event is automatically broadcasted through all the other services by using a message broker. Spring Clud Bus through the message broker behaves as a distributed **Actuator**.
 
