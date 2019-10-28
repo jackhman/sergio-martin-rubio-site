@@ -76,7 +76,7 @@ spring:
 
 where the `spring.application.name` will be mapped to the `{application}` part of the property file stored in git; `spring.cloud.config.uri` is the `Spring Config Server` application address; and `spring.profiles.active` will be mapped to the `{profile}` part of the property file. Addionally, you could set `spring.cloud.config.label` which would be mapped to the commit id, branch name, or tag. For the previous example you should have a property file named `first-client-development.yml` on your git config repo in order to use the remote cofiguration.
 
->Note: Remember that `bootstrap.yml` is loaded before `application.yml`, and it is needed if your application's configuration is stored on a remote configuration server and to decrypt properties in the local external configuration files.
+>Note: Remember that `bootstrap.yml` is loaded before `application.yml`, and so the first one is needed if your application's configuration is stored on a remote configuration server and properties need to be decrypted.
 
 ## Server Side
 
@@ -89,7 +89,7 @@ The Maven dependency required on the server side is:
 </dependency>
 ```
 
-By simply using the `@EnableConfigServer` annotation, the server is configured in the Spring Boot application.
+By simply using the `@EnableConfigServer` annotation, Spring Cloud Cloud is configured in the Spring Boot application.
 
 ```java
 @EnableConfigServer
@@ -101,7 +101,7 @@ public class ConfigServerApplication {
 }
 ```
 
-A couple of properties have to be set on the application property file:
+also a couple of properties have to be set on the application property file:
 
 ```yml
 server:
@@ -114,29 +114,29 @@ spring:
           uri: https://github.com/smartinrub/spring-cloud-bus-config-server.git 
 ```
 
-where `server.port` is used to run the application in a different port from the client; and `spring.cloud.config.server.git.uri` is the url to the git repository where the property files are.
+where `server.port` is used to run the application in a particular port; and `spring.cloud.config.server.git.uri` is the git repository URL where the property files are stored.
 
->Note: You could create a git repository in your local machine, commit the changes and set `spring.cloud.config.server.git.uri` to somthing like `file://${user.home}/config-repo` to test your configuration locally.
+>Note: You could create a git repository on your local machine, commit the changes and set `spring.cloud.config.server.git.uri` to somthing like `file://${user.home}/config-repo`, so you can test your configuration locally.
 
 ## Encrypted Properties
 
-Spring Cloud Config Server provides support to ecrypt property values. You can use either symmetric or asymmetric key, however Spring recommends to use a symmetric key since you will only need to configure a single value in the bootstrap property file.
+_Spring Cloud Config Server_ supports property encryption. You can use either symmetric or asymmetric key encryption. Spring recommends to use a symmetric key since you will only need to configure a single value in the bootstrap property file, however you might want to use asymmetric keys if you want to increase the security.
 
-The server also exposes `/encrypt` and `/decrypt` endpoints.
+You can encrypt and decrypt properties with `/encrypt` and `/decrypt` endpoints, or use the [Spring CLI tool](https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-cli.html) with the [Spring Cloud plugin](https://spring.io/projects/spring-cloud-cli).
 
-To encrypt a value:
+For instance, you can encrypt a property like this:
 
 ```shell
 curl localhost:8888/encrypt -d mysecret
 ```
 
-and to decrypt it:
+and to decrypt it like this:
 
 ```shell
 curl localhost:8888/decrypt -d 682bc583f4641835fa2db009355293665d2647dade3375c0ee201de2a49f7bda
 ```
 
->Note: The encrypted vales requires the prefix `{cipher}` when you put it in the YAML or properties.
+>Note: Encrypted vales require the prefix `{cipher}` when you put them in `application.properties` (or `.yml`).
 
 ### Symmetric
 
