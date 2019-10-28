@@ -246,7 +246,7 @@ You can go a step further by automating the task of hitting the bus refresh endp
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/SNicX8hqYJ_D_WMTQiE3fMc88PYqfe5NWn7gffw3xXxxZLDsqVhYKOxu7MWrQ17GhUEvJ1qYN66UBjOijojPXySYZxFPcrkn8cudR4BZQM616P88mWdfw-P0DfXhC5hl1slyBKlJLQ=w1000" caption="Spring Cloud Config Server With Webhook Diagram" %}
 
-A couple of dependencies have to be added to the Spring Cloud Config Server application:
+A couple of dependencies in the Spring Cloud Config server are needed to make this work:
 
 ```xml
 <dependency>
@@ -260,15 +260,13 @@ A couple of dependencies have to be added to the Spring Cloud Config Server appl
 </dependency>
 ```
 
-and set to true `spring.cloud.bus.enabled` property in `application.yml` (or `.properties`).
-
-Then you have to set up a webhook on Github as follows:
+and set to true `spring.cloud.bus.enabled` property in `application.yml` (or `.properties`). Finally, you have to set up a webhook on Github as follows:
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/rgL3p_tEbYVIs3mQVfr7dmV1BOyD8LOwYv_pizN-h1PgomG9ScA3lCMeQ4Yzs2cM-BY13JtLLcCkGaupX8UmO1sSzYTy5860ceETXYKSC8Kt9NCNyA_oBurqz0rUPpFa6CofSzh2Tw=w1000" caption="Spring Cloud Config Server GitHub Webhooks" %}
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/P8iTW8qq9SlaiSI-uC2uzLCk-OSWH01lexYdPlvXmOZTbVRwmnFLFbwivH3npV5E0DDP2Kc9YaZABbbWyAxH8cSCxr4szTzgK1ciQeXvnm3neZelg4NPK_sDeZOiUDYoP-vThcbOHQ=w1000" caption="GitHub Webhooks Deliveries" %}
 
-To try this out you can either make the Spring Cloud Config Server application public, for example you can set up you router and configure a port forwarding rule; or you can sumulate a git push.
+To try this out you can either make the Spring Cloud Config Server application public or you can simulate a git push notification request.
 
 ```shell
 curl -X POST "http://localhost:8888/monitor" 
@@ -284,6 +282,8 @@ curl -X POST "http://localhost:8888/monitor"
     ]
 }'
 ```
+
+>Note: To make your application public you could set up you router with a port forwarding rule.
 
 ## Other Features
 
