@@ -234,7 +234,7 @@ Now if you hit the endpoint `/actuator/bus-refresh` of one of your services:
 curl -X POST localhost:{server-port}/actuator/bus-refresh
 ```
 
-the selected service will publish a refresh event in the chosen message broker and it will broadcast it across all the connected services.
+the selected service will publish a refresh event in the chosen message broker and will broadcast it across all the connected services.
 
 The broker message configuration can be shared by creating a `application.yml` or `application.properties` to the root of your configuration repo and adding the connection properties to it.
 
@@ -242,7 +242,7 @@ The broker message configuration can be shared by creating a `application.yml` o
 
 ### What's next?
 
-You can go a step further by automating the task of hitting the bus refresh endpoing. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a [webhook](https://developer.github.com/webhooks/). The [webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html).
+You can go a step further by automating the task of hitting the bus refresh endpoint. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a [webhook](https://developer.github.com/webhooks/). The [webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html).
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/SNicX8hqYJ_D_WMTQiE3fMc88PYqfe5NWn7gffw3xXxxZLDsqVhYKOxu7MWrQ17GhUEvJ1qYN66UBjOijojPXySYZxFPcrkn8cudR4BZQM616P88mWdfw-P0DfXhC5hl1slyBKlJLQ=w1000" caption="Spring Cloud Config Server With Webhook Diagram" %}
 
