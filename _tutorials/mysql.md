@@ -35,12 +35,21 @@ Update Table
 Delete Entries
 Transactional statements
 Account Management
+Create User
+Remove User
+Give Privileges
+Revoke Privilege
+Show Privileges
 Backup and Recovery
 Views
-CREATE VIEW
-ALTER VIEW
-DROP VIEW
+Create View
+Modify View
+Remove View
 Retrieve Views
+Triggers
+Create a Trigger
+Delete a Trigger
+Show Triggers
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -152,15 +161,15 @@ RENAME TABLE <table_name> TO <new_table_name>;
 
 # Table Attributes
 
-## NOT NULL
+* `NOT NULL`:
 
 The column does not allow null entries.
 
-## NULL
+* `NULL`:
 
 The column allows null entries.
 
-## DEFAULT
+* `DEFAULT`:
 
 It allows you to set a default value and use it in case of null.
 
@@ -170,7 +179,7 @@ e.g.
 post_code DEFAULT W2 3ES
 ```
 
-## PRIMARY KEY
+* `PRIMARY KEY`:
 
 The primary key constraint identify unique records in a table and only one primery key is allowed per table, however you can define a compound primary key wich contains multiple columns.
 
@@ -207,11 +216,11 @@ CREATE TABLE contact(
 );
 ```
 
-## UNIQUE KEY
+* `UNIQUE KEY`:
 
 Same as `PRIMARY KEY` but it allows null entries.
 
-## FOREIGN KEY
+* `FOREIGN KEY`:
 
 They are used to link two tables. A foreign key is a column in a table that points to a primary key of another table.
 
@@ -235,7 +244,7 @@ CREATE TABLE <table_name>(
 );
 ```
 
-## ON DELETE and ON UPDATE
+* `ON DELETE` and `ON UPDATE`:
 
 MySQL provides some actions to automate changes from children tables which refer to a parent table:
 
@@ -260,11 +269,11 @@ For this particular example if one of the records is deleted from `client`, all 
 
 >Note: On delete and on update only work for with tables with store engines that support foreign keys like InnoDB.
 
-## AUTO_INCREMENT
+* `AUTO_INCREMENT`:
 
 It allows you to generate unique value for new rows and every time a new record is added the field gets incremented.
 
-## CHARACTER SET
+* `CHARACTER SET`:
 
 MySQL support multiple charater sets to define what characters are legal in your table.
 
@@ -288,19 +297,19 @@ CREATE TABLE <table_name>(
 CHARACTER SET <character_set_name>
 ```
 
-## CHECKSUM
+* `CHECKSUM`:
 
 It generates a number based on the table content. This could take a long time if the table is very large.
 
-## COMMENT
+* `COMMENT`:
 
 Comments can be added when a table is created.
 
-## MAX_ROWS
+* `MAX_ROWS`:
 
 It is the maximum number of entries you are planning to store in a table, but is not a hard limit and only a hint.
 
-## MIN_ROWS
+* `MIN_ROWS`:
 
 It is just a hint for the engine about the memory use.
 
@@ -550,9 +559,7 @@ Comparison operators:
 
 >Note: You can also do subquery of another subquery, and this is called nested subqueries.
 
-### IN
-
-`IN`: returns values that match with an expression.
+* `IN`: returns values that match with an expression.
 
 ```sql
 SELECT <column_name> 
@@ -565,11 +572,9 @@ IN (
 );
 ```
 
-### ALL or ANY
+* `ALL`: it must follow a comparison operator and will return `TRUE` if all the values returned by the subquery satisfy the condition.
 
-`ALL`: it must follow a comparison operator and will return `TRUE` if all the values returned by the subquery satisfy the condition.
-
-`ANY` or `SOME`: it must follow a comparison operator and will return `TRUE` if any of the values returned by the subquery satisfy the condition.
+* `ANY` or `SOME`: it must follow a comparison operator and will return `TRUE` if any of the values returned by the subquery satisfy the condition.
 
 The following example will return the name and weight of the players who have position 'G' and whose weight is greater than any player whose position is 'C'.
 e.g.
@@ -584,7 +589,7 @@ WHERE position =' G' AND weight > ANY (
 );
 ```
 
-### EXISTS or NOT EXISTS
+* `EXISTS` or `NOT EXISTS`
 
 It returns `TRUE`if the inner table contains any rows.
 
@@ -733,7 +738,7 @@ COMMIT;
 
 # Account Management
 
-## CREATE USER
+## Create User
 
 The `CREATE USER` clause creates new MySQL accounts and it enables authentication, SSL/TLS, resource access limitations and password management.
 
@@ -907,18 +912,18 @@ Views are stored queries with name that allows the DB administrator to restrict 
 
 View entries can also be deleted or updated and these changes will be reflected in the tables used to create the view.
 
-## CREATE VIEW
+## Create View
 
 Views can be created from multiple `SELECT` statements or other views.
 
 ```sql
 CREATE 
-ALGORITHM=<UNDEFINED|MERGE|TEMPTABLE>
-DEFINER=<user|CURRENT_USER>
-SQL_SECURITY=<DEFINER|INVOKER>
+{ALGORITHM=<UNDEFINED|MERGE|TEMPTABLE>}
+{DEFINER=<user|CURRENT_USER>}
+{SQL_SECURITY=<DEFINER|INVOKER>}
 VIEW <view_name>
-AS SELECT ...;
-WITH CHECK OPTION
+AS SELECT ...
+{WITH CHECK OPTION};
 ```
 >Note: Only `CREATE`, `VIEW` and `AS` clauses are mandatory.
 
@@ -930,7 +935,7 @@ WITH CHECK OPTION
  `SQL_SECURITY` | defines permissions on the view: `DEFINER` permissions or `INVOKER`(default) permissions
  `WITH CHECK OPTION` | `WITH CHECK OPTION` clause is used to prevent inserts or updates to rows which do not satisfy the `WHERE` statement. `LOCAL` will only affect to the actual view, `CASCADED` will affect views used to create the view
 
-## ALTER VIEW
+## Modify a View
 
 The `ALTER VIEW` clause is used to modify views.
 
@@ -941,7 +946,7 @@ AS SELECT ...
 ...;
 ```
 
-## DROP VIEW
+## Remove View
 
 You can delete a view with the following sintax:
 
@@ -954,4 +959,43 @@ DROP VIEW <view_name>;
 ```sql
 SHOW CREATE VIEW <view_name>;
 SELECT * FROM information_schema.views;
+```
+
+# Triggers
+
+A **trigger** is an routine activated or executed as a result of an action of type `INSERT`, `DELETE` or `UPDATE`.
+
+>Note: Before _MySQL 5.7.2_, only 6 triggers are allowed for each table. One trigger for each combination of time (`BEFORE`, `AFTER`) and action (`INSERT`, `UPDATE`, `DELETE`).
+
+## Create a Trigger
+
+```sql
+CREATE TRIGGER <trigger_name> 
+{BEFORE|AFTER}
+{INSERT|UPDATE|DELETE} ON <table_name>
+FOR EACH ROW
+BEGIN
+<sql_statement>
+END;
+```
+
+MySQL provides the `OLD` and `NEW` keywords to access columns in the rows affected by a trigger.
+
+- In a `INSERT` trigger only `NEW` is avaiable, since there is not a previous version of the row.
+- In a `DELETE` trigger only `OLD` can be used, since the row is removed.
+- `UPDATE` supports both `NEW` and `OLD`, the first one refers to a row after it is updated and the second one refers to a row before it is updated.
+
+## Delete a Trigger
+
+To remove a trigger you can execute:
+
+```sql
+DROP TRIGGER <trigger_name>;
+```
+
+## Show Triggers
+
+```sql
+SHOW TRIGGERS {FROM|IN} <db_name>;
+SELECT <trigger_name> FROM information_schema.triggers;
 ```
