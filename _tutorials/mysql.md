@@ -931,13 +931,10 @@ CREATE
 ```
 >Note: Only `CREATE`, `VIEW` and `AS` clauses are mandatory.
 
-
- Clause | Description
----------|----------
- `ALGORITHM` | `UNDEFINED` MySQL decides; `MERGE` changes on tables are allowed; `TEMPTABLE` changes are not allowed
- `DEFINER` | adds creators name 
- `SQL_SECURITY` | defines permissions on the view: `DEFINER` permissions or `INVOKER`(default) permissions
- `WITH CHECK OPTION` | `WITH CHECK OPTION` clause is used to prevent inserts or updates to rows which do not satisfy the `WHERE` statement. `LOCAL` will only affect to the actual view, `CASCADED` will affect views used to create the view
+ * `ALGORITHM`: `UNDEFINED` MySQL decides; `MERGE` changes on tables are allowed; `TEMPTABLE` changes are not allowed
+ * `DEFINER`: adds creators name 
+ * `SQL_SECURITY`: defines permissions on the view: `DEFINER` permissions or `INVOKER`(default) permissions
+ * `WITH CHECK OPTION`: `WITH CHECK OPTION` clause is used to prevent inserts or updates to rows which do not satisfy the `WHERE` statement. `LOCAL` will only affect to the actual view, `CASCADED` will affect views used to create the view
 
 ## Modify a View
 
