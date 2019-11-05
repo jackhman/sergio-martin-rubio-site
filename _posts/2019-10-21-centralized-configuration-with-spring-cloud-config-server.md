@@ -285,6 +285,8 @@ curl -X POST "http://localhost:8888/monitor"
 
 >Note: To make your application public you could set up you router with a port forwarding rule.
 
+The config server application will create a refresh event in the message broker and based on the application name used for the property file name, it will send the refresh event to the services that need to be refreshed.
+
 ## Other Features
 
 - Set multiple repositories with `spring.cloud.config.server.git.repo`.
