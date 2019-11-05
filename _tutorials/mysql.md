@@ -52,6 +52,8 @@ Delete a Trigger
 Show Triggers
 Events
 Create Event
+Modify Event
+Show Events
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -726,7 +728,7 @@ DELETE FROM <table_name> WHERE <expression>;
 
 A transaction is a set of grouped statements and defined as a single unit of work, this means that if a transaction is successful, all the modifucations will be saved and became permanent part of the database, otherwise the transaction will be cancelled and rolled back. MySQL provides the following sintax to use transactions:
 
-* `START TRANSACTION` or `BEGIN [WORK]`: To start a new transaction.
+* `START TRANSACTION` or `BEGIN {WORK}`: To start a new transaction.
 * `COMMIT`: Statements are accepted.
 * `ROLLBACK`: Cancell current changes.
 * `SET AUTOCOMMIT={0|1}`: It disables or enables the default autocommit mode for the current session.  
@@ -920,9 +922,9 @@ Views can be created from multiple `SELECT` statements or other views.
 
 ```sql
 CREATE 
-    {ALGORITHM=<UNDEFINED|MERGE|TEMPTABLE>}
-    {DEFINER=<user|CURRENT_USER>}
-    {SQL_SECURITY=<DEFINER|INVOKER>}
+    {ALGORITHM=<UNDEFINED | MERGE | TEMPTABLE>}
+    {DEFINER=<user | CURRENT_USER>}
+    {SQL_SECURITY=<DEFINER | INVOKER>}
     VIEW <view_name>
     AS SELECT ...
     {WITH CHECK OPTION};
@@ -973,8 +975,8 @@ A **trigger** is an routine activated or executed as a result of an action of ty
 
 ```sql
 CREATE TRIGGER <trigger_name> 
-    {BEFORE|AFTER}
-    {INSERT|UPDATE|DELETE} ON <table_name>
+    {BEFORE | AFTER}
+    {INSERT | UPDATE | DELETE} ON <table_name>
     FOR EACH ROW
     BEGIN
     <sql_statement>
@@ -998,7 +1000,7 @@ DROP TRIGGER <trigger_name>;
 ## Show Triggers
 
 ```sql
-SHOW TRIGGERS {FROM|IN} <db_name>;
+SHOW TRIGGERS {FROM | IN} <db_name>;
 SELECT <trigger_name> FROM information_schema.triggers;
 ```
 
@@ -1021,7 +1023,7 @@ CREATE EVENT <table_name>
     {ON COMPLETION {NOT} PRESERVE}
     {ENABLE | DISABLE | DISABLE ON SLAVE}
     {COMMENT 'string'}
-    DO event_body;
+    DO <actions>;
 ```
 
 >Note: it `ENABLE` by default
@@ -1029,7 +1031,7 @@ CREATE EVENT <table_name>
 `<schedule>` can be:
 
 ```sql
-AT{<time>{<interval>}}|EVERY <interval>
+AT{<time>{<interval>}} | EVERY <interval>
 {STARTS <time> {<inteval>}}
 {ENDS <time> {<interval>}}
 ```
@@ -1041,4 +1043,20 @@ AT{<time>{<interval>}}|EVERY <interval>
 WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |
 DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}
 ```
-              
+
+## Modify Event
+
+```sql
+ALTER EVENT <event_name>
+    {ON SCHEDULE <schedule>}
+    {ON COMPLETION {NOT} {PRESERVE}}
+    {RENAME TO <new_event_name>}
+    {ENABLE | DISABLE | DISABLE ON SLAVE}
+    {DO <actions>};
+```
+
+## Show Events
+
+```sql
+SHOW EVENTS;
+``` 
