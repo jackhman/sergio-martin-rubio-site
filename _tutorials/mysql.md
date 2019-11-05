@@ -50,6 +50,8 @@ Triggers
 Create a Trigger
 Delete a Trigger
 Show Triggers
+Events
+Create Event
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -287,7 +289,7 @@ The character set can be specified for at a database or table level.
 
 ```sql
 CREATE DATABASE <db_name>
-CHARACTER SET character_set_name;
+    CHARACTER SET character_set_name;
 ```
 
 ```sql
@@ -375,7 +377,7 @@ Set table engine:
 ```sql
 CREATE TABLE <table_name>(
     ...
-)ENGINE=<engine_name>;
+    )ENGINE=<engine_name>;
 ```
 
 Each DB engine has different features like table struture, therefore you have to decide which one is better for your use case.
@@ -435,16 +437,16 @@ Select rows with an assined group:
 
 ```sql
 SELECT <column_name> 
-FROM <table_name> 
-WHERE <condition> IN (<value_1>, <value_2>, ...);
+    FROM <table_name> 
+    WHERE <condition> IN (<value_1>, <value_2>, ...);
 ```
 
 e.g. 
 
 ```sql
 SELECT name, height, nationality 
-FROM player 
-WHERE team_name='Lakers' AND nationality IN ('Spain', 'Slovenia', 'Serbia');
+    FROM player 
+    WHERE team_name='Lakers' AND nationality IN ('Spain', 'Slovenia', 'Serbia');
 ```
 
 To retrieve values within a range:
@@ -500,8 +502,8 @@ You can sort table rows by columns with the following sintax:
 
 ```sql
 SELECT <column_name> <another_column_name>
-FROM <table_name>
-ORDER BY <column_name>, <another_column_name>;
+    FROM <table_name>
+    ORDER BY <column_name>, <another_column_name>;
 ```
 
 >Note: the first specified column with have precedence when sorting.
@@ -529,7 +531,7 @@ e.g.
 The following query will return the number of vehicle by brand.
 
 ```sql
- SELECT brand, COUNT(*) FROM vehicle GROUP BY brand;
+SELECT brand, COUNT(*) FROM vehicle GROUP BY brand;
 ```
 
 `HAVING` clause is usually used in combination with `GROUP BY` clause to filter groups based on a specified condition. When `GROUP BY` is not specified `HAVING` behaves in the same way as `WHERE` clause. 
@@ -542,10 +544,10 @@ e.g.
 
 ```sql
 SELECT team_name, AVG(weight) 
-FROM player 
-GROUP BY team_name 
-HAVING AVG(weight) > 228 
-ORDER BY AVG(weight);
+    FROM player 
+    GROUP BY team_name 
+    HAVING AVG(weight) > 228 
+    ORDER BY AVG(weight);
 ```
 
 ## Subqueries
@@ -563,13 +565,13 @@ Comparison operators:
 
 ```sql
 SELECT <column_name> 
-FROM <table_name> 
-WHERE <expression> 
-IN (
-    SELECT <inner_table_column_name> 
-    FROM <inner_table_name> 
-    WHERE <expression>
-);
+    FROM <table_name> 
+    WHERE <expression> 
+    IN (
+        SELECT <inner_table_column_name> 
+        FROM <inner_table_name> 
+        WHERE <expression>
+    );
 ```
 
 * `ALL`: it must follow a comparison operator and will return `TRUE` if all the values returned by the subquery satisfy the condition.
@@ -581,12 +583,12 @@ e.g.
 
 ```sql
 SELECT name, weight 
-FROM player 
-WHERE position =' G' AND weight > ANY (
-    SELECT weight 
     FROM player 
-    WHERE position = 'C'
-);
+    WHERE position =' G' AND weight > ANY (
+        SELECT weight 
+        FROM player 
+        WHERE position = 'C'
+    );
 ```
 
 * `EXISTS` or `NOT EXISTS`
@@ -597,12 +599,12 @@ e.g.
 
 ```sql
 SELECT store_type 
-FROM store
-WHERE EXISTS (
-    SELECT * 
-    FROM city_store
-    WHERE city_store.store_type = store.store_type
-);
+    FROM store
+    WHERE EXISTS (
+        SELECT * 
+        FROM city_store
+        WHERE city_store.store_type = store.store_type
+    );
 ```
 
 ## Join clauses
@@ -624,8 +626,8 @@ Return all the pets even if some they do not have an owner.
 
 ```sql
 SELECT * 
-FROM pet LEFT OUTER JOIN owner 
-ON pet.owner=owner.id;
+    FROM pet LEFT OUTER JOIN owner 
+    ON pet.owner=owner.id;
 ```
 
 4. `UNION`: to combine `RIGHT OUTER JOIN` and `LEFT OUTER JOIN`.
@@ -634,8 +636,8 @@ e.g.
 Return all the owners without pets and all the pets without owners.
 ```sql
 SELECT * FROM pet LEFT OUTER JOIN owner ON pet.owner=owner.id 
-UNION 
-SELECT * FROM pet RIGHT OUTER JOIN owner ON pet.owner=owner.id;
+    UNION 
+    SELECT * FROM pet RIGHT OUTER JOIN owner ON pet.owner=owner.id;
 ```
 
 ### Self Join
@@ -646,7 +648,7 @@ e.g.
 
 ```sql
 SELECT CONCAT(emp.name, ' ', emp.surname) AS employee, CONCAT(manager.name, ' ', manager.surname) AS manager 
-FROM employee emp INNER JOIN employee manager ON emp.manager_id=manager.employee_id;
+    FROM employee emp INNER JOIN employee manager ON emp.manager_id=manager.employee_id;
 ```
 
 ## Derived Tables
@@ -655,8 +657,8 @@ A derived table is a subquery that can take the place of a table in the `FROM`.
 
 ```sql
 SELECT <column_name> 
-FROM (SELECT <column_name> FROM <table_name> WHERE <expression>) 
-AS <temp_table>;
+    FROM (SELECT <column_name> FROM <table_name> WHERE <expression>) 
+    AS <temp_table>;
 ```
 
 The dereived table will only exist during the query.
@@ -665,14 +667,14 @@ The dereived table will only exist during the query.
 
 ```sql
 INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...) 
-VALUES(<value_one>, <value_two>, ...);
+    VALUES(<value_one>, <value_two>, ...);
 ```
 
 >Note: You can ommit column names if all the values are provides in the correct order.
 
 ```sql
 INSERT INTO <table_name> 
-VALUES(<value_one>, <value_two>, ...);
+    VALUES(<value_one>, <value_two>, ...);
 ```
 
 >Note: For string values single quotes are mandatory.
@@ -681,7 +683,7 @@ You can also use the `DEFAULT` keyword in order to use the default value set dur
 
 ```sql
 INSERT INTO <table_name> 
-VALUES(<value_one>, <value_two>, DEFAULT);
+    VALUES(<value_one>, <value_two>, DEFAULT);
 ```
 
 If you need to add more than one entry you can take advantage of the extended version of the `INSERT` clause:
@@ -699,7 +701,7 @@ Moreover, you can also copy rows from one table into another if you combine the 
 
 ```sql
 INSERT INTO <table_name> 
-SELECT <column_name> FROM <another_table_name>;
+    SELECT <column_name> FROM <another_table_name>;
 ```
 
 >Note: The table where the rows are pasted must exists and will copy only values.
@@ -830,7 +832,7 @@ To export and import only the data of your database you can use the following si
 
 ```sql
 SELECT ... INTO OUTFILE '<file_name>' <export_options> 
-FROM <table_name>;
+    FROM <table_name>;
 ```
 e.g.
 
@@ -838,24 +840,24 @@ All the entries and columns together without any kind of separator:
 
 ```sql
 SELECT * INTO OUTFILE '/tmp/users.txt'
-FROM user;
+    FROM user;
 ```
 
 This is an example that produces a file in the comma-separated values (CSV) format:
 
 ```sql
 SELECT * INTO OUTFILE '/tmp/users.txt'
-FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
-LINES TERMINATED BY '\n'
-FROM user;
+    FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
+    LINES TERMINATED BY '\n'
+    FROM user;
 ```
 
 **IMPORT**
 
 ```sql
 LOAD DATA INFILE '<file_name>'
-INTO TABLE <table_name>
-FIELDS <import_options>;
+    INTO TABLE <table_name>
+    FIELDS <import_options>;
 ```
 
 >Note: import and export options should match for the same backup.
@@ -918,12 +920,12 @@ Views can be created from multiple `SELECT` statements or other views.
 
 ```sql
 CREATE 
-{ALGORITHM=<UNDEFINED|MERGE|TEMPTABLE>}
-{DEFINER=<user|CURRENT_USER>}
-{SQL_SECURITY=<DEFINER|INVOKER>}
-VIEW <view_name>
-AS SELECT ...
-{WITH CHECK OPTION};
+    {ALGORITHM=<UNDEFINED|MERGE|TEMPTABLE>}
+    {DEFINER=<user|CURRENT_USER>}
+    {SQL_SECURITY=<DEFINER|INVOKER>}
+    VIEW <view_name>
+    AS SELECT ...
+    {WITH CHECK OPTION};
 ```
 >Note: Only `CREATE`, `VIEW` and `AS` clauses are mandatory.
 
@@ -971,12 +973,12 @@ A **trigger** is an routine activated or executed as a result of an action of ty
 
 ```sql
 CREATE TRIGGER <trigger_name> 
-{BEFORE|AFTER}
-{INSERT|UPDATE|DELETE} ON <table_name>
-FOR EACH ROW
-BEGIN
-<sql_statement>
-END;
+    {BEFORE|AFTER}
+    {INSERT|UPDATE|DELETE} ON <table_name>
+    FOR EACH ROW
+    BEGIN
+    <sql_statement>
+    END;
 ```
 
 MySQL provides the `OLD` and `NEW` keywords to access columns in the rows affected by a trigger.
@@ -999,3 +1001,44 @@ DROP TRIGGER <trigger_name>;
 SHOW TRIGGERS {FROM|IN} <db_name>;
 SELECT <trigger_name> FROM information_schema.triggers;
 ```
+
+# Events
+
+Events are scheduled tasks that run at a particular time and are very similar to cron jobs. 
+
+Two types:
+
+- One time events.
+- Periodical events.
+
+>Note: the global sysmtem variable `event_scheduler` determines if events are enabled. Possible values: `ON` (activated), `OFF` (disactivated), `DISABLED` (the Event Scheduler state cannot be changed at runtime). To change the value: `SET GLOBAL EVENT_SCHEDULER={ON|OFF|DISABLED}` or serach for the prperty in `my.cnf`.
+
+## Create Event
+
+```sql
+CREATE EVENT <table_name>
+    ON SCHEDULE <schedule>
+    {ON COMPLETION {NOT} PRESERVE}
+    {ENABLE | DISABLE | DISABLE ON SLAVE}
+    {COMMENT 'string'}
+    DO event_body;
+```
+
+>Note: it `ENABLE` by default
+
+`<schedule>` can be:
+
+```sql
+AT{<time>{<interval>}}|EVERY <interval>
+{STARTS <time> {<inteval>}}
+{ENDS <time> {<interval>}}
+```
+
+`<interval>` can be: 
+
+```sql
+{YEAR | QUARTER | MONTH | DAY | HOUR | MINUTE |
+WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |
+DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}
+```
+              
