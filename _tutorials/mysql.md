@@ -426,7 +426,7 @@ SELECT DISTINCT <column_name> FROM <table_name>;
 SELECT <column_name> FROM <table_name> WHERE <condition>;
 ```
 
->You can use more than one condition by using logic operands: &&, ||...
+>You can use more than one condition by using logic operands: `&&`, `||`...
 
 Condition operators:
 
