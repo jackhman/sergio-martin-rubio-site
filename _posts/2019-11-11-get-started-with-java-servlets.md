@@ -7,10 +7,10 @@ description: Java Servlets are the core technology of many web application frame
 ---
 
 {%- capture list_items -%}
-Introduction
+What Is a Servlet?
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Introduction
+# What Is a Servlet?
 
