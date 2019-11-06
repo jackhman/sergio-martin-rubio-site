@@ -1,6 +1,6 @@
 ---
 title: Debugging Guidelines in Java
-tags: [Java, JDK, Debugging, JMeter, JStack]
+tags: [Java, Debugging, JMeter, JStack]
 style: fill
 color: warning
 description: Debugging is a tool mostly use when an application is not behaving as expected, and every developer should learn how to use it. However, it requires a lot of time to master it.
