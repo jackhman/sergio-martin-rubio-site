@@ -9,6 +9,7 @@ description: Java Servlets are the core technology of many web application frame
 {%- capture list_items -%}
 What Is a Servlet?
 How a Client Request is processed by the Web Server
+Servlet Lifecycle
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -32,3 +33,19 @@ _Servlets_ live in **Servlet Containers**. A container is a server program which
 7. The container sends the Servlet response to the client.
 
 >Note: `ServletRequest` contains parameters such as name, values, attributes, and an input stream.
+
+{% include elements/figure.html image="https://lh3.googleusercontent.com/Q1RyU-Y9L-dQkw3-y_CihbpKxRsgI5SVm4pkE9ggPRXhXfxrQW_Gw1YLhdlsaxeQDN1vQ7sEpj8Dg_EB_w=w800-no-tmp.jpg" caption="Web Server and Servlet Container" %}
+
+# Servlet Lifecycle
+
+The servlet container is responsible for controlling the Servlet lifecycle. What happen when a request comes in?
+
+1. If an instance of the Servlet does not exist, the web container:
+    - Loads the servlet class.
+    - Creates an instance of the class.
+    - Calls init() method to initialize the servlet.
+2. If an instance already exists the container calls the `service()` and passes the request and response objects.
+
+Servlets stay in memory waiting for other requests, and will not be unloaded unless the servlet container sees a shortage of memory. Before the servlet is ready to be garbage collected the `destroy()` method is called. This will  happen when all servlet methods are completed or after a server-specific grace period.
+
+>Note: when `destroy()` method is called you release resources created by the `init()` method like database connections.
