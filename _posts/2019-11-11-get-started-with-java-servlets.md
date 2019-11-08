@@ -16,7 +16,7 @@ Servlet Lifecycle
 
 # What Is a Servlet?
 
-A **Java Servlet** is simply a class that extends from one of the classes in `javax.servlet.http` package and is used in applications to handle network communication like _HTTP request-response_ model.
+A **Java Servlet** is simply a class that extends from one of the classes in `javax.servlet.http` or `javax.servlet` packages and is used in applications to handle network communication like _HTTP request-response_ model.
 
 A **Container** is an interface between a component (Servlet, data persistance...) and the low-level functionalities that supports the component. Web containers receive network requests and redirect those requests to a servlet object by mapping the URL path contained in the request to the servlet. A URL path contains the context root and, optionally, a URL pattern:
 
@@ -54,8 +54,36 @@ Servlets stay in memory waiting for other requests, and will not be unloaded unl
 
 >Note: when `destroy()` method is called you release resources created by the `init()` method like database connections.
 
+# Servlet Component
 
-You set the URL pattern for a servlet by using the @WebServlet annotation in the servlet source file.
+Use the `@WebServlet(name = "ConvertServlet")` annotation or the deployment descriptor `web.xml`.
+
+```xml
+<servlet>
+    <servlet-name>ConvertServlet</servlet-name>
+    <servlet-class>com.sergiomartinrubio.javaservletfilters.servlet.IpAddressConverterServlet</servlet-class>
+</servlet>
+```
+
+Both the annotated servlet or the XML servlet declarion must specify at least one URL pattern. In case of annation use the `urlPatterns` attribute when other attributes are also used. For XML declaration:
+
+```xml
+<servlet-mapping>
+    <servlet-name>ConvertServlet</servlet-name>
+    <url-pattern>/convert</url-pattern>
+</servlet-mapping>
+```
+
+From now on most of the examples will use annotations instead of XML. 
+
+```java
+@WebServlet(urlPatterns = "/convert", name = "ConvertServlet")
+public class IpAddressConverterServlet extends HttpServlet { }
+```
+
+>Note: Annotations require _Servlet API 3.0_ or higher and _tomcat7_ or any later version of _Tomcat_.
+
+You set the URL pattern for a servlet by using the `@WebServlet` annotation in the servlet source file.
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/java-servlets.git" text="Source Code" %}
