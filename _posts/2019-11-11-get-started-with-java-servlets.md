@@ -49,3 +49,7 @@ The servlet container is responsible for controlling the Servlet lifecycle. What
 Servlets stay in memory waiting for other requests, and will not be unloaded unless the servlet container sees a shortage of memory. Before the servlet is ready to be garbage collected the `destroy()` method is called. This will  happen when all servlet methods are completed or after a server-specific grace period.
 
 >Note: when `destroy()` method is called you release resources created by the `init()` method like database connections.
+
+<p class="text-center">
+{% include elements/button.html link="https://github.com/smartinrub/java-servlets.git" text="Source Code" %}
+</p>
