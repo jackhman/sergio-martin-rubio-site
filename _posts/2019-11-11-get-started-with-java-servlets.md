@@ -8,6 +8,7 @@ description: Java Servlets are the core technology of many web application frame
 
 {%- capture list_items -%}
 What Is a Servlet?
+How a Client Request is processed by the Web Server
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
