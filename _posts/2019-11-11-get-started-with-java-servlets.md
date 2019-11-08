@@ -20,7 +20,7 @@ _Servlets_ live in **Servlet Containers**. A container is a server program which
 
 >Note: Servlets and JSPs require Servlet Containers liket Apache [Tomcat](http://tomcat.apache.org/), [WildFly](https://wildfly.org/), etc.. 
 
-# How a Server Request is processed by the Web Server
+# How a Client Request is processed by the Web Server
 
 1. The web server receives the HTTP request.
 2. The request is forwarded to the _Servlet Container_.
