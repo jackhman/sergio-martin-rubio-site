@@ -10,6 +10,8 @@ description: Java Servlets are the core technology of many web application frame
 What Is a Servlet?
 How a Client Request is processed by the Web Server
 Servlet Lifecycle
+Servlet Component
+Filters
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
