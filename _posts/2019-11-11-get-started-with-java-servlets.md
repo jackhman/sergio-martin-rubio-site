@@ -194,6 +194,41 @@ public class FormatFilter implements Filter {
 }
 ```
 
+## Event Listeners
+
+Event Listeners are used to track events in your Web application. There are two types of servlet events:
+
+1. Servlet context-level catches events about `ServletContext` lifecycle changes.
+2. Session-level events are about requests coming into and going out of scope of a web application.
+
+Both types can catch lifecycle and attribute changes.
+
+You can implement `ServletRequestListener`, `ServletRequestAttributeListener`, `ServletContextAttributeListener`, `ServletContxtListener`, `HttpSessionAttributeListener`... and use the `@WebListener` annotation to define an event listener.
+
+```java
+@WebListener("Checks for new attributes during request")
+public class NewAttributeListener implements ServletRequestAttributeListener {
+
+    @Override
+    public void attributeAdded(ServletRequestAttributeEvent servletRequestAttributeEvent) {
+        log.info("The attribute \"" + servletRequestAttributeEvent.getName() + "\" with value \""
+                + servletRequestAttributeEvent.getValue() + "\" was added.");
+    }
+
+    @Override
+    public void attributeReplaced(ServletRequestAttributeEvent servletRequestAttributeEvent) {
+
+    }
+
+    @Override
+    public void attributeRemoved(ServletRequestAttributeEvent servletRequestAttributeEvent) {
+
+    }
+}
+```
+
+
+
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/java-servlets.git" text="Source Code" %}
 </p>
