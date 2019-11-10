@@ -85,7 +85,7 @@ public class IpAddressConverterServlet extends HttpServlet {
 
 >Note: Annotations require _Servlet API 3.0_ or higher and _tomcat7_ or any later version of _Tomcat_.
 
-{% include elements/highlight.html text="From now on most of the servlet definitions will be done by annotations." %}
+{% include elements/highlight.html text="From now on most of the servlet definitions will be shown with annotations." %}
 
 The servlet initialization process can be customize if you override the `init()` method of the `Servlet` interface, or if you use the `initParams` anotation attribute in combination with `@WebInitParam` annotation.
 
