@@ -12,6 +12,7 @@ How a Client Request is processed by the Web Server
 Servlet Lifecycle
 Servlet Component
 Filters
+Event Listeners
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -226,8 +227,6 @@ public class NewAttributeListener implements ServletRequestAttributeListener {
     }
 }
 ```
-
-
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/java-servlets.git" text="Source Code" %}
