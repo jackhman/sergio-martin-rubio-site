@@ -74,16 +74,123 @@ Both the annotated servlet or the XML servlet declarion must specify at least on
 </servlet-mapping>
 ```
 
-From now on most of the examples will use annotations instead of XML. 
-
 ```java
 @WebServlet(urlPatterns = "/convert", name = "ConvertServlet")
-public class IpAddressConverterServlet extends HttpServlet { }
+public class IpAddressConverterServlet extends HttpServlet { 
+    // servlet methods (doGet(), doPost(), doPut())
+}
 ```
 
 >Note: Annotations require _Servlet API 3.0_ or higher and _tomcat7_ or any later version of _Tomcat_.
 
-You set the URL pattern for a servlet by using the `@WebServlet` annotation in the servlet source file.
+{% include elements/highlight.html text="From now on most of the servlet definitions will be done by annotations." %}
+
+The servlet initialization process can be customize if you override the `init()` method of the `Servlet` interface, or if you use the `initParams` anotation attribute in combination with `@WebInitParam` annotation.
+
+```java
+@WebServlet(urlPatterns = "/convert", name = "ConvertServlet", initParams = {
+        @WebInitParam(name = "param2", value = "hello"),
+        @WebInitParam(name = "param2", value = "goodbye")
+})
+```
+
+Initializatio paramters are used to provide data that a Servlet needs. The values can be retrieve with the  `getInitParameter()` method.
+
+## Servlet Request
+
+Clients send data to the Servlet in the `HttpServletRequest`, which contains the request URL, HTTP headers, query string, and so on. Query strings contain a set of parameters and values, that can be retrieved by using the `getParameter()` method.
+
+e.g.
+
+```java
+String myParameter = request.getParameter("myParameter");
+```
+
+## Servlet Response
+
+Servlets return responses to clients in the `HttpServletResponse`. To send character data, use the `PrintWriter` returned by the response's `getWriter()` method. You can also send binary data with the `ServletOutputStream` returned by `getOutputStream()` method. Additionally, the response object allows you to set things like content type, status codes, cookies.
+
+```java
+PrintWriter out = response.getWriter();
+response.setStatus(HttpServletResponse.SC_OK);
+response.setContentType("application/json");
+out.println("{\"value\":\"Hello World}\"");
+```
+
+# Filters
+
+A **filter** is used to transform headers or content of a request or reponse. Filters are attatched to web components, but they should be independent from web resources, so they can reused with multiple web components.
+
+Common use cases:
+
+- Retrieve request and add some business logic around it.
+- Block the request or reponse. e.g. check for authentication tokens in the headers.
+- Modify request headers and data. e.g. set new attributes.
+- Modify response headers and data. e.g. add tracing id.
+- Interact with external resources.
+
+Use the `@WebFilter` annotation with at least one URL pattern to define a filter in a web application. Classes annotated with the `@WebFilter` annotation must implement the `javax.servlet.Filter` interface.
+
+```java
+@WebFilter(urlPatterns = "/convert")
+public class FormatFilter implements Filter { 
+    // filter methods (doFilter(), init(), destroy())
+}
+```
+
+`doFilter()` is the main method in a `Filter` and is used to access and/or modify the request and reponse headers, invoke the next filter in the filter chain. If the current filter is the last filter in the chain that ends with the target web component or static resource. However, the filter can block the request and handle the reponse. In addition to doFilter, you must implement the init and destroy methods.
+
+Filters can modify, add or remove data in the request and reponse by calling methods like `setAttribute()`. You can also  override HTTP request methods by wrapping the request in an object that extends either `HttpServletRequestWrapper`. To override HTTP response methods, you wrap the response in an object that extends either `HttpServletResponseWrapper`.
+
+```java
+@WebFilter(urlPatterns = "/convert")
+public class FormatFilter implements Filter {
+
+    @Override
+    public void init(FilterConfig filterConfig) throws ServletException {
+        log.info("The filter " + FormatFilter.class.getName() + " has been created!");
+    }
+
+    @Override
+    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
+            throws IOException, ServletException {
+
+        // FormatRequestWrapper extends HttpServletRequestWrapper
+        request = new FormatRequestWrapper((HttpServletRequest) request);
+        String format = request.getParameter("format");
+
+        if (format != null) {
+            chain.doFilter(request, response);
+        } else {
+            throw new InputParameterException("Missing format parameter!");
+        }
+    }
+
+    @Override
+    public void destroy() {
+        log.info("Destroy method is invoked for the servlet " + FormatFilter.class.getName());
+    }
+}
+```
+
+>Note: A web container uses filter mappings to decide how to apply filters to web resources. A filter mapping matches a filter to a web component by name or to web resources by URL pattern. The filters are invoked in the order in which filter mappings appear in the filter mapping list of a WAR.
+
+Filter constrains:
+
+- `REQUEST`: Request comes directly from the client.
+- `ASYNC`: Asynchronous request from the client.
+- `FORWARD`: Request has been forwarded to a component.
+- `INCLUDE`: Request is being processed by a component that has been included.
+- `ERROR`: Request is being processed with the error page mechanism.
+
+The default dispatcher type is `REQUEST` and multiple types can be selected as follows:
+
+```java
+@WebFilter(urlPatterns = "/convert", dispatcherTypes = {DispatcherType.REQUEST, DispatcherType.FORWARD})
+public class FormatFilter implements Filter {
+    // filter methods (doFilter(), init(), destroy())
+}
+```
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/java-servlets.git" text="Source Code" %}
