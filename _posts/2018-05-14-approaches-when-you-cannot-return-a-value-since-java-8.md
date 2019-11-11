@@ -6,14 +6,23 @@ color: primary
 description: You don't know what to return from your Java method? You can find here some advices!
 ---
 
-## Introduction
+{%- capture list_items -%}
+Introduction
+Optionals
+Drawbacks
+Conclusion
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
+# Introduction
 
 Before **Java 8** there were only two possible ways to return something when a value was not available:
 
 - _**null**_: efficient, but risky (we have to make sure that the client is going to handle a possible null return).
 - _**Exception**_: elegant, but expensive (the stack trace is captured).
 
-## Optionals
+# Optionals
 
 Since **Java 8** we have a third alternative, **Optionals**, which can contain an element or nothing. **Optional** allows us to return an empty result.
 
@@ -70,11 +79,11 @@ System.out.println(emptyValue.or(() -> defaultValue).get());
 
 You can also check if a _Optional_ is empty by calling `isPresent()`, but since we have the methods mentioned above, you would rather use those for simplicity.
 
-## Drawbacks
+# Drawbacks
 
 But returning _Optional_ is not always the best solution. For those cases when a list needs to be returned, it is better to just return an empty list. Another drawback of _Optional_ is the cost of use it, since Optionals require to be allocated and initialized. Moreover, for primitives values Optional is not suitable, instead you have to use `OptionalInt`, `OptionalLong` or `OptionalDouble`. Finally, you also should not use _Optionals_ as keys, values or elements in collections or arrays.
 
-## Conclusion
+# Conclusion
 
 - **Return _null_ or _Exception_ when performance is priority**.
 - **Only use _Optional_ as a return value**.
