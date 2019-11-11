@@ -94,12 +94,12 @@ java -jar target/benchmar.jar
 {% include elements/button.html link="https://github.com/smartinrub/java-iterative-benchmark" text="Source Code" %}
 </p>
 
-Algorithm    |   Mode | Cnt   |Score   | Error  |Units
----------|----------|---------|---------|----------|---------
-for Loop     |   avgt |   6 |  8.437 | ±  0.425 |  ns/op
-recursive    |  avgt  |  6 | 16.887 | ±  0.169 | ns/op
-stream       |  avgt  |  6 | 76.064 | ± 19.773 | ns/op
-tailRecursive | avgt  |  6 | 15.500 | ±  1.663 | ns/op
+Benchmark  | Score
+------------- | -------------
+for Loop  |  8.437 ns/op
+Tail Recursion  | 15.500 ns/op
+Recursion  | 16.887 ns/op
+stream  | 76.064  ns/op
 
 
 As you can see, for loop is the winner, as expected, because of the simplicity of the operations done during the iteration. However, this does not mean that it is always the best choice. Loops might be problematic when dealing with data structures shared by the caller of a method. It mutates the state of the object, so this is not a side-effect free option. Another negative factor of loops is their readability. Therefore, in case we want to use immutable data objects and write a cleaner code, there are other options.
