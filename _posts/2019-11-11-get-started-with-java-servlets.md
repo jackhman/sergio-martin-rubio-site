@@ -13,6 +13,7 @@ Servlet Lifecycle
 Servlet Component
 Filters
 Event Listeners
+Exception Handling
 {%- endcapture -%}
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
@@ -226,6 +227,49 @@ public class NewAttributeListener implements ServletRequestAttributeListener {
 
     }
 }
+```
+
+# Exception Handling
+
+The Servlet API provides support for custom servlet error handling. This can be configured in the `web.xml` file in your project. 
+
+Exceptions can be mapped to _Servlets_ or _JSP_.
+
+Mapping error to a servlet:
+
+```xml
+<error-page>
+    <exception-type>com.sergiomartinrubio.javaservletfilters.exception.InputParameterException</exception-type>
+    <location>/ExceptionHandler</location>
+</error-page>
+```
+
+Mapping error to JPS:
+```xml
+<error-page>
+    <exception-type>com.sergiomartinrubio.javaservletfilters.exception.InputParameterException</exception-type>
+    <location>/WEB-INF/jsp/400.jsp</location>
+</error-page>
+```
+
+In either case you can access the error attributes in the request, so the exception response can be customized. 
+
+Request Attribute | Type
+---------|----------
+javax.servlet.error.status_code |	java.lang.Integer
+javax.servlet.error.exception_type |	java.lang.Class
+javax.servlet.error.message |	java.lang.String
+javax.servlet.error.exception |	java.lang.Throwable
+javax.servlet.error.request_uri |	java.lang.String
+javax.servlet.error.servlet_name |	java.lang.String
+
+Error codes can also be mapped as follows:
+
+```xml
+<error-page>
+    <error-code>500</error-code>
+    <location>/WEB-INF/jsp/400.jsp</location>
+</error-page>
 ```
 
 <p class="text-center">
