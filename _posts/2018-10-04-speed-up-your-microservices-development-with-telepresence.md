@@ -1,6 +1,6 @@
 ---
 title: Speed Up Your Microservices Development With Telepresence
-tags: [External Post, Microservices, Kubernetes, Testing]
+tags: [Microservices, Kubernetes, Testing]
 style: fill
 color: dark
 description: Learn how to use the open-source Telepresence tool to help with microservice testing.
