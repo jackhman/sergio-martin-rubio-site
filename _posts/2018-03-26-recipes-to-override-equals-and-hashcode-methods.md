@@ -6,7 +6,15 @@ color: primary
 description: Do you want to know more about Java equals and hashCode methods? Then, have a look at this recipes!
 ---
 
-## equals
+{%- capture list_items -%}
+equals
+hashCode
+Additional considerations
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
+# equals
 
 - Use _==_ operator to compare object references. If so, return true. This is for performance optimisation since you can check this before the comparison.
 - Use `instanceof` to check that both objects have same type, otherwise return false.
@@ -34,7 +42,7 @@ public boolean equals(Object o) {
 }
 ```
 
-## hashCode
+# hashCode
 
 - Declare an int variable named result and initialise it with the first field.
 - For primitive fields use e.g. `Integer.hashCode(field)`
@@ -54,7 +62,7 @@ public int hashCode() {
 ```
  
 
-## Additional considerations:
+# Additional considerations
 
 - Always override **HashCode** when overriding equals.
 - lways use Object type as an argument in the equals method.
