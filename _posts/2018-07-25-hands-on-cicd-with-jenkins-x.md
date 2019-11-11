@@ -57,8 +57,11 @@ After the process is done, two new repositories will be created on your _GitHub_
 
 ```shell
 kubectl config get-contexts
-CURRENT   NAME                                                CLUSTER                                             AUTHINFO                                            NAMESPACE
-*         gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo   gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo   gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo   jx
+CURRENT   NAME                                                CLUSTER                                             
+*         gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo   gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo  
+AUTHINFO                                            NAMESPACE
+gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo   jx
+
 ```
 
 Now you are ready to create your microservices and deploy them on your new _Kubernetes_ cluster!
@@ -98,8 +101,10 @@ The _URL_ to hit the service can be found by running the following command:
 
 ```shell
 jx get app
-APPLICATION               STAGING PODS URL                                                               PRODUCTION PODS URL
+APPLICATION               STAGING PODS URL                                                               
 golang-http               0.0.1   1/1  http://golang-http.jx-staging.your-google-cloud-ip.nip.io
+
+PRODUCTION PODS URL
 ```
 
 The application was only deployed on the staging environment and now it is time to promote it to production.
@@ -113,8 +118,11 @@ jx promote golang-http --version 0.0.1 --env production
 The previous command will open a pull request on the production repository, and only when the changes are merged, the production pipeline on _Jenkins_ will be triggered. If everything goes well, the application should be deployed on your `jx-production` namespace, and the production URL will be available.
 
 ```shell
-APPLICATION               STAGING PODS URL                                                               PRODUCTION PODS URL
-golang-http               0.0.1   1/1  http://golang-http.jx-staging.your-google-cloud-ip.nip.io               0.0.1      1/1  http://golang-http.jx-production.your-google-cloud-ip.nip.io
+APPLICATION    STAGING PODS URL           
+golang-http    0.0.1   1/1  http://golang-http.jx-staging.your-google-cloud-ip.nip.io               
+
+PRODUCTION PODS URL
+0.0.1      1/1  http://golang-http.jx-production.your-google-cloud-ip.nip.io
 ```
 
 Congratulations! You have just deployed your first application on **Kubernetes** with **Jenkins X**!
@@ -124,8 +132,7 @@ Congratulations! You have just deployed your first application on **Kubernetes**
 Depending on your **jx version** you might come across a **Helm error** like this:
 
 ```shell
-'Error: UPGRADE FAILED: incompatible versions client[v2.10.0-rc.1] server[v2.9.1]
-': exit status 1
+'Error: UPGRADE FAILED: incompatible versions client[v2.10.0-rc.1] server[v2.9.1]': exit status 1
 ```
 
 This happens because _Helm_ is not back compatible and _Jenkins X_ might have installed an old version. This can be solved by installing the latest _Helm_ version on your local machine. 
