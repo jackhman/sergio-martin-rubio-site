@@ -6,11 +6,20 @@ color: primary
 description: Learn more about Java functional interfaces!
 ---
 
-## Introduction
+{%- capture list_items -%}
+Introduction
+Annotation
+Use cases for Functional Interfaces
+Default methods
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
+# Introduction
 
 **Functional interfaces** are the ones which only have one abstract method different from the public methods of `Object.class` (_equals_, _hashCode_…), so that the contract is only one function.
 
-## Annotation
+# Annotation
 
 ```java
 @FunctionalInterface
@@ -22,7 +31,7 @@ interface Foo {
 `@FunctionalInterface` annotation is not mandatory but highly recommended, because the interface will be checked at compiling time if in fact, your interface is functional. Moreover, this annotation makes your architecture easier to understand.
 
 
-## Use cases for Functional Interfaces
+# Use cases for Functional Interfaces
 
 Since **Java 8** has been released functional interfaces are very useful when combining with lambda expressions.
 
@@ -47,7 +56,7 @@ Function<String, String> function = string -> string + "world!";
 System.out.println(function.apply("Hello "));
 ```
 
-## Default methods
+# Default methods
 
 **Default methods** are allowed in functional interfaces since they are not abstract methods.
 
