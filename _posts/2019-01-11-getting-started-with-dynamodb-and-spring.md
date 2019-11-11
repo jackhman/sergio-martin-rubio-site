@@ -242,7 +242,6 @@ There are also other useful annotations such as `@DynamoDBIndexRangeKey` for sec
 {% include elements/button.html link="https://github.com/smartinrub/spring-boot-dynamodb" text="Source Code" %}
 </p>
 
-
 # Conclusion
 
 - **NoSQL does not mean non-relational**.
