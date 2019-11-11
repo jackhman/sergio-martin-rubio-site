@@ -6,13 +6,23 @@ color: dark
 description: Discover Fn Project, an open source container-native serverless platform that you can run anywhere.
 ---
 
-## Introduction
+{%- capture list_items -%}
+Introduction
+Features
+Requirements
+Getting Started
+Useful commands
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
+# Introduction
 
 The hype about [serverless](https://en.wikipedia.org/wiki/Serverless_computing) applications has been growing lately and **AWS** is the leader at the moment, however there are other alternative such as Fn Project supported by Oracle or **OpenWhisk** supported by **IBM**.
 
 I found out about **[Fn Project](https://github.com/fnproject/fn)** during _Democratizing Serverless Talk_ at **[London QCon 2018](https://dzone.com/articles/qcon-london-2018)** and couldn’t wait to try this platform, since you can run your own serverless architecture on your own laptop.
 
-## Features
+# Features
 
 - Open source.
 - Docker-based platform.
@@ -24,7 +34,7 @@ I found out about **[Fn Project](https://github.com/fnproject/fn)** during _Demo
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/YixY7IJ-0e53by1N1FrZANp22E9zZ89rycnqbBZlXh2TBtIzQvEgWcYQre8_2njGDybbgj733sIPhMjZR6BAeUhEbHuT_w-dGuKmuo_4cj6CSrbm3-W1tLRPS2-04yQILiyINlUB=w2400" caption="Fn Project Architecture" %}
 
-## Requirements
+# Requirements
 
 1. **Docker 17.06** or later version.
 2. **Docker Hub account**
@@ -44,7 +54,7 @@ curl -LSs https://raw.githubusercontent.com/fnproject/cli/master/install | sh
 
 5. _MacOS_, Wi_n_dows and _Linux_: download latest bin file for your OS.
 
-## Getting Started
+# Getting Started
 
 1. Start up Fn server.
 
@@ -113,7 +123,7 @@ fn deploy --app myapp --local
 
 Now you can open your browser and go to http://localhost:8080/r/myapp/hello-serverless
 
-## Useful commands
+# Useful commands
 
 ```shell
 fn apps list #shows applications registered on your Fn server
