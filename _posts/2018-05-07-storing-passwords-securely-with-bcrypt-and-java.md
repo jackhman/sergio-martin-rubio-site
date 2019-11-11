@@ -1,8 +1,8 @@
 ---
 title: Storing Passwords Securely With Bcrypt and Java
 tags: [Java, Security]
-style: border
-color: fill
+style: fill
+color: primary
 description: In this post, we go over how to use this password hashing function to ensure your passwords are properly encrypted and GDPR complaint.
 ---
 

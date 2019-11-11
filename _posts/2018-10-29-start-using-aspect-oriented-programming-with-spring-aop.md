@@ -19,7 +19,7 @@ Conclusion
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+## Introduction
 
 **Aspect Oriented Programming (AOP)** helps us to solve specific situations in a very elegant way and is used to insert code depending on how our code looks.
 
