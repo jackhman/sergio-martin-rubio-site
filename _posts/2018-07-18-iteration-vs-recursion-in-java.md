@@ -31,8 +31,8 @@ Iteration and recursion are exchangeable in most cases. In theory, every program
 The problem of calculating the factorial of a number is that it shows performance differences between iteration and recursion. **JMH** harness is used to conduct the test in a single thread with the following setup:
 
 - Factorial of number: 20
-- CPU: intel i5-5250U
-- OS: Ubuntu 18
+- CPU: 1.4GHz quad-core Intel Core i5, Turbo Boost up to 3.9GHz
+- OS: macOS Catalina
 
 Both warm up and test iterations ran for 2 seconds, with two forks, three warmups, and three iterations. The code to be tested is:
 
@@ -93,6 +93,14 @@ java -jar target/benchmar.jar
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/java-iterative-benchmark" text="Source Code" %}
 </p>
+
+Algorithm    |   Mode | Cnt   |Score   | Error  |Units
+---------|----------|---------|---------|----------|---------
+for Loop     |   avgt |   6 |  8.437 | ±  0.425 |  ns/op
+recursive    |  avgt  |  6 | 16.887 | ±  0.169 | ns/op
+stream       |  avgt  |  6 | 76.064 | ± 19.773 | ns/op
+tailRecursive | avgt  |  6 | 15.500 | ±  1.663 | ns/op
+
 
 As you can see, for loop is the winner, as expected, because of the simplicity of the operations done during the iteration. However, this does not mean that it is always the best choice. Loops might be problematic when dealing with data structures shared by the caller of a method. It mutates the state of the object, so this is not a side-effect free option. Another negative factor of loops is their readability. Therefore, in case we want to use immutable data objects and write a cleaner code, there are other options.
 
