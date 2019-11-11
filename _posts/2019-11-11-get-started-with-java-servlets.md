@@ -18,7 +18,7 @@ Exception Handling
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# What Is a Servlet?
+## What Is a Servlet?
 
 A **Java Servlet** is simply a class that extends from one of the classes in `javax.servlet.http` or `javax.servlet` packages and is used in applications to handle network communication like _HTTP request-response_ model.
 
@@ -30,7 +30,7 @@ Servlet containers handle many tedious tasks like opening sockets; tranformation
 
 >Note: Servlets and JSPs require Servlet Containers liket Apache [Tomcat](http://tomcat.apache.org/), [WildFly](https://wildfly.org/), etc.. 
 
-# How a Client Request is processed by the Web Server
+## How a Client Request is processed by the Web Server
 
 1. The web server receives the HTTP request.
 2. The request is forwarded to the _Servlet Container_.
@@ -44,7 +44,7 @@ Servlet containers handle many tedious tasks like opening sockets; tranformation
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/Ig7kjtbUiYNt86tx49lpvMsZY-Cc-4teAFboao1-szXV450v4J11BEfUFX1qhAnlM5g7t2gp3flPbitnaSqHv285gttOEPkNFCZf8IIk6gkpatXSba3XtbkfnNnmUlRn96SsuGVr9g=w2400" caption="Web Server and Servlet Container" %}
 
-# Servlet Lifecycle
+## Servlet Lifecycle
 
 The servlet container is responsible for controlling the Servlet lifecycle. What happen when a request comes in?
 
@@ -58,7 +58,7 @@ Servlets stay in memory waiting for other requests, and will not be unloaded unl
 
 >Note: when `destroy()` method is called you release resources created by the `init()` method like database connections.
 
-# Servlet Component
+## Servlet Component
 
 Use the `@WebServlet(name = "ConvertServlet")` annotation or the deployment descriptor `web.xml`.
 
@@ -100,7 +100,7 @@ The servlet initialization process can be customize if you override the `init()`
 
 Initializatio paramters are used to provide data that a Servlet needs. The values can be retrieve with the  `getInitParameter()` method.
 
-## Servlet Request
+### Servlet Request
 
 Clients send data to the Servlet in the `HttpServletRequest`, which contains the request URL, HTTP headers, query string, and so on. Query strings contain a set of parameters and values, that can be retrieved by using the `getParameter()` method.
 
@@ -110,7 +110,7 @@ e.g.
 String myParameter = request.getParameter("myParameter");
 ```
 
-## Servlet Response
+### Servlet Response
 
 Servlets return responses to clients in the `HttpServletResponse`. To send character data, use the `PrintWriter` returned by the response's `getWriter()` method. You can also send binary data with the `ServletOutputStream` returned by `getOutputStream()` method. Additionally, the response object allows you to set things like content type, status codes, cookies.
 
@@ -121,7 +121,7 @@ response.setContentType("application/json");
 out.println("{\"value\":\"Hello World}\"");
 ```
 
-# Filters
+## Filters
 
 A **filter** is used to transform headers or content of a request or reponse. Filters are attatched to web components, but they should be independent from web resources, so they can reused with multiple web components.
 
@@ -196,7 +196,7 @@ public class FormatFilter implements Filter {
 }
 ```
 
-## Event Listeners
+### Event Listeners
 
 Event Listeners are used to track events in your Web application. There are two types of servlet events:
 
@@ -229,7 +229,7 @@ public class NewAttributeListener implements ServletRequestAttributeListener {
 }
 ```
 
-# Exception Handling
+## Exception Handling
 
 The Servlet API provides support for custom servlet error handling. This can be configured in the `web.xml` file in your project. 
 

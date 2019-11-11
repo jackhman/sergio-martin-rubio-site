@@ -14,7 +14,7 @@ Lifecycle
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+### Introduction
 
 **Bean** is one of the angular stones in the **Spring Framework**, and it is very important to know how it works. However, the concept of _bean_ it is not very clear and the [Bean definition given by the official Spring documentation](https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-introduction) is not easy to understand.
 
@@ -31,21 +31,21 @@ Moreover, I would like to answer some [frequest Spring interview questions](http
 - What are different Bean scopes in Spring?
 - Can you explain Bean life cycle in Spring Bean Factory Container?
 
-## Main Concepts
+### Main Concepts
 
-### Spring IoC
+#### Spring IoC
 
 According to the Spring definition of **Bean**, this special object is managed by the Spring IoC container, which is represented in your application by `org.springframework.context.ApplicationContext`, and this container is responsible for the initiliazation, configuration and assembly. But we will not have to worry about enriching (add metadata) your bean, since it is done by the framework by using XML config files, annotations or Java code.
 
 A Spring IoC container can manage one or more beans and once all the beans are loaded in this container, you can retrieve instances of your beans through the `ApplicationContext` (`getBean()`).
 
-### Dependency Injection
+#### Dependency Injection
 
 The definition of DI given by Spring is very straightforward, and simply says that DI is the process of defining objects with their dependencies, that are set on the object instance through a constructor or setters.
 
 **DI** is used by the **IoC container**, which injects the dependencies when the bean is created. Therefore, it is not the bean, it is the container the one reposible for injecting the dependencie. The Bean does not need to know anything about the instantiation and location of the dependencies, and that is why it is called Inversion of Control.
 
-### Bean Scopes
+#### Bean Scopes
 
 All the beans are not the same, and _Spring_ provides a few different recipes to modify the scope. In total there are six scopes:
 - **_singleton_** (default): creates one instance for each **IoC container** (`ApplicationContext`). 
@@ -59,9 +59,9 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 
 >When using singleton Bean which contains beans with different lifecycles, remember that injection only happens once. We can use beans with different scopes by using `proxyMode = ScopedProxyMode.TARGET_CLASS` in the `@Scope` annotation.
 
-## Lifecycle
+### Lifecycle
 
-### Spring Bean Creation Lifecycle
+#### Spring Bean Creation Lifecycle
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w300" caption="Spring Bean Creation Lifecycle" %}
 
@@ -76,14 +76,14 @@ All the beans are not the same, and _Spring_ provides a few different recipes to
 9. The bean now can be used and remains in the application context until it is destroyed.
 
 
-### Spring Bean Destruction Lifecycle
+#### Spring Bean Destruction Lifecycle
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w300" caption="Spring Bean Destruction Lifecycle" %}
 
 1. **Spring IoC container is shutdown**.
 2. If `@PreDestroy` is used, `DisposableBean` is implemented, or `destroy()` method is implicitly called, Spring will run `destroy()` method.
 
-### Lifecycle Callbacks
+#### Lifecycle Callbacks
 
 Spring recommend us to use `@PostConstruct` and `@PreDestroy` annotations to perform work during bean initialization and bean destruction.
 

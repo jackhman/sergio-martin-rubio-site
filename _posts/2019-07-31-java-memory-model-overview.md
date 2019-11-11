@@ -20,7 +20,7 @@ Code Cache
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+### Introduction
 
 The JVM uses its own memory model and as soon as it is launch the system allocates memory for the process, and this memory is shared by:
 - **Heap Memory**: Java objects are stored in one of the [heap](https://docs.oracle.com/javase/specs/jvms/se8/html/jvms-2.html#jvms-2.5.3) areas.
@@ -30,13 +30,13 @@ The JVM uses its own memory model and as soon as it is launch the system allocat
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/wfKu7pzoAPH-H9VS0w6K2MGn4vVVTU3Q2nM0P-bbl8SlJS6AfFicTDprqv0YGLqA4LpV4elWl7GCBjgNOVkIojcmqmPibGUMzu9Fi2rQ5uAWz1B4GJTALu8gTINW0PtgrH_7AB9sWQ=w800" caption="JVM Memory Model" %}
 
-## Heap Memory
+### Heap Memory
 
 The heap memory is divided into two areas or generations, young (also called nursery) and old generation.  The heap is where your object data is stored and it is managed by the [Garbage Collector](https://www.oracle.com/webfolder/technetwork/tutorials/obe/java/gc01/index.html).
 
 >Garbage collection: is the process of looking at the heap memory to clean up the unused objects. An Used object is a referenced object, which means that  somewhere in your program there is something pointing to that object. In other languages like C this is a manual process whereas in Java is handled automatically.
 
-### Young Generation
+#### Young Generation
 
 If the young generation fills up, this causes a minor garbage collection and it triggers a _Stop the World_. Surviving objects are moved to the old generation.
 
@@ -44,13 +44,13 @@ If the young generation fills up, this causes a minor garbage collection and it 
 
 Inside the Young Generation there are three areas: Eden, Survivor Space 0, and Survivor Space 1.
 
-### Old Generation
+#### Old Generation
 
 The Old Generation is used to store long surviving objects. To clasify an object as a candidate to be moved from the young generation to the old generation a threshold is set. Eventually the old generation needs to be collected and this event is called a major garbage collection.
 
 A mayor garbage collection is also a _Stop the World_ event. However, this type of Stop the World is much slower since it involves live objects, so this kind of events should be minimized.
 
-### Generational Garbage Collection Process
+#### Generational Garbage Collection Process
 
 The Garbage Collector is an automatic process reponsible for identifying and delete unsed objects. Steps:
 
@@ -63,7 +63,7 @@ The Garbage Collector is an automatic process reponsible for identifying and del
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/5li9Ai49SfxisvdcKlUS3s3ryvNSn7yDeGq4CsLC3dORyuumzV3ih41jXfNr0Q-gH_tLIc58as8CLybPTng8D7Uar1cCRN4r4lD8jDTfmP2YBIVRcsbmkzhcriQ0tnA1pJO1-xqEnQ=w800" caption="Generational Garbage Collection Process Diagram" %}
 
-### Garbage Collector Selection
+#### Garbage Collector Selection
 
 When no Garbage Collector is selected by CLI (e.g. `-XX:+UseSerialGC`), the JVM selects a GC base on the platform is running on, heap size and runtime compiler. The process of selecting a particular GC is called **[Ergonomics](https://docs.oracle.com/javase/8/docs/technotes/guides/vm/gctuning/ergonomics.html#ergonomics)**.
 
@@ -103,7 +103,7 @@ If a parallel GC is selected we can tune a couple of parameters:
 - _Maximum Pause Time Goal_ (`-XX:MaxGCPauseMillis=<milliseconds>`): The JVM will ajust the heap size and other GC parameters to reduce the pause time during garbage collector stops. This might cause more frequent GC and reduce the application throughput.
 - _Throughput Goal_ (`-XX:GCTimeRatio=<milliseconds>`): The ratio is `1 / (1 + <milliseconds>)`. For instance, if it is set to 19, it will be 1/20th or 5% of the total time for the garbage collection. This ratio affects both the young and old generation time. The JVM might increase the size of the generations, so the application will run for longer without having to execute a garbage collection.
 
-### Tuning Heap Memory
+#### Tuning Heap Memory
 
 System performance is greatly influenced by the size of the Java heap available to the JVM.
 
@@ -123,13 +123,13 @@ Description | Option
 
 > Oracle docummentation advices not to choose a maximum value for the heap unless you know that you need a heap greater than the default maximum heap size. Instead choose a throughput goal that is sufficient for your application.
 
-## Metaspace
+### Metaspace
 
 Metaspace is the memory allocated for metadata. In _JDK 8_, the permanent generation was replace with metaspace, and now class metadata is stored in native memory.
 
 The memory is allocated in the same as C does (Metadata uses space allocated by mmap, not by malloc).The amount of native memory that can be used by **Metaspace** area is by default unlimited, however you can use the option `MaxMetaspaceSize` to set an upper limit. The GC will also run on metaspace when is getting full.
 
-### Java Class Metadata
+#### Java Class Metadata
 _Java Class Metadata_ is JVM's **internal model of everything in the bytecode**. The _JVM_ gets all the bytecode, creates the model and throughs away the bytecode (bycode is not used because of complexity reasons).
 
 It also contains:
@@ -139,7 +139,7 @@ It also contains:
 
 **Why Java Class Metadata?** It's needed to model the code base at runtime; for the interpreter and JIT, so they know about the class organization; for reflection; and for the JVM Tool Interface to query or update classes at runtime.
 
-## Stack Memory
+### Stack Memory
 
 Java Stack memory is used for static memory allocation and during the execution of threads, it stores method specific values that are short-lived and references to other objects in the heap that are getting referred from the method. 
 
@@ -153,11 +153,11 @@ Features:
 - When it's full it throws a java.langStackOverFlowException.
 - Access to this memory is faster than heap memory.
 
-## Code Cache
+### Code Cache
 
 Code Cache is the memory area where the JVM stores the compiled code generated by the Just-In-Time (JIT) compiler. Code Cache uses native memory and is managed by the Code Cache Sweeper.
 
-### Code Cache Tuning
+#### Code Cache Tuning
 
 We can use _JVM_ option to tweak the codecache comsumption by the _JIT_.
 

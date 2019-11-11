@@ -15,13 +15,13 @@ Caveats
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+### Introduction
 
 **[Micronaut](https://micronaut.io/)** is a web framework similar to **Spring Boot**, which started at [OCI](https://objectcomputing.com/) and was initially developed by _Groovy_ and _Rails_ developers from **Pivotal**.
 
 Micranaut is really a competitor for Spring Boot, and if you are comfortable with Spring Boot, Micronaut provides a Spring-like way of creating web applications. It uses JAX-RS annotations and specific Micronaut annotations similar to the Spring Boot ones (sometimes the only difference is the package name (`io.micronaut`)).
 
-## Getting Started
+### Getting Started
 
 A **CLI tool** similar to the one provided by Spring is avaialable to create your Micronaut applications. The simplest way to start using the CLI tool is to install it through SDKMAM.
 
@@ -45,7 +45,7 @@ By default, it uses **Gradle** build system and Java as the main language, howev
 
 When `nm` command is run, it esentially creates a base folder with the build system file chosen (if you choose Gradle, it also provides a Gradle wrapper, so it downloads it for you), a **Dockerfile** ready to run, and a logback file for log configuration.
 
-## Features
+### Features
 
 You can crate controllers by using `@Controller` annotation and define your endpoints with http method annotations like `@Get`. When you run the application, you can hit the endpoint at http://localhost:8080, so it will feel as a **Spring Boot** application.
 
@@ -113,11 +113,11 @@ Other features:
 - **Websockets**.
 ...
 
-## Mironaut vs Spring Boot performance
+### Mironaut vs Spring Boot performance
 
 Three metrics will be measure to decide which framework performs better. Both, **Spring Boot** and **Micronaut** applications contain same features: http web support with only one class where a controller is defined, and a single endpoint, which converts a string to upper case. Spring uses Tomcat as the embedded web server, whereas the Micronaut one uses Netty.
 
-### Startup Time
+#### Startup Time
 
 ```shell
 docker run -p 8090:8090 spring-boot-example
@@ -161,7 +161,7 @@ Spring Boot startup is more than 50% slower.
 
 **Winner**: **Micronaut**
 
-### Initial Memory Consumption
+#### Initial Memory Consumption
 
 
 ```shell
@@ -189,7 +189,7 @@ Micronaut consumes around 30% less memory than Spring Boot.
 
 **Winner: Micronaut**
 
-### Heavy Load Memory Consumption
+#### Heavy Load Memory Consumption
 
 ```shell
 CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
@@ -202,7 +202,7 @@ Surprisingly, under heavy load Micronaut performs much worese in terms of memory
 
 **Winner: Spring Boot**
 
-### Response Time
+#### Response Time
 
 ```shell
 Micronaut Request	9994	2	2	4	5	9	0	50	0.0	97.26710008953945	12.823299328210767	12.443349718486004
@@ -213,17 +213,17 @@ Both frameworks perform in the same way.
 
 **Winner: tie**
 
-### Conclusion
+#### Conclusion
 
 Micronaut startup time and initial memory consumption are much better than Spring Boot ones, however, the high memory consumption of Micronaut during heavy load is quite concerning and it seems memory management is not that great.
 
-## When should I use Micronaut?
+### When should I use Micronaut?
 
 **Micronaut** team advertise it as a low memory consumption framework with a quick startup time, so it is very suitable for the _serverless_ world.
 
 This framework is also a good choice if you are moving your application to the cloud or you are creating a project from scratch.
 
-## Caveats
+### Caveats
 
 - It is still fairly new, and the community is quite small compare to the Spring one, though big enterprise companies like ThoughtWorks has already included it on their tech radar.
 - Netty is the only client web server available.

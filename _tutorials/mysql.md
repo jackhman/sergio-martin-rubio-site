@@ -58,7 +58,7 @@ Show Events
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Access
+## Access
 
 You can acceess a MySQL DB with the following command:
 
@@ -72,7 +72,7 @@ e.g.
 mysql -u sergio -p123456 -h 192.168.0.5
 ```
 
-# Server Info
+## Server Info
 
 ```sql
 SELECT VERSION();
@@ -82,7 +82,7 @@ SELECT CURRENT_DATE();
 STATUS;
 ```
 
-# DB Info
+## DB Info
 
 Show existing databases:
 
@@ -102,13 +102,13 @@ DESCRIBE <table_name>;
 SHOW CREATE TABLE <table_name>;
 ```
 
-# Use Database
+## Use Database
 
 ```sql
 USE <db_name>;
 ```
 
-# Create Database
+## Create Database
 
 ```sql
 CREATE DATABASE <db_name> CHARACTER SET <character_set> COLLATE <collation_name>;
@@ -120,13 +120,13 @@ e.g.
 CREATE DATATABSE contacts CHARACTER SET utf8 COLLATE utf8_spanish_ci;
 ```
 
-# Delete Database
+## Delete Database
 
 ```sql
 DROP DATABASE <db_name>;
 ```
 
-# Create Table
+## Create Table
 
 ```sql
 CREATE TABLE (<columns_name_type_and_attributes>) <table_options>;
@@ -149,7 +149,7 @@ You can also copy an existing table schema:
 CREATE TABLE <new_table_name> LIKE <table_name>;
 ```
 
-# Delete Table
+## Delete Table
 
 ```sql
 DROP TABLE <table_name>;
@@ -157,13 +157,13 @@ DROP TABLE <table_name>;
 
 >Note: This will also delete all the entries stored in the table.
 
-# Rename Table
+## Rename Table
 
 ```sql
 RENAME TABLE <table_name> TO <new_table_name>;
 ```
 
-# Table Attributes
+## Table Attributes
 
 * `NOT NULL`:
 
@@ -317,7 +317,7 @@ It is the maximum number of entries you are planning to store in a table, but is
 
 It is just a hint for the engine about the memory use.
 
-# Column Types
+## Column Types
 
 Type | Description | Size
 ---------|----------|---------
@@ -340,7 +340,7 @@ Type | Description | Size
 
 >`TIMESTAMP` only allows dates between `1970-01-01 00:00:00 UTC` and `2038-19-01 03:14:07 UTC`
 
-# Modify Table
+## Modify Table
 
 * Add column:
 
@@ -372,7 +372,7 @@ ALTER TABLE <table_name> DROP <column_name>;
 ALTER TABLE <table_name> CHANGE <old_name> <new_name> <columns_type_and_attributes>;
 ```
 
-# Table Engines
+## Table Engines
 
 Set table engine:
 
@@ -392,7 +392,7 @@ Each DB engine has different features like table struture, therefore you have to
 
 >The default engine in _Linux OS_ is _MyISAM_ and in _Windows OS_ is _InnoDB_.
 
-# Load Databases
+## Load Databases
 
 ```sql
 SOURCE path_to_file/file_name.sql
@@ -404,9 +404,9 @@ You can also load `sql` files from non interactive mode:
 mysql -u <username> -p<password> < path_to_file/file_name.sql
 ```
 
-# Queries
+## Queries
 
-## SELECT expression
+### SELECT expression
 
 ```sql
 SELECT <column_name> FROM <table_name>;
@@ -420,7 +420,7 @@ SELECT DISTINCT <column_name> FROM <table_name>;
 
 >You can display data by chunks with the option `\G` at the end of the query.
 
-## WHERE clause
+### WHERE clause
 
 ```sql
 SELECT <column_name> FROM <table_name> WHERE <condition>;
@@ -484,7 +484,7 @@ All entries wich contains 'o' on the second position.
 SELECT <column_name> FROM <table_name> WHERE <condition> LIKE '_o%';
 ```
 
-## LIMIT clause
+### LIMIT clause
 
 To constrain the number of rows to return:
 
@@ -498,7 +498,7 @@ To constrain the number of rows to return with an offset.
 SELECT <column_name> FROM <table_name> LIMIT <offset>, <number_of_rows>;
 ```
 
-## Sorting (ORDER BY)
+### Sorting (ORDER BY)
 
 You can sort table rows by columns with the following sintax:
 
@@ -512,7 +512,7 @@ SELECT <column_name> <another_column_name>
 
 To sort in reverse order you need to add `DESC` keyword at the end.
 
-## Agregate Functions
+### Agregate Functions
 
 Name | Description
 ---------|----------
@@ -524,7 +524,7 @@ Name | Description
 
 >Note: `COUNT(*)` will return the total number of rows in a table.
 
-## Grouping (GROUP BY, HAVING)
+### Grouping (GROUP BY, HAVING)
 
 The `GROUP BY` keyword groups table rows into a set of rows by values of columns or expressions. It will return one row for each group.
 
@@ -552,7 +552,7 @@ SELECT team_name, AVG(weight)
     ORDER BY AVG(weight);
 ```
 
-## Subqueries
+### Subqueries
 
 Subqueries are nested queries. Inner subqueries will run first and then the outer query. Subqueries can be use in combination with `WHERE` and `HAVING` clause.
 
@@ -609,13 +609,13 @@ SELECT store_type
     );
 ```
 
-## Join clauses
+### Join clauses
 
-### The Full Join
+#### The Full Join
 
 It is also called cross join because each row of each table is crossed with each row in every other table and generates a cartesian product. This is not very useful, since it generates unrelated rows, so you need to use the `WHERE` clause in order to match columns from two tables.
 
-### JOIN syntax
+#### JOIN syntax
 
 The `JOIN` syntax is an alternative to the full join with conditions. Some of the options are:
 
@@ -642,7 +642,7 @@ SELECT * FROM pet LEFT OUTER JOIN owner ON pet.owner=owner.id
     SELECT * FROM pet RIGHT OUTER JOIN owner ON pet.owner=owner.id;
 ```
 
-### Self Join
+#### Self Join
 
 When you need to join a table with itself you can use self join queries. To join a table to itself you need to give the table an alias and then select from both the table and its alias.
 
@@ -653,7 +653,7 @@ SELECT CONCAT(emp.name, ' ', emp.surname) AS employee, CONCAT(manager.name, ' ',
     FROM employee emp INNER JOIN employee manager ON emp.manager_id=manager.employee_id;
 ```
 
-## Derived Tables
+### Derived Tables
 
 A derived table is a subquery that can take the place of a table in the `FROM`.
 
@@ -665,7 +665,7 @@ SELECT <column_name>
 
 The dereived table will only exist during the query.
 
-# INSERT syntax
+## INSERT syntax
 
 ```sql
 INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...) 
@@ -708,7 +708,7 @@ INSERT INTO <table_name>
 
 >Note: The table where the rows are pasted must exists and will copy only values.
 
-# Update Table
+## Update Table
 
 The `UPDATE` statement updates columns of existing rows.
 
@@ -716,7 +716,7 @@ The `UPDATE` statement updates columns of existing rows.
 UPDATE <table_name> SET <column_name> = <new_value> WHERE <expression>;
 ```
 
-# Delete Entries
+## Delete Entries
 
 The `DELETE` clause is used to delete data from a table.
 
@@ -724,7 +724,7 @@ The `DELETE` clause is used to delete data from a table.
 DELETE FROM <table_name> WHERE <expression>;
 ```
 
-# Transactional statements
+## Transactional statements
 
 A transaction is a set of grouped statements and defined as a single unit of work, this means that if a transaction is successful, all the modifucations will be saved and became permanent part of the database, otherwise the transaction will be cancelled and rolled back. MySQL provides the following sintax to use transactions:
 
@@ -740,9 +740,9 @@ UPDATE <second_table_name SET <column_name>=@A WHERE <expression>;
 COMMIT;
 ```
 
-# Account Management
+## Account Management
 
-## Create User
+### Create User
 
 The `CREATE USER` clause creates new MySQL accounts and it enables authentication, SSL/TLS, resource access limitations and password management.
 
@@ -759,7 +759,7 @@ SELECT * FROM mysql.user;
 SELECT host, user, password FROM mysql.user;
 ```
 
-## Remove User
+### Remove User
 
 `DROP USER` sintax deletes one or more MySQL accounts.
 
@@ -767,7 +767,7 @@ SELECT host, user, password FROM mysql.user;
 DROP USER '<user_name>'@'<host_name>';
 ```
 
-## Give Privileges
+### Give Privileges
 
 Users can get permission with the `GRANT` clause.
 
@@ -788,7 +788,7 @@ Some of the options available:
 
 >Note: to make the privileges active you might need to run `FLUSH PRIVILEGES;`.
 
-## Revoke Privilege
+### Revoke Privilege
 
 The `REVOKE` sintax allows you to remove privileges from MySQL accounts.
 
@@ -796,31 +796,31 @@ The `REVOKE` sintax allows you to remove privileges from MySQL accounts.
 REVOKE <option> ON <db_name>.<table_name> TO '<user_name>'@'<host_name>';
 ```
 
-## Show Privileges
+### Show Privileges
 
 ```sql
 SHOW GRANTS FOR '<user_name>'@'<host_name>';
 ```
 
-# Backup and Recovery
+## Backup and Recovery
 
-## Backup Types
+### Backup Types
 
-### Online vs Offline:
+#### Online vs Offline:
 
 1. **Online**: The server will keep running, so clients can connect to the database while doing the backup. However, cache issues can arise and it could compromise data integrity.
 2. **Offline**: The server will be unavailable. This process will be simpler and there will be no risk of integrity issues or blocks.
 
-### Physical vs Logical:
+#### Physical vs Logical:
 
-#### Physical
+##### Physical
 
     - It is faster than a logical backup.
     - It can be done online or offline.
     - It might cause incompatibility issues between different database systems.
     - Tools used for physical backups are: _mysqlbackup_ or system commands like `cp`, `scp`, `tar`...
 
-#### Logical
+##### Logical
 
     - It is slower since the server must access database information and convert it to logical format (SQL statements).
     - It can be only doe online.
@@ -905,18 +905,18 @@ SOURCE /path/<file_name>.sql
 mysql -u root -p < <file_name>.sql
 ```
 
-### Full vs Incremental:
+#### Full vs Incremental:
 
 1. **Full**: It includes the entired database managed by MySQL.
 2. **Incremental**: It is the backup from the last full or incremental backup. To restore an incremental backup, the full and all the previous incremental backups are required.
 
-# Views
+## Views
 
 Views are stored queries with name that allows the DB administrator to restrict direct access to tables and implement additional security measures, so you can grant or revoke permissions as you do with tables.
 
 View entries can also be deleted or updated and these changes will be reflected in the tables used to create the view.
 
-## Create View
+### Create View
 
 Views can be created from multiple `SELECT` statements or other views.
 
@@ -936,7 +936,7 @@ CREATE
  * `SQL_SECURITY`: defines permissions on the view: `DEFINER` permissions or `INVOKER`(default) permissions
  * `WITH CHECK OPTION`: `WITH CHECK OPTION` clause is used to prevent inserts or updates to rows which do not satisfy the `WHERE` statement. `LOCAL` will only affect to the actual view, `CASCADED` will affect views used to create the view
 
-## Modify a View
+### Modify a View
 
 The `ALTER VIEW` clause is used to modify views.
 
@@ -947,7 +947,7 @@ AS SELECT ...
 ...;
 ```
 
-## Remove View
+### Remove View
 
 You can delete a view with the following sintax:
 
@@ -955,20 +955,20 @@ You can delete a view with the following sintax:
 DROP VIEW <view_name>;
 ```
 
-## Retrieve Views
+### Retrieve Views
 
 ```sql
 SHOW CREATE VIEW <view_name>;
 SELECT * FROM information_schema.views;
 ```
 
-# Triggers
+## Triggers
 
 A **trigger** is an routine activated or executed as a result of an action of type `INSERT`, `DELETE` or `UPDATE`.
 
 >Note: Before _MySQL 5.7.2_, only 6 triggers are allowed for each table. One trigger for each combination of time (`BEFORE`, `AFTER`) and action (`INSERT`, `UPDATE`, `DELETE`).
 
-## Create a Trigger
+### Create a Trigger
 
 ```sql
 CREATE TRIGGER <trigger_name> 
@@ -986,7 +986,7 @@ MySQL provides the `OLD` and `NEW` keywords to access columns in the rows affect
 - In a `DELETE` trigger only `OLD` can be used, since the row is removed.
 - `UPDATE` supports both `NEW` and `OLD`, the first one refers to a row after it is updated and the second one refers to a row before it is updated.
 
-## Delete a Trigger
+### Delete a Trigger
 
 To remove a trigger you can execute:
 
@@ -994,14 +994,14 @@ To remove a trigger you can execute:
 DROP TRIGGER <trigger_name>;
 ```
 
-## Show Triggers
+### Show Triggers
 
 ```sql
 SHOW TRIGGERS {FROM | IN} <db_name>;
 SELECT <trigger_name> FROM information_schema.triggers;
 ```
 
-# Events
+## Events
 
 Events are scheduled tasks that run at a particular time and are very similar to cron jobs. 
 
@@ -1012,7 +1012,7 @@ Two types:
 
 >Note: the global sysmtem variable `event_scheduler` determines if events are enabled. Possible values: `ON` (activated), `OFF` (disactivated), `DISABLED` (the Event Scheduler state cannot be changed at runtime). To change the value: `SET GLOBAL EVENT_SCHEDULER={ON|OFF|DISABLED}` or serach for the prperty in `my.cnf`.
 
-## Create Event
+### Create Event
 
 ```sql
 CREATE EVENT <table_name>
@@ -1041,7 +1041,7 @@ WEEK | SECOND | YEAR_MONTH | DAY_HOUR | DAY_MINUTE |
 DAY_SECOND | HOUR_MINUTE | HOUR_SECOND | MINUTE_SECOND}
 ```
 
-## Modify Event
+### Modify Event
 
 ```sql
 ALTER EVENT <event_name>
@@ -1052,7 +1052,7 @@ ALTER EVENT <event_name>
     {DO <actions>};
 ```
 
-## Show Events
+### Show Events
 
 ```sql
 SHOW EVENTS;

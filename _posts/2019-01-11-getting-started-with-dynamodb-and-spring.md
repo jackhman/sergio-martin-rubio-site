@@ -22,11 +22,11 @@ Conclusion
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Introduction
+## Introduction
 
 [DynamoDB](https://aws.amazon.com/dynamodb/?sc_channel=PS&sc_campaign=acquisition_UK&sc_publisher=google&sc_medium=dynamodb_hv_b&sc_content=dynamodb_e&sc_detail=dynamodb&sc_category=dynamodb&sc_segment=62042493529&sc_matchtype=e&sc_country=UK&s_kwcid=AL!4422!3!62042493529!e!!g!!dynamodb&ef_id=EAIaIQobChMIncaip-jP3wIVmoXVCh3v2QHsEAAYASAAEgLIzPD_BwE:G:s) is a NoSQL database provided by AWS, and in the same way as [MongoDB](https://www.mongodb.com/) or [Cassandra](http://cassandra.apache.org/), it is very suitable to boost horizontal scalability and increase development speed.
 
-# Main Features
+## Main Features
 
 - Fully managed _NoSQL_.
 - Document or Key-Value.
@@ -35,7 +35,7 @@ Conclusion
 - Provides access control.
 - Enables _Event Driven Programming_.
 
-# DynamoDB Components
+## DynamoDB Components
 
 - **Tables**. Catalog
 - **Items**. Group of attributes
@@ -43,7 +43,7 @@ Conclusion
 - **Partition Key**. Mandatory, Key-Value access pattern. Determines data distribution
 - **Sort Key**. Optional. Model 1:N relationships. Enables rich query capabilities
 
-# Guidelines
+## Guidelines
 * Understand the use case.
     - Nature of the application.
     - Define the [E/R Model](https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model)
@@ -61,7 +61,7 @@ The official [DynamoDB documentation for best practices](https://docs.aws.amazon
 
 However, **DynamoDB** is not for everyone. In _NoSQL_, you are tuning the data to the access particular patterns. Therefore, if you do not know what queries are going to be performed, or your system is very normalized, _NoSQL_ databases might not be a good candidate.
 
-# Spring Integration
+## Spring Integration
 
 [One of the languages supported by DynamoDB is Java](https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/basics.html), and you can develop you own API to query _DynamoDB_. However, you will realize soon that there is a lot of boilerplate for very simple queries.
 
@@ -73,7 +73,7 @@ Spring provides a community [module to integrate DynamoDB on Spring](https://git
 * **Spring annotations**.
 * **REST support** via spring-data-rest.
 
-# Getting Started
+## Getting Started
 
 To start using this module, you just need to add these two dependencies:
 
@@ -97,7 +97,7 @@ To start using this module, you just need to add these two dependencies:
 </profiles>
 ```
 
-## DynamoDB Set Up
+### DynamoDB Set Up
 
 First of all, you need a DynamoDB web service instance on AWS or run locally a downloadable version of _DynamoDB_. For testing, you can simply use a dockerized _DynamoDB_ version:
 
@@ -105,7 +105,7 @@ First of all, you need a DynamoDB web service instance on AWS or run locally a d
 docker run -p 8000:8000 amazon/dynamodb-local
 ```
 
-## Spring Configuration
+### Spring Configuration
 
 Firstly, you need to add `@EnableDynamoDBRepositories` annotation on our configuration class. And you can have two _Spring_ configuration classes, one for testing and another for production.
 
@@ -194,7 +194,7 @@ public class DynamoDBConfigProd {
 }
 ```
 
-## Repositories
+### Repositories
 
 Repositories need to be annotated with `@EnableScan` to use method name as queries.
 
@@ -213,7 +213,7 @@ public interface CustomHotelRepository {
 }
 ```
 
-## Entities
+### Entities
 
 `DynamoDBMapper` allows you to convert _DynamoDB_ items to _POJOs_, and generate table definitions.
 
@@ -242,7 +242,7 @@ There are also other useful annotations such as `@DynamoDBIndexRangeKey` for sec
 {% include elements/button.html link="https://github.com/smartinrub/spring-boot-dynamodb" text="Source Code" %}
 </p>
 
-# Conclusion
+## Conclusion
 
 - **NoSQL does not mean non-relational**.
 - **E/R diagrams are still valid**.

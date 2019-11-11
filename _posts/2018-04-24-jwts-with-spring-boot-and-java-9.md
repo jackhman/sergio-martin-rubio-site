@@ -17,18 +17,18 @@ Troubleshooting
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Introduction
+## Introduction
 
 [JWT](https://jwt.io/) (_JSON Web Token_) is an open source standard commonly used to transmit data between two services in a compact and secure way. This standard offers a wide range of libraries to generate _JWTs_ and includes libraries for platforms such as _.NET_, _Python_, _Node.js_, _Java_, _JavaScript_, _Perl_, _Ruby_, _Elixir_, _Golang_, _Groovy_, and _Haskell_.
 
-# Features
+## Features
 
 * **Secure**. _JWTs_ are signed by using a secret or a **public/private key pair**.
 * **Self-contained**: all information is stored inside the _JWT token_. No need for further database calls.
 * **Unmodifiable information, but exposed**: Do not put secrets inside _JWTs_.
 * **Compact format**: _JWTs_ are really small.
 
-# How Does It Work?
+## How Does It Work?
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/6C42ufo6FCCFM40a24XGl4SkJ7a4IDlM-8C5iGGTwfB2W7oj6JBSZPx9QeF4QZnba4TXQTdNZsldVeIkWQ=w800" caption="JWT Communication" %}
 
@@ -43,7 +43,7 @@ Troubleshooting
 Authorization: Bearer
 ```
 
-## JSON Web Token format
+### JSON Web Token format
 
 **JWTs** are structured in three parts separated by dots:
 
@@ -53,7 +53,7 @@ Authorization: Bearer
 
 Therefore, the format is **xxx.yyy.zzz**
 
-## Java Integration
+### Java Integration
 
 **Java JWT** provides all you need to generate signed tokens in a _Java_ application.
 
@@ -103,7 +103,7 @@ final Claims claims = Jwts.parser()
 
 If the verification fails, a `SignatureException` will be thrown. Otherwise, we will be able to store the metadata in a claims variable that will be available to consume later.
 
-## Troubleshooting
+### Troubleshooting
 
 In case you are using **Java 9**, make sure you add an explicit dependency to the _POM file_.
 

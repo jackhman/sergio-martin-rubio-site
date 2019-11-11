@@ -15,13 +15,13 @@ Getting Started
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Introduction
+## Introduction
 
 [Spring Batch](https://docs.spring.io/spring-batch/trunk/reference/html/) is a batch framework designed to process large volumes of data. You can run either chunks or tasklets (single task per step).
 
 This framework is lightweight and very easy to use, so it’s very recommended for tasks that will run for a long time and you want to forget about it.
 
-# Features
+## Features
 
 - Stop/start/restart jobs and maintain state between executions.
 - Skip and retry records as they are being processed.
@@ -33,7 +33,7 @@ This framework is lightweight and very easy to use, so it’s very recommended f
 - Many scalable options and allows us to use multithreding.
 - Support for big data.
 
-# Use Case
+## Use Case
 Spring Batch allows us to run database migrations without hassle. For this example we want to migrate our plain text passwords to BCrypt. To achieve that we will have to:
 
 - Read from database.
@@ -41,7 +41,7 @@ Spring Batch allows us to run database migrations without hassle. For this examp
 - Hash plain text passwords.
 - Update passwords on the original table.
 
-# Getting Started
+## Getting Started
 
 1. **Add dependency** `spring-boot-starter-batch` and create configuration class with readers, writers, steps and job. The configuration class has to be annotated with `@Configuration` and `@EnableBatchProcessing`.
 2. **Create reader**: readers are responsible for getting the data from a source such as a file or a database.

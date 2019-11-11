@@ -14,14 +14,14 @@ Factory Pattern
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Creational Patterns Features
+### Creational Patterns Features
 
  Name | Intent | Motivation | Applicability | Consequences | Implementation
 ---------|----------|---------|----------|---------|----------|---------
  **Singleton** | It creates a single instance of a class for the entire lifespan of an application | It used to make sure that an object is created only once | It can be applied to a logging class, because a logging class usually needs to be used over and over again by every class in a project. Another applicability it is when you need to configure a network connection, because it will always connect to the same host. | An instance of the singleton class is created when it is called the first time or when getIntance method is called, depending on the implementation. By making the constructor private you are not able to create more than one object of the same singleton class | |
  **Factory Method** | It creates an object without exposing the implementation logic | It provides a way to encapsulate object of the same type and avoid implementation details on the client side | It can be used to create different database connections. One of the connection object is returned and can be used to open the connection with a particular database | By delegating the creation of the Product to the Factory, clients does not need to know anything about how the Product is created. Therefore, this pattern allows you to separate or decouple your application, and introduces an easy way to customize the concrete products | When implementing this pattern you have to make sure that all products can use the same Product interface. This pattern is suitable when you have many objects of the same family or type and you manipulate them frequently |
 
-## Singleton Pattern
+### Singleton Pattern
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/y6HYS9ZeQz-tuXRWp7BLIpM8F2KD1d0mAXeWRkFxPB8Ou7Mmunh3H7By7SS6FjPJ9b88cPVMV97bANjSzb00DVg0m9-WAwAgfan7QfCUQskx93LaDSQVmtmJw92H9d5bAAmIIItzxQ=w2400" caption="Singleton Pattern - UML" %}
 
@@ -32,7 +32,7 @@ Basically, there four ways to create a singleton class:
 - Lazy initialisation and Double Check Locking pattern
 - Declare a single element Enum.
 
-### Singleton with public final field
+#### Singleton with public final field
 
 ```java
 public class MySingleton {
@@ -86,7 +86,7 @@ private MySingleton() {
 }
 ```
 
-### Singleton with factory method
+#### Singleton with factory method
 
 ```java
 public class MySingleton {
@@ -124,7 +124,7 @@ public class MySingleton {
 - Constructor can be invoked reflectively.
 - If you are not going to take advantage of any of the previous points, it is recommended to use the first option.
 
-### Lazy initialisation and Double Check Locking pattern
+#### Lazy initialisation and Double Check Locking pattern
 
 When you want to make a Singleton **thread-safe** you need to use **Double-Checked Locking Pattern**.
 
@@ -155,7 +155,7 @@ public class MySingleton {
 - The first check is not _synchronised_ to improve performance and enable reordering of **_JVM_**.
 - The second _synchronised_ check is executed only once during lifespan of Singleton. By doing this you get the performance boost because locking only happens once.
 
-### Enum singleton (preferred way)
+#### Enum singleton (preferred way)
 
 ```java
 public enum MySingleton {
@@ -185,7 +185,7 @@ public enum MySingleton {
 
 - Your singleton **only can extend a Enum** superclass
 
-### Why avoid overusing Singleton Pattern?
+#### Why avoid overusing Singleton Pattern?
 
 Singleton is a powerful pattern but use it only when it is strictly necessary.
 
@@ -193,7 +193,7 @@ Singleton is a powerful pattern but use it only when it is strictly necessary.
 - This pattern may behave as an **anti-pattern**, because introduces global variables in your application.
 - Singletons are bad when implemented with **multi-threading**.
 
-### Use Cases
+#### Use Cases
 
 **Android Volley Library** to make _HTTP_ calls:
 
@@ -251,11 +251,11 @@ public class MySingleton {
 }
 ```
 
-## Factory Pattern
+### Factory Pattern
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/WQnQslVBGEOfhXwmhgOkDgXBXrDRsnR8D1p6GYQNpI4H6ZxhodCYsvxTIvD4dvUFOX-mgdUzdZqneg3JbfKkgp_nDqIIGMqOqn8bVMwz6nEOtY07WzSplfUPdNxpIoHg0gIb5nVZnw=w2400" caption="Factory Pattern - UML" %}
 
-### Use Cases
+#### Use Cases
 
 [BorderFactory.createLineBorder](https://docs.oracle.com/javase/6/docs/api/javax/swing/BorderFactory.html) from **Java API** uses **Factory Pattern**, but in this case there is only one factory family, so no factory interface was created.
 

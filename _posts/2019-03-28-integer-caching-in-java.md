@@ -8,11 +8,11 @@ description: Learn how caching works for encapsulated primitives.
 
 **Java** provides some optimizations for integers, so instances of [Integer](https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html) are cached by the JVM to increase performance.
 
-## How it works
+### How it works
 
 Basically, when an Integer is initialized a cache is created if the number satisfied the range requirements. The default rage is set from -128 to 127, however, it can be tweaked by the `-XX:AutoBoxCacheMax=` option, so that, during VM startup, `java.lang.Integer.IntegerCache.high` will contain the new value and saved in the sun.misc.VM class.
 
-## Example
+### Example
 
 As an example, every time we initialize an Integer like Integer num = 127; the compiler will use the auto-boxing and convert this line to Integer num = Integer.valueOf(127);This static method will cache the value if it is between -128 and 127.
 
@@ -40,7 +40,7 @@ false
 true
 ```
 
-## Conclusion
+### Conclusion
 
 Small integer values occur much more often than big values and therefore it makes sense to avoid the overhead of having different objects for every instance (an `Integer` object consumes 12 bytes of memory), so always avoid the use of the Integer constructor (`new Integer(int)`), which has been deprecated since **Java 9**.
 

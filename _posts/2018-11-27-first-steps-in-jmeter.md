@@ -17,7 +17,7 @@ Conclusion
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+### Introduction
 
 In this post we are going to go through the main **JMeter** features, but first of all, what is [JMeter](https://jmeter.apache.org/)? basically, it is a tool to perform load testing against:
 
@@ -38,11 +38,11 @@ Performance tests are required to make sure your application will not crash unde
 
 **JMeter** is an open source and Java based that provides an _GUI_ to create your test plans, and simulates browser behaviour by sending customised request to our webiste.
 
-## JMeter
+### JMeter
 
-### Installation and execution
+#### Installation and execution
 
-#### Ubuntu 18
+##### Ubuntu 18
 
 1. Download binaries from **Apache JMeter**.
 2. Unzip file:
@@ -58,7 +58,7 @@ cd apache-jmeter-5.0/bin
 ./jmeter
 ```
 
-#### MAC OS
+##### MAC OS
 
 1. Install it with **brew**
 
@@ -72,12 +72,12 @@ brew install jmeter
 jmeter
 ```
 
-### Elements of a Test Plan
+#### Elements of a Test Plan
 #### Test Plan
 
 This parent object will contain all the necessary components to build your test plan.
 
-#### Thread Group
+##### Thread Group
 
 **Thread Group** is the first element of your test plan and all samples, controllers and listeners are meant to be under this object. However, listeners are allowed to be under the Test Plan object, and in this case they are applied to all Thread Groups. What can you do from a Thread Group?
 
@@ -86,7 +86,7 @@ This parent object will contain all the necessary components to build your test 
 - Set how many times a _Thread Group_ will execute.
 - Other options: scheduler, delays, actions after error…
 
-#### Controllers
+##### Controllers
 
 **_Sampler_**
 
@@ -118,7 +118,7 @@ We can use these controller to specified how and when to run the samplers. The m
 - **Runtime Controller**: it sets for how long the children controllers will run.
 - **Recording Controller**: it is a placeholder to use in combination with HTTP(S) Test Script Recorder.
 
-#### Listeners
+##### Listeners
 
 Listeners are essential to retrieve the results from your tests and analyze the Sampler requests and responses by looking at tables, graphs, trees, statistics… Moreover, they allow you to save the results in csv or xml files, so you can have a look at them later.
 
@@ -148,7 +148,7 @@ Some of the most relevant listeners are:
 
 In order to save these reports into **CSV** files you only need give a path a filename. For **XML** output Save as XML option needs to be selected in Configure.
 
-#### Timers
+##### Timers
 
 **Timers** add delays to every requests of your **Thread Group** to avoid overwhelming the server. If you want to apply a timer to only one element, add the timer as a child of it. Some of the common timers are:
 
@@ -156,7 +156,7 @@ In order to save these reports into **CSV** files you only need give a path a fi
 - **Uniform Random Timer**: it delays each request for a random amount of time.
 - **Constant Throughput Timer**: this timer uses variable delay for each request base on the server performance, so what you set on this timer is the number of samples per minute.
 
-#### Assertions
+##### Assertions
 
 **Assertions** are very useful to make sure for instance you are getting the expected response.
 
@@ -164,12 +164,12 @@ The most relevant assertion for HTTP requests is _Response Assertion_. This asse
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/p1Vv4dj72ETMp9WgjB-1p_bkZesmDZRhY0GXIoKcplZkEy1h-qDbUB6sCzR2s7Wk2FoL5-AOP9ykvASy1E3L0HOUafPfq7r978AFOOiAtDWwEuE3DQdJX8fVUYQF1O29Kzl2ynVB=w2400" caption="JMeter - Response Assertion" %}
 
-#### Templates
+##### Templates
 **JMeter** includes some templates to get started. Building an **Advanced Web Test Plan** is one of them and includes many of the elements described before (config elements, controllers, assertions, listeners, timers…).
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/e-xiY2-yPEOh1jWAKSJQmudPzZflCFbbFrNOrjm8uWcyA2eEuG2G7BUXMAJPIOYIfVG9FIYR23e-RpFLGYclYdJ9EgD8GGluyiX8X1HUZK6VawlevnVqzfsdDQXA0u_vKlDGY-u2=w2400" caption="JMeter - Left Pane" %}
 
-### Running Test Plan
+#### Running Test Plan
 
 There are two options to run your test plan. You can use the _GUI_ provided by _JMeter_, however this alternative is not recommended, since JMeter consumes much computer memory, and it should only be used for creating the test script. On the other hand, non _GUI_ is much more lightweight and should be used for running the test plan.
 
@@ -185,6 +185,6 @@ jmeter -n -t test_plan.jmx -l results.csv -j jmeter_logs.log
 
 -j  JMeter log file
 
-## Conclusion
+### Conclusion
 
 **JMeter** is a powerful and customizable tool for load testing, and provides a friendly user interface to create your scripts. However, it is a heavyweight tool compare to other load testing utilities like Gatling or Locust.

@@ -16,13 +16,13 @@ Conclusion
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Introduction
+## Introduction
 
 Mainly there **two ways of initialize a field**, **eager** and **lazy** initalization. On the one hand, lazy initialization consists of initializing the field when the value is needed, whereas the eager option is base on initializing the variable when it is declared.
 
 Both choices are compatible with _static_ and _instance fields_, however the implementation may differ when trying to achieve performance improvement.
 
-# Eager Initialization
+## Eager Initialization
 
 Eager initialisation is commonly used when:
 
@@ -35,7 +35,7 @@ Eager initialisation is commonly used when:
 private final Object eagerObject = new Object();
 ```
 
-# Lazy Initialization
+## Lazy Initialization
 
 Lazy initialisation is preferable when:
 
@@ -57,7 +57,7 @@ private synchronized Object getLazyObject() {
 }
 ```
 
-# Use Cases
+## Use Cases
 
 As you can see it is really important to know the context of the field and how it is going to be accessed to decide what kind of initialisation is preferred. However, bear in mind that most of the times eager initialisation is preferable.
 
@@ -102,6 +102,6 @@ The previous code snipped might look complicated and it is indeed.
 - The first check is to improve performance by verifying if the field is already initialised before locking and allowing that multiple threads can access to the field.
 - The synchronised block ensures that only one thread can go inside the block, checks if the field is already initialised (it might happen there is a [race condition](http://tutorials.jenkov.com/java-concurrency/race-conditions-and-critical-sections.html)), and if not, initialises the object.
 
-# Conclusion
+## Conclusion
 
 You should choose eager initialisation over the lazy one in most cases. Only use lazy initialisation when the performance is a priority or in order to break _initialisation circularity_.

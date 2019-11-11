@@ -5,13 +5,13 @@ image: https://lh3.googleusercontent.com/0PzrQ70-l6hrv7BBvi28TLGaLmqvAo0bJmG4rlJ
 description: Android App to manage your orders.
 ---
 
-# Reparto Manager
+## Reparto Manager
 
 {% include elements/video.html id="UrYdKVSVUbI" %}
 
 **Reparto Manager** is a simple and light application made for delivery companies, and its main purpose is to optimize the management of orders based on locations, sale prices, and order priorities. Through an intuitive interface, Reparto Manager will allow you to generate new orders and improve logistics.
 
-## Features
+### Features
 
 Automate delivery of products through the following operations:
 - Register a new order given customer_name , Postcode, distance, price, phone and email.
@@ -20,12 +20,12 @@ Automate delivery of products through the following operations:
 for those who have the same cod_postal. The group price is the sum of all orders from a particular group, and the selected group will be the one with the highest price. All orders from a group can be deleted or can be selected individually to obtain individual information.
 - Show a map with orders locations grouped by zip code and display a delivery route.
 
-## Technologies
+### Technologies
 
 1. **Storate**: **SQLite Database**
 2. **Geolocation**: **Google Maps**
 
-### Database
+#### Database
 A database is used to store orders with the respective customer information, such as name, zip code, distance, price, phone and email. This information can be retrieve by SQL queries.
 
 _SQL_ has been used, since this application can host a large amount of information, and this technology also makes it easier for us to run complex queries using techniques of
@@ -56,7 +56,7 @@ However, Android is not able to prcess it.
 
 On the other hand, we will use _SQL_ queries to delete ordres or find locations that will be placed on **Google Maps**.
 
-### Geolocation
+#### Geolocation
 
 **Google Maps API** for **Android** allows us to place markers to locate orders, showing the best route by postal code on the Google Maps view.
 
@@ -64,7 +64,7 @@ Moroover, when clicking on one of the personalized markers, a message will pop u
 
 >Postal codes are retrieved in advance by _SQL_ queries.
 
-## Functional Descripion
+### Functional Descripion
 
 Reparto Manager is composed by 6 different views, including the Splash screen which runs during start up. Views:
 

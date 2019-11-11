@@ -20,11 +20,11 @@ Other Features
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Introduction
+## Introduction
 
 [Spring Cloud Config Server](https://cloud.spring.io/spring-cloud-config/reference/html/) provides remote configuration for your Spring applications or any application running in any language. This tool has been out there for a long time, so it is very mature and reliable. Spring Cloud Config Server comes in handy when you need to set up configurations for microservices in multiple environments, so you can manage properties separately and avoid the hassle of triggering application builds when only the configuration is updated.
 
-# Getting Started
+## Getting Started
 
 By default _Spring Cloud Config Server_ uses git to store the configuration files, however you could write your own implementation and use a different version control system (VCS). 
 
@@ -50,7 +50,7 @@ Property files can be named and located as follows:
 
 >Note: If the git branch or tag name contains slashes (`/`) they must be replaced with underscores (`_`).
 
-## Client Side
+### Client Side
 
 The following Maven dependency is required on the config server clients:
 
@@ -78,7 +78,7 @@ where the `spring.application.name` will be mapped to the `{application}` part o
 
 >Note: Remember that `bootstrap.yml` is loaded before `application.yml`, and so the first one is needed if your application's configuration is stored on a remote configuration server and properties need to be decrypted.
 
-## Server Side
+### Server Side
 
 The Maven dependency required on the server side is:
 
@@ -118,7 +118,7 @@ where `server.port` is used to run the application in a particular port; and `sp
 
 >Note: You could create a git repository on your local machine, commit the changes and set `spring.cloud.config.server.git.uri` to somthing like `file://${user.home}/config-repo`, so you can test your configuration locally.
 
-## Encrypted Properties
+### Encrypted Properties
 
 _Spring Cloud Config Server_ supports property encryption. You can use either symmetric or asymmetric key encryption. Spring recommends to use a symmetric key since you will only need to configure a single value in the bootstrap property file, however you might want to use asymmetric keys if you want to increase the security.
 
@@ -138,11 +138,11 @@ curl localhost:8888/decrypt -d 682bc583f4641835fa2db009355293665d2647dade3375c0e
 
 >Note: Encrypted vales require the prefix `{cipher}` when you put them in `application.properties` (or `.yml`).
 
-### Symmetric
+#### Symmetric
 
 ```yml
 encrypt:
-  key: ${ENCRYPT_KEY} # any string
+  key: ${ENCRYPT_KEY} ## any string
 ```
 
 To configure a symmetric key, you need to set `encrypt.key` to a plain text string in Spring _Cloud Config Server_ (the client does not require this key since values are decrypted automatically before they are sent to the client) and set the `ENCRYPT_KEY` environment variable to keep it out of plain-text repository files. For example, you can pass it using Jenkins while running your pipeline.
@@ -153,7 +153,7 @@ To configure a symmetric key, you need to set `encrypt.key` to a plain text stri
 
 You can also disable decryption of properties before sending them to the client. To do this you have to set `spring.cloud.config.server.encrypt.enabled` to `false` (`true` is the default value). When this property is set to `false`, `encrypt.key` is required in the client for decryption during start up.
 
-### Asymmetric
+#### Asymmetric
 
 The symmetric key is superior in terms of security, but it is usually less convinient since you have to set a few properties.
 
@@ -177,7 +177,7 @@ encrypt:
 
 >Note: If a property cannot be decrypted the value will be replaced with `<n/a>`.
 
-## Dynamic Configuration Changes
+### Dynamic Configuration Changes
 
 Another important feature of _Spring Cloud Config Server_ is the posibility of refreshing the client configuration at runtime without restarting the JVM. By default, configuration values are read on the client’s startup. To take advantage of this feature you need to enable the `/refresh` endpoint. To do so, go to your client application properties file and include the endpoint:
 
@@ -240,7 +240,7 @@ The broker message configuration can be shared by creating a `application.yml` o
 
 >Note: Any property that is added in to the `application.properties` (or `.yml`) in the root of your configuration repository is shared among all services. This is very useful when you want to share common configuration (like database addresses) across applications.
 
-### What's next?
+#### What's next?
 
 You can go a step further by automating the task of hitting the bus refresh endpoint. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a [webhook](https://developer.github.com/webhooks/). The [webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus](https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html).
 
@@ -287,7 +287,7 @@ curl -X POST "http://localhost:8888/monitor"
 
 The config server application will create a refresh event in the message broker and based on the application name used for the property file name, it will send the refresh event to the services that need to be refreshed.
 
-## Other Features
+### Other Features
 
 - Set multiple repositories with `spring.cloud.config.server.git.repo`.
 - Set the timeout for retrieving properties from git with `spring.cloud.config.server.git.timeout` (default value is 5 seconds).

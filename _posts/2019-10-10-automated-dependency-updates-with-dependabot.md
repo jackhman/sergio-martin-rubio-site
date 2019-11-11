@@ -16,13 +16,13 @@ Conclusion
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-# Introduction
+## Introduction
 
 [Dependabot](https://dependabot.com) is a free and open source tool that has been bought by _GitHub_ and allows you to check for updates on you dependency files.
 
 It can be used to update dependencies in _Ruby_, _JavaScript_, _Python_, _PHP_, _Elixir_, _Elm_, _Go_, _Rust_, _Java_ and _.NET_, as well as, git submodules, _Docker_ files and _Terraform_ files.
 
-# Package Manger Options
+## Package Manger Options
 
 - _bundler_
 - _pip_ (includes pipenv)
@@ -40,7 +40,7 @@ It can be used to update dependencies in _Ruby_, _JavaScript_, _Python_, _PHP_, 
 - _docker_
 - _terraform_
 
-# GitHub Integration Guide
+## GitHub Integration Guide
 
 Dependabot is fully integrated with GitHub and only in a few steps you will be able to add it to your current GitHub projects.
 
@@ -56,7 +56,7 @@ Dependabot is fully integrated with GitHub and only in a few steps you will be a
 6. Run Dependabot and review PR. A relevant branch name, PR title, comment and labels are created.
     ![alt text](https://lh3.googleusercontent.com/cnB2V_3V22hqUt4vH57167KfX-bKA7Z75523xiZfIdwbvGnx5ykJNBaHiqGLDHRujoVP_nUSZ7-9s5C6kw=w800-no-tmp.jpg "Depedabot Pull Request")
 
-## Breaking Changes
+### Breaking Changes
 
 Dependabot also provides a way to give you more confidence in case of possible breaking changes. From the PR page a link is shown and it will take you to a page where you can see PRs that failed CI.
 
@@ -73,7 +73,7 @@ How does it work?
 
 However, to be 100% sure that you are not introducing breaking changes with the dependecy updates, you should create a build with the new branch created by Dependabot.
 
-# Advance Integrations
+## Advance Integrations
 
 **Dependabot** can be also used by itself. The oficial repository provides a [_Ruby_ script](https://github.com/dependabot/dependabot-script) that you can run with _Docker_. Another option is to create a repository dedicated to the script and configure a _GitLab CI_ pipeline to run it periodically.
 
@@ -95,6 +95,6 @@ For instance, you could setup a **GitLab CI** with an **Azure** repo by followin
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/KK1HqPnX3wTNFH2qT5ljWRjmDMWn1UJw6dBaeawaNYklHd7F27sjrZn_A27rNu-xrsk_Mov6ggkkqQC1kQ=w800-no-tmp.jpg" caption="Azure Dependabot PR" %}
 
-# Conclusion
+## Conclusion
 
 As you can see Dependabot is very flexible and will take care of all your projects dependency updates. Despite it has been adquired by GitHub, you can run it on GitLab and point to projects on **Azure** or **GitLab**.

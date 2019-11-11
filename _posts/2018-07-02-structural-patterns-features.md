@@ -17,7 +17,7 @@ Choose the Right Pattern
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Structural Patterns Features
+### Structural Patterns Features
 
  Name | Intent | Motivation | Applicability | Consequences | Implementation
 ---------|----------|---------|----------|---------|----------|---------
@@ -26,11 +26,11 @@ Choose the Right Pattern
 **Decorator** | The main purpose of the Decorator Pattern is to add additional features, behaviours or responsibilities dynamically to an object | This pattern is a great alternative to subclassing, because instead of using inheritance to provide new functionalities, the decorator pattern wraps the target object with decorator classes to add the new behaviours | It is used when functionalities or responsibilities need to be added dynamically to a class, because otherwise many subclasses need to be created to get the same results | This pattern allows you to add or remove functionalities dynamically and avoids producing an explosion of subclasses to support every combination | Keep in mind that many decorators can be hard to maintain and distinguish and debugging is harder, since the behaviour of the object changes at runtime
 **Bridge** | It decouples abstraction from implementation and avoids class explosion | This pattern give you the freedom of developing abstraction and implementation independently and create multiple combinations. The client only have access to the abstraction and does not need to know anything about the implementation | This pattern can be use when we want to decouple abstraction and implementation because they change independently, and we want to avoid a class explosion | Abstraction and implementation can be extended independently, so increases the loose coupling between class abstraction and its implementation. On the other hand, bridge pattern increases complexity due to the fact that it uses composition over inheritance | When using this pattern make sure you are grouping related abstractions and implementation to use the same abstract class or interface
 
-## Proxy Pattern
+### Proxy Pattern
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/kxocuD48AXcfJ0Fj-VuM9_AAJCsEQhMrXM1orNdEUgwqGeZMEoo7utS6eX7bZGhJ0S070bri6xmJ5Hine0bkZQVrVPGMmIZuUoAmFEuSSEMZrRKzSJIoA1D9gRDNs0sO1l6LhTj6PA=w2400" caption="Proxy Pattern - UML" %}
 
-### Use Cases
+#### Use Cases
 
 - An expensive computation needs to be performed.
 - A network call is necessary.
@@ -39,11 +39,11 @@ Choose the Right Pattern
 {% include elements/button.html link="https://github.com/smartinrub/primes-proxypattern" text="Source Code" %}
 </p>
 
-## Adapter Pattern
+### Adapter Pattern
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/vZA2TM2eVe2R6KBc022BYmGFB5D09ktaytHFJnDUTLPfblNGUgyOZs8qHN9voJAbsukihubjZypPiGSivlswyz4AskDIGGQkU6hIksAswN8PRaPQVB4_yDeXsFdDVcm56L9Wqmvtzw=w2400" caption="Adapter Pattern - UML" %}
 
-### Use Cases
+#### Use Cases
 
 - It is commonly used to adapt third party libraries and frameworks.
 
@@ -51,11 +51,11 @@ Choose the Right Pattern
 {% include elements/button.html link="https://github.com/smartinrub/java-adapter-pattern" text="Source Code" %}
 </p>
 
-## Decorator Pattern
+### Decorator Pattern
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/ltO5XFAoBiJCieliVbbkPjFTXBk2POGgKz0fz0KP236sbWeZl1t_b3TsXyazmFSESgdQdqe8bZ9YT8loHFut9vCS3H8iyuMZ4ffCVp0d_Z4Q_Bbj3AiISRkPl7A9jFgDB0r36sUJPg=w2400" caption="Decorator Pattern - UML" %}
 
-### Use Cases
+#### Use Cases
 
 - The Java I/O library makes use of the Decorator Pattern
 
@@ -71,7 +71,7 @@ while(bis.available() > 0){
 {% include elements/button.html link="https://github.com/smartinrub/java-decorator-pattern" text="Source Code" %}
 </p>
 
-## Bridge Pattern
+### Bridge Pattern
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/T1SOpKGNRgTcSoIy737rYAbJ6nSGqEoPfCBzdy0RIvmBJYMOpa1vYOi-6Zm9uaioFAGiejVz726pxa2RCox7m67fWCC3k8RQAD6UfY8E2ZYTLPqhA5zPI-ESk9NZVmI2e8vjK2YcUQ=w2400" caption="Bridge Pattern - UML" %}
 
@@ -79,7 +79,7 @@ while(bis.available() > 0){
 {% include elements/button.html link="https://github.com/smartinrub/java-bridge-pattern" text="Source Code" %}
 </p>
 
-## Choose the Right Pattern
+### Choose the Right Pattern
 
 The following table shows the main five structural patterns with definitions from “Head First Design Patterns” and “Design Patterns: Elements of Reusable Object-Oriented Softwar“.
 
