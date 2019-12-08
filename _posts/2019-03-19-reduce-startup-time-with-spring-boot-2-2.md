@@ -1,6 +1,6 @@
 ---
 title: Reduce Startup Time With Spring Boot 2.2
-tags: [Java, Spring Boot, Development]
+tags: [Java, Spring, Spring Boot]
 style: fill
 color: success
 description: Learn how to speed up your development process with Spring Boot 2.2.

@@ -1,21 +1,26 @@
 - title: Software Development Engineer, Expedia Group, UK
   from: Oct 2018
   to: present
-  description: 
+  description: Involved in adapting microservices APIs to support new features; 
+               Redesigned caching architecture to use in memory data structures; 
+               Worked on a GraphQL PoC; 
+               Wrote Bash scripts to automate build tasks; 
+               Ramped up and mentored new joiners and apprentices 
   
 - title: Software Engineer, Gamesys, UK
   from: Oct 2017
   to: Oct 2018
-  description: Built authorization and authentication infrastructure for millions of users.
-               Built and deploy Docker containers on Kubernetes to break up monolithic app into microservices, improving development workflow, increasing scalability, and optimizing speed. 
-               Ensured high quality code with pair programming and TDD.
+  description: Redesigned authorization and authentication infrastructure with Spring Boot and Spring Security to handle millions of users; 
+               Implemented TDD and pair programming in my daily basis; 
+               Groomed user stories effectively along with product owner and team players; 
+               Maintained Kubernetes cluster and CI tools across the department
 
 - title: Full Stack Developer, Accenture, Spain
   from: Mar 2017
   to: Sep 2017
-  description: Built new funtionalities in AngularJS and Spring MVC to improve user experience. 
-               Involved in SCRUM ceremonies to ensure delivery of value to stakeholders. 
-               Reviewed code and assessed system for bugs and malfunctions.
+  description: Involved in design and implementation of new features using Java EE technologies; 
+               Built Golang service and used Spring Batch to rehash and process millions of records; 
+               Participated in Machine Learning and Data Science Hackathon
 
 - title: Network System Administration, SAFA ICET, Spain
   from: Sep 2015

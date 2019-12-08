@@ -6,9 +6,20 @@ color: success
 description: Spring Batch provides reusable functions that are essential in processing large volumes of records.
 ---
 
-[Spring Batch](https://docs.spring.io/spring-batch/trunk/reference/html/) is a batch framework designed to process large volumes of data. We can run either chunks or tasklets (single task per step).
+{%- capture list_items -%}
+Introduction
+Features
+Use Case
+Getting Started
+{%- endcapture -%}
 
-This framework is lightweight and very easy to use, so it’s very recommended for task that will run for a long time and we want to forget about it.
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
+## Introduction
+
+[Spring Batch](https://docs.spring.io/spring-batch/trunk/reference/html/) is a batch framework designed to process large volumes of data. You can run either chunks or tasklets (single task per step).
+
+This framework is lightweight and very easy to use, so it’s very recommended for tasks that will run for a long time and you want to forget about it.
 
 ## Features
 
@@ -23,7 +34,7 @@ This framework is lightweight and very easy to use, so it’s very recommended f
 - Support for big data.
 
 ## Use Case
-Spring Batch allows us to run databases migration without hassle. For this example we want to migrate our plain text passwords to BCrypt. To achieve that we will have to:
+Spring Batch allows us to run database migrations without hassle. For this example we want to migrate our plain text passwords to BCrypt. To achieve that we will have to:
 
 - Read from database.
 - Write plain text passwords on a backup table.
@@ -32,7 +43,7 @@ Spring Batch allows us to run databases migration without hassle. For this examp
 
 ## Getting Started
 
-1. **Add dependency** `spring-boot-starter-batch` and create configuration class with readers, writers, steps and job. The configuration class needs to be annotated with `@Configuration` and `@EnableBatchProcessing`.
+1. **Add dependency** `spring-boot-starter-batch` and create configuration class with readers, writers, steps and job. The configuration class has to be annotated with `@Configuration` and `@EnableBatchProcessing`.
 2. **Create reader**: readers are responsible for getting the data from a source such as a file or a database.
 
 ```java
@@ -47,9 +58,9 @@ public JdbcCursorItemReader<Credentials> reader(DataSource dataSource) {
 }
 ```
 
-We set up the data source on the properties file to point to our **MySQL** database. A row mapper is also required, so we can map the database columns with our `Credentials` object.
+The data source is set up on the property file to point to your **MySQL** database. A row mapper is also required, so you can map the database columns with your `Credentials` object.
 
-3. **Create writer**: writers are responsible for saving the modified data into a source.
+3. **Create writer**: writers are responsible for saving the modified data into a data source.
 
 ```java
 @Bean
@@ -70,7 +81,7 @@ public JdbcBatchItemWriter<Credentials> writer2(DataSource dataSource) {
 }
 ```
 
-The first writer will be responsible for saving the plain text password on the backup table, and the second one will replace the plain text password with the hashed password. The `itemSqlParameterSourceProvider` allows to use database columns name to match object names.
+The first writer is responsible for saving the plain text password on the backup table, and the second one replaces the plain text password with the hashed password. The `itemSqlParameterSourceProvider` allows you to use database columns name to match object names.
 
 4. **Create steps**: steps define the flow of the batch.
 
@@ -94,7 +105,7 @@ public Step step2(JdbcBatchItemWriter<Credentials> writer2, JdbcCursorItemReader
 }
 ```
 
-Both of the steps will run chunks of 4 rows. During the **step1** we will first use the previous reader and the writer to save the plain text password into the db; whereas on the **step2** we will also apply a processor to do the hashing before updating the password.
+Both of the steps will run chunks of 4 rows. During the **step1** it will first use the previous reader and the writer to save the plain text password into the db; whereas on the **step2** you will also apply a processor to do the hashing before updating the password.
 
 5. **Create processor**: processors are responsible for making changes on the data.
 
@@ -123,7 +134,7 @@ public class PasswordProcessor implements ItemProcessor<Credentials, Credentials
 }
 ```
 
-6. **Create job**: jobs are responsible for running the different steps, as well as listeners and other options for the steps.
+6. **Create job**: jobs are responsible for running the different steps, listeners and other options for steps.
 
 ```java
 @Bean
@@ -138,11 +149,11 @@ public Job credentialsJob(JobCompletionNotificationListener listener, Step step1
 }
 ```
 
-The job uses an incrementer to keep track of the current chunk, so we are able to stop and continue the batch. We also use a listener to log some information about the batch state. `PreventRestart` prevents restart of the job even if it fails.
+The job uses an incrementer to keep track of the current chunk, so we are able to stop and continue the batch. We also use a listener to log some information of the batch state. `PreventRestart` prevents the restart of the job even if it fails.
 
->Note: To continue a job from the latest state we will have to create a few tables or `setspring.batch.initialize-schema=always` on our properties file.
+>Note: To continue a job from the latest state you will have to create a few tables or set `setspring.batch.initialize-schema=always` on your property file.
 
-```bash
+```shell
 mysql> show tables;
 +------------------------------+
 | Tables_in_batch              |

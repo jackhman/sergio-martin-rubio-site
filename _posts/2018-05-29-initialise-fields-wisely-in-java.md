@@ -6,6 +6,16 @@ color: primary
 description: Depending on how you initialize your variable it may impact on performance. Have a look at this article to learn more about this interesting topic!
 ---
 
+{%- capture list_items -%}
+Introduction
+Eager Initialization
+Lazy Initialization
+Use Cases
+Conclusion
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
 ## Introduction
 
 Mainly there **two ways of initialize a field**, **eager** and **lazy** initalization. On the one hand, lazy initialization consists of initializing the field when the value is needed, whereas the eager option is base on initializing the variable when it is declared.

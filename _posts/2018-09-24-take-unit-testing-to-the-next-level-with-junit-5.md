@@ -16,7 +16,7 @@ Conclusion
 
 **JUnit** is the most popular testing framework in Java, and with [**JUnit 5**](https://junit.org/junit5/) testing in **Java 8** and beyond takes another step forward. This version was release in September 2017 and has been actively updated to fix bugs and add new features. Moreover, JUnit 5 is also compatible with version 3 and 4 by adding [`junit-vintage-engine`](https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine) to your classpath path.
 
-## Migrating from JUnit 4
+### Migrating from JUnit 4
 
 When [migrating from JUnit 4](https://junit.org/junit5/docs/current/user-guide/#migrating-from-junit4) there are a few considerations to bear in mind:
 
@@ -93,9 +93,9 @@ class TagsTests {
 - `@RunWith` does not exist anymore, use `@ExtendWith` instead.
 - `@Rule` and `@ClassRule` were also removed, use `@ExtendWith` instead.
 
-## New JUnit 5 Features
+### New JUnit 5 Features
 
-### @DisplayName
+#### @DisplayName
 
 `@DisplayName` allows you to override a test class or method with a custom message, special characters or even Emojis (😄).
 
@@ -113,7 +113,7 @@ class DisplayNamesTests {
 }
 ```
 
-### Assertions
+#### Assertions
 
 Assertions include four new improvements:
 
@@ -172,7 +172,7 @@ void timeoutExceeded() {
 }
 ```
 
-### Assumptions
+#### Assumptions
 
 - `assumeTrue()`
 - `assumeFalse()`
@@ -199,7 +199,7 @@ void assumptionThat() {
 }
 ```
 
-### @Nested
+#### @Nested
 
 `@Nested` gives your more freedom to create groups of related test in the same test suite.
 
@@ -233,7 +233,7 @@ class NestedTests {
 
 > Note: `@BeforeAll` and `@AfterAll` are only allow if the test class is annotated with `@TestInstance(Lifecycle.PER_CLASS)`." %}
 
-### Dependency Injection
+#### Dependency Injection
 
 **JUnit 5** allows to add parameters in constructors and test methods. Therefore, now constructors and methods annotated with `@Test`, `@TestFactory`, `@BeforeEach`, `@AfterEach`, `@BeforeAll`, `@AfterAll` accept parameters.
 
@@ -296,7 +296,7 @@ void repetitionTest(RepetitionInfo repetitionInfo) {
 }
 ```
 
-### Interfaces and Default methods
+#### Interfaces and Default methods
 
 Interfaces create contracts to implement in your test suites. Methods declared as default in an interface will always run in a test suite.
 
@@ -329,7 +329,7 @@ class ClassImplementingInterfaceTests implements Interfaces {
 
 > Note: `@TestInstance(TestInstance.Lifecycle.PER_CLASS)` is required to make `@BeforeAll` and `@AfterAll` work.
 
-### @RepeatedTest
+#### @RepeatedTest
 
 `@RepeatedTest` allows you to repeat a test as many times as you want by passing the number of desire repetitions to the annotation.
 
@@ -339,7 +339,7 @@ void repetitionTest() {
 }
 ```
 
-### @ParameterizedTest
+#### @ParameterizedTest
 
 When using `@ParameterizedTest` annotation in combination with
 
@@ -378,7 +378,7 @@ class ParameterizedTests {
 > Note: For `@MethodSource`, if method has same name as test, parameter name is not required.
 To use this feature, `junit-jupiter-params` needs to be added to the classpath.
 
-## Conclusion
+### Conclusion
 
 As you can see, JUnit 5 is a huge improvement over previous versions and introduces many new testing features. It also allows you to write more expressive units test when using in combination with lambda expressions from Java 8.
 

@@ -1,10 +1,20 @@
 ---
 title: Serverless “Hello World” with Fn Framework
-tags: [Serverless, Fn Project Oracle]
+tags: [Serverless, Oracle, Docker]
 style: fill
 color: dark
 description: Discover Fn Project, an open source container-native serverless platform that you can run anywhere.
 ---
+
+{%- capture list_items -%}
+Introduction
+Features
+Requirements
+Getting Started
+Useful commands
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
 
 ## Introduction
 

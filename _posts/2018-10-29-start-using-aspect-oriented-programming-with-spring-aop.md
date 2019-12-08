@@ -6,7 +6,20 @@ color: primary
 description: Aspect Oriented Programming (AOP) helps us to solve specific situations in a very elegant way and is used to insert code depending on how our code looks.
 ---
 
-## Introduction
+{%- capture list_items -%}
+Introduction
+Spring AOP
+Concepts
+How to create Aspects
+Advice Types
+Advantages over AspectJ
+Disadvantages over AspectJ
+Conclusion
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
+## Introduction
 
 **Aspect Oriented Programming (AOP)** helps us to solve specific situations in a very elegant way and is used to insert code depending on how our code looks.
 
@@ -62,7 +75,7 @@ public class JoinPoints {
 }
 ```
 
-### Types of Advice
+### Advice Types
 
 - `@Before`: it runs before a join point.
 - `@After`: it runs after a method call

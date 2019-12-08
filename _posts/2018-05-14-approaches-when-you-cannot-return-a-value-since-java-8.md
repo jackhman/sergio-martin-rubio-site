@@ -6,6 +6,15 @@ color: primary
 description: You don't know what to return from your Java method? You can find here some advices!
 ---
 
+{%- capture list_items -%}
+Introduction
+Optionals
+Drawbacks
+Conclusion
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
 ## Introduction
 
 Before **Java 8** there were only two possible ways to return something when a value was not available:

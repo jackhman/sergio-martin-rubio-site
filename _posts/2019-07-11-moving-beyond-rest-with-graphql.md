@@ -1,6 +1,6 @@
 ---
 title: Moving Beyond REST with GraphQL
-tags: [API Integration, GraphQL]
+tags: [API Integration, GraphQL, Spring]
 style: fill
 color: dark
 description: GraphQL is an innovative query language which allows you to get what you ask for in a single request. What are you waiting for to know more about GraphQL?
@@ -24,7 +24,7 @@ Conclusion
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+### Introduction
 
 [**GraphQL**](https://graphql.org/) is a **query language** that matches up with **Domain Driven Design**, so you can use your existing entities or models in your GraphQL design.
 
@@ -32,7 +32,7 @@ This query language was created by **Facebook** and **open sourced** later **in 
 
 To start using **GraphQL** you will have to learn a **new specification**, because it is not a simple implementation, however it is pretty **simple** and if you are familiar with other query languages it will take you a few hours to understand how it works. Also the [GraphQL spec](https://graphql.github.io/graphql-spec/June2018/#) is very well documented and shows you how to use operations like queries or mutations, define schemas or what good practicies you should follow.
 
-## How it works
+### How it works
 
 This API Query Language allows you to retrive data from a service in one go. How can I do that? A single endpoint is exposed by GraphQL, and given a schema which contains your models and operations, you can make HTTP requests to `/graphql` by providing operation names, a payload and variables. 
 
@@ -49,8 +49,8 @@ e.g.
 
 >Remember that URLs can only sent over the internet using the ASCII character-set.
 
-## Operations
-### Query
+### Operations
+#### Query
 
 Queries are used to retrieved data, and you should use them to perform read operations in your service. Here is an example:
 
@@ -109,7 +109,7 @@ fragment compareHotels on Hotel {
 ```
 >We have to use three dots followed by the fragment name to call a frament.
 
-### Mutation
+#### Mutation
 
 **Mutations** are used to alter data and they should trigger insertions, updates or deletions in your database. We can create a mutation by replacing the _query_ with the _mutation_ keyword. This is an example:
 
@@ -125,7 +125,7 @@ Just like in queries, if a mutation returns an object type, you can ask for nest
 
 {% include elements/highlight.html text="Apart from sintax, queries and mutations differ from each other on one more thing, query fields are executed in parallel, whereas mutations run sequencially." %}
 
-### Subscription
+#### Subscription
 
 _GraphQL_ _subscriptions_ are a way to **stream data** from the server to the clients that are listening. In the same way as queries, subscriptions allow you to ask for a set of fields, but instead of making a stateless HTTP request, a **websocket conexion** is used to have a stream of data coming from the server, so that everytime there is a change on the server, results are sent to the client, or in other words, when a client runs a _mutation_ the subscription is triggered.
 
@@ -159,7 +159,7 @@ function subscribeToHotels() {
 }
 ```
 
-## Schema
+### Schema
 
 Schema files are text files with `.grapqhl` extension. Operations and models are define there, and in order to do that GraphQL provides a schema language which inclues scalar types, markers and other keywords to build complex schemas 
 
@@ -188,13 +188,13 @@ Here you have an example:
 ```graphql
 type Hotel {
     id: ID!
-    # Hotel name
+    ## Hotel name
     name: String!
-    # Hotel address
+    ## Hotel address
     address: String!
-    # Date of the hotel registry creation
+    ## Date of the hotel registry creation
     creationDate: String!
-    # List of rooms for a particular hotel
+    ## List of rooms for a particular hotel
     room: [Room]!
 }
 ```
@@ -204,15 +204,15 @@ type Hotel {
 _Queries_, _mutations_ and _subscriptions_ can be created as follows:
 
 ```graphql
-# The Root Query for the application
+## The Root Query for the application
 type Query {
-    # Retrieves all hotels
+    ## Retrieves all hotels
     findAllHotels: [Hotel]
-    # Retrieves a Hotel given an ID (eg: '1, 4, 12')
+    ## Retrieves a Hotel given an ID (eg: '1, 4, 12')
     findHotelById(id: ID): Hotel
-    # Number of Hotel available
+    ## Number of Hotel available
     countHotels: Int
-    # Finds all payment methods
+    ## Finds all payment methods
     findAllPayments: [Payment]
 }
 ```
@@ -231,14 +231,14 @@ extend type Query {
 
 There are also other more advance elements like `interface`, `union`, `enum` or `scalar`.
 
-## How to create a GraphQL Spring Boot Server?
+### How to create a GraphQL Spring Boot Server?
 
 We need to:
 
 1. Define GraphQL Schema.
 2. Decide how the data for a query is fetched.
 
-### Define GraphQL Schema
+#### Define GraphQL Schema
 
 Here there is an example:
 
@@ -256,7 +256,7 @@ There is a [Java GraphQL tool library](https://github.com/graphql-java-kickstart
 </dependency>
 ```
 
-### Build Spring Boot application
+#### Build Spring Boot application
 
 These two libraries are required to start using GraphQL with Spring, and basically there are setting up the servlet
 ```xml
@@ -346,7 +346,7 @@ In the previous example, when we retrieve hotels we might ask for rooms as well,
 {% include elements/button.html link="https://github.com/smartinrub/spring-reactive-mongo-graphql" text="Source Code" %}
 </p>
 
-### GraphiQL, a GraphQL client
+#### GraphiQL, a GraphQL client
 
 GraphiQL is a very useful tool to explore your GraphQL schema and make requests. The most simple way to start using Graphiql is to added to your `pom.xml` file as a dependency.
 
@@ -360,7 +360,7 @@ GraphiQL is a very useful tool to explore your GraphQL schema and make requests.
 
 By default you can hit it at `/graphiql`.
 
-## Highlights and Challenges
+### Highlights and Challenges
 
 - The main benefit of using GraphQL is that you get what you ask for in a single request, whereas with REST we tend to do "overfetching" or "underfetching".
 
@@ -374,7 +374,7 @@ By default you can hit it at `/graphiql`.
 
 - Lastly, in case of a simple API the extra complexity added by GraphQL is not worth.
 
-## Conclusion
+### Conclusion
 
 GraphQL is similar to an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for. It is also an alternative to REST, SOAP or gRPC, but this does not mean you have to through away your current archicture, for instance you could have GraphQL on top of your REST services.
 

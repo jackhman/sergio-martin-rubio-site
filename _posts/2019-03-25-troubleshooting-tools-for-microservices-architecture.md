@@ -1,6 +1,6 @@
 ---
 title: Troubleshooting Tools for Microservices Architecture
-tags: [Microservices, Zipkin, Splunk, Spring Boot, tracing, docker]
+tags: [Microservices, Zipkin, Splunk, Spring Boot, Tracing, Docker]
 style: fill
 color: dark
 description: Learn how to tackle troubleshooting and debugging in a microservices architecture.
@@ -19,7 +19,7 @@ On the other hand, for instrumentation we can use **[Zipkin](https://zipkin.io/)
 
 In order to understand how these tools can help us, we are going to build a Spring Boot application which will be fully integrated with **Zipkin** through **[Spring Cloud Sleuth](https://spring.io/projects/spring-cloud-sleuth)**.
 
-## Spring Boot App
+### Spring Boot App
 
 This [web application](https://github.com/smartinrub/spring-boot-zipkin-sleuth-splunk) will only contain an endpoint which will log a simple string with **[Slf4j](https://www.slf4j.org/)**.
 
@@ -159,7 +159,7 @@ volumes:
 
 >Note: **Splunk** works on the client-server model. **Splunk Forwarder** is used to collect the machine generated data from client side and forward to Splunk server.
 
-## Getting Started
+### Getting Started
 
 Build application and run docker compose:
 
@@ -186,7 +186,7 @@ Now login into Splunk web console ([*http://localhost:8000*](http://localhost:80
 
 {% include elements/figure.html image="https://lh3.googleusercontent.com/61G5AkQxY04-ZUX69Khlb5nSkzfPs2p5aId2utTRFbXwQmGY0c-RsvsalyCafZPiLnB-UyarqcYkTw-qwC5E6qBgDUWiIxADHbxqyeE9dWFUbSzqQ_ZiHHPdYXB_WJpSENCWdT46=w2400" caption="Splunk UI" %}
 
-## Conclusion
+### Conclusion
 
 Both **logging** and **instrumentation** are essential in any enterprise microservices architecture, and tools like Splunk and **Zipkin** can be exellent allies to act fast and precisely when issues arise.
 

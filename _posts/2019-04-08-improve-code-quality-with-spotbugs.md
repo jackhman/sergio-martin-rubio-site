@@ -18,22 +18,22 @@ Conclusion
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+### Introduction
 
 Every developer should ensure code quality and follow language conventions, otherwise [Technical Debt](https://medium.com/existek/what-is-technical-debt-and-how-to-calculate-it-80193e4e746d) is created, and at some point in the future you will have to revisit that smelly piece of code.
 
 **Code Debt** can be created without even realizing when: development has to be done before a deadline; you do not have enough experience; or simply you are having a bad day. Because of this, it is very important that before merging changes into master we double check that we are not introducing performance or security issues, or any other kind of code smell.
 
-## SpotBugs
+### SpotBugs
 
-### What it is
+#### What it is
 
 - [SpotBugs](https://spotbugs.github.io/) helps you analize your **Java** code to find bugs.
 - Free open source tool which was previously named [FindBugs](http://findbugs.sourceforge.net/).
 - It is a plugin available for Maven, Gradle, Eclipse, Ant...
 - It looks at your source code and runs a static analysis.
 
-### How To Use It
+#### How To Use It
 
 There are a few ways of using **SpotBugs**, however, we are going to focus on the SpotBugs plugin for Maven. Alternatevely, you can execute SpotBugs on _Windows_, _macOS_ or _Linux_ to run the _SpotBugs GUI_; install a plugin for Eclipse; integrate it with **Ant** or add a **Gradle Plugin**.
 
@@ -65,7 +65,7 @@ There are a few ways of using **SpotBugs**, however, we are going to focus on th
 mvn clean install spotbugs:spotbugs
 ```
 
-### Advance Configuration
+#### Advance Configuration
 
 Aditionally, we can know more about one particular goal if we run
 
@@ -138,7 +138,7 @@ An example with some of the SpotBugs clauses can be found below.
 {% include elements/button.html link="https://github.com/smartinrub/spotbugs-example" text="Code Examples" style="dark" %}
 </p>
 
-### GUI
+#### GUI
 
 SpotBugs has a GUI out-of-the-box by simply running
 
@@ -164,12 +164,12 @@ You can also save the report and import or export filters.
 
 > The GUI can also be run by itself and load the jar file that we want to analyze.
 
-## Alternatives
+### Alternatives
 
 Probably you have already heard about [**SonarQube**](https://www.sonarqube.org/), which basically provides SpotBugs features and a few extra more. In fact, _SonarQube_ used to use _FindBugs_ plugin to generate bug reports, until they decided to used their own analyzer and stop using **[Checkstyle](http://checkstyle.sourceforge.net/)**, **[PMD](https://pmd.github.io/)** and **FindBugs**. 
 
 **Why would you choose SpotBugs?** Because it is easier to integrate into your Maven build, rather than relying on a separate Sonar server, and having to learn an additional _API_. The greatest benefit of **SonarQube** is the GUI, which lets you configure anything easily. Nevertheless, you could run something like [Jenkins Warnings Next Generation Plugin](https://github.com/jenkinsci/warnings-ng-plugin) as part of your **Jenkins CI build** and have nice graphs.
 
-## Conclusion
+### Conclusion
 
 Whether you are a junior or senior developer, code analysis tools like Spotbugs can be very useful to improve code quality and avoid bugs, so you should consider adding this tool to your build.

@@ -6,6 +6,15 @@ color: primary
 description: Learn more about Java functional interfaces!
 ---
 
+{%- capture list_items -%}
+Introduction
+Annotation
+Use cases for Functional Interfaces
+Default methods
+{%- endcapture -%}
+
+{% include elements/list.html title="Table of Contents" type="toc" %}
+
 ## Introduction
 
 **Functional interfaces** are the ones which only have one abstract method different from the public methods of `Object.class` (_equals_, _hashCode_…), so that the contract is only one function.

@@ -15,7 +15,7 @@ Java IO vs NIO
 
 {% include elements/list.html title="Table of Contents" type="toc" %}
 
-## Introduction
+### Introduction
 
 Sockets use _TCP/IP_ transport protocol and are the last piece of a network communication between two hosts. You do not usually have to deal with them, since there are protocols built on top of them like _HTTP_ or _FTP_, however it is important to know how they work.
 
@@ -23,7 +23,7 @@ Sockets use _TCP/IP_ transport protocol and are the last piece of a network comm
 
 Java offers a blocking and non blocking alternative to create sockets, and depending on your requirements you might consider the one or the other.
 
-## Java Blocking IO
+### Java Blocking IO
 
 The Java blocking IO API is included in **JDK** under the package `java.net` and is generally the simplest to use.
 
@@ -74,7 +74,7 @@ ExecutorService threadPool = Executors.newFixedThreadPool(100);
 
 As you can see, this API has some limitations. We won't be able to accept more connections than threads available in our machine. Therefore, if you are expecting to have many connections, you need an alternative.
 
-## Java NIO
+### Java NIO
 
 **java.nio** is a non blocking API for socket connections which means you are not tight to the number of threads available. With this library one thread can handle multiple connections at once.
 
@@ -102,7 +102,7 @@ while (read != -1) {
 - **Selector**: A `Selector` can register multiple Channels and will check which ones are ready for accepting new connections. Similar to `accept()` method of blocking IO, when `select()` is invoked it will block the application until a `Channel` is ready to do an operation. Because a `Selector` can register many channels, only one thread is required to handler multiple connections.
 - **Selection Key**: It contains properties for a particular **Channel** (interest set, ready set, selector/channel and an optional attached object). Selection keys are mainly use to know the current interest of the channel (`isAcceptable()`, `isReadable()`, `isWritable()`), get the channel and do operations with that channel.
 
-### Example
+#### Example
 
 We will use an **Echo Socket Channel** server to show how NIO works.
 
@@ -202,7 +202,7 @@ private static void doClose(SocketChannel socketChannel) throws IOException {
 ```
 14. In case the connection is closed, the channel is removed from the `Map` and we close the channel.
 
-## Java IO vs NIO
+### Java IO vs NIO
 
 Choosing between IO and NIO will depend on the use case. For fewer connections and a simple solution, IO might be better fit for you.
 Whereas, if you want something more efficient which can handle thousands of connections simultaneously NIO is probably a better choice, but bear in mind that it will introduce much code complexity, however, there frameworks like [Netty](https://netty.io/) or [Apache MINA](https://mina.apache.org/) that are built on top of NIO and hide the programming complexity.
