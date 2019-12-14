@@ -107,7 +107,7 @@ A test should be split into three blocks, each with a specified responsibility.
 - **WHEN**: Call to the _SUT_ (System Under Test) which can a method call.
 - **THEN**: Assertions and verifications.
 
-Mockito provides `given()` and `willReturn()` which are aliases for the `when()` and `thenReturn()` while stubbing, so it can be integrated with the Behavior Driven Development semantic.
+Mockito provides `given()` and `willReturn()` which are aliases for the `when()` and `thenReturn()` while stubbing, so it can be integrated with the Behavior Driven Development semantic. Similarly, `verify()` can also be replaced with `then()` and `should()`.
 
 e.g. 
 
@@ -122,7 +122,7 @@ public void getStringTest() {
 
     // THEN
     assertThat(message).isEqualTo("Hello");
-    verify(fooRepository).getFooMessage();
+    then(fooRepository).should().getFooMessage();
 }
 ```
 
