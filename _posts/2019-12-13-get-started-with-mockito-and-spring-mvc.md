@@ -19,6 +19,14 @@ Create a Mock
 
 [Mockito](https://site.mockito.org) is a popular mocking framework for **Java** application. This framework helps you to test classes in isolation and avoids creating collaborators in your unit tests. This need is very common in a web applications that uses the MVC pattern. For instance you might need to test your service layer which uses an utility class to check the payment method and then will call an API to process the payment. In this situation you have to instanciate or inject your utility class and the API client, and the second one will required to start a mock server. As you can see this looks like an integration test instead of a simple unit test, and we are not testing the service layer in isolation becuase it requires that both the utility class and the API client are free of bugs.
 
+## Behavior Driven Development
+
+A test should be split into three blocks, each with a specified responsibility.
+
+- **GIVEN**: Mock initialization, configuration and stubs.
+- **WHEN**: Call to the _SUT_ (System Under Test) which can a method call.
+- **THEN**: Assertions and verifications.
+
 ## What is a mock?
 
 A **mock** is a proxy to the original object, so if a method of a proxy object is called then the proxy object will decide what to do. When you do something like `Mockito.mock(Foo.class)` you are simply creating a proxy of object of the _Foo_ class.
@@ -77,4 +85,22 @@ when(fooRepository.getFooMessage()).thenReturn("Hello");
 
 How does is work? A proxy is dinamically defined, so when the static method `Mockito.when()` is called, the passed method is stored. Then, when `thenReturn()` is called the value is also stored to the saved method. Finally, if the same proxy method with the same parametes is called again it will return the stored value this time.
 
-Mockito also has other static methods that can be combined with the `when()` method.
+You can stub the same method multiple times:
+
+```java
+when(fooRepository.getNumber(0)).thenReturn(8);
+when(fooRepository.getNumber(1)).thenThrow(new ArrayIndexOutOfBoundsException());
+```
+
+Mockito also has other static methods that can be combined with the `when()` method like the one used in the previous example `.thenThrow()`.
+
+
+Method | Description
+---------|----------
+ `thenReturn(T value)` | Returns given value 
+ `thenThrow(Throwable throwableType)` | Throws given exception 
+ `thenAnswer(Answer<?> answer)` | It's use to return custom answers 
+ `then(Answer<?> answer)` | Alias of `thenAnswer()`
+ `thenCallRealMethod()` | The original method is called. It's a partcial mock.
+
+ >`thenCallRealMethod()` cannot be used with mocked interfaces or abstract classes. No data from the original class is initialized.
