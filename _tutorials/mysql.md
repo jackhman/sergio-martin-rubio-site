@@ -63,13 +63,13 @@ Show Events
 You can acceess a MySQL DB with the following command:
 
 ```shell
-mysql -u <username> -p<password> -h <host>
+mysql -u <username> -p<password> -h <host> --port <port_number>
 ```
 
-e.g. 
+e.g.
 
 ```shell
-mysql -u sergio -p123456 -h 192.168.0.5
+mysql -u sergio -p123456 -h 192.168.0.5 --port 3306
 ```
 
 ## Server Info
@@ -155,7 +155,7 @@ CREATE TABLE <new_table_name> LIKE <table_name>;
 DROP TABLE <table_name>;
 ```
 
->Note: This will also delete all the entries stored in the table.
+> Note: This will also delete all the entries stored in the table.
 
 ## Rename Table
 
@@ -165,15 +165,15 @@ RENAME TABLE <table_name> TO <new_table_name>;
 
 ## Table Attributes
 
-* `NOT NULL`:
+- `NOT NULL`:
 
 The column does not allow null entries.
 
-* `NULL`:
+- `NULL`:
 
 The column allows null entries.
 
-* `DEFAULT`:
+- `DEFAULT`:
 
 It allows you to set a default value and use it in case of null.
 
@@ -183,7 +183,7 @@ e.g.
 post_code DEFAULT W2 3ES
 ```
 
-* `PRIMARY KEY`:
+- `PRIMARY KEY`:
 
 The primary key constraint identify unique records in a table and only one primery key is allowed per table, however you can define a compound primary key wich contains multiple columns.
 
@@ -208,8 +208,8 @@ CREATE TABLE <table_name>(
 );
 ```
 
->Note: The second way is required when the primary is compound.
-e.g.
+> Note: The second way is required when the primary is compound.
+> e.g.
 
 ```sql
 CREATE TABLE contact(
@@ -220,11 +220,11 @@ CREATE TABLE contact(
 );
 ```
 
-* `UNIQUE KEY`:
+- `UNIQUE KEY`:
 
 Same as `PRIMARY KEY` but it allows null entries.
 
-* `FOREIGN KEY`:
+- `FOREIGN KEY`:
 
 They are used to link two tables. A foreign key is a column in a table that points to a primary key of another table.
 
@@ -248,17 +248,17 @@ CREATE TABLE <table_name>(
 );
 ```
 
-* `ON DELETE` and `ON UPDATE`:
+- `ON DELETE` and `ON UPDATE`:
 
 MySQL provides some actions to automate changes from children tables which refer to a parent table:
 
-* `NO ACTION`: not changes will be made to children tables.
-* `CASCADE`: it will update or delete entries on children tables.
-* `SET NULL`: the foreign key of the children tables will be set to null in case of change or deletion.
+- `NO ACTION`: not changes will be made to children tables.
+- `CASCADE`: it will update or delete entries on children tables.
+- `SET NULL`: the foreign key of the children tables will be set to null in case of change or deletion.
 
->All these operation will only affect foreign keys.
+> All these operation will only affect foreign keys.
 
-e.g. 
+e.g.
 
 ```sql
 CREATE TABLE pet(
@@ -271,13 +271,13 @@ CREATE TABLE pet(
 
 For this particular example if one of the records is deleted from `client`, all the entries in the table `pet` with the matching client `id` will be deleted. In case of an update all the pet entries with the same client `id` will be set to 0. Alternativily you could set the foreign key as `NO ACTION`, and nothing will change in the `pet` table when changes are made on `client` table.
 
->Note: On delete and on update only work for with tables with store engines that support foreign keys like InnoDB.
+> Note: On delete and on update only work for with tables with store engines that support foreign keys like InnoDB.
 
-* `AUTO_INCREMENT`:
+- `AUTO_INCREMENT`:
 
 It allows you to generate unique value for new rows and every time a new record is added the field gets incremented.
 
-* `CHARACTER SET`:
+- `CHARACTER SET`:
 
 MySQL support multiple charater sets to define what characters are legal in your table.
 
@@ -301,72 +301,72 @@ CREATE TABLE <table_name>(
 CHARACTER SET <character_set_name>
 ```
 
-* `CHECKSUM`:
+- `CHECKSUM`:
 
 It generates a number based on the table content. This could take a long time if the table is very large.
 
-* `COMMENT`:
+- `COMMENT`:
 
 Comments can be added when a table is created.
 
-* `MAX_ROWS`:
+- `MAX_ROWS`:
 
 It is the maximum number of entries you are planning to store in a table, but is not a hard limit and only a hint.
 
-* `MIN_ROWS`:
+- `MIN_ROWS`:
 
 It is just a hint for the engine about the memory use.
 
 ## Column Types
 
-Type | Description | Size
----------|----------|---------
- `INT` | Integer | 4 bytes
- `DOUBLE` | A normal precision number | 8 bytes
- `FLOAT` | A mall precision number | 4 bytes
- `DECIMAL` | Exact decimal number | variable
- `BOOLEAN` | 0 is false and 1 true | 1 byte
- `YEAR` | A year in four-digit format `YYYY` | 1 byte
- `DATE` | A date `aaaa-mm-dd` | 3 bytes
- `TIME` | A time `hh:mm:ss` | 3 bytes
- `DATETIME` | Date and time `aaaa-mm-dd hh:mm:ss` | 8 bytes
- `TIMESTAMP` | Stores time as an integer `aaaa-mm-dd hh:mm:ss` | 4 bytes
- `CHAR` | Characters fix-length defined when stored
- `VARCHAR` | Characters | variable-length string
- `BLOB` | Binary objects like pictures | variable
- `TEXT` | Texts | variable
- `ENUM` | It is a string with a value chosen from a list of values | 1 or 2 bytes
- `SET` | It can have zero or more values from a list of allowed values | 1, 2, 3, 4, or 8 bytes
+| Type        | Description                                                   | Size                   |
+| ----------- | ------------------------------------------------------------- | ---------------------- |
+| `INT`       | Integer                                                       | 4 bytes                |
+| `DOUBLE`    | A normal precision number                                     | 8 bytes                |
+| `FLOAT`     | A mall precision number                                       | 4 bytes                |
+| `DECIMAL`   | Exact decimal number                                          | variable               |
+| `BOOLEAN`   | 0 is false and 1 true                                         | 1 byte                 |
+| `YEAR`      | A year in four-digit format `YYYY`                            | 1 byte                 |
+| `DATE`      | A date `aaaa-mm-dd`                                           | 3 bytes                |
+| `TIME`      | A time `hh:mm:ss`                                             | 3 bytes                |
+| `DATETIME`  | Date and time `aaaa-mm-dd hh:mm:ss`                           | 8 bytes                |
+| `TIMESTAMP` | Stores time as an integer `aaaa-mm-dd hh:mm:ss`               | 4 bytes                |
+| `CHAR`      | Characters fix-length defined when stored                     |
+| `VARCHAR`   | Characters                                                    | variable-length string |
+| `BLOB`      | Binary objects like pictures                                  | variable               |
+| `TEXT`      | Texts                                                         | variable               |
+| `ENUM`      | It is a string with a value chosen from a list of values      | 1 or 2 bytes           |
+| `SET`       | It can have zero or more values from a list of allowed values | 1, 2, 3, 4, or 8 bytes |
 
->`TIMESTAMP` only allows dates between `1970-01-01 00:00:00 UTC` and `2038-19-01 03:14:07 UTC`
+> `TIMESTAMP` only allows dates between `1970-01-01 00:00:00 UTC` and `2038-19-01 03:14:07 UTC`
 
 ## Modify Table
 
-* Add column:
+- Add column:
 
 ```sql
 ALTER TABLE <table_name> ADD <new_column_name> <columns_type_and_attributes> <AFTER/FIRST>;
 ```
 
-* Modify column type:
+- Modify column type:
 
 ```sql
 ALTER TABLE <table_name> MODIFY <column_name> <columns_type>;
 ```
 
-* Remove primary key and foreign key restrictions:
+- Remove primary key and foreign key restrictions:
 
 ```sql
 ALTER TABLE <table_name> DROP PRIMARY KEY;
 ```
 
-* Remove column:
+- Remove column:
 
 ```sql
 ALTER TABLE <table_name> DROP <column_name>;
 ```
 
-* Change column name:
+- Change column name:
 
 ```sql
 ALTER TABLE <table_name> CHANGE <old_name> <new_name> <columns_type_and_attributes>;
@@ -390,7 +390,7 @@ Each DB engine has different features like table struture, therefore you have to
 
 3. **MemoryEngine**: It uses volatile memory and as a result is much faster, however everything is gone after each session.
 
->The default engine in _Linux OS_ is _MyISAM_ and in _Windows OS_ is _InnoDB_.
+> The default engine in _Linux OS_ is _MyISAM_ and in _Windows OS_ is _InnoDB_.
 
 ## Load Databases
 
@@ -418,7 +418,7 @@ To return only different values:
 SELECT DISTINCT <column_name> FROM <table_name>;
 ```
 
->You can display data by chunks with the option `\G` at the end of the query.
+> You can display data by chunks with the option `\G` at the end of the query.
 
 ### WHERE clause
 
@@ -426,7 +426,7 @@ SELECT DISTINCT <column_name> FROM <table_name>;
 SELECT <column_name> FROM <table_name> WHERE <condition>;
 ```
 
->You can use more than one condition by using logic operands: `&&`, `||`...
+> You can use more than one condition by using logic operands: `&&`, `||`...
 
 Condition operators:
 
@@ -434,20 +434,19 @@ Condition operators:
 - **Rational operators**: `>`, `<`, `<>` (`!=`), `>=`, `<=`, `=`
 - **Logical operators**: `AND`(`&&`), `OR`(`||`), `NOT`
 
-
 Select rows with an assined group:
 
 ```sql
-SELECT <column_name> 
-    FROM <table_name> 
+SELECT <column_name>
+    FROM <table_name>
     WHERE <condition> IN (<value_1>, <value_2>, ...);
 ```
 
-e.g. 
+e.g.
 
 ```sql
-SELECT name, height, nationality 
-    FROM player 
+SELECT name, height, nationality
+    FROM player
     WHERE team_name='Lakers' AND nationality IN ('Spain', 'Slovenia', 'Serbia');
 ```
 
@@ -464,7 +463,7 @@ To search for a specified pattern in a column:
 - `%`: any number of characters.
 - `_`: single character.
 
-e.g. 
+e.g.
 
 All entry which contains _name_.
 
@@ -472,7 +471,7 @@ All entry which contains _name_.
 SELECT <column_name> FROM <table_name> WHERE <condition> LIKE '%name%';
 ```
 
-All entries wich contains R as the first letter, S as the last letter and 
+All entries wich contains R as the first letter, S as the last letter and
 
 ```sql
 SELECT <column_name> FROM <table_name> WHERE <condition> LIKE 'R_ _ _ _ _S';
@@ -508,27 +507,27 @@ SELECT <column_name> <another_column_name>
     ORDER BY <column_name>, <another_column_name>;
 ```
 
->Note: the first specified column with have precedence when sorting.
+> Note: the first specified column with have precedence when sorting.
 
 To sort in reverse order you need to add `DESC` keyword at the end.
 
 ### Agregate Functions
 
-Name | Description
----------|----------
-`SUM(<expression>)` | Return the sum
-`AVG(<expression>)` | Return the average value of the argument
-`MIN(<expression>)` | Return the minimum value
-`MAX(<expression>)` | Return the maximum value
-`COUNT(<expression>)` | Returns a count of the number of non-NULL values
+| Name                  | Description                                      |
+| --------------------- | ------------------------------------------------ |
+| `SUM(<expression>)`   | Return the sum                                   |
+| `AVG(<expression>)`   | Return the average value of the argument         |
+| `MIN(<expression>)`   | Return the minimum value                         |
+| `MAX(<expression>)`   | Return the maximum value                         |
+| `COUNT(<expression>)` | Returns a count of the number of non-NULL values |
 
->Note: `COUNT(*)` will return the total number of rows in a table.
+> Note: `COUNT(*)` will return the total number of rows in a table.
 
 ### Grouping (GROUP BY, HAVING)
 
 The `GROUP BY` keyword groups table rows into a set of rows by values of columns or expressions. It will return one row for each group.
 
-e.g. 
+e.g.
 
 The following query will return the number of vehicle by brand.
 
@@ -536,19 +535,19 @@ The following query will return the number of vehicle by brand.
 SELECT brand, COUNT(*) FROM vehicle GROUP BY brand;
 ```
 
-`HAVING` clause is usually used in combination with `GROUP BY` clause to filter groups based on a specified condition. When `GROUP BY` is not specified `HAVING` behaves in the same way as `WHERE` clause. 
+`HAVING` clause is usually used in combination with `GROUP BY` clause to filter groups based on a specified condition. When `GROUP BY` is not specified `HAVING` behaves in the same way as `WHERE` clause.
 
->Note: `HAVING` clause must come after any `GROUP BY` clause and before any `ORDER BY` clause.
+> Note: `HAVING` clause must come after any `GROUP BY` clause and before any `ORDER BY` clause.
 
->Note: you should NOT use `WHERE` clause to filter groups, since `WHERE` will do the filtering before `GROUP BY`.
+> Note: you should NOT use `WHERE` clause to filter groups, since `WHERE` will do the filtering before `GROUP BY`.
 
-e.g. 
+e.g.
 
 ```sql
-SELECT team_name, AVG(weight) 
-    FROM player 
-    GROUP BY team_name 
-    HAVING AVG(weight) > 228 
+SELECT team_name, AVG(weight)
+    FROM player
+    GROUP BY team_name
+    HAVING AVG(weight) > 228
     ORDER BY AVG(weight);
 ```
 
@@ -561,49 +560,49 @@ Comparison operators:
 - `=`: returns a single value.
 - `=`, `<`, `>`, `>=`, `<=`, `<>`: to compare
 
->Note: You can also do subquery of another subquery, and this is called nested subqueries.
+> Note: You can also do subquery of another subquery, and this is called nested subqueries.
 
-* `IN`: returns values that match with an expression.
+- `IN`: returns values that match with an expression.
 
 ```sql
-SELECT <column_name> 
-    FROM <table_name> 
-    WHERE <expression> 
+SELECT <column_name>
+    FROM <table_name>
+    WHERE <expression>
     IN (
-        SELECT <inner_table_column_name> 
-        FROM <inner_table_name> 
+        SELECT <inner_table_column_name>
+        FROM <inner_table_name>
         WHERE <expression>
     );
 ```
 
-* `ALL`: it must follow a comparison operator and will return `TRUE` if all the values returned by the subquery satisfy the condition.
+- `ALL`: it must follow a comparison operator and will return `TRUE` if all the values returned by the subquery satisfy the condition.
 
-* `ANY` or `SOME`: it must follow a comparison operator and will return `TRUE` if any of the values returned by the subquery satisfy the condition.
+- `ANY` or `SOME`: it must follow a comparison operator and will return `TRUE` if any of the values returned by the subquery satisfy the condition.
 
 The following example will return the name and weight of the players who have position 'G' and whose weight is greater than any player whose position is 'C'.
 e.g.
 
 ```sql
-SELECT name, weight 
-    FROM player 
+SELECT name, weight
+    FROM player
     WHERE position =' G' AND weight > ANY (
-        SELECT weight 
-        FROM player 
+        SELECT weight
+        FROM player
         WHERE position = 'C'
     );
 ```
 
-* `EXISTS` or `NOT EXISTS`
+- `EXISTS` or `NOT EXISTS`
 
 It returns `TRUE`if the inner table contains any rows.
 
 e.g.
 
 ```sql
-SELECT store_type 
+SELECT store_type
     FROM store
     WHERE EXISTS (
-        SELECT * 
+        SELECT *
         FROM city_store
         WHERE city_store.store_type = store.store_type
     );
@@ -627,18 +626,19 @@ e.g.
 Return all the pets even if some they do not have an owner.
 
 ```sql
-SELECT * 
-    FROM pet LEFT OUTER JOIN owner 
+SELECT *
+    FROM pet LEFT OUTER JOIN owner
     ON pet.owner=owner.id;
 ```
 
 4. `UNION`: to combine `RIGHT OUTER JOIN` and `LEFT OUTER JOIN`.
 
-e.g. 
+e.g.
 Return all the owners without pets and all the pets without owners.
+
 ```sql
-SELECT * FROM pet LEFT OUTER JOIN owner ON pet.owner=owner.id 
-    UNION 
+SELECT * FROM pet LEFT OUTER JOIN owner ON pet.owner=owner.id
+    UNION
     SELECT * FROM pet RIGHT OUTER JOIN owner ON pet.owner=owner.id;
 ```
 
@@ -649,7 +649,7 @@ When you need to join a table with itself you can use self join queries. To join
 e.g.
 
 ```sql
-SELECT CONCAT(emp.name, ' ', emp.surname) AS employee, CONCAT(manager.name, ' ', manager.surname) AS manager 
+SELECT CONCAT(emp.name, ' ', emp.surname) AS employee, CONCAT(manager.name, ' ', manager.surname) AS manager
     FROM employee emp INNER JOIN employee manager ON emp.manager_id=manager.employee_id;
 ```
 
@@ -658,8 +658,8 @@ SELECT CONCAT(emp.name, ' ', emp.surname) AS employee, CONCAT(manager.name, ' ',
 A derived table is a subquery that can take the place of a table in the `FROM`.
 
 ```sql
-SELECT <column_name> 
-    FROM (SELECT <column_name> FROM <table_name> WHERE <expression>) 
+SELECT <column_name>
+    FROM (SELECT <column_name> FROM <table_name> WHERE <expression>)
     AS <temp_table>;
 ```
 
@@ -668,45 +668,45 @@ The dereived table will only exist during the query.
 ## INSERT syntax
 
 ```sql
-INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...) 
+INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...)
     VALUES(<value_one>, <value_two>, ...);
 ```
 
->Note: You can ommit column names if all the values are provides in the correct order.
+> Note: You can ommit column names if all the values are provides in the correct order.
 
 ```sql
-INSERT INTO <table_name> 
+INSERT INTO <table_name>
     VALUES(<value_one>, <value_two>, ...);
 ```
 
->Note: For string values single quotes are mandatory.
+> Note: For string values single quotes are mandatory.
 
 You can also use the `DEFAULT` keyword in order to use the default value set during the table creation.
 
 ```sql
-INSERT INTO <table_name> 
+INSERT INTO <table_name>
     VALUES(<value_one>, <value_two>, DEFAULT);
 ```
 
 If you need to add more than one entry you can take advantage of the extended version of the `INSERT` clause:
 
 ```sql
-INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...)  
+INSERT INTO <table_name>(<column_one_name>, <column_two_name>, ...)
     VALUES(<value_one>, <value_two>, ...),
     VALUES(<value_one>, <value_two>, ...),
     VALUES(<value_one>, <value_two>, ...);
 ```
 
->Note: Remember that primary key column do not allow duplicated values.
+> Note: Remember that primary key column do not allow duplicated values.
 
 Moreover, you can also copy rows from one table into another if you combine the `INSERT` and the `SELECT` clause.
 
 ```sql
-INSERT INTO <table_name> 
+INSERT INTO <table_name>
     SELECT <column_name> FROM <another_table_name>;
 ```
 
->Note: The table where the rows are pasted must exists and will copy only values.
+> Note: The table where the rows are pasted must exists and will copy only values.
 
 ## Update Table
 
@@ -728,10 +728,10 @@ DELETE FROM <table_name> WHERE <expression>;
 
 A transaction is a set of grouped statements and defined as a single unit of work, this means that if a transaction is successful, all the modifucations will be saved and became permanent part of the database, otherwise the transaction will be cancelled and rolled back. MySQL provides the following sintax to use transactions:
 
-* `START TRANSACTION` or `BEGIN {WORK}`: To start a new transaction.
-* `COMMIT`: Statements are accepted.
-* `ROLLBACK`: Cancell current changes.
-* `SET AUTOCOMMIT={0|1}`: It disables or enables the default autocommit mode for the current session.  
+- `START TRANSACTION` or `BEGIN {WORK}`: To start a new transaction.
+- `COMMIT`: Statements are accepted.
+- `ROLLBACK`: Cancell current changes.
+- `SET AUTOCOMMIT={0|1}`: It disables or enables the default autocommit mode for the current session.
 
 ```sql
 START TRANSACTION;
@@ -750,7 +750,7 @@ The `CREATE USER` clause creates new MySQL accounts and it enables authenticatio
 CREATE USER '<user_name>'@'<host_name>' IDENTIFIED BY '<password>';
 ```
 
->Note: if the host name part is omitted, it defaults to `%`, which means that all the hosts are allowed for the new user.
+> Note: if the host name part is omitted, it defaults to `%`, which means that all the hosts are allowed for the new user.
 
 Users are created in `mysql.user` table, so they can be retrieved with the following SQL query:
 
@@ -777,16 +777,16 @@ GRANT <option> ON <db_name>.<table_name> TO '<user_name>'@'<host_name>';
 
 Some of the options available:
 
-* `ALL PRIVILEGES` -> total access
-* `CREATE` -> enables database and table creation
-* `DELETE` -> enables the use of `DELETE`
-* `DROP` -> enables the use of `DROP`
-* `INSERT` -> enables the use of `INSERT`
-* `SELECT` -> enables the use of `SELECT`
-* `UPDATE` -> enables the use of `UPDATE`
-* `GRANT OPTION` -> allows the user to remove or grant privileges to other users
+- `ALL PRIVILEGES` -> total access
+- `CREATE` -> enables database and table creation
+- `DELETE` -> enables the use of `DELETE`
+- `DROP` -> enables the use of `DROP`
+- `INSERT` -> enables the use of `INSERT`
+- `SELECT` -> enables the use of `SELECT`
+- `UPDATE` -> enables the use of `UPDATE`
+- `GRANT OPTION` -> allows the user to remove or grant privileges to other users
 
->Note: to make the privileges active you might need to run `FLUSH PRIVILEGES;`.
+> Note: to make the privileges active you might need to run `FLUSH PRIVILEGES;`.
 
 ### Revoke Privilege
 
@@ -827,15 +827,15 @@ SHOW GRANTS FOR '<user_name>'@'<host_name>';
     - Better compatibility between different DBMS (DataBase Management System) such as MySQL and Oracle.
     - For logical backups you can use `mysqldump` and `SELECT ... INTO OUTFILE` statement.
 
-
 To export and import only the data of your database you can use the following sintax:
 
 **EXPORT**
 
 ```sql
-SELECT ... INTO OUTFILE '<file_name>' <export_options> 
+SELECT ... INTO OUTFILE '<file_name>' <export_options>
     FROM <table_name>;
 ```
+
 e.g.
 
 All the entries and columns together without any kind of separator:
@@ -862,16 +862,17 @@ LOAD DATA INFILE '<file_name>'
     FIELDS <import_options>;
 ```
 
->Note: import and export options should match for the same backup.
+> Note: import and export options should match for the same backup.
 
 The [_mysqldump_](https://dev.mysql.com/doc/refman/5.7/en/mysqldump.html) is a tool to create logical backups producing DML and DDL commands, so it will reproduce the original database object definitions and table data.
 
 ```shell
 mysqldump <options> > <file_name>.sql
 ```
- Some examples:
 
- - Backup all user databases:
+Some examples:
+
+- Backup all user databases:
 
 ```shell
 mysqldump -u root -p --all-databases > backup.slq
@@ -889,7 +890,7 @@ mysqldump -u root -p --databases store > backup.slq
 mysqldump -u root -p store customer > backup.slq
 ```
 
->Note: _mysqldump_ is not compatible with Oracle databases.
+> Note: _mysqldump_ is not compatible with Oracle databases.
 
 There are two ways to import a _sql_ file:
 
@@ -921,7 +922,7 @@ View entries can also be deleted or updated and these changes will be reflected 
 Views can be created from multiple `SELECT` statements or other views.
 
 ```sql
-CREATE 
+CREATE
     {ALGORITHM=<UNDEFINED | MERGE | TEMPTABLE>}
     {DEFINER=<user | CURRENT_USER>}
     {SQL_SECURITY=<DEFINER | INVOKER>}
@@ -929,12 +930,13 @@ CREATE
     AS SELECT ...
     {WITH CHECK OPTION};
 ```
->Note: Only `CREATE`, `VIEW` and `AS` clauses are mandatory.
 
- * `ALGORITHM`: `UNDEFINED` MySQL decides; `MERGE` changes on tables are allowed; `TEMPTABLE` changes are not allowed
- * `DEFINER`: adds creators name 
- * `SQL_SECURITY`: defines permissions on the view: `DEFINER` permissions or `INVOKER`(default) permissions
- * `WITH CHECK OPTION`: `WITH CHECK OPTION` clause is used to prevent inserts or updates to rows which do not satisfy the `WHERE` statement. `LOCAL` will only affect to the actual view, `CASCADED` will affect views used to create the view
+> Note: Only `CREATE`, `VIEW` and `AS` clauses are mandatory.
+
+- `ALGORITHM`: `UNDEFINED` MySQL decides; `MERGE` changes on tables are allowed; `TEMPTABLE` changes are not allowed
+- `DEFINER`: adds creators name
+- `SQL_SECURITY`: defines permissions on the view: `DEFINER` permissions or `INVOKER`(default) permissions
+- `WITH CHECK OPTION`: `WITH CHECK OPTION` clause is used to prevent inserts or updates to rows which do not satisfy the `WHERE` statement. `LOCAL` will only affect to the actual view, `CASCADED` will affect views used to create the view
 
 ### Modify a View
 
@@ -966,12 +968,12 @@ SELECT * FROM information_schema.views;
 
 A **trigger** is an routine activated or executed as a result of an action of type `INSERT`, `DELETE` or `UPDATE`.
 
->Note: Before _MySQL 5.7.2_, only 6 triggers are allowed for each table. One trigger for each combination of time (`BEFORE`, `AFTER`) and action (`INSERT`, `UPDATE`, `DELETE`).
+> Note: Before _MySQL 5.7.2_, only 6 triggers are allowed for each table. One trigger for each combination of time (`BEFORE`, `AFTER`) and action (`INSERT`, `UPDATE`, `DELETE`).
 
 ### Create a Trigger
 
 ```sql
-CREATE TRIGGER <trigger_name> 
+CREATE TRIGGER <trigger_name>
     {BEFORE | AFTER}
     {INSERT | UPDATE | DELETE} ON <table_name>
     FOR EACH ROW
@@ -1003,14 +1005,14 @@ SELECT <trigger_name> FROM information_schema.triggers;
 
 ## Events
 
-Events are scheduled tasks that run at a particular time and are very similar to cron jobs. 
+Events are scheduled tasks that run at a particular time and are very similar to cron jobs.
 
 Two types:
 
 - One time events.
 - Periodical events.
 
->Note: the global sysmtem variable `event_scheduler` determines if events are enabled. Possible values: `ON` (activated), `OFF` (disactivated), `DISABLED` (the Event Scheduler state cannot be changed at runtime). To change the value: `SET GLOBAL EVENT_SCHEDULER={ON|OFF|DISABLED}` or serach for the prperty in `my.cnf`.
+> Note: the global sysmtem variable `event_scheduler` determines if events are enabled. Possible values: `ON` (activated), `OFF` (disactivated), `DISABLED` (the Event Scheduler state cannot be changed at runtime). To change the value: `SET GLOBAL EVENT_SCHEDULER={ON|OFF|DISABLED}` or serach for the prperty in `my.cnf`.
 
 ### Create Event
 
@@ -1023,7 +1025,7 @@ CREATE EVENT <table_name>
     DO <actions>;
 ```
 
->Note: it `ENABLE` by default
+> Note: it `ENABLE` by default
 
 `<schedule>` can be:
 
@@ -1033,7 +1035,7 @@ AT{<time>{<interval>}} | EVERY <interval>
 {ENDS <time> {<interval>}}
 ```
 
-`<interval>` can be: 
+`<interval>` can be:
 
 ```sql
 {YEAR | QUARTER | MONTH | DAY | HOUR | MINUTE |
@@ -1056,4 +1058,4 @@ ALTER EVENT <event_name>
 
 ```sql
 SHOW EVENTS;
-``` 
+```
