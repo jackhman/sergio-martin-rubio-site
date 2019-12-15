@@ -69,6 +69,35 @@ FooRepository fooRepository = Mockito.mock(FooRepository.class);
 private FooRepository fooRepository;
 ```
 
+`@Mock` annotation requires either `MockitoAnnotations.initMocks(testClass)` or `@ExtendWith(MockitoExtension.class)`. In JUnit 4 is `@RunWith(MockitoJUnitRunner.class)`.
+
+```java
+@Mock
+private FooRepository fooRepository;
+
+@InjectMocks
+private FooServiceImpl fooService;
+
+@BeforeEach
+public void setUp() {
+    MockitoAnnotations.initMocks(this);
+}
+```
+
+```java
+@ExtendWith(MockitoExtension.class)
+class FooServiceTest {
+
+    @Mock
+    private FooRepository fooRepository;
+
+    @InjectMocks
+    private FooServiceImpl fooService;
+
+    ...
+}
+```
+
 ## Stub Methods
 
 Any mocking framework allows you to return the desired value when a particular method is called, and with Mockito this can be achieved with `Mockito.when()` in conbination with `thenReturn()`. This is what we call a stub.
