@@ -150,6 +150,19 @@ public void getNumberMultipleTimesTest() {
 }
 ```
 
+### Void Methods
+
+Void methods require are different strategy from `when()`. Mockito provides a set of methods to stub void methods.
+
+
+Name | Description
+---------|----------
+ `doReturn(Object)` | In case you cannnot use `when()`. e.g. spy objects
+ `doThrow(Throwable)` | Used when the void method will throw an exception
+ `doAnswer(Answer)` | Stubs a void method with a generic answer
+ `doNothing()` | By default void methods do nothing but it can be uselful when stubbing consecutive calls
+ `doCallRealMethod()` | When you want to call the real implementation of a method
+
 ## Argument Matchers
 
 Mockito argument matchers give you more flexibility when you are writing stubs. A long list of matchers is provided this framework, and some of the most used ones are:
