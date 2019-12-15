@@ -156,3 +156,26 @@ public void getStringTest() {
 ```
 
 >GIVEN, WHEN and THEN comments make intentions of tests clearer. You might also consider a proper name your tests like `<testName>Given<configuration>When<somthingHappens>Then<expectations>`.
+
+
+## Argument Matchers
+
+Mockito argument matchers give you more flexibility when you are writing stubs. A long list of matchers is provided this framework, and some of the most used ones are:
+
+
+Name | Description
+---------|----------
+ `any()` | Matches anything, including nulls and varargs.
+ `any(Class<T> type)` | Matches any object of given type, excluding nulls.
+ `any<Type>()` | Any of the given "Type". e.g. `anyInt()`.
+ `argThat(ArgumentMatcher<T> matcher)` | For custom argument matchers.
+ `contains(String substring)` | Contains substring.
+ `startsWith(String prefix)` | String argument that starts with the given prefix.
+ `endsWith(String suffix)` | Ends with given suffix.
+ `eq(T value)` | `T` argument that is equal to the given value.
+ `isA(Class<T> type)` | Object argument that implements the given class.
+ `isNotNull()` | Not null argument.
+ `isNull()` | Null argument.
+ `matches(Pattern pattern)` | For regular expressions.
+
+{% include elements/highlight.html text="If you use an argument matcher in a method call, the rest of the argument have to be argument matchers." %}
