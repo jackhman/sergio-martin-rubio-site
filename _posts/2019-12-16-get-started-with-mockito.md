@@ -197,8 +197,6 @@ verify(fooRepository).getNumbers();
 
 By default `verify(mock)` checks if a given method was called once. But this can be customized by using verification modifiers.
 
-List of verification modifiers:
-
  Name | Description
 ---------|----------
  `times(int)` | The method is called the n times
