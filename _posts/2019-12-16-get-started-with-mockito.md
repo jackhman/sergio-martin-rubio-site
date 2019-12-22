@@ -222,6 +222,31 @@ verify(fooRepository).getNumber(anyInt());
 verifyNoMoreInteractions(fooRepository);
 ```
 
+### Verify Order
+
+Sometimes you may want to verify the execution order of a mock.
+
+```java
+@Test
+public void getNumberVerifyInOrderTest() {
+    // GIVEN
+    when(fooRepository.getNumber(anyInt())).thenReturn(8, 3, 5);
+
+    // WHEN
+    fooService.getNumber(1);
+    fooService.getNumber(0);
+    fooService.getNumber(2);
+
+    // THEN
+    InOrder inOrder = inOrder(fooRepository);
+    inOrder.verify(fooRepository).getNumber(1);
+    inOrder.verify(fooRepository).getNumber(0);
+    inOrder.verify(fooRepository).getNumber(2);
+}
+```
+
+You can create an `InOrder` instance and pass the mocks you want to verify in order.
+
 ## Behavior Driven Development
 
 A test should be split into three blocks, each with a specified responsibility.
