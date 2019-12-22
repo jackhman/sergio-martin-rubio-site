@@ -285,6 +285,26 @@ private FooRepository fooRepository;
 private FooServiceImpl fooService;
 ```
 
+## Reset Mocks
+
+In some cases it is required to reset a mock, for instance, you might use a container-injected mock like the ones from [Spring Framework](http://sergiomartinrubio.com/articles/spring-bean-lifecycle-fundamentals) to forget any interactions and stubbing of a particular mock.
+
+```java
+@Test
+public void getNumbersWithResetTest() {
+    when(fooRepository.getNumbers()).thenReturn(List.of(4, 6, 3));
+    List<Integer> numbers = fooService.getNumbers();
+    assertThat(numbers).contains(4, 6, 3);
+
+    reset(fooRepository);
+
+    List<Integer> emptyNumbers = fooService.getNumbers();
+    assertThat(emptyNumbers).isEmpty();
+}
+```
+
+>The use of reset is usually a code smell and it means you are testing too much in the same test method. Try to keep tests small and focused on a single behaviour.
+
 ## Behavior Driven Development
 
 A test should be split into three blocks, each with a specified responsibility.
