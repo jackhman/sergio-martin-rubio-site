@@ -15,6 +15,7 @@ Stub Methods
 Void Methods
 Argument Matchers
 Verify Behaviour
+Using Spies
 Behavior Driven Development
 {%- endcapture -%}
 
