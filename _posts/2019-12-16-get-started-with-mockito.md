@@ -107,13 +107,13 @@ class FooServiceTest {
 
 ## Stub Methods
 
-Any mocking framework allows you to return the desired value when a particular method is called, and with Mockito this can be achieved with `Mockito.when()` in conbination with `thenReturn()`. This is what we call a stub.
+Any mocking framework allows you to return the desired value when a particular method is called, and with **Mockito** this can be achieved with `Mockito.when()` in conbination with `thenReturn()`. This is what we call a stub.
 
 ```java
 when(fooRepository.getFooMessage()).thenReturn("Hello");
 ```
 
-How does is work? A proxy is dinamically defined, so when the static method `Mockito.when()` is called, the passed method is stored. Then, when `thenReturn()` is called the value is also stored to the saved method. Finally, if the same proxy method with the same parametes is called again it will return the stored value this time.
+**How does is work?** A proxy is dinamically defined, so when the static method `Mockito.when()` is called, the method passed is stored. Then, when `thenReturn()` is called, the value is also stored to the saved method. Finally, if the same proxy method with the same parametes is called again it will return the stored value this time.
 
 You can stub the same method multiple times:
 
