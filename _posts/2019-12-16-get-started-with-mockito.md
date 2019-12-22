@@ -285,7 +285,7 @@ private FooServiceImpl fooService;
 
 ## Reset Mocks
 
-In some cases it is required to reset a mock, for instance, you might use a container-injected mock like the ones from [Spring Framework](http://sergiomartinrubio.com/articles/spring-bean-lifecycle-fundamentals) to forget any interactions and stubbing of a particular mock.
+In some cases it is required to reset a mock, for instance, you might want to use a container-injected mock like the ones from [Spring Framework](http://sergiomartinrubio.com/articles/spring-bean-lifecycle-fundamentals) to forget any interactions and stubbing of a particular mock.
 
 ```java
 @Test
@@ -305,7 +305,7 @@ public void getNumbersWithResetTest() {
 
 ## Capture Arguments
 
-You can assert argument after verification with captors. This is an alternative to argument matchers during stubbing and in a similar way, it allows you to check if a mock was actually called with a particular value.
+You can assert arguments after verification with captors. This is an alternative to argument matchers during stubbing, and in a similar way, it allows you to check if a mock was actually called with a particular value.
 
 To use a captor you can simply declare an `ArgumentCaptor` with the class that you want to capture, and when you call `verify()` you will pass the argument captor object so you can write some assertions later.
 
@@ -328,7 +328,7 @@ A test should be split into three blocks, each with a specified responsibility.
 - **WHEN**: Call to the _SUT_ (System Under Test) which can a method call.
 - **THEN**: Assertions and verifications.
 
-Mockito provides `given()` and `willReturn()` which are aliases for the `when()` and `thenReturn()` while stubbing, so it can be integrated with the Behavior Driven Development semantic. Similarly, `verify()` can also be replaced with `then()` and `should()`.
+Mockito provides `given()` and `willReturn()`, which are aliases for `when()` and `thenReturn()` while stubbing, so tests perfectly fits with the Behavior Driven Development semantic. Similarly, `verify()` can also be replaced with `then()` and `should()`.
 
 e.g. 
 
@@ -347,7 +347,7 @@ public void getStringTest() {
 }
 ```
 
->GIVEN, WHEN and THEN comments make intentions of tests clearer. You might also consider a proper name your tests like `<testName>Given<configuration>When<somthingHappens>Then<expectations>`.
+>GIVEN, WHEN and THEN comments make intentions of unit tests clearer. You might also consider a proper name for your tests e.g.  `<testName>Given<configuration>When<somthingHappens>Then<expectations>`.
 
 <p class="text-center">
 {% include elements/button.html link="https://github.com/smartinrub/spring-boot-mockito.git" text="Examples" %}
