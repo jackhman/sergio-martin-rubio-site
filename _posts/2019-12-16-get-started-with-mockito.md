@@ -115,15 +115,14 @@ when(fooRepository.getFooMessage()).thenReturn("Hello");
 
 **How does is work?** A proxy is dinamically defined, so when the static method `Mockito.when()` is called, the method passed is stored. Then, when `thenReturn()` is called, the value is also stored to the saved method. Finally, if the same proxy method with the same parametes is called again it will return the stored value this time.
 
-You can stub the same method multiple times:
+You can also stub the same method multiple times:
 
 ```java
 when(fooRepository.getNumber(0)).thenReturn(8);
 when(fooRepository.getNumber(1)).thenThrow(new ArrayIndexOutOfBoundsException());
 ```
 
-Mockito also has other static methods that can be combined with the `when()` method like the one used in the previous example `.thenThrow()`.
-
+Mockito also has other static methods that can be combined with `when()` method, like the one used in the previous example `.thenThrow()`.
 
 Method | Description
 ---------|----------
@@ -157,8 +156,7 @@ public void getNumberMultipleTimesTest() {
 
 ### Void Methods
 
-Void methods require are different strategy from `when()`. Mockito provides a set of methods to stub void methods.
-
+For void methods you can use:
 
 Name | Description
 ---------|----------
@@ -170,8 +168,7 @@ Name | Description
 
 ## Argument Matchers
 
-Mockito argument matchers give you more flexibility when you are writing stubs. A long list of matchers is provided this framework, and some of the most used ones are:
-
+Mockito argument matchers give you more flexibility when writing stubs. A long list of matchers is provided:
 
 Name | Description
 ---------|----------
