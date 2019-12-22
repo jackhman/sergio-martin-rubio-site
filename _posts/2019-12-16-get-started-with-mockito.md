@@ -185,7 +185,7 @@ Name | Description
  `isNull()` | Null argument.
  `matches(Pattern pattern)` | For regular expressions.
 
-{% include elements/highlight.html text="If you use an argument matcher in a method call, the rest of the argument have to be argument matchers." %}
+{% include elements/highlight.html text="If you use an argument matcher in a method call, the rest of the arguments have to be argument matchers." %}
 
 ## Verify Behaviour
 
