@@ -250,9 +250,12 @@ You can create an `InOrder` instance and pass the mocks you want to verify in or
 
 ## Using Spies
 
-Spies are partial mocks. This means that when you use a spy then the real methods are called unless a method was stubbed.
+Spies are partial mocks. This means that when you use a spy then the real methods are called unless a method was stubbed. A spy is create with the annotation `@Spy` or by creating an instance of the class you want to spy and passing the instance to `Mockito.spy()`.
 
 ```java
+@Spy
+private FooRepositoryImpl spy;
+
 @Test
 public void saveAndGetFirstNumberWithSpyTest() {
     doReturn(4).when(spy).getNumber(anyInt());
@@ -269,6 +272,18 @@ public void saveAndGetFirstNumberWithSpyTest() {
 In the previous example `getNumber` method is stubbed, so when `saveAndGetFirstNumber` is invoked  `getNumber` will return the value given in the stub and will call the real `saveNumber` method with the value `3`.
 
 >Sometimes it's impossible or impractical to use `when(Object)` for stubbing spies because the real method will be called first and might throw an exeption. to prevents unnecessary calls to a real method during stubbing use `will` + `given` or `do` + `when`. e.g. `doReturn(4).when(spy).getNumber(anyInt());`
+
+## Dependency Injection
+
+`@InjectMocks` is used in combination with `@Mock` or `@Spy` to inject mocks or spy fields into the object under test automatically.
+
+```java
+@Mock // @Spy is also possible
+private FooRepository fooRepository;
+
+@InjectMocks
+private FooServiceImpl fooService;
+```
 
 ## Behavior Driven Development
 
