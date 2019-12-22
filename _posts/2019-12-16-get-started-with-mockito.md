@@ -267,7 +267,7 @@ public void saveAndGetFirstNumberWithSpyTest() {
 }
 ```
 
-In the previous example `getNumber` method is stubbed, so when `saveAndGetFirstNumber` is invoked  `getNumber` will return the value given in the stub and will call the real `saveNumber` method with the value `3`.
+In the previous example `getNumber()` method is stubbed, so when `saveAndGetFirstNumber()` is invoked  `getNumber()` will return the value given in the stub and will call the real `saveNumber()` method with the value `3`.
 
 >Sometimes it's impossible or impractical to use `when(Object)` for stubbing spies because the real method will be called first and might throw an exeption. to prevents unnecessary calls to a real method during stubbing use `will` + `given` or `do` + `when`. e.g. `doReturn(4).when(spy).getNumber(anyInt());`
 
