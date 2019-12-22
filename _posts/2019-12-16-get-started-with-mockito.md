@@ -352,3 +352,7 @@ public void getStringTest() {
 ```
 
 >GIVEN, WHEN and THEN comments make intentions of tests clearer. You might also consider a proper name your tests like `<testName>Given<configuration>When<somthingHappens>Then<expectations>`.
+
+<p class="text-center">
+{% include elements/button.html link="https://github.com/smartinrub/spring-boot-mockito.git" text="Examples" %}
+</p>
