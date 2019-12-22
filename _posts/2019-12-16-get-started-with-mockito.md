@@ -307,6 +307,23 @@ public void getNumbersWithResetTest() {
 
 >The use of reset is usually a code smell and it means you are testing too much in the same test method. Try to keep tests small and focused on a single behaviour.
 
+## Capture Arguments
+
+You can assert argument after verification with captors. This is an alternative to argument matchers during stubbing and in a similar way, it allows you to check if a mock was actually called with a particular value.
+
+To use a captor you can simply declare an `ArgumentCaptor` with the class that you want to capture, and when you call `verify()` you will pass the argument captor object so you can write some assertions later.
+
+```java
+@Test
+public void verifyWithCaptor() {
+    fooService.saveAndGetFirstNumber(5);
+
+    ArgumentCaptor<Integer> argument = ArgumentCaptor.forClass(Integer.class);
+    verify(fooRepository).saveNumber(argument.capture());
+    assertThat(argument.getValue()).isEqualTo(5);
+}
+```
+
 ## Behavior Driven Development
 
 A test should be split into three blocks, each with a specified responsibility.
