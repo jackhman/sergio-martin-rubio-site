@@ -32,7 +32,7 @@ Behavior Driven Development
 
 A **mock** is a proxy to the original object, so if a method of a proxy object is called, then the proxy object will decide what to do. When you do something like `Mockito.mock(Foo.class)` you are simply creating a proxy object of the _Foo_ class.
 
-Mockito uses [CGLIB](https://github.com/cglib/cglib) which is based on [ASM](https://asm.ow2.io). **CGLIB** generates proxy classes by extending the original class, and all the overriden methods will call [MethodInterceptor.intercept()](http://cglib.sourceforge.net/apidocs/net/sf/cglib/proxy/MethodInterceptor.html#intercept%28java.lang.Object,%20java.lang.reflect.Method,%20java.lang.Object[],%20net.sf.cglib.proxy.MethodProxy%29) if the proxy callback is not null otherwise the super method (original method) will be called. This means that proxy classes have some limitations: 
+Mockito uses [CGLIB](https://github.com/cglib/cglib) which is based on [ASM](https://asm.ow2.io). **CGLIB** generates proxy classes by extending the original class, and all the overriden methods will call [MethodInterceptor.intercept()](http://cglib.sourceforge.net/apidocs/net/sf/cglib/proxy/MethodInterceptor.html#intercept%28java.lang.Object,%20java.lang.reflect.Method,%20java.lang.Object[],%20net.sf.cglib.proxy.MethodProxy%29) if the proxy callback is not null, otherwise the super method (original method) will be called. This brings limitations: 
 
 - Final classes cannot be mocked.
 - Final, private or static methods cannot be intercepted.
