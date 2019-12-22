@@ -3,7 +3,7 @@ title: Get Started With Mockito
 tags: [Testing, Java, Mockito]
 style: fill
 color: warning
-description: Mockito is a popular mocking framework for Java application. This framework helps you to test classes in isolation and avoids creating collaborators in your unit tests.
+description: Mockito is a popular mocking framework for Java applications. This framework helps you to test classes in isolation and avoids creating collaborators in your unit tests.
 ---
 
 {%- capture list_items -%}
@@ -26,7 +26,7 @@ Behavior Driven Development
 
 ## Introduction
 
-[Mockito](https://site.mockito.org) is a popular mocking framework for **Java** application. This framework helps you to test classes in isolation and avoids creating collaborators in your unit tests. This need is very common in a web applications that uses the MVC pattern. For instance you might need to test your service layer which uses an utility class to check the payment method and then will call an API to process the payment. In this situation you have to instanciate or inject your utility class and the API client, and the second one will required to start a mock server. As you can see this looks like an integration test instead of a simple unit test, and we are not testing the service layer in isolation becuase it requires that both the utility class and the API client are free of bugs.
+[Mockito](https://site.mockito.org) is a popular mocking framework for **Java** applications. This framework helps you to test classes in isolation and avoids creating collaborators in your unit tests. This is a very common requirement in web applications that use the MVC pattern. For instance, you might want to test a service layer that uses an utility class to check the payment method and then will call an API to process the payment. In this situation you have to instanciate or inject the utility class and the API client, and the second one will require to start a mock server. As you can see this looks like an integration test instead of a simple unit test.
 
 ## What is a mock?
 
