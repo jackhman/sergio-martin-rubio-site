@@ -247,6 +247,28 @@ public void getNumberVerifyInOrderTest() {
 
 You can create an `InOrder` instance and pass the mocks you want to verify in order.
 
+## Using Spies
+
+Spies are partial mocks. This means that when you use a spy then the real methods are called unless a method was stubbed.
+
+```java
+@Test
+public void saveAndGetFirstNumberWithSpyTest() {
+    doReturn(4).when(spy).getNumber(anyInt());
+        // throws IndexOutOfBoundsException because the real method is first called
+//        when(spy.getNumber(0)).thenReturn(4);
+
+    Integer firstNumber = fooService.saveAndGetFirstNumber(3);
+
+    assertThat(firstNumber).isEqualTo(4);
+    verify(spy).saveNumber(3);
+}
+```
+
+In the previous example `getNumber` method is stubbed, so when `saveAndGetFirstNumber` is invoked  `getNumber` will return the value given in the stub and will call the real `saveNumber` method with the value `3`.
+
+>Sometimes it's impossible or impractical to use `when(Object)` for stubbing spies because the real method will be called first and might throw an exeption.
+
 ## Behavior Driven Development
 
 A test should be split into three blocks, each with a specified responsibility.
