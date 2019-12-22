@@ -208,13 +208,13 @@ By default `verify(mock)` checks if a given method was called once. But this can
  `atMost(int)` | The method called at motst n times
  `only()` | Checks if the given method was the only called
 
- The following example verifies if the method getNumber given any integer was called three times.
+The following example verifies if the method `getNumber` with any integer was called three times.
 
 ```java
 verify(fooRepository, times(3)).getNumber(anyInt());
 ```
 
-The following example verifies if the method get number given any integer was called once and there as no more interactions with the object `fooRepository`.
+In this example `verify()` checks if the method `getNumber` was called once and no more interactions with the object `fooRepository` were performed.
 
 ```java
 verify(fooRepository).getNumber(anyInt());
