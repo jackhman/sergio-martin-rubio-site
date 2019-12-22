@@ -18,6 +18,7 @@ Verify Behaviour
 Using Spies
 Dependency Injection
 Reset Mocks
+Capture Arguments
 Behavior Driven Development
 {%- endcapture -%}
 
