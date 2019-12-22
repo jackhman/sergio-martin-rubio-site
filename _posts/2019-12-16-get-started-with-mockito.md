@@ -16,6 +16,8 @@ Void Methods
 Argument Matchers
 Verify Behaviour
 Using Spies
+Dependency Injection
+Reset Mocks
 Behavior Driven Development
 {%- endcapture -%}
 
