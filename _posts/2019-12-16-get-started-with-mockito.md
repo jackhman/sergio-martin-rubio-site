@@ -248,7 +248,7 @@ You can create an `InOrder` instance and pass the mocks you want to verify in or
 
 ## Using Spies
 
-Spies are partial mocks. This means that when you use a spy then the real methods are called unless a method was stubbed. A spy is create with the annotation `@Spy` or by creating an instance of the class you want to spy and passing the instance to `Mockito.spy()`.
+Spies are partial mocks. This means that when you use a spy then the real methods are called unless a method was stubbed. Spies are created with the annotation `@Spy` or by creating an instance of the class you want to spy and passing the instance to `Mockito.spy()`.
 
 ```java
 @Spy
