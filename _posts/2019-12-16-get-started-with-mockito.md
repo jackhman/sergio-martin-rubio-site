@@ -223,7 +223,7 @@ verifyNoMoreInteractions(fooRepository);
 
 ### Verify Order
 
-Sometimes you may want to verify the execution order of a mock.
+Sometimes you may want to verify the order in which a mock is called.
 
 ```java
 @Test
