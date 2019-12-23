@@ -1,6 +1,11 @@
+- title: Software Engineer, Marhsmallow, UK
+  from: Nov 2019
+  to: present
+  description:
+
 - title: Software Development Engineer, Expedia Group, UK
   from: Oct 2018
-  to: present
+  to: Nov 2019
   description: Involved in adapting microservices APIs to support new features; 
                Redesigned caching architecture to use in memory data structures; 
                Worked on a GraphQL PoC; 
