@@ -5,7 +5,7 @@
 Contact information and a little bit about me.
 ### Articles
 Short blog posts about Java, Testing, Spring, microservices, Docker, Kubernetes and so much more!
-### Developer Guide
+### Tutorials
 Step by step guides to master different technologies
 ### Projects
 Relevant projects and any other cool tech thing I've done so far :neckbeard:
