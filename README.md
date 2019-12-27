@@ -3,10 +3,12 @@
 ## Sections
 ### Index
 Contact information and a little bit about me.
+### Articles
+Short blog posts about Java, Testing, Spring, microservices, Docker, Kubernetes and so much more!
+### Developer Guide
+Step by step guides to master different technologies
 ### Projects
 Relevant projects and any other cool tech thing I've done so far :neckbeard:
-### Articles
-Short blog post about Java, Testing, Spring, microservices, Docker, Kubernetes and so much more!
 ### About
 Skillset and relevant work experiences in awesome companies :grinning:
 
