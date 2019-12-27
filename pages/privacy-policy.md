@@ -32,4 +32,4 @@ We reserve the right to update or change our Privacy Policy at any time and you 
 
 ## Contact Us
 
-If you have any questions about this Privacy Policy, please contact <a href = "mailto: me@sergiomartinrubio.com">Send Email</a>
+If you have any questions about this Privacy Policy, please contact <a href = "mailto: me@sergiomartinrubio.com">me@sergiomartinrubio.com</a>
