@@ -17,7 +17,10 @@ author:
 # dribbble          : your_username
   email             : me@sergiomartinrubio.com
 # facebook          : your_username
-  github            : smartinrub
+  github:            
+    url   : https://github.com/smartinrub
+    icon  : fab fa-icon
+    color : 1da1f2    
 # gitlab            : your_username
 # instagram         : your_username
   linkedin          : sergiomartinrubio
