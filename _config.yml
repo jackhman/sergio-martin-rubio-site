@@ -17,10 +17,7 @@ author:
 # dribbble          : your_username
   email             : me@sergiomartinrubio.com
 # facebook          : your_username
-  github:            
-    url   : https://github.com/smartinrub
-    icon  : fab fa-icon
-    color : 1da1f2    
+  github            : smartinrub
 # gitlab            : your_username
 # instagram         : your_username
   linkedin          : sergiomartinrubio
@@ -38,10 +35,12 @@ author:
 ### Pagination ###
 paginate: 6
 paginate_path: "/articles/page-:num/"
+paginate_path: "/tutorials/page-:num/"
 
 
 ### Posts Permalink ###
 permalink: articles/:title
+permalink: tutorials/:title
 
 
 ### Collections ###
@@ -61,13 +60,9 @@ defaults:
       type: "projects"
     values:
       layout: "page"
-  - scope:
-      path: ""
-      type: "tutorials"
-    values:
-      layout: "page"
 
-
+plugins:
+  - jemoji
 
 ### Exclude from processing ###
 exclude:

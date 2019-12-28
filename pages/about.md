@@ -7,7 +7,7 @@ weight: 4
 
 # **About Me**
 
-Hi I am **{{ site.author.name }}**,<br>
+Hi I am **{{ site.author.name }}** :wave:,<br>
 a passionate developer who loves challenges and is never afraid of diving into new territories. I enjoy sharing my knowledge with others and get inspired by them.
 
 <div class="row">
