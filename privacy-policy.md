@@ -1,7 +1,9 @@
 ---
-title: Privacy Policy
-permalink: /privacy-policy/
-tags: [Privacy Policy]
+title: Integer Caching in Java
+tags: [Java, Performance]
+style: fill
+color: primary
+description: Learn how caching works for encapsulated primitives.
 ---
 
 # **Privacy Policy**
