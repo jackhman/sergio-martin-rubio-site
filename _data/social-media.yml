@@ -1,0 +1,19 @@
+email:
+  url   : "mailto:me@sergiomartinrubio.com"
+  icon  : fas fa-envelope
+  color : db4437
+
+github:
+  url   : https://www.github.com/smartinrub
+  icon  : fab fa-github
+  color : 333333
+
+linkedin:
+  url   : https://www.linkedin.com/in/sergiomartinrubio
+  icon  : fab fa-linkedin-in
+  color : 007bb5
+
+twitter:
+  url   : https://www.twitter.com/smartinrubio
+  icon  : fab fa-twitter
+  color : 1da1f2
