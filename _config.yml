@@ -35,12 +35,10 @@ author:
 ### Pagination ###
 paginate: 6
 paginate_path: "/articles/page-:num/"
-paginate_path: "/tutorials/page-:num/"
 
 
 ### Posts Permalink ###
 permalink: articles/:title
-permalink: tutorials/:title
 
 
 ### Collections ###
