@@ -9,7 +9,7 @@ baseurl: ""  # the subpath of your site, e.g. /blog
 repository: smartinrub/sergio-martin-rubio-site
 remote_theme       : YoussefRaafatNasry/portfolYOU    # uncomment this if you are using it as a remote theme
 privacy_policy: 
-  url: /privacy-policy
+  url: /privacy-policy/
 
 ### Author Info ###
 author:
