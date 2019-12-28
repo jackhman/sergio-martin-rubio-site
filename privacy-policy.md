@@ -1,3 +1,9 @@
+---
+title: Privacy Policy
+permalink: /privacy-policy/
+tags: [Privacy Policy]
+---
+
 # **Privacy Policy**
 
 This page informs you of our policies regarding the collection, use and disclosure of Personal Information we receive from users of the _sergiomartinrubio.com_.
