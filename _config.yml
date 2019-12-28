@@ -8,6 +8,8 @@ url: "http://sergiomartinrubio.com" # the base hostname & protocol for your site
 baseurl: ""  # the subpath of your site, e.g. /blog
 repository: smartinrub/sergio-martin-rubio-site
 remote_theme       : YoussefRaafatNasry/portfolYOU    # uncomment this if you are using it as a remote theme
+privacy_policy: 
+  url: www.google.es
 
 ### Author Info ###
 author:
