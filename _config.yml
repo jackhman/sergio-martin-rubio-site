@@ -39,6 +39,8 @@ paginate_path: "/tutorials/page-:num/"
 
 ### Posts Permalink ###
 permalink: articles/:title
+
+### Articles Permalink ###
 permalink: tutorials/:title
 
 ### Collections ###
@@ -63,6 +65,7 @@ defaults:
       layout: "page"
 
 plugins:
+  - jekyll-feed
   - jemoji
 
 ### Exclude from processing ###
@@ -72,6 +75,3 @@ exclude:
 - LICENSE
 - Gemfile
 - Gemfile.lock
-
-plugins:
-  - jekyll-feed
