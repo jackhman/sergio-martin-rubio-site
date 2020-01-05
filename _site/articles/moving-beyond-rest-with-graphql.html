@@ -1,0 +1,492 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#how-it-works">
+How it works</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#operations">
+Operations</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#query">
+Query</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#mutation">
+Mutation</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#subscription">
+Subscription</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#schema">
+Schema</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#how-to-create-a-graphql-spring-boot-server">
+How to create a GraphQL Spring Boot Server?</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#define-graphql-schema">
+Define GraphQL Schema</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#build-spring-boot-application">
+Build Spring Boot application</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#graphiql-a-graphql-client">
+GraphiQL, a GraphQL client</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#highlights-and-challenges">
+Highlights and Challenges</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h3 id="introduction">Introduction</h3>
+
+<p><a href="https://graphql.org/"><strong>GraphQL</strong></a> is a <strong>query language</strong> that matches up with <strong>Domain Driven Design</strong>, so you can use your existing entities or models in your GraphQL design.</p>
+
+<p>This query language was created by <strong>Facebook</strong> and <strong>open sourced</strong> later <strong>in 2015</strong>, and since then it has been <strong>maitained by the community</strong>.</p>
+
+<p>To start using <strong>GraphQL</strong> you will have to learn a <strong>new specification</strong>, because it is not a simple implementation, however it is pretty <strong>simple</strong> and if you are familiar with other query languages it will take you a few hours to understand how it works. Also the <a href="https://graphql.github.io/graphql-spec/June2018/#">GraphQL spec</a> is very well documented and shows you how to use operations like queries or mutations, define schemas or what good practicies you should follow.</p>
+
+<h3 id="how-it-works">How it works</h3>
+
+<p>This API Query Language allows you to retrive data from a service in one go. How can I do that? A single endpoint is exposed by GraphQL, and given a schema which contains your models and operations, you can make HTTP requests to <code class="highlighter-rouge">/graphql</code> by providing operation names, a payload and variables.</p>
+
+<p>GraphQL supports both, GET and POST HTTP methods. In case of GET, we have to use a query parameter (<code class="highlighter-rouge">?query={operationName{field}}</code>). On the other hand, we could do a standard POST request with a JSON payload.</p>
+
+<p>e.g.</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"query"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"operationName"</span><span class="p">:</span><span class="w"> </span><span class="s2">"..."</span><span class="p">,</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>Remember that URLs can only sent over the internet using the ASCII character-set.</p>
+</blockquote>
+
+<h3 id="operations">Operations</h3>
+<h4 id="query">Query</h4>
+
+<p>Queries are used to retrieved data, and you should use them to perform read operations in your service. Here is an example:</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">findHotelById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">name</span><span class="w">
+      </span><span class="n">address</span><span class="w">
+      </span><span class="n">room</span><span class="w"> </span><span class="p">{</span><span class="w">
+          </span><span class="n">type</span><span class="w">
+      </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The <em>findHotelById</em> is the operation of the query, and everything else inside the operation is called <em>payload</em>. We can use arguments like the one in the previos example (id: 2), that will return the Hotel with id 2.</p>
+
+<p>Queries also support <em>dynamic</em> arguments, and provides a way to pass them as JSON in the operation. We will use them like this:</p>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="w"> </span><span class="n">MyQuery</span><span class="p">(</span><span class="nv">$hotelId</span><span class="p">:</span><span class="nb">ID</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">findHotelById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="nv">$hotelId</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="w">
+    </span><span class="n">room</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">type</span><span class="w">
+      </span><span class="n">occupants</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="s2">"hotelId"</span><span class="p">:</span><span class="w"> </span><span class="s2">"1"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<blockquote>
+  <p>You could use the shorthand syntax and omit both the <em>query</em> keyword and the <em>query name</em>, but it is a good practice to use these to make our code more readable, and they can be useful for debugging or identify different GraphQL requests.</p>
+</blockquote>
+
+<p>In case we have to create a complex query we could use <em>Fragments</em>. Fragments are reusable blocks that contain set of fields. For example:</p>
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">query</span><span class="w"> </span><span class="n">MyQuery</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">firstHotel</span><span class="p">:</span><span class="w"> </span><span class="n">findHotelById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="mi">1</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="p">...</span><span class="n">compareHotels</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+  </span><span class="n">secondHotel</span><span class="p">:</span><span class="w"> </span><span class="n">findHotelById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="mi">3</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="p">...</span><span class="n">compareHotels</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+
+</span><span class="k">fragment</span><span class="w"> </span><span class="n">compareHotels</span><span class="w"> </span><span class="k">on</span><span class="w"> </span><span class="n">Hotel</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">name</span><span class="w">
+    </span><span class="n">room</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="n">type</span><span class="w">
+      </span><span class="n">occupants</span><span class="w">
+    </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+<blockquote>
+  <p>We have to use three dots followed by the fragment name to call a frament.</p>
+</blockquote>
+
+<h4 id="mutation">Mutation</h4>
+
+<p><strong>Mutations</strong> are used to alter data and they should trigger insertions, updates or deletions in your database. We can create a mutation by replacing the <em>query</em> with the <em>mutation</em> keyword. This is an example:</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">mutation</span><span class="w"> </span><span class="p">{</span><span class="w">
+  </span><span class="n">newHotel</span><span class="p">(</span><span class="n">name</span><span class="p">:</span><span class="s2">"test 1"</span><span class="p">,</span><span class="w"> </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="s2">"test 1"</span><span class="p">){</span><span class="w">
+    </span><span class="n">id</span><span class="w">
+  </span><span class="p">}</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>Just like in queries, if a mutation returns an object type, you can ask for nested fields. In the previous example the mutation creates a new <em>Hotel</em> and returns the <em>id</em> for the created <em>hotel</em>, which was in this case autogenerated.</p>
+
+<p><mark class="px-2">Apart from sintax, queries and mutations differ from each other on one more thing, query fields are executed in parallel, whereas mutations run sequencially.</mark></p>
+
+<h4 id="subscription">Subscription</h4>
+
+<p><em>GraphQL</em> <em>subscriptions</em> are a way to <strong>stream data</strong> from the server to the clients that are listening. In the same way as queries, subscriptions allow you to ask for a set of fields, but instead of making a stateless HTTP request, a <strong>websocket conexion</strong> is used to have a stream of data coming from the server, so that everytime there is a change on the server, results are sent to the client, or in other words, when a client runs a <em>mutation</em> the subscription is triggered.</p>
+
+<blockquote>
+  <p>“Executing a <em>subscription</em> creates a persistent function on the server that maps an underlying Source Stream to a returned Response Stream.”</p>
+</blockquote>
+
+<p><code class="highlighter-rouge">/subscriptions</code> is by default the <strong>WebSocket</strong> subscriptions endpoint. Here’s an example of <em>Javascript</em> client using subscriptions:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">function</span> <span class="nx">subscribeToHotels</span><span class="p">()</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">socket</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">"ws://localhost:8080/subscriptions"</span><span class="p">);</span>
+
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">()</span> <span class="p">{</span>
+        <span class="kd">let</span> <span class="nx">query</span> <span class="o">=</span> <span class="s2">`
+              subscription MySubscription {
+                getNewHotel {
+                  name
+                  address
+                  creationDate
+                }
+              }
+        `</span><span class="p">;</span>
+        <span class="kd">let</span> <span class="nx">graphqlRequest</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="na">query</span><span class="p">:</span> <span class="nx">query</span><span class="p">,</span>
+            <span class="na">variables</span><span class="p">:</span> <span class="p">{}</span>
+        <span class="p">};</span>
+        <span class="nx">socket</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">graphqlRequest</span><span class="p">));</span>
+    <span class="p">};</span>
+    <span class="nx">socket</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span>
+      <span class="c1">// handle response</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="schema">Schema</h3>
+
+<p>Schema files are text files with <code class="highlighter-rouge">.grapqhl</code> extension. Operations and models are define there, and in order to do that GraphQL provides a schema language which inclues scalar types, markers and other keywords to build complex schemas</p>
+
+<p>Built-in scalar types are:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>GraphQL Type</strong></th>
+      <th style="text-align: center"><strong>Serialized as</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Int</strong></td>
+      <td style="text-align: center">Signed 32‐bit integer</td>
+    </tr>
+    <tr>
+      <td><strong>Float</strong></td>
+      <td style="text-align: center">Signed double-precision floating-point value</td>
+    </tr>
+    <tr>
+      <td><strong>String</strong></td>
+      <td style="text-align: center">UTF‐8 character sequence</td>
+    </tr>
+    <tr>
+      <td><strong>Boolean</strong></td>
+      <td style="text-align: center">true or false</td>
+    </tr>
+    <tr>
+      <td><strong>ID</strong></td>
+      <td style="text-align: center">String</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Type Markers:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th><strong>GraphQL Marker</strong></th>
+      <th style="text-align: center"><strong>Equivalent</strong></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><code class="highlighter-rouge">&lt;type&gt;!</code></td>
+      <td style="text-align: center">Not Null</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">[&lt;type&gt;]</code></td>
+      <td style="text-align: center">List</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">[&lt;type&gt;!]</code></td>
+      <td style="text-align: center">List of Not Null Elements</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">[&lt;type&gt;]!</code></td>
+      <td style="text-align: center">Not Null list</td>
+    </tr>
+    <tr>
+      <td><code class="highlighter-rouge">[&lt;type&gt;!]!</code></td>
+      <td style="text-align: center">Not Null list of Not Null Elements</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Here you have an example:</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">type</span><span class="w"> </span><span class="n">Hotel</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">!</span><span class="w">
+    </span><span class="c">## Hotel name</span><span class="w">
+    </span><span class="n">name</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="c">## Hotel address</span><span class="w">
+    </span><span class="n">address</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="c">## Date of the hotel registry creation</span><span class="w">
+    </span><span class="n">creationDate</span><span class="p">:</span><span class="w"> </span><span class="nb">String</span><span class="p">!</span><span class="w">
+    </span><span class="c">## List of rooms for a particular hotel</span><span class="w">
+    </span><span class="n">room</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Room</span><span class="p">]!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>We call also add comments to document your schema, and to do so, you just need to add them before each field, type or argument.</p>
+</blockquote>
+
+<p><em>Queries</em>, <em>mutations</em> and <em>subscriptions</em> can be created as follows:</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">## The Root Query for the application</span><span class="w">
+</span><span class="k">type</span><span class="w"> </span><span class="n">Query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="c">## Retrieves all hotels</span><span class="w">
+    </span><span class="n">findAllHotels</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Hotel</span><span class="p">]</span><span class="w">
+    </span><span class="c">## Retrieves a Hotel given an ID (eg: '1, 4, 12')</span><span class="w">
+    </span><span class="n">findHotelById</span><span class="p">(</span><span class="n">id</span><span class="p">:</span><span class="w"> </span><span class="nb">ID</span><span class="p">):</span><span class="w"> </span><span class="n">Hotel</span><span class="w">
+    </span><span class="c">## Number of Hotel available</span><span class="w">
+    </span><span class="n">countHotels</span><span class="p">:</span><span class="w"> </span><span class="nb">Int</span><span class="w">
+    </span><span class="c">## Finds all payment methods</span><span class="w">
+    </span><span class="n">findAllPayments</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Payment</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>You just need to define the name of the operation with optional parameters followed by the returned type.</p>
+
+<p><em>Query</em>, <em>Mutation</em> and <em>Subscription</em> keywords are used as the root of each type of operation for the application. But it is easy to add additional operations by using the <code class="highlighter-rouge">extend</code> keyword. e.g.</p>
+
+<div class="language-graphql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">extend</span><span class="w"> </span><span class="k">type</span><span class="w"> </span><span class="n">Query</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="n">foos</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="n">Foo</span><span class="p">]!</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<blockquote>
+  <p><em>Custom types</em> are also extendible to avoid large list of fields.</p>
+</blockquote>
+
+<p>There are also other more advance elements like <code class="highlighter-rouge">interface</code>, <code class="highlighter-rouge">union</code>, <code class="highlighter-rouge">enum</code> or <code class="highlighter-rouge">scalar</code>.</p>
+
+<h3 id="how-to-create-a-graphql-spring-boot-server">How to create a GraphQL Spring Boot Server?</h3>
+
+<p>We need to:</p>
+
+<ol>
+  <li>Define GraphQL Schema.</li>
+  <li>Decide how the data for a query is fetched.</li>
+</ol>
+
+<h4 id="define-graphql-schema">Define GraphQL Schema</h4>
+
+<p>Here there is an example:</p>
+
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/9e6069efb65747a6ef9e1993dfb1733c.js?file=schema.graphql"> </script>
+
+<p>There is a <a href="https://github.com/graphql-java-kickstart/graphql-java-tools#why-graphql-java-tools">Java GraphQL tool library</a> that parses your schema to Java and configure classes for creating a GraphQLSchema.</p>
+
+<blockquote>
+  <p>By default GraphQL tools uses the location pattern <code class="highlighter-rouge">**/*.graphqls</code> to scan for GraphQL schemas on the classpath.</p>
+</blockquote>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.graphql-java<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>graphql-java-tools<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>5.2.4<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<h4 id="build-spring-boot-application">Build Spring Boot application</h4>
+
+<p>These two libraries are required to start using GraphQL with Spring, and basically there are setting up the servlet</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;properties&gt;</span>
+  <span class="nt">&lt;kotlin.version&gt;</span>1.3.10<span class="nt">&lt;/kotlin.version&gt;</span>
+<span class="nt">&lt;/properties&gt;</span>
+
+<span class="nt">&lt;dependencies&gt;</span>
+    ...
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>com.graphql-java<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>graphql-java<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>11.0<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+        <span class="nt">&lt;groupId&gt;</span>com.graphql-java<span class="nt">&lt;/groupId&gt;</span>
+        <span class="nt">&lt;artifactId&gt;</span>graphql-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+        <span class="nt">&lt;version&gt;</span>5.0.2<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+<span class="nt">&lt;/dependencies&gt;</span>
+</code></pre></div></div>
+
+<p>The first one is the GraphQL Java implementation, while the second one makes available the servlet at <code class="highlighter-rouge">/graphql</code>.</p>
+
+<blockquote>
+  <p>graphl-java-tools requires kotlin.version Kotlin 1.3.10, because Spring Boot Starter parent currently overrides it with a 1.2.* version of Kotlin. Spring Boot team has indicated the Kotlin version will be upgraded to 1.3 in Spring Boot 2.2.</p>
+</blockquote>
+
+<p>For this example we will use a MongoDB repository, since we want to use Reactive Programming to get updates on real time with GraphQL Subscription.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HotelRepository</span> <span class="kd">extends</span> <span class="n">ReactiveCrudRepository</span><span class="o">&lt;</span><span class="n">Hotel</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="nd">@Tailable</span>
+    <span class="n">Flux</span><span class="o">&lt;</span><span class="n">Hotel</span><span class="o">&gt;</span> <span class="nf">findWithTailableCursorBy</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>@Tailable is required to query capped collections in MongoDB. Capped collections will keep the curson open even after reaching the end of the collection.</p>
+</blockquote>
+
+<p>The next step is to create resolvers for each object defined in your schema. <em>Query</em>, <em>Mutation</em> and <em>Subscription</em> are root GraphQL objects, and you need to implement GraphQLQueryResolver, GraphQLMutationResolver and GraphQLSubscriptionResolver respectively so that <code class="highlighter-rouge">graphql-java-tools</code> will be able to map the GraphQL operations with the methods created in the resolvers. Here there is an example:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Query</span> <span class="kd">implements</span> <span class="n">GraphQLQueryResolver</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">HotelRepository</span> <span class="n">hotelRepository</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">PaymentRepository</span> <span class="n">paymentRepository</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Hotel</span><span class="o">&gt;</span> <span class="nf">findAllHotels</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">hotelRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">().</span><span class="na">toIterable</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Hotel</span><span class="o">&gt;</span> <span class="nf">findHotelById</span><span class="o">(</span><span class="n">String</span> <span class="n">id</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">hotelRepository</span><span class="o">.</span><span class="na">findById</span><span class="o">(</span><span class="n">id</span><span class="o">).</span><span class="na">blockOptional</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Long</span><span class="o">&gt;</span> <span class="nf">countHotels</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">hotelRepository</span><span class="o">.</span><span class="na">count</span><span class="o">().</span><span class="na">blockOptional</span><span class="o">();</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Payment</span><span class="o">&gt;</span> <span class="nf">findAllPayments</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">paymentRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">().</span><span class="na">toIterable</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><mark class="px-2">Method name and signature have to match with GraphQL the corresponding operation definition.</mark></p>
+
+<p>Additionally, you might need to create resolvers for nested fields. e.g.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span>
+<span class="nd">@RequiredArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">HotelResolver</span> <span class="kd">implements</span> <span class="n">GraphQLResolver</span><span class="o">&lt;</span><span class="n">Hotel</span><span class="o">&gt;</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">RoomRepository</span> <span class="n">roomRepository</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="n">Iterable</span><span class="o">&lt;</span><span class="n">Room</span><span class="o">&gt;</span> <span class="nf">getRoom</span><span class="o">(</span><span class="n">Hotel</span> <span class="n">hotel</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">roomRepository</span><span class="o">.</span><span class="na">findAllByHotelId</span><span class="o">(</span><span class="n">hotel</span><span class="o">.</span><span class="na">getId</span><span class="o">()).</span><span class="na">toIterable</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>In the previous example, when we retrieve hotels we might ask for rooms as well, therefore a method to retrieve rooms by hotel ID needs to be provided.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/spring-reactive-mongo-graphql">
+  Source Code
+</a>
+</p>
+
+<h4 id="graphiql-a-graphql-client">GraphiQL, a GraphQL client</h4>
+
+<p>GraphiQL is a very useful tool to explore your GraphQL schema and make requests. The most simple way to start using Graphiql is to added to your <code class="highlighter-rouge">pom.xml</code> file as a dependency.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>com.graphql-java-kickstart<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>graphiql-spring-boot-starter<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>5.7.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>By default you can hit it at <code class="highlighter-rouge">/graphiql</code>.</p>
+
+<h3 id="highlights-and-challenges">Highlights and Challenges</h3>
+
+<ul>
+  <li>
+    <p>The main benefit of using GraphQL is that you get what you ask for in a single request, whereas with REST we tend to do “overfetching” or “underfetching”.</p>
+  </li>
+  <li>
+    <p>GraphQL can also be simpler and faster, however you may face unpredictable performance when multiple fields are combined.</p>
+  </li>
+  <li>
+    <p>One of the challenges is versioning. You will have to deprecate fields and will not be able to know if a field has changed over time.</p>
+  </li>
+  <li>
+    <p>Another point against GraphQL is caching. In GraphQL, you cannot use URLs as cache identifiers, so you need to create unique keys and implement caching in your application.</p>
+  </li>
+  <li>
+    <p>There is also an extra overhead, since the server needs to do more processing to parse the query and verify parameters.</p>
+  </li>
+  <li>
+    <p>Lastly, in case of a simple API the extra complexity added by GraphQL is not worth.</p>
+  </li>
+</ul>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>GraphQL is similar to an API gateway or proxy server that sits in front of your downstream services or data sources, and just like HTTP we can use verbs to get exactly what we ask for. It is also an alternative to REST, SOAP or gRPC, but this does not mean you have to through away your current archicture, for instance you could have GraphQL on top of your REST services.</p>
+
+<p>This technology is becoming more mature and is available for multiple languages, including JavaScript, Python, Ruby, C#, Go, Scala or Java, and companies like <em>Pivotal</em> are heavily supporting <em>GraphQL</em>. In fact it was one of the topics presented in <a href="https://2019.springio.net/sessions/moving-beyond-rest-graphql-and-java-spring">Spring IO 2019</a>.</p>

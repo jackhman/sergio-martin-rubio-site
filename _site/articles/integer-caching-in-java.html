@@ -1,0 +1,39 @@
+<p><strong>Java</strong> provides some optimizations for integers, so instances of <a href="https://docs.oracle.com/javase/7/docs/api/java/lang/Integer.html">Integer</a> are cached by the JVM to increase performance.</p>
+
+<h3 id="how-it-works">How it works</h3>
+
+<p>Basically, when an Integer is initialized a cache is created if the number satisfied the range requirements. The default rage is set from -128 to 127, however, it can be tweaked by the <code class="highlighter-rouge">-XX:AutoBoxCacheMax=</code> option, so that, during VM startup, <code class="highlighter-rouge">java.lang.Integer.IntegerCache.high</code> will contain the new value and saved in the sun.misc.VM class.</p>
+
+<h3 id="example">Example</h3>
+
+<p>As an example, every time we initialize an Integer like Integer num = 127; the compiler will use the auto-boxing and convert this line to Integer num = Integer.valueOf(127);This static method will cache the value if it is between -128 and 127.</p>
+
+<blockquote>
+  <p>Note: Since Java 9, Integer(int) has been deprecated in favor of valueOf(int) in order to improve performance. The main difference is that the static method valueOf(int) will use cache, whereas the traditional Integer constructor will always get a new instance.</p>
+</blockquote>
+
+<p><em>valueOf(int): Returns an Integer instance representing the specified int value. If a new Integer instance is not required, this method should generally be used in preference to the constructor Integer(int), as this method is likely to yield significantly better space and time performance by caching frequently requested values. This method will always cache values in the range -128 to 127, inclusive, and may cache other values outside of this range.</em></p>
+
+<p>— <em>valueOf(int) <strong>javadoc</strong> in Integer class from java.lang library</em></p>
+
+<p>Therefore, next time you initialize an Integer with the same value, it will not create a new instance, instead it will return the one that has been already created. This can be simulated by running the following main method:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Integer</span> <span class="n">i1</span> <span class="o">=</span> <span class="mi">128</span><span class="o">,</span> <span class="n">i2</span> <span class="o">=</span> <span class="mi">128</span><span class="o">;</span>
+    <span class="n">Integer</span> <span class="n">i3</span> <span class="o">=</span> <span class="mi">127</span><span class="o">,</span> <span class="n">i4</span> <span class="o">=</span> <span class="mi">127</span><span class="o">;</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i1</span> <span class="o">==</span> <span class="n">i2</span><span class="o">);</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">i3</span> <span class="o">==</span> <span class="n">i4</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>output:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">false
+true</span>
+</code></pre></div></div>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Small integer values occur much more often than big values and therefore it makes sense to avoid the overhead of having different objects for every instance (an <code class="highlighter-rouge">Integer</code> object consumes 12 bytes of memory), so always avoid the use of the Integer constructor (<code class="highlighter-rouge">new Integer(int)</code>), which has been deprecated since <strong>Java 9</strong>.</p>
+
+<p>Finally, this feature it not exclusive of <code class="highlighter-rouge">Integer</code>, other classes like <code class="highlighter-rouge">Byte</code>, <code class="highlighter-rouge">Short</code>, <code class="highlighter-rouge">Long</code>, <code class="highlighter-rouge">Character</code> are also using cache to improve performance.</p>

@@ -1,0 +1,207 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#main-concepts">
+Main Concepts</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#lifecycle">
+Lifecycle</a>
+    
+  
+
+</div>
+
+<h3 id="introduction">Introduction</h3>
+
+<p><strong>Bean</strong> is one of the angular stones in the <strong>Spring Framework</strong>, and it is very important to know how it works. However, the concept of <em>bean</em> it is not very clear and the <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans-introduction">Bean definition given by the official Spring documentation</a> is not easy to understand.</p>
+
+<blockquote>
+  <p>In Spring, the <strong>objects</strong> that form the backbone of your application and that are <strong>managed by the Spring IoC container</strong> are called beans. <strong>A bean is an object that is instantiated, assembled, and otherwise managed by a Spring IoC container</strong>. Otherwise, <strong>a bean is simply one of many objects in your application</strong>. Beans, and the dependencies among them, are reflected in the configuration metadata used by a container.</p>
+</blockquote>
+
+<p><mark class="px-2">Roughly, we can say that a Bean is simply an object with a concrete life cycle managed by the Spring Framework.</mark></p>
+
+<p>This definition might seem a little bit abstract, but do not worry we will go into more in depth shortly.</p>
+
+<p>Moreover, I would like to answer some <a href="https://howtodoinjava.com/interview-questions/top-spring-interview-questions-with-answers/#ioc_in_spring">frequest Spring interview questions</a> like:</p>
+
+<ul>
+  <li>Explain IoC in Spring Framework?</li>
+  <li>Explain Dependency Injection in Spring?</li>
+  <li>What are different Bean scopes in Spring?</li>
+  <li>Can you explain Bean life cycle in Spring Bean Factory Container?</li>
+</ul>
+
+<h3 id="main-concepts">Main Concepts</h3>
+
+<h4 id="spring-ioc">Spring IoC</h4>
+
+<p>According to the Spring definition of <strong>Bean</strong>, this special object is managed by the Spring IoC container, which is represented in your application by <code class="highlighter-rouge">org.springframework.context.ApplicationContext</code>, and this container is responsible for the initiliazation, configuration and assembly. But we will not have to worry about enriching (add metadata) your bean, since it is done by the framework by using XML config files, annotations or Java code.</p>
+
+<p>A Spring IoC container can manage one or more beans and once all the beans are loaded in this container, you can retrieve instances of your beans through the <code class="highlighter-rouge">ApplicationContext</code> (<code class="highlighter-rouge">getBean()</code>).</p>
+
+<h4 id="dependency-injection">Dependency Injection</h4>
+
+<p>The definition of DI given by Spring is very straightforward, and simply says that DI is the process of defining objects with their dependencies, that are set on the object instance through a constructor or setters.</p>
+
+<p><strong>DI</strong> is used by the <strong>IoC container</strong>, which injects the dependencies when the bean is created. Therefore, it is not the bean, it is the container the one reposible for injecting the dependencie. The Bean does not need to know anything about the instantiation and location of the dependencies, and that is why it is called Inversion of Control.</p>
+
+<h4 id="bean-scopes">Bean Scopes</h4>
+
+<p>All the beans are not the same, and <em>Spring</em> provides a few different recipes to modify the scope. In total there are six scopes:</p>
+<ul>
+  <li><strong><em>singleton</em></strong> (default): creates one instance for each <strong>IoC container</strong> (<code class="highlighter-rouge">ApplicationContext</code>).</li>
+  <li><strong><em>prototype</em></strong>: a new instance is created every time the bean is called.</li>
+  <li><strong><em>request</em></strong>: creates a single instance per HTTP request.</li>
+  <li><strong><em>session</em></strong>: one instance for each web session.</li>
+  <li><strong><em>application</em></strong>: only one instance per <code class="highlighter-rouge">ServletContext</code>.</li>
+  <li><em><strong>websocket</strong></em>: it is tight to the websocket lifecycle.</li>
+</ul>
+
+<blockquote>
+  <p>Do not confuse <em>Bean</em> with scope singleton with the <a href="http://sergiomartinrubio.com/articles/creational-patterns-features#singleton-pattern">Singleton Design Pattern</a>. The latter creates an instance per <code class="highlighter-rouge">ClassLoader</code>, wherease the singleton Bean creates a bean per Spring container.</p>
+</blockquote>
+
+<blockquote>
+  <p>When using singleton Bean which contains beans with different lifecycles, remember that injection only happens once. We can use beans with different scopes by using <code class="highlighter-rouge">proxyMode = ScopedProxyMode.TARGET_CLASS</code> in the <code class="highlighter-rouge">@Scope</code> annotation.</p>
+</blockquote>
+
+<h3 id="lifecycle">Lifecycle</h3>
+
+<h4 id="spring-bean-creation-lifecycle">Spring Bean Creation Lifecycle</h4>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/nh9SbACTD7OEgewuv7DNNGRDlut2R6KZYVDgK5oouzwYAkchtR9VolnRvVmfbBhqV0SXwC_F0ywT-2cZJanHHs9YtIGZePd2k-vQ05wq_Qw0Jg4t6ony2tOLlv19grC5Z1290qCBDA=w300" class="figure-img img-fluid rounded" alt="Spring Bean Creation Lifecycle" />
+  
+    <figcaption class="figure-caption text-center">Spring Bean Creation Lifecycle</figcaption>
+  
+</figure>
+
+<ol>
+  <li>Instanciate Bean</li>
+  <li><strong>Spring IoC container add metadata to the bean</strong></li>
+  <li>If <code class="highlighter-rouge">BeanNameAware</code> is implemented, Spring will set the name pass as parameter in <code class="highlighter-rouge">setBeanName()</code>.</li>
+  <li>If <code class="highlighter-rouge">BeanFactoryAware</code> is implemented, Spring will call <code class="highlighter-rouge">setBeanFactory()</code>.</li>
+  <li>If <code class="highlighter-rouge">ApplicationContextAware</code> is implemented, Spring will pass a reference to the <code class="highlighter-rouge">ApplicationContext</code> in <code class="highlighter-rouge">setApplicationContext()</code> method.</li>
+  <li>If <code class="highlighter-rouge">BeanPostProcessor</code> is implemented, it will run <code class="highlighter-rouge">ProcessBeforeInitialization()</code> method.</li>
+  <li>If <code class="highlighter-rouge">@PostConstruct</code> is used, <code class="highlighter-rouge">InitializingBean</code> is implemented, or <code class="highlighter-rouge">init()</code> is implicitly called, Spring calls <code class="highlighter-rouge">afterPropertiesSet()</code> method.</li>
+  <li>If <code class="highlighter-rouge">BeanPostProcessor</code> is implemented, Spring will run <code class="highlighter-rouge">postProcessAfterInitialization()</code> method.</li>
+  <li>The bean now can be used and remains in the application context until it is destroyed.</li>
+</ol>
+
+<h4 id="spring-bean-destruction-lifecycle">Spring Bean Destruction Lifecycle</h4>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/_zltXkTlijU1wZpQL5WvH1r82nMEmekAavT3O_nPC1xBVaoxv-hQmcv3fxeiBW7HLArDWfTK5CQqVeXQNiqDeWFVU2chCbhnbL2uggQsjZgiTueQDJRRU2d_WBL4wDuPQcaPxTvHXA=w300" class="figure-img img-fluid rounded" alt="Spring Bean Destruction Lifecycle" />
+  
+    <figcaption class="figure-caption text-center">Spring Bean Destruction Lifecycle</figcaption>
+  
+</figure>
+
+<ol>
+  <li><strong>Spring IoC container is shutdown</strong>.</li>
+  <li>If <code class="highlighter-rouge">@PreDestroy</code> is used, <code class="highlighter-rouge">DisposableBean</code> is implemented, or <code class="highlighter-rouge">destroy()</code> method is implicitly called, Spring will run <code class="highlighter-rouge">destroy()</code> method.</li>
+</ol>
+
+<h4 id="lifecycle-callbacks">Lifecycle Callbacks</h4>
+
+<p>Spring recommend us to use <code class="highlighter-rouge">@PostConstruct</code> and <code class="highlighter-rouge">@PreDestroy</code> annotations to perform work during bean initialization and bean destruction.</p>
+
+<blockquote>
+  <p>In case of <strong>XML</strong> configuration we can use the <em>init-method</em> or <em>destroy-method</em> attributes.</p>
+</blockquote>
+
+<p>In the following <strong>Bean</strong> declaration we are combining <strong>Lifecycle</strong> mechanisms, and they will be called in a particular order.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleBean</span> <span class="kd">implements</span> <span class="n">InitializingBean</span><span class="o">,</span> <span class="n">DisposableBean</span> <span class="o">{</span>
+
+    <span class="nd">@PostConstruct</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">callbackInitMethod</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Call init method from Annotation"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@PreDestroy</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">callbackDestroyMethod</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Call destroy method from Annotation"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Not recommended! It couples the code to Spring.</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterPropertiesSet</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Call init method from afterPropertiesSet"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="c1">// Not recommended! It couples the code to Spring.</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">destroy</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Call destroy method from destroy implementation"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>When running the application we can see when these methods are called.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>2019-04-16 18:07:16.638  INFO 25181 <span class="nt">---</span> <span class="o">[</span>           main] c.s.s.SpringBeanLifecycleApplication     : Starting SpringBeanLifecycleApplication on LONC02WW2Q9JG5L with PID 25181
+2019-04-16 18:07:16.640  INFO 25181 <span class="nt">---</span> <span class="o">[</span>           main] c.s.s.SpringBeanLifecycleApplication     : No active profile <span class="nb">set</span>, falling back to default profiles: default
+Call init method from Annotation
+Call init method from afterPropertiesSet
+2019-04-16 18:07:16.925  INFO 25181 <span class="nt">---</span> <span class="o">[</span>           main] c.s.s.SpringBeanLifecycleApplication     : Started SpringBeanLifecycleApplication <span class="k">in </span>0.453 seconds <span class="o">(</span>JVM running <span class="k">for </span>0.845<span class="o">)</span>
+Call destroy method from Annotation
+Call destroy method from destroy
+</code></pre></div></div>
+
+<p>As we showed before, annotations are executed first, and then, overriden methods.</p>
+
+<p>Spring also provides <strong>startup and shutdown callbacks</strong> and we can use them b just implementing the <code class="highlighter-rouge">Lifecycle</code> interface. Additionally, we can implement <code class="highlighter-rouge">LifecycleProcessor</code> to <strong>react when the context changes</strong> (<code class="highlighter-rouge">onRefresh()</code>, <code class="highlighter-rouge">onClose()</code>). In case we need a <strong>fine-grained control over the startup</strong> of a bean we can implement <code class="highlighter-rouge">SmartLifecycle</code>, so we can specify when the bean <strong>should</strong> start and stop. The default value returned by <code class="highlighter-rouge">getPhase()</code> is 2147483647 (<code class="highlighter-rouge">Integer.MAX_VALUE</code>), which means last to start and first to stop. If <code class="highlighter-rouge">getPhase()</code> method is overriden, and returns <code class="highlighter-rouge">Integer.MIN_VALUE</code>, the <strong>Bean</strong> will be among the first to start and the last to stop.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Component</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ExampleBean</span> <span class="kd">implements</span> <span class="n">Lifecycle</span><span class="o">,</span> <span class="n">LifecycleProcessor</span><span class="o">,</span> <span class="n">SmartLifecycle</span> <span class="o">{</span>
+    
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">start</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Bean is starting"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">stop</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Bean is stopping"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">boolean</span> <span class="nf">isRunning</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onRefresh</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Context is refreshed"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onClose</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Context is closed"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getPhase</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Integer</span><span class="o">.</span><span class="na">MIN_VALUE</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Finally, <strong>Spring</strong> also provides a wide range of <strong>Aware Interfaces</strong> that let you indicate extra work that needs to be done during the <strong>Bean lifecycle</strong>. The <strong>most important Aware interfaces</strong> are: <code class="highlighter-rouge">ApplicationContextAware</code>, <code class="highlighter-rouge">ApplicationEventPublisherAware</code>, <code class="highlighter-rouge">BeanClassLoaderAware</code>, <code class="highlighter-rouge">BeanFactoryAware</code>, <code class="highlighter-rouge">BeanNameAware</code>, <code class="highlighter-rouge">BootstrapContextAware</code>, <code class="highlighter-rouge">LoadTimeWeaverAware</code>, <code class="highlighter-rouge">MessageSourceAware</code>, <code class="highlighter-rouge">NotificationPublisherAware</code>, <code class="highlighter-rouge">ResourceLoaderAware</code>, <code class="highlighter-rouge">ServletConfigAware</code>, <code class="highlighter-rouge">ServletContextAware</code>.</p>
+
+<p>Further <a href="https://docs.spring.io/spring/docs/current/spring-framework-reference/core.html#beans">documentation about Spring Lifecycle</a> is avaialable at the official site.</p>

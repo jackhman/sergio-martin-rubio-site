@@ -1,0 +1,136 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#structural-patterns-features">Structural Patterns Features</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#observer-pattern">
+Observer Pattern</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#command-pattern">
+Command Pattern</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#strategy-pattern">
+Strategy Pattern</a>
+    
+  
+
+</div>
+
+<h3 id="structural-patterns-features">Structural Patterns Features</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Intent</th>
+      <th>Motivation</th>
+      <th>Applicability</th>
+      <th>Consequences</th>
+      <th>Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Observer</strong></td>
+      <td>It Notifies a set of listeners when there is a change in a particular place of the system</td>
+      <td>It used when changes frequently happen and one or more than one objects need to be notified</td>
+      <td>This pattern is used to reflect changes in an object where there are changes in another object, without having these two object coupled. This pattern allows us to add additional observers in the future with minimal changes</td>
+      <td>If we have many observers and observables, the communication between them can become complex</td>
+      <td>An Observable object needs to be created and then the observers subscribe to the observable. Each time the observable state changes, attached observers are notified</td>
+    </tr>
+    <tr>
+      <td><strong>Command</strong></td>
+      <td>The Command Pattern allows you to create a set of behaviours for a particular subject</td>
+      <td>It used to queue commands and keep a history of them to do and undo actions</td>
+      <td>Do and undo actions; Transactional behaviours; Store action to be execute later;To create configuration input</td>
+      <td>It allows you to decouple the object that invokes the action from the object that performs the action. Make sure that the invoker in only aware of command class</td>
+      <td>The client will ask for a command to be executed and there is an invoker which takes the command and put it in a queue, and finally when the command is executed by a concrete command implementation, the result is sent to a Receiver.</td>
+    </tr>
+    <tr>
+      <td><strong>Strategy</strong></td>
+      <td>Defines a family of behaviors which are interchangeable</td>
+      <td>The strategy pattern allows you to change at runtime the way an object works. Therefore, instead of having multiple instances, there will be only one that is able to interchange different behaviors, and the only requirement for these strategies or behaviors is having a common interface required by the context object</td>
+      <td>This pattern can be used to apply different mathematical operation on the fly by using the same instance of the context</td>
+      <td>It changes the behavior of an object on the fly, and satisfies Open-Closed SOLID principle and allows you to program by interface, and not by implementation. This means that the context is not tightly coupled to classes and can receive any object that implements a particular interface</td>
+      <td>Each strategy must implement the same interface required by the context. The context injects a Strategy interface so it will contain a reference to a concrete strategy and by doing this the client can inject different concrete strategies at runtime. It is very important that the client understands the strategies available. It is also possible that some fields may not be used by the concrete strategy</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="observer-pattern">Observer Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/obfvPJdabip5sx9d-P3SvrPZiZmdgX_wcIm1r9Xuyj29gGB6E3HthjAAEqwQrGvh92Da5wS2htC23uH3vM6E_lwAYwfLfvH9lJuxHt_HpDuvT1KNeu3MxM91Md0OtNPQexzrfFZQNQ=w2400" class="figure-img img-fluid rounded" alt="Observer Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Observer Pattern - UML</figcaption>
+  
+</figure>
+
+<h4 id="use-cases">Use Cases</h4>
+
+<ul>
+  <li>MVC: the Observer Pattern is used in the Model View Controller architecture. This pattern is used to separate the model from the view, where the view is the observer and the model is the observable.</li>
+  <li>UI: Swing or Android Listeners make extensively use of this pattern in order to get events and display changes.</li>
+</ul>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-observer-pattern">
+  Source Code
+</a>
+</p>
+
+<h3 id="command-pattern">Command Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/JJ1ZiakDWMEFaipz1uV9HT30a8psUDEnM4X84v0_uqRPqz_sQYyVhXY2tq5T2BbKaGIr6-0mizA3XKhBsr6gu8mGZJp_wsxWRXr6qYVWkM2zmtTCl1R2ccSGYDC8klByVYpMqvvXiA=w2400" class="figure-img img-fluid rounded" alt="Command Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Command Pattern - UML</figcaption>
+  
+</figure>
+
+<h4 id="use-cases-1">Use Cases</h4>
+
+<ul>
+  <li>Undo and redo actions, since it keeps a history of commands and we can go back and forward as many times as we want.</li>
+</ul>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-command-pattern">
+  Source Code
+</a>
+</p>
+
+<h3 id="strategy-pattern">Strategy Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/Df1Mtbk97ZIaV3yjQFscOnOn9Pcfl74gUnbCG7fxyrQPVHPN27dn6OW_naO8QuI75zxq3xz6dH4rGxZ9iVmzxv7302NQwT3LsnEJ0yBcQyT-cFt4jaQCdX9DKWye-2v3HPxkZ_hnuQ=w2400" class="figure-img img-fluid rounded" alt="Strategy Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Strategy Pattern - UML</figcaption>
+  
+</figure>
+
+<h4 id="use-cases-2">Use Cases</h4>
+
+<ul>
+  <li>Apply different kind of encryption.</li>
+  <li>Multiple data compression formats.</li>
+  <li>Custom sorting strategies.</li>
+</ul>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-strategy-pattern">
+  Source Code
+</a>
+</p>

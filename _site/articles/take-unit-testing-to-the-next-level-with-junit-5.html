@@ -1,0 +1,421 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#migrating-from-junit-4">Migrating from JUnit 4</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#new-junit-5-features">
+New JUnit 5 Features</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<p><strong>JUnit</strong> is the most popular testing framework in Java, and with <a href="https://junit.org/junit5/"><strong>JUnit 5</strong></a> testing in <strong>Java 8</strong> and beyond takes another step forward. This version was release in September 2017 and has been actively updated to fix bugs and add new features. Moreover, JUnit 5 is also compatible with version 3 and 4 by adding <a href="https://mvnrepository.com/artifact/org.junit.vintage/junit-vintage-engine"><code class="highlighter-rouge">junit-vintage-engine</code></a> to your classpath path.</p>
+
+<h3 id="migrating-from-junit-4">Migrating from JUnit 4</h3>
+
+<p>When <a href="https://junit.org/junit5/docs/current/user-guide/#migrating-from-junit4">migrating from JUnit 4</a> there are a few considerations to bear in mind:</p>
+
+<ul>
+  <li>To have <strong>JUnit 5</strong> annotations you need to add to your pom file:</li>
+</ul>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.junit.jupiter<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>junit-jupiter<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>${junit.jupiter.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Replace <code class="highlighter-rouge">@BeforeClass</code>, <code class="highlighter-rouge">@Before</code>, <code class="highlighter-rouge">@AfterClass</code> and <code class="highlighter-rouge">@After</code> annotations with <code class="highlighter-rouge">@BeforeAll</code>, <code class="highlighter-rouge">@BeforeEach</code>, <code class="highlighter-rouge">@AfterAll</code> and <code class="highlighter-rouge">@AfterEach</code> alternatively.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@BeforeAll</span>
+<span class="kd">static</span> <span class="kt">void</span> <span class="nf">initAll</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"@BeforeAll runs once before all tests"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@BeforeEach</span>
+<span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"@BeforeEach runs before each test"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@AfterAll</span>
+<span class="kd">static</span> <span class="kt">void</span> <span class="nf">tearDownAll</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"@AfterAll runs once after all tests"</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="nd">@AfterEach</span>
+<span class="kt">void</span> <span class="nf">tearDown</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"@AfterEach runs after each test"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>Replace <code class="highlighter-rouge">@Ignore</code> with <code class="highlighter-rouge">@Disabled</code>. JUnit 5 also provides a more powerful filter in order to ignore or disable tests by JavaScript expressions, OS, Java version or system properties</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="nd">@Disabled</span><span class="o">(</span><span class="s">"Disabled test (it used to be @Ignore in jUnit4)"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">skippedTest</span><span class="o">()</span> <span class="o">{</span>
+    <span class="c1">// not executed</span>
+<span class="o">}</span>
+
+<span class="nd">@Test</span>
+<span class="nd">@EnabledIf</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="s">"true"</span><span class="o">,</span> <span class="n">reason</span> <span class="o">=</span> <span class="s">"test runs because is true"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">isExecuted</span><span class="o">()</span> <span class="o">{</span>
+<span class="o">}</span>
+
+<span class="nd">@DisabledIf</span><span class="o">(</span><span class="s">"Math.random() &lt; 0.5"</span><span class="o">)</span>
+<span class="nd">@RepeatedTest</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">sometimesIsExecuted</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Running "</span> <span class="o">+</span> <span class="n">counter</span><span class="o">++);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">@Category</code> need to be replaced with <code class="highlighter-rouge">@Tag</code>.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Tag</span><span class="o">(</span><span class="s">"myTestSuite"</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">TagsTests</span> <span class="o">{</span>
+
+    <span class="nd">@Test</span>
+    <span class="nd">@Tag</span><span class="o">(</span><span class="s">"myTest"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">tagExample</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">@RunWith</code> does not exist anymore, use <code class="highlighter-rouge">@ExtendWith</code> instead.</li>
+  <li><code class="highlighter-rouge">@Rule</code> and <code class="highlighter-rouge">@ClassRule</code> were also removed, use <code class="highlighter-rouge">@ExtendWith</code> instead.</li>
+</ul>
+
+<h3 id="new-junit-5-features">New JUnit 5 Features</h3>
+
+<h4 id="displayname">@DisplayName</h4>
+
+<p><code class="highlighter-rouge">@DisplayName</code> allows you to override a test class or method with a custom message, special characters or even Emojis (😄).</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Display name test suite"</span><span class="o">)</span>
+<span class="kd">class</span> <span class="nc">DisplayNamesTests</span> <span class="o">{</span>
+    <span class="nd">@Test</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"My Custom Test Name"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">displayNameTest</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+    <span class="nd">@Test</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"\uD83D\uDE03"</span><span class="o">)</span> <span class="c1">// Happy Emoji</span>
+    <span class="kt">void</span> <span class="nf">displayEmojiTest</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="assertions">Assertions</h4>
+
+<p>Assertions include four new improvements:</p>
+
+<ol>
+  <li>Compatibility with lambda expression.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">assertEquals</span><span class="o">(</span>
+        <span class="n">Stream</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">5</span><span class="o">).</span><span class="na">mapToInt</span><span class="o">(</span><span class="nl">Integer:</span><span class="o">:</span><span class="n">intValue</span><span class="o">).</span><span class="na">sum</span><span class="o">(),</span>
+        <span class="mi">10</span><span class="o">,</span>
+        <span class="s">"Sum should be 10"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Group assertions.</li>
+</ol>
+
+<ul>
+  <li><strong>assertAll()</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">names</span> <span class="o">=</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"Sergio"</span><span class="o">,</span> <span class="s">"Juan"</span><span class="o">,</span> <span class="s">"Adolfo"</span><span class="o">);</span>
+<span class="n">assertAll</span><span class="o">(</span><span class="s">"names"</span><span class="o">,</span>
+        <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertEquals</span><span class="o">(</span><span class="s">"Sergio"</span><span class="o">,</span> <span class="n">names</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">0</span><span class="o">)),</span>
+        <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertEquals</span><span class="o">(</span><span class="s">"Juan"</span><span class="o">,</span> <span class="n">names</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">1</span><span class="o">)),</span>
+        <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertEquals</span><span class="o">(</span><span class="s">"Adolfo"</span><span class="o">,</span> <span class="n">names</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="mi">2</span><span class="o">)));</span>
+</code></pre></div></div>
+
+<ol>
+  <li>More control over exceptions. Now you can even inspect the returning exception to verify message, cause, stacktrace…</li>
+</ol>
+
+<ul>
+  <li><strong>assertThrows()</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Throwable</span> <span class="n">runtimeException</span> <span class="o">=</span> <span class="n">assertThrows</span><span class="o">(</span><span class="n">RuntimeException</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"exception"</span><span class="o">);</span>
+<span class="o">});</span>
+<span class="n">assertEquals</span><span class="o">(</span><span class="s">"exception"</span><span class="o">,</span> <span class="n">runtimeException</span><span class="o">.</span><span class="na">getMessage</span><span class="o">());</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Timeout assertions:</li>
+</ol>
+
+<ul>
+  <li><strong>assertTimeout()</strong></li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">timeoutNotExceeded</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertTimeout</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofMinutes</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Hello"</span><span class="o">));</span>
+<span class="o">}</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">timeoutNotExceededWithResult</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">result</span>  <span class="o">=</span> <span class="n">assertTimeout</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofMinutes</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="s">"hello"</span><span class="o">);</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"hello"</span><span class="o">,</span> <span class="n">result</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="nd">@Test</span>
+<span class="nd">@Disabled</span><span class="o">(</span><span class="s">"Assertion fails with exceeded timeout of 2ms by 8ms"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">timeoutExceeded</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assertTimeout</span><span class="o">(</span><span class="n">Duration</span><span class="o">.</span><span class="na">ofMillis</span><span class="o">(</span><span class="mi">2</span><span class="o">),</span> <span class="o">()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+        <span class="n">sleep</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+    <span class="o">});</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="assumptions">Assumptions</h4>
+
+<ul>
+  <li><code class="highlighter-rouge">assumeTrue()</code></li>
+  <li><code class="highlighter-rouge">assumeFalse()</code></li>
+  <li><code class="highlighter-rouge">assumingThat()</code></li>
+</ul>
+
+<p>Assumptions are preconditions that need to be satisfied to run subsequent assertions. If the assumption fails TestAbortedException is thrown and the complete test is skipped.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">trueAssumption</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assumeTrue</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">falseAssumption</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">assumeFalse</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">assumptionThat</span><span class="o">()</span> <span class="o">{</span>
+    <span class="n">String</span> <span class="n">word</span> <span class="o">=</span> <span class="s">"word"</span><span class="o">;</span>
+    <span class="n">assumingThat</span><span class="o">(</span>
+            <span class="s">"word"</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="n">word</span><span class="o">),</span>
+            <span class="o">()</span> <span class="o">-&gt;</span> <span class="n">assertEquals</span><span class="o">(</span><span class="mi">3</span><span class="o">,</span> <span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="o">)</span>
+    <span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="nested">@Nested</h4>
+
+<p><code class="highlighter-rouge">@Nested</code> gives your more freedom to create groups of related test in the same test suite.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">NestedTests</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="n">strings</span><span class="o">;</span>
+    <span class="nd">@Nested</span>
+    <span class="kd">class</span> <span class="nc">listIsInstantiated</span> <span class="o">{</span>
+        <span class="nd">@BeforeEach</span>
+        <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">strings</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;();</span>
+        <span class="o">}</span>
+        <span class="nd">@Test</span>
+        <span class="kt">void</span> <span class="nf">listIsEmpty</span><span class="o">()</span> <span class="o">{</span>
+            <span class="n">assertTrue</span><span class="o">(</span><span class="n">strings</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="nd">@Nested</span>
+        <span class="kd">class</span> <span class="nc">afterAddingString</span> <span class="o">{</span>
+            <span class="nd">@BeforeEach</span>
+            <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">strings</span><span class="o">.</span><span class="na">add</span><span class="o">(</span><span class="s">"hello"</span><span class="o">);</span>
+            <span class="o">}</span>
+            <span class="nd">@Test</span>
+            <span class="kt">void</span> <span class="nf">listIsNotEmpty</span><span class="o">()</span> <span class="o">{</span>
+                <span class="n">assertFalse</span><span class="o">(</span><span class="n">strings</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">());</span>
+            <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: <code class="highlighter-rouge">@BeforeAll</code> and <code class="highlighter-rouge">@AfterAll</code> are only allow if the test class is annotated with <code class="highlighter-rouge">@TestInstance(Lifecycle.PER_CLASS)</code>.” %}</p>
+</blockquote>
+
+<h4 id="dependency-injection">Dependency Injection</h4>
+
+<p><strong>JUnit 5</strong> allows to add parameters in constructors and test methods. Therefore, now constructors and methods annotated with <code class="highlighter-rouge">@Test</code>, <code class="highlighter-rouge">@TestFactory</code>, <code class="highlighter-rouge">@BeforeEach</code>, <code class="highlighter-rouge">@AfterEach</code>, <code class="highlighter-rouge">@BeforeAll</code>, <code class="highlighter-rouge">@AfterAll</code> accept parameters.</p>
+
+<p>There are three kind of allowed parameters:</p>
+
+<ul>
+  <li><strong>TestInfo</strong>: allows you to get information related to a test suite or test method such as display name, tags, test class…</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">DependencyInjectionTests</span><span class="o">(</span><span class="n">TestInfo</span> <span class="n">testInfo</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="s">"Dependency Injection Test Suite"</span><span class="o">,</span> <span class="n">testInfo</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">());</span>
+<span class="o">}</span>
+<span class="nd">@Nested</span>
+<span class="kd">class</span> <span class="nc">testInfoExamples</span> <span class="o">{</span>
+    <span class="nd">@BeforeEach</span>
+    <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="n">TestInfo</span> <span class="n">testInfo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">String</span> <span class="n">displayName</span> <span class="o">=</span> <span class="n">testInfo</span><span class="o">.</span><span class="na">getDisplayName</span><span class="o">();</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">displayName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"Test Example"</span><span class="o">)</span> <span class="o">||</span> <span class="n">displayName</span><span class="o">.</span><span class="na">equals</span><span class="o">(</span><span class="s">"myTest()"</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="nd">@Test</span>
+    <span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"Test Example"</span><span class="o">)</span>
+    <span class="nd">@Tag</span><span class="o">(</span><span class="s">"my-tag"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">test</span><span class="o">(</span><span class="n">TestInfo</span> <span class="n">testInfo</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">testInfo</span><span class="o">.</span><span class="na">getTags</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="s">"my-tag"</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">myTest</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>TestReporter</strong>: is used to print test information to stout or stderr.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">testReporterString</span><span class="o">(</span><span class="n">TestReporter</span> <span class="n">testReporter</span><span class="o">)</span> <span class="o">{</span>
+    <span class="c1">// Use test reporter to print information to stout or stderr</span>
+    <span class="n">testReporter</span><span class="o">.</span><span class="na">publishEntry</span><span class="o">(</span><span class="s">"my message"</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">testReporterKeyValue</span><span class="o">(</span><span class="n">TestReporter</span> <span class="n">testReporter</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">testReporter</span><span class="o">.</span><span class="na">publishEntry</span><span class="o">(</span><span class="s">"myKey"</span><span class="o">,</span> <span class="s">"myValue"</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="nd">@Test</span>
+<span class="kt">void</span> <span class="nf">testReporterMap</span><span class="o">(</span><span class="n">TestReporter</span> <span class="n">testReporter</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Map</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">myMap</span> <span class="o">=</span> <span class="k">new</span> <span class="n">HashMap</span><span class="o">&lt;&gt;();</span>
+    <span class="n">myMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="s">"myKey"</span><span class="o">,</span> <span class="s">"myValue"</span><span class="o">);</span>
+    <span class="n">testReporter</span><span class="o">.</span><span class="na">publishEntry</span><span class="o">(</span><span class="n">myMap</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>RepetitionInfo</strong>: can be used only on test annotated with @RepeatedTest and provides information regarding current repetition number or total of repetitions.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">int</span> <span class="n">repetition</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+<span class="nd">@RepeatedTest</span><span class="o">(</span><span class="mi">10</span><span class="o">)</span>
+<span class="nd">@DisplayName</span><span class="o">(</span><span class="s">"repetition"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">repetitionTest</span><span class="o">(</span><span class="n">RepetitionInfo</span> <span class="n">repetitionInfo</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="n">repetition</span><span class="o">++,</span> <span class="n">repetitionInfo</span><span class="o">.</span><span class="na">getCurrentRepetition</span><span class="o">());</span>
+    <span class="n">assertEquals</span><span class="o">(</span><span class="mi">10</span><span class="o">,</span> <span class="n">repetitionInfo</span><span class="o">.</span><span class="na">getTotalRepetitions</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="interfaces-and-default-methods">Interfaces and Default methods</h4>
+
+<p>Interfaces create contracts to implement in your test suites. Methods declared as default in an interface will always run in a test suite.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@TestInstance</span><span class="o">(</span><span class="n">TestInstance</span><span class="o">.</span><span class="na">Lifecycle</span><span class="o">.</span><span class="na">PER_CLASS</span><span class="o">)</span>
+<span class="kd">interface</span> <span class="nc">Interfaces</span> <span class="o">{</span>
+    <span class="nd">@BeforeAll</span>
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">initAll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"@BeforeAll runs once before all tests"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@BeforeEach</span>
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"@BeforeEach runs before each test"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@AfterAll</span>
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">tearDownAll</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"@AfterAll runs once after all tests"</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@AfterEach</span>
+    <span class="k">default</span> <span class="kt">void</span> <span class="nf">tearDown</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"@AfterEach runs after each test"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+<span class="kd">class</span> <span class="nc">ClassImplementingInterfaceTests</span> <span class="kd">implements</span> <span class="n">Interfaces</span> <span class="o">{</span>
+    <span class="nd">@Test</span>
+    <span class="kt">void</span> <span class="nf">myTest</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: <code class="highlighter-rouge">@TestInstance(TestInstance.Lifecycle.PER_CLASS)</code> is required to make <code class="highlighter-rouge">@BeforeAll</code> and <code class="highlighter-rouge">@AfterAll</code> work.</p>
+</blockquote>
+
+<h4 id="repeatedtest">@RepeatedTest</h4>
+
+<p><code class="highlighter-rouge">@RepeatedTest</code> allows you to repeat a test as many times as you want by passing the number of desire repetitions to the annotation.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RepeatedTest</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="mi">10</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"{displayName} {currentRepetition}/{totalRepetitions}"</span><span class="o">)</span>
+<span class="kt">void</span> <span class="nf">repetitionTest</span><span class="o">()</span> <span class="o">{</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="parameterizedtest">@ParameterizedTest</h4>
+
+<p>When using <code class="highlighter-rouge">@ParameterizedTest</code> annotation in combination with</p>
+
+<ul>
+  <li><code class="highlighter-rouge">@ValueSource</code></li>
+  <li><code class="highlighter-rouge">@EnumSource</code></li>
+  <li><code class="highlighter-rouge">@MethodSource</code></li>
+  <li><code class="highlighter-rouge">@CsvSource</code></li>
+  <li><code class="highlighter-rouge">@CsvFileSource</code></li>
+  <li><code class="highlighter-rouge">@ArgumentsSource</code>
+you can run a test multiple times with different inputs each time.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">ParameterizedTests</span> <span class="o">{</span>
+    <span class="kd">enum</span> <span class="n">MyEnum</span> <span class="o">{</span><span class="n">RED</span><span class="o">,</span> <span class="n">GREEN</span><span class="o">,</span> <span class="n">BLACK</span><span class="o">}</span>
+    <span class="nd">@ParameterizedTest</span>
+    <span class="nd">@ValueSource</span><span class="o">(</span><span class="n">ints</span> <span class="o">=</span> <span class="o">{</span><span class="mi">2</span><span class="o">,</span> <span class="mi">4</span><span class="o">,</span> <span class="mi">8</span><span class="o">})</span>
+    <span class="kt">void</span> <span class="nf">integerParameters</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="mi">0</span><span class="o">,</span> <span class="n">value</span> <span class="o">%</span> <span class="mi">2</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@ParameterizedTest</span>
+    <span class="nd">@EnumSource</span><span class="o">(</span><span class="n">value</span> <span class="o">=</span> <span class="n">MyEnum</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">names</span> <span class="o">=</span> <span class="o">{</span><span class="s">"RED"</span><span class="o">,</span> <span class="s">"GREEN"</span><span class="o">})</span>
+    <span class="kt">void</span> <span class="nf">integerParameters</span><span class="o">(</span><span class="n">MyEnum</span> <span class="n">myEnum</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">EnumSet</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="n">MyEnum</span><span class="o">.</span><span class="na">RED</span><span class="o">,</span> <span class="n">MyEnum</span><span class="o">.</span><span class="na">GREEN</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="n">myEnum</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="nd">@ParameterizedTest</span>
+    <span class="nd">@MethodSource</span><span class="o">(</span><span class="s">"myStrings"</span><span class="o">)</span>
+    <span class="kt">void</span> <span class="nf">methodSourceProvider</span><span class="o">(</span><span class="n">String</span> <span class="n">string</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">assertTrue</span><span class="o">(</span><span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"hello"</span><span class="o">,</span> <span class="s">"world"</span><span class="o">).</span><span class="na">contains</span><span class="o">(</span><span class="n">string</span><span class="o">));</span>
+    <span class="o">}</span>
+    <span class="kd">static</span> <span class="n">List</span><span class="o">&lt;</span><span class="n">String</span><span class="o">&gt;</span> <span class="nf">myStrings</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">Arrays</span><span class="o">.</span><span class="na">asList</span><span class="o">(</span><span class="s">"hello"</span><span class="o">,</span> <span class="s">"world"</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: For <code class="highlighter-rouge">@MethodSource</code>, if method has same name as test, parameter name is not required.
+To use this feature, <code class="highlighter-rouge">junit-jupiter-params</code> needs to be added to the classpath.</p>
+</blockquote>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>As you can see, JUnit 5 is a huge improvement over previous versions and introduces many new testing features. It also allows you to write more expressive units test when using in combination with lambda expressions from Java 8.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/junit5-features">
+  Source Code
+</a>
+</p>

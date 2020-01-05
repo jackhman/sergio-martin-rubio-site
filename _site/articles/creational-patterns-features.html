@@ -1,0 +1,336 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#creational-patterns-features">Creational Patterns Features</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#singleton-pattern">
+Singleton Pattern</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#factory-pattern">
+Factory Pattern</a>
+    
+  
+
+</div>
+
+<h3 id="creational-patterns-features">Creational Patterns Features</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Intent</th>
+      <th>Motivation</th>
+      <th>Applicability</th>
+      <th>Consequences</th>
+      <th>Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Singleton</strong></td>
+      <td>It creates a single instance of a class for the entire lifespan of an application</td>
+      <td>It used to make sure that an object is created only once</td>
+      <td>It can be applied to a logging class, because a logging class usually needs to be used over and over again by every class in a project. Another applicability it is when you need to configure a network connection, because it will always connect to the same host.</td>
+      <td>An instance of the singleton class is created when it is called the first time or when getIntance method is called, depending on the implementation. By making the constructor private you are not able to create more than one object of the same singleton class</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><strong>Factory Method</strong></td>
+      <td>It creates an object without exposing the implementation logic</td>
+      <td>It provides a way to encapsulate object of the same type and avoid implementation details on the client side</td>
+      <td>It can be used to create different database connections. One of the connection object is returned and can be used to open the connection with a particular database</td>
+      <td>By delegating the creation of the Product to the Factory, clients does not need to know anything about how the Product is created. Therefore, this pattern allows you to separate or decouple your application, and introduces an easy way to customize the concrete products</td>
+      <td>When implementing this pattern you have to make sure that all products can use the same Product interface. This pattern is suitable when you have many objects of the same family or type and you manipulate them frequently</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="singleton-pattern">Singleton Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/y6HYS9ZeQz-tuXRWp7BLIpM8F2KD1d0mAXeWRkFxPB8Ou7Mmunh3H7By7SS6FjPJ9b88cPVMV97bANjSzb00DVg0m9-WAwAgfan7QfCUQskx93LaDSQVmtmJw92H9d5bAAmIIItzxQ=w2400" class="figure-img img-fluid rounded" alt="Singleton Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Singleton Pattern - UML</figcaption>
+  
+</figure>
+
+<p>Basically, there four ways to create a singleton class:</p>
+
+<ul>
+  <li>Eager initialisation with private constructor and declaring a public final field.</li>
+  <li>Eager initialisation with private constructor and creating a static factory method.</li>
+  <li>Lazy initialisation and Double Check Locking pattern</li>
+  <li>Declare a single element Enum.</li>
+</ul>
+
+<h4 id="singleton-with-public-final-field">Singleton with public final field</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">MySingleton</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">();</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setValue</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getValue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The main problem of this aproach it is that the constructor can be invoked reflectively. Therefore, there are ways to create more than one instantiation of the class.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// reflection concept to get constructor of a Singleton class.</span>
+<span class="n">Constructor</span><span class="o">&lt;</span><span class="n">MySingleton</span><span class="o">&gt;</span> <span class="n">constructor</span> <span class="o">=</span> <span class="n">MySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getDeclaredConstructor</span><span class="o">();</span>
+<span class="c1">// change the accessibility of constructor for outside a class object creation.</span>
+<span class="n">constructor</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">true</span><span class="o">);</span>
+
+<span class="c1">// creates first object of a class as constructor is accessible now.</span>
+<span class="n">MySingleton</span> <span class="n">firstSingleton</span> <span class="o">=</span> <span class="n">constructor</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+<span class="n">firstSingleton</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="mi">5</span><span class="o">);</span>
+
+<span class="c1">// creates second object of a class as constructor is accessible now.</span>
+<span class="n">MySingleton</span> <span class="n">secondSingleton</span> <span class="o">=</span> <span class="n">constructor</span><span class="o">.</span><span class="na">newInstance</span><span class="o">();</span>
+<span class="n">secondSingleton</span><span class="o">.</span><span class="na">setValue</span><span class="o">(</span><span class="mi">10</span><span class="o">);</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">secondSingleton</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span> <span class="c1">// value = 10</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">firstSingleton</span><span class="o">.</span><span class="na">getValue</span><span class="o">());</span> <span class="c1">// value = 5</span>
+
+<span class="n">constructor</span><span class="o">.</span><span class="na">setAccessible</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>As you can see we are able to create more than one MySingleton object with different values.</p>
+
+<p>One solution to avoid reflection would be throw an exception when calling the constructor.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">throw</span> <span class="k">new</span> <span class="nf">RuntimeException</span><span class="o">(</span><span class="s">"You are trying to call the constructor!"</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h4 id="singleton-with-factory-method">Singleton with factory method</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">();</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">(){</span>
+        <span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setValue</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getValue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li>It is <strong>more flexible.</strong></li>
+  <li>Allows you to <strong>create a generic singleton factory</strong>.</li>
+  <li>It is a supplier and allows you to call it as <code class="highlighter-rouge">MySingleton::getInstance</code>.</li>
+</ul>
+
+<p><strong>Disadvantages</strong>:</p>
+
+<ul>
+  <li>Constructor can be invoked reflectively.</li>
+  <li>If you are not going to take advantage of any of the previous points, it is recommended to use the first option.</li>
+</ul>
+
+<h4 id="lazy-initialisation-and-double-check-locking-pattern">Lazy initialisation and Double Check Locking pattern</h4>
+
+<p>When you want to make a Singleton <strong>thread-safe</strong> you need to use <strong>Double-Checked Locking Pattern</strong>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+	<span class="kd">private</span> <span class="kd">static</span> <span class="kd">volatile</span> <span class="n">MySingleton</span> <span class="n">instance</span><span class="o">;</span>
+
+	<span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">()</span> <span class="o">{</span>
+
+	<span class="o">}</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 1st check</span>
+
+			<span class="kd">synchronized</span> <span class="o">(</span><span class="n">MySingleton</span><span class="o">.</span><span class="na">class</span><span class="o">)</span> <span class="o">{</span>
+
+				<span class="k">if</span> <span class="o">(</span><span class="n">instance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// 2nd check</span>
+					<span class="n">instance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">();</span>
+				<span class="o">}</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		<span class="k">return</span> <span class="n">instance</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li>A <strong><em>static volatile</em></strong> field is created to hold the instance. The variable is stored in the main memory, so reading or writing to the volatile variable will be on the main memory and not only on the CPU cache. This ensured that the singleton will never be half initialised.</li>
+  <li>The first check is not <em>synchronised</em> to improve performance and enable reordering of <strong><em>JVM</em></strong>.</li>
+  <li>The second <em>synchronised</em> check is executed only once during lifespan of Singleton. By doing this you get the performance boost because locking only happens once.</li>
+</ul>
+
+<h4 id="enum-singleton-preferred-way">Enum singleton (preferred way)</h4>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">enum</span> <span class="n">MySingleton</span> <span class="o">{</span>
+
+    <span class="n">INSTANCE</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">value</span><span class="o">;</span>
+
+    <span class="kd">public</span> <span class="kt">int</span> <span class="nf">getValue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setValue</span><span class="o">(</span><span class="kt">int</span> <span class="n">value</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">this</span><span class="o">.</span><span class="na">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Advantages</strong>:</p>
+
+<ul>
+  <li><strong>Protection against reflection</strong>.</li>
+  <li>Provides <strong>Serialisation</strong>. There is no way to create more than one instance of the Singleton.</li>
+  <li><strong>Thread-safe</strong> out-of-the-box.</li>
+  <li><strong>More simple</strong>.</li>
+</ul>
+
+<p><strong>Disadvantages</strong>:</p>
+
+<ul>
+  <li>Your singleton <strong>only can extend a Enum</strong> superclass</li>
+</ul>
+
+<h4 id="why-avoid-overusing-singleton-pattern">Why avoid overusing Singleton Pattern?</h4>
+
+<p>Singleton is a powerful pattern but use it only when it is strictly necessary.</p>
+
+<ul>
+  <li>Singleton clients will be <strong>harder to test</strong> since it is not possible to substitute a mock implementation for a singleton class.</li>
+  <li>This pattern may behave as an <strong>anti-pattern</strong>, because introduces global variables in your application.</li>
+  <li>Singletons are bad when implemented with <strong>multi-threading</strong>.</li>
+</ul>
+
+<h4 id="use-cases">Use Cases</h4>
+
+<p><strong>Android Volley Library</strong> to make <em>HTTP</em> calls:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MySingleton</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">MySingleton</span> <span class="n">mInstance</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">RequestQueue</span> <span class="n">mRequestQueue</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="n">ImageLoader</span> <span class="n">mImageLoader</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="n">Context</span> <span class="n">mCtx</span><span class="o">;</span>
+
+    <span class="kd">private</span> <span class="nf">MySingleton</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">mCtx</span> <span class="o">=</span> <span class="n">context</span><span class="o">;</span>
+        <span class="n">mRequestQueue</span> <span class="o">=</span> <span class="n">getRequestQueue</span><span class="o">();</span>
+
+        <span class="n">mImageLoader</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">(</span><span class="n">mRequestQueue</span><span class="o">,</span>
+                <span class="k">new</span> <span class="n">ImageLoader</span><span class="o">.</span><span class="na">ImageCache</span><span class="o">()</span> <span class="o">{</span>
+            <span class="kd">private</span> <span class="kd">final</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Bitmap</span><span class="o">&gt;</span>
+                    <span class="n">cache</span> <span class="o">=</span> <span class="k">new</span> <span class="n">LruCache</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">Bitmap</span><span class="o">&gt;(</span><span class="mi">20</span><span class="o">);</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="n">Bitmap</span> <span class="nf">getBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">)</span> <span class="o">{</span>
+                <span class="k">return</span> <span class="n">cache</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">url</span><span class="o">);</span>
+            <span class="o">}</span>
+
+            <span class="nd">@Override</span>
+            <span class="kd">public</span> <span class="kt">void</span> <span class="nf">putBitmap</span><span class="o">(</span><span class="n">String</span> <span class="n">url</span><span class="o">,</span> <span class="n">Bitmap</span> <span class="n">bitmap</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">cache</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">url</span><span class="o">,</span> <span class="n">bitmap</span><span class="o">);</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kd">synchronized</span> <span class="n">MySingleton</span> <span class="nf">getInstance</span><span class="o">(</span><span class="n">Context</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mInstance</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">mInstance</span> <span class="o">=</span> <span class="k">new</span> <span class="n">MySingleton</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">mInstance</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">RequestQueue</span> <span class="nf">getRequestQueue</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">if</span> <span class="o">(</span><span class="n">mRequestQueue</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="c1">// getApplicationContext() is key, it keeps you from leaking the</span>
+            <span class="c1">// Activity or BroadcastReceiver if someone passes one in.</span>
+            <span class="n">mRequestQueue</span> <span class="o">=</span> <span class="n">Volley</span><span class="o">.</span><span class="na">newRequestQueue</span><span class="o">(</span><span class="n">mCtx</span><span class="o">.</span><span class="na">getApplicationContext</span><span class="o">());</span>
+        <span class="o">}</span>
+        <span class="k">return</span> <span class="n">mRequestQueue</span><span class="o">;</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="kt">void</span> <span class="nf">addToRequestQueue</span><span class="o">(</span><span class="n">Request</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;</span> <span class="n">req</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">getRequestQueue</span><span class="o">().</span><span class="na">add</span><span class="o">(</span><span class="n">req</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="kd">public</span> <span class="n">ImageLoader</span> <span class="nf">getImageLoader</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">mImageLoader</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="factory-pattern">Factory Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/WQnQslVBGEOfhXwmhgOkDgXBXrDRsnR8D1p6GYQNpI4H6ZxhodCYsvxTIvD4dvUFOX-mgdUzdZqneg3JbfKkgp_nDqIIGMqOqn8bVMwz6nEOtY07WzSplfUPdNxpIoHg0gIb5nVZnw=w2400" class="figure-img img-fluid rounded" alt="Factory Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Factory Pattern - UML</figcaption>
+  
+</figure>
+
+<h4 id="use-cases-1">Use Cases</h4>
+
+<p><a href="https://docs.oracle.com/javase/6/docs/api/javax/swing/BorderFactory.html">BorderFactory.createLineBorder</a> from <strong>Java API</strong> uses <strong>Factory Pattern</strong>, but in this case there is only one factory family, so no factory interface was created.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">BorderFactory</span>
+<span class="o">{</span>
+    <span class="kd">private</span> <span class="nf">BorderFactory</span><span class="o">()</span> <span class="o">{</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Border</span> <span class="nf">createLineBorder</span><span class="o">(</span><span class="n">Color</span> <span class="n">color</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">LineBorder</span><span class="o">(</span><span class="n">color</span><span class="o">,</span> <span class="mi">1</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Border</span> <span class="nf">createLineBorder</span><span class="o">(</span><span class="n">Color</span> <span class="n">color</span><span class="o">,</span> <span class="kt">int</span> <span class="n">thickness</span><span class="o">)</span>  <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">LineBorder</span><span class="o">(</span><span class="n">color</span><span class="o">,</span> <span class="n">thickness</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="n">Border</span> <span class="nf">createLineBorder</span><span class="o">(</span><span class="n">Color</span> <span class="n">color</span><span class="o">,</span> <span class="kt">int</span> <span class="n">thickness</span><span class="o">,</span> <span class="kt">boolean</span> <span class="n">rounded</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">LineBorder</span><span class="o">(</span><span class="n">color</span><span class="o">,</span> <span class="n">thickness</span><span class="o">,</span> <span class="n">rounded</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Learn more <a href="http://coding-geek.com/design-pattern-factory-patterns/">here</a>.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-factory-pattern">
+  Source Code
+</a>
+</p>

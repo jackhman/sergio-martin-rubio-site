@@ -1,0 +1,155 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#package-manger-options">
+Package Manger Options</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#github-integration-guide">
+GitHub Integration Guide</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#advance-integrations">
+Advance Integrations</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://dependabot.com">Dependabot</a> is a free and open source tool that has been bought by <em>GitHub</em> and allows you to check for updates on you dependency files.</p>
+
+<p>It can be used to update dependencies in <em>Ruby</em>, <em>JavaScript</em>, <em>Python</em>, <em>PHP</em>, <em>Elixir</em>, <em>Elm</em>, <em>Go</em>, <em>Rust</em>, <em>Java</em> and <em>.NET</em>, as well as, git submodules, <em>Docker</em> files and <em>Terraform</em> files.</p>
+
+<h2 id="package-manger-options">Package Manger Options</h2>
+
+<ul>
+  <li><em>bundler</em></li>
+  <li><em>pip</em> (includes pipenv)</li>
+  <li><em>npm_and_yarn</em></li>
+  <li><em>maven</em></li>
+  <li><em>gradle</em></li>
+  <li><em>cargo</em></li>
+  <li><em>hex</em></li>
+  <li><em>composer</em></li>
+  <li><em>nuget</em></li>
+  <li><em>dep</em></li>
+  <li><em>go_modules</em></li>
+  <li><em>elm</em></li>
+  <li><em>submodules</em></li>
+  <li><em>docker</em></li>
+  <li><em>terraform</em></li>
+</ul>
+
+<h2 id="github-integration-guide">GitHub Integration Guide</h2>
+
+<p>Dependabot is fully integrated with GitHub and only in a few steps you will be able to add it to your current GitHub projects.</p>
+
+<ol>
+  <li>Go to <a href="https://dependabot.com">Dependabot site</a> or <a href="https://github.com/marketplace?utf8=%E2%9C%93&amp;query=dependabot">GitHub marketplace and search for Dependabot</a>.</li>
+  <li>Install Dependabot to your GitHub account.
+ <img src="https://lh3.googleusercontent.com/2LF49w-QRKtX7eEMkjZM83Dn6eJVvdKblx7dRomTj9QKBZ7zZHIf2BKDohN-1eXZmUU4DJUeibuE2FhSeg=w600-no-tmp.jpg" alt="alt text" title="Install Dependabot GitHub" /></li>
+  <li>Give permission to all your repositories or selected ones.
+ <img src="https://lh3.googleusercontent.com/w-nGjPm9AMsVfvkcbSYhu9j482Z55OUdrhOSA6tFupSXRFv9tTD2f2ZAFn6AHRGzLC_MMDGHGK4t-aj8Fg=w600-no-tmp.jpg" alt="alt text" title="Install Dependabot Preview" /></li>
+  <li>Start adding repositories to the Dependabot dashboard.
+ <img src="https://lh3.googleusercontent.com/j4edb8TzKBqykrV_j62qvPQ0ME5NCH3YCD--UynTcIwPdHzUZdxJEshexS-4IdIkX5Evil88lN_tGXNP-Q=w600-no-tmp.jpg" alt="alt text" title="Add Repos Dependabot" /></li>
+  <li>Tweat Dependabot settings for your projects: how frequent it runs (daily, weekly…), directory, branch, GitHub Pull Requests info…
+ <img src="https://lh3.googleusercontent.com/WTi5NcbLw96prl8jRf9HXQ9FJJRmWQVJsddeGyLXG_5Asqcdw9Vqdv5-esoIN_L1tb7Ps92MLW27zOUkyw=w800-no-tmp.jpg" alt="alt text" title="Depedabot Project Settings" /></li>
+  <li>Run Dependabot and review PR. A relevant branch name, PR title, comment and labels are created.
+ <img src="https://lh3.googleusercontent.com/cnB2V_3V22hqUt4vH57167KfX-bKA7Z75523xiZfIdwbvGnx5ykJNBaHiqGLDHRujoVP_nUSZ7-9s5C6kw=w800-no-tmp.jpg" alt="alt text" title="Depedabot Pull Request" /></li>
+</ol>
+
+<h3 id="breaking-changes">Breaking Changes</h3>
+
+<p>Dependabot also provides a way to give you more confidence in case of possible breaking changes. From the PR page a link is shown and it will take you to a page where you can see PRs that failed CI.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/SmtZ5Ujm1c9x6L5Tp1rm3frPr8nn9PchqU1VD0Y5nmMtew5vwvVRU4NHN9t_czdbaSyVVhC7-QqBwA51QA=w800-no-tmp.jpg" class="figure-img img-fluid rounded" alt="Dependabot Compatibility Rate" />
+  
+    <figcaption class="figure-caption text-center">Dependabot Compatibility Rate</figcaption>
+  
+</figure>
+
+<p>How does it work?</p>
+
+<ul>
+  <li>Dependabot retrieves metrics of similar updates from other repos.</li>
+  <li>It creates a score based on each repo that runs a CI with passed test suite.</li>
+</ul>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/BeLflCYfw-UbUS4qOro8GMjzoAJGE44bYhztT6peQp_t7c1g0WpByBgI6MKtos2wEtkYbC8H1BMvXUYqTA=w800-no-tmp.jpg" class="figure-img img-fluid rounded" alt="Compatibility Score Page" />
+  
+    <figcaption class="figure-caption text-center">Compatibility Score Page</figcaption>
+  
+</figure>
+
+<blockquote>
+  <p>Note: private repositories are not included on the score calculation.</p>
+</blockquote>
+
+<p>However, to be 100% sure that you are not introducing breaking changes with the dependecy updates, you should create a build with the new branch created by Dependabot.</p>
+
+<h2 id="advance-integrations">Advance Integrations</h2>
+
+<p><strong>Dependabot</strong> can be also used by itself. The oficial repository provides a <a href="https://github.com/dependabot/dependabot-script"><em>Ruby</em> script</a> that you can run with <em>Docker</em>. Another option is to create a repository dedicated to the script and configure a <em>GitLab CI</em> pipeline to run it periodically.</p>
+
+<p>For instance, you could setup a <strong>GitLab CI</strong> with an <strong>Azure</strong> repo by following the next steps:</p>
+
+<ol>
+  <li>Clone the <a href="https://github.com/dependabot/dependabot-script.git">dependabot-script repo</a> and create a new project on <strong>GitLab</strong></li>
+  <li>Rename <code class="highlighter-rouge">.gitlab-ci.example.yml</code> to <code class="highlighter-rouge">.gitlab-ci.yml</code></li>
+  <li>Get the values of the required global variables:
+    <ul>
+      <li><code class="highlighter-rouge">AZURE_ACCESS_TOKEN</code> -&gt; Go to your <em>Azure Devops profile</em>, <em>Security</em>, <em>Personal access tokens</em>, <em>+ New Token</em></li>
+      <li><code class="highlighter-rouge">PROJECT_PATH</code> -&gt; For <em>https://dev.azure.com/econsergio/_git/spring-boot-demo</em> will be <code class="highlighter-rouge">econsergio/_git/spring-boot-demo</code></li>
+      <li><code class="highlighter-rouge">PACKAGE_MANAGER_SET</code> -&gt; <em>maven</em> for this example</li>
+    </ul>
+  </li>
+  <li>Create a new pipeline schedule -&gt; Go to <em>CI/CD</em>, <em>Schedules</em></li>
+  <li>Set in the schedule the required variables</li>
+  <li>The script creates a branch and PR on <em>Azure</em></li>
+</ol>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/f-IlBiczAsWjFzgZahHugQ4vLGsD3qUTChuJl1vCT11IYsWJ9ysoJrP5sjXYD7VDUc7y3aMz1EctSw_QVQ=w800-no-tmp.jpg" class="figure-img img-fluid rounded" alt="Azure Dependabot Branch" />
+  
+    <figcaption class="figure-caption text-center">Azure Dependabot Branch</figcaption>
+  
+</figure>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/MRbvNKE_m5SkUZY5wgkEup_6tf0Vzu23rEI8cEsta-FzIeYMf8Tz7zeaBVwa7wjP1M9UHul3C1-lv5pq4Q=w800-no-tmp.jpg" class="figure-img img-fluid rounded" alt="Azure Dependabot Dependecy Diff Updates" />
+  
+    <figcaption class="figure-caption text-center">Azure Dependabot Dependecy Diff Updates</figcaption>
+  
+</figure>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/KK1HqPnX3wTNFH2qT5ljWRjmDMWn1UJw6dBaeawaNYklHd7F27sjrZn_A27rNu-xrsk_Mov6ggkkqQC1kQ=w800-no-tmp.jpg" class="figure-img img-fluid rounded" alt="Azure Dependabot PR" />
+  
+    <figcaption class="figure-caption text-center">Azure Dependabot PR</figcaption>
+  
+</figure>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>As you can see Dependabot is very flexible and will take care of all your projects dependency updates. Despite it has been adquired by GitHub, you can run it on GitLab and point to projects on <strong>Azure</strong> or <strong>GitLab</strong>.</p>

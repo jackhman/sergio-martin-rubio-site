@@ -1,0 +1,274 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#jmeter">
+JMeter</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#installation-and-execution">
+Installation and execution</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#elements-of-a-test-plan">
+Elements of a Test Plan</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#running-test-plan">
+Running Test Plan</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>In this post we are going to go through the main <strong>JMeter</strong> features, but first of all, what is <a href="https://jmeter.apache.org/">JMeter</a>? basically, it is a tool to perform load testing against:</p>
+
+<ul>
+  <li>Web – <em>HTTP, HTTPS APIs</em></li>
+  <li>Webservices (<em>SOAP</em> or <em>REST</em>)</li>
+  <li><em>FTP</em></li>
+  <li>Database via <em>JDBC</em></li>
+  <li><em>LDAP</em></li>
+  <li><em>JMS</em> services</li>
+  <li>Mail</li>
+  <li>Native commands or shell scripts</li>
+  <li><em>TCP</em></li>
+  <li><em>Java Objects</em></li>
+</ul>
+
+<p>However, we will only cover the HTTP functionalities of <strong>JMeter</strong>.</p>
+
+<p>Performance tests are required to make sure your application will not crash under heavy traffic, and survive dates such as Black Friday or Christmas. Therefore, it is a very important phase of the web development process.</p>
+
+<p><strong>JMeter</strong> is an open source and Java based that provides an <em>GUI</em> to create your test plans, and simulates browser behaviour by sending customised request to our webiste.</p>
+
+<h3 id="jmeter">JMeter</h3>
+
+<h4 id="installation-and-execution">Installation and execution</h4>
+
+<h5 id="ubuntu-18">Ubuntu 18</h5>
+
+<ol>
+  <li>Download binaries from <strong>Apache JMeter</strong>.</li>
+  <li>Unzip file:</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">tar</span> <span class="nt">-xf</span> apache-jmeter-5.0.tgz
+</code></pre></div></div>
+
+<ol>
+  <li>Run executable file:</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>apache-jmeter-5.0/bin
+./jmeter
+</code></pre></div></div>
+
+<h5 id="mac-os">MAC OS</h5>
+
+<ol>
+  <li>Install it with <strong>brew</strong></li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>jmeter
+</code></pre></div></div>
+
+<ol>
+  <li>jmeter should be on your PATH</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jmeter
+</code></pre></div></div>
+
+<h4 id="elements-of-a-test-plan">Elements of a Test Plan</h4>
+<p>#### Test Plan</p>
+
+<p>This parent object will contain all the necessary components to build your test plan.</p>
+
+<h5 id="thread-group">Thread Group</h5>
+
+<p><strong>Thread Group</strong> is the first element of your test plan and all samples, controllers and listeners are meant to be under this object. However, listeners are allowed to be under the Test Plan object, and in this case they are applied to all Thread Groups. What can you do from a Thread Group?</p>
+
+<ul>
+  <li>Set number of threads or users.</li>
+  <li>Set the time for <strong>JMeter</strong> to run all threads, or in other words, it is the time needed by JMeter to add all users (threads) to the test execution. If you set this value to 100 and the number of users is 10, it will add an user every 10 seconds.</li>
+  <li>Set how many times a <em>Thread Group</em> will execute.</li>
+  <li>Other options: scheduler, delays, actions after error…</li>
+</ul>
+
+<h5 id="controllers">Controllers</h5>
+
+<p><strong><em>Sampler</em></strong></p>
+
+<p>This type of controller let you send different types of requests (e.g. <em>HTTP, FTP, JDBC</em>…).</p>
+
+<p>The <em>HTTP Request</em> controller is used to send requests to the web server.</p>
+
+<p>If you are planning to send multiple request to the same server it is recommended to use Config Element components for your Thread Group, so you can set default request values:</p>
+
+<ul>
+  <li><strong>Defaults</strong> allows you to specify default values for your HTTP calls (e.g. domain, port, parameters, body…) inside a Thread Group or for the whole Test Plan.</li>
+  <li><strong>HTTP Header Manager</strong>: allows you add or override HTTP request headers.</li>
+  <li><strong>HTTP Cookie Manager</strong>: stores and sends cookies like a web browser. It is very useful to keep the same session in a Thread Group.</li>
+  <li><strong>HTTP Cache Manager</strong>: To simulate browser cache features and with the default <strong>JVM</strong> value, the limit is 5000 items.</li>
+  <li><strong>HTTP Authorization Manager</strong>: for web pages with restricted access.</li>
+</ul>
+
+<p>Another interesting option to generate test samplers automatically is <a href="https://jmeter.apache.org/usermanual/component_reference.html#HTTP(S)_Test_Script_Recorder">HTTP(S) Test Script Recorder</a>.</p>
+
+<p><em><strong>Logic Controller</strong></em></p>
+
+<p>We can use these controller to specified how and when to run the samplers. The most relevant types are:</p>
+
+<ul>
+  <li><strong>Simple Controller</strong>: for onganization purposes only.</li>
+  <li><strong>Loop Controller</strong>: To loop through an object a particular number of times. If you set the value to -1 it will loop forever.</li>
+  <li><strong>Once Only Controller</strong>: runs what is inside once per thread.</li>
+  <li><strong>Interleave Controller</strong>: alternate among each controller. If you use it with a Loop Controller it will run a different controller for each iteration.</li>
+  <li><strong>Random Controller</strong>: it is like the interleave controller but without an order.</li>
+  <li><strong>Random Order Controller</strong>: it is like Simple controller but without an order.</li>
+  <li><strong>Throughput Controller</strong>: it controls how often a controller is executed.</li>
+  <li><strong>Runtime Controller</strong>: it sets for how long the children controllers will run.</li>
+  <li><strong>Recording Controller</strong>: it is a placeholder to use in combination with HTTP(S) Test Script Recorder.</li>
+</ul>
+
+<h5 id="listeners">Listeners</h5>
+
+<p>Listeners are essential to retrieve the results from your tests and analyze the Sampler requests and responses by looking at tables, graphs, trees, statistics… Moreover, they allow you to save the results in csv or xml files, so you can have a look at them later.</p>
+
+<p>Some of the most relevant listeners are:</p>
+
+<ul>
+  <li><strong>View Results Tree</strong>: this listeners shows requests and responses to see if something went wrong during the calls. Since it consumes a lot of resources, it is only recommended to use for debugging purposes.</li>
+</ul>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/u_v6Qrm-B4udK88lY1kZmbmPqH5b7VDJFf_lK8qWQqqKEHP3MEnRPE6FowK22DeqGwOKafTql-8lxN82i_7cP8APG1Lm27Od9ctlOaKgW2SgRoY_u24p4f6_ZLmq-a5xUZ5gFLcO=w2400" class="figure-img img-fluid rounded" alt="JMeter - Results Tree" />
+  
+    <figcaption class="figure-caption text-center">JMeter - Results Tree</figcaption>
+  
+</figure>
+
+<ul>
+  <li><strong>Aggregate Report</strong>: it gives you some statistics parameters (average, median, min, max, 90th percentile…) in form of a table.</li>
+</ul>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/T5PuPN_vbh1_8fAEerkeJ9U9vqqY6sSnV2ymdD9xhj6yt73ZZmrzvdGt6ouxMqlb4WxoaCLCYjQD0-RKjKZJwRZTLoHoPxaPOKTu64sECW0O1RF3hNK85S8iL9dGvNiJ19wFrBP-=w2400" class="figure-img img-fluid rounded" alt="JMeter - Aggreate Report" />
+  
+    <figcaption class="figure-caption text-center">JMeter - Aggreate Report</figcaption>
+  
+</figure>
+
+<ul>
+  <li><strong>View Results in Table</strong>: it creates a row for every sample result, so you can see in depth what is happening during each result. Bear in mind that this listener also consumes a lot of memory.</li>
+</ul>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/YQoPGodxuxrR2oASmwutuYi3PPyShOLvTQ4oeWFbM1h9_RNvEIomH5RI6rH9fixCHKHY1AF1d5ZFHjvxmsh7swrB3B1TFbYMLlGjD378z0nwx7moG-WJMBFEc9RRxdbRFcmivLxM=w2400" class="figure-img img-fluid rounded" alt="JMeter - View Results" />
+  
+    <figcaption class="figure-caption text-center">JMeter - View Results</figcaption>
+  
+</figure>
+
+<ul>
+  <li><strong>Simple Data Writer</strong>: this is the most performance listeners, since the only thing it does it is write the metrics in a external file.</li>
+</ul>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/M4lMFtgCsby8bUbn13ajQP21_e337vMV5U6tWR8O8lMMfzbcu9yMeqi1A-pg3Rg44w8TFRvWrBCgsoxEws0AzuGsP_pAb6QKYCCBSNV5D6tOyfMlGb6BW2uxyWrV-_4ewbrs7m3L=w2400" class="figure-img img-fluid rounded" alt="JMeter - Data Writer" />
+  
+    <figcaption class="figure-caption text-center">JMeter - Data Writer</figcaption>
+  
+</figure>
+
+<ul>
+  <li><strong>Backend Listener</strong>: you can even push data to your Graphite server. You can try this listener by running a dockerized version of Graphite.</li>
+</ul>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/YcEchTIoon604za-_lyi46qa_PL5QgqpDlWD4x1K6w9YZgeO-ygEPv90u_F3NxY62_RyXnzrr_C19e2xnLpxOS7fIcLaxCsfcZed_CkPBWNqY9KLApb4j7BtP5CxhEQJ_Sp7Sj8P=w2400" class="figure-img img-fluid rounded" alt="JMeter - Listener" />
+  
+    <figcaption class="figure-caption text-center">JMeter - Listener</figcaption>
+  
+</figure>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/aJCQJxCmuZHXJ752dD1ShhmQ1O6susVSbZL7lRvC2qQpDDw9d8K6ANTPj7vcEGs2OokC5ez1ruxTiRId9buFdyNzlpr45r4zv-eSSojB3Hg1tJfKf8SYSwJxrbg7XsWWadEZnG-f=w2400" class="figure-img img-fluid rounded" alt="Graphite Dashboard" />
+  
+    <figcaption class="figure-caption text-center">Graphite Dashboard</figcaption>
+  
+</figure>
+
+<p>In order to save these reports into <strong>CSV</strong> files you only need give a path a filename. For <strong>XML</strong> output Save as XML option needs to be selected in Configure.</p>
+
+<h5 id="timers">Timers</h5>
+
+<p><strong>Timers</strong> add delays to every requests of your <strong>Thread Group</strong> to avoid overwhelming the server. If you want to apply a timer to only one element, add the timer as a child of it. Some of the common timers are:</p>
+
+<ul>
+  <li><strong>Constant Timer</strong>: it delays each call for the same amount of time.</li>
+  <li><strong>Uniform Random Timer</strong>: it delays each request for a random amount of time.</li>
+  <li><strong>Constant Throughput Timer</strong>: this timer uses variable delay for each request base on the server performance, so what you set on this timer is the number of samples per minute.</li>
+</ul>
+
+<h5 id="assertions">Assertions</h5>
+
+<p><strong>Assertions</strong> are very useful to make sure for instance you are getting the expected response.</p>
+
+<p>The most relevant assertion for HTTP requests is <em>Response Assertion</em>. This assertion allows you to set patterns for <em>Request and Response Headers</em>, <em>Request Data</em> or <em>Response Message</em>.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/p1Vv4dj72ETMp9WgjB-1p_bkZesmDZRhY0GXIoKcplZkEy1h-qDbUB6sCzR2s7Wk2FoL5-AOP9ykvASy1E3L0HOUafPfq7r978AFOOiAtDWwEuE3DQdJX8fVUYQF1O29Kzl2ynVB=w2400" class="figure-img img-fluid rounded" alt="JMeter - Response Assertion" />
+  
+    <figcaption class="figure-caption text-center">JMeter - Response Assertion</figcaption>
+  
+</figure>
+
+<h5 id="templates">Templates</h5>
+<p><strong>JMeter</strong> includes some templates to get started. Building an <strong>Advanced Web Test Plan</strong> is one of them and includes many of the elements described before (config elements, controllers, assertions, listeners, timers…).</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/e-xiY2-yPEOh1jWAKSJQmudPzZflCFbbFrNOrjm8uWcyA2eEuG2G7BUXMAJPIOYIfVG9FIYR23e-RpFLGYclYdJ9EgD8GGluyiX8X1HUZK6VawlevnVqzfsdDQXA0u_vKlDGY-u2=w2400" class="figure-img img-fluid rounded" alt="JMeter - Left Pane" />
+  
+    <figcaption class="figure-caption text-center">JMeter - Left Pane</figcaption>
+  
+</figure>
+
+<h4 id="running-test-plan">Running Test Plan</h4>
+
+<p>There are two options to run your test plan. You can use the <em>GUI</em> provided by <em>JMeter</em>, however this alternative is not recommended, since JMeter consumes much computer memory, and it should only be used for creating the test script. On the other hand, non <em>GUI</em> is much more lightweight and should be used for running the test plan.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jmeter <span class="nt">-n</span> <span class="nt">-t</span> test_plan.jmx <span class="nt">-l</span> results.csv <span class="nt">-j</span> jmeter_logs.log
+</code></pre></div></div>
+
+<p>-n  non-gui mode</p>
+
+<p>-t  Test Plan file</p>
+
+<p>-l   file to save results (csv, jtl)</p>
+
+<p>-j  JMeter log file</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p><strong>JMeter</strong> is a powerful and customizable tool for load testing, and provides a friendly user interface to create your scripts. However, it is a heavyweight tool compare to other load testing utilities like Gatling or Locust.</p>

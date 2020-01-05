@@ -1,0 +1,154 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#features">
+Features</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#how-does-it-work">
+How Does It Work?</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#json-web-token-format">
+JSON Web Token format</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#java-integration">
+Java Integration</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#troubleshooting">
+Troubleshooting</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://jwt.io/">JWT</a> (<em>JSON Web Token</em>) is an open source standard commonly used to transmit data between two services in a compact and secure way. This standard offers a wide range of libraries to generate <em>JWTs</em> and includes libraries for platforms such as <em>.NET</em>, <em>Python</em>, <em>Node.js</em>, <em>Java</em>, <em>JavaScript</em>, <em>Perl</em>, <em>Ruby</em>, <em>Elixir</em>, <em>Golang</em>, <em>Groovy</em>, and <em>Haskell</em>.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li><strong>Secure</strong>. <em>JWTs</em> are signed by using a secret or a <strong>public/private key pair</strong>.</li>
+  <li><strong>Self-contained</strong>: all information is stored inside the <em>JWT token</em>. No need for further database calls.</li>
+  <li><strong>Unmodifiable information, but exposed</strong>: Do not put secrets inside <em>JWTs</em>.</li>
+  <li><strong>Compact format</strong>: <em>JWTs</em> are really small.</li>
+</ul>
+
+<h2 id="how-does-it-work">How Does It Work?</h2>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/6C42ufo6FCCFM40a24XGl4SkJ7a4IDlM-8C5iGGTwfB2W7oj6JBSZPx9QeF4QZnba4TXQTdNZsldVeIkWQ=w800" class="figure-img img-fluid rounded" alt="JWT Communication" />
+  
+    <figcaption class="figure-caption text-center">JWT Communication</figcaption>
+  
+</figure>
+
+<ol>
+  <li><em>JWTs</em> are sent through a URL, <em>POST</em> parameter or inside the header.</li>
+  <li>Contains a payload with information about the sender, issued date, expiration date…</li>
+  <li><em>JWTs</em> are usually generated during the authentication phase, and once the user is logged in, the <em>JWT</em> previously generated allows the user to access to resources without having to make additional calls to databases.</li>
+  <li>They can be used to exchange information between services in a secure way, making sure that was not modified during the transmission, because the signature is calculated using the header and payload.</li>
+  <li>The token is storage locally or in a cookie.</li>
+  <li>When the user wants to use the token the convention is to add it to the header in the <em>Authorization</em> field using the Bearer prefix followed by the token value.</li>
+</ol>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Authorization: Bearer
+</code></pre></div></div>
+
+<h3 id="json-web-token-format">JSON Web Token format</h3>
+
+<p><strong>JWTs</strong> are structured in three parts separated by dots:</p>
+
+<ul>
+  <li><strong>Header</strong>: contains the <strong>token type</strong> (<em>jwt</em>) and <strong>hashing algorithm</strong> like <em>SHA256</em> or <em>RSA</em>.</li>
+  <li><strong>Payload</strong>: contains claims, which are the metadata like <strong>subjects</strong>, <strong>senders</strong>, or <strong>expiration date</strong>. There are three kinds of claims: <strong>registered</strong>, <strong>public</strong>, and <strong>private</strong>.</li>
+  <li><strong>Signature</strong>: the combination of <strong>header</strong>, <strong>payload</strong>, <strong>secret</strong>, and the <strong>algorithm</strong> specified in the header. The signature ensures that nothing has changed.</li>
+</ul>
+
+<p>Therefore, the format is <strong>xxx.yyy.zzz</strong></p>
+
+<h3 id="java-integration">Java Integration</h3>
+
+<p><strong>Java JWT</strong> provides all you need to generate signed tokens in a <em>Java</em> application.</p>
+
+<p><strong>Add maven dependency</strong>:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>io.jsonwebtoken<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>jjwt<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>0.9.0<span class="nt">&lt;/version&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><strong>Generate JWT Token</strong>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">jwt</span> <span class="o">=</span> <span class="n">Jwts</span><span class="o">.</span><span class="na">builder</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setClaims</span><span class="o">(</span><span class="n">claims</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">setSubject</span><span class="o">(</span><span class="n">email</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">setIssuedAt</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">())</span>
+    <span class="o">.</span><span class="na">setExpiration</span><span class="o">(</span><span class="k">new</span> <span class="n">Date</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">currentTimeMillis</span><span class="o">()+</span> <span class="n">JWT_EXPIRATION_TIME</span><span class="o">))</span>
+    <span class="o">.</span><span class="na">signWith</span><span class="o">(</span><span class="n">SignatureAlgorithm</span><span class="o">.</span><span class="na">HS256</span><span class="o">,</span> <span class="n">JWT_SECRET</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">compact</span><span class="o">();</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>Issuer</strong> (iss): <code class="highlighter-rouge">getIssuer()</code> and <code class="highlighter-rouge">setIssuer(String)</code></li>
+  <li><strong>Subject</strong> (sub): <code class="highlighter-rouge">getSubject()</code> and <code class="highlighter-rouge">setSubject(String)</code></li>
+  <li><strong>Audience</strong> (aud): <code class="highlighter-rouge">getAudience()</code> and <code class="highlighter-rouge">setAudience(String)</code></li>
+  <li><strong>Expiration</strong> (exp): <code class="highlighter-rouge">getExpiration()</code> and <code class="highlighter-rouge">setExpiration(Date)</code></li>
+  <li><strong>Not Before</strong> (nbf): <code class="highlighter-rouge">getNotBefore()</code> and <code class="highlighter-rouge">setNotBefore(Date)</code></li>
+  <li><strong>Issued At</strong> (iat): <code class="highlighter-rouge">getIssuedAt()</code> and <code class="highlighter-rouge">setIssuedAt(Date)</code></li>
+  <li><strong>JWT ID</strong> (jti): <code class="highlighter-rouge">getId()</code> and <code class="highlighter-rouge">setId(String)</code></li>
+</ul>
+
+<p>All these parameters are available through <strong>Claims</strong> getters.</p>
+
+<p><strong>Verify JWT Token</strong>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">final</span> <span class="n">Claims</span> <span class="n">claims</span> <span class="o">=</span> <span class="n">Jwts</span><span class="o">.</span><span class="na">parser</span><span class="o">()</span>
+    <span class="o">.</span><span class="na">setSigningKey</span><span class="o">(</span><span class="n">JWT_SECRET</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">parseClaimsJws</span><span class="o">(</span><span class="n">compactJws</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">getBody</span><span class="o">();</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="highlighter-rouge">JWT_SECRET</code> is the secret used when we generated the token.</li>
+  <li><code class="highlighter-rouge">compactJws</code> is the <em>JWT token</em> pass in the header.</li>
+</ul>
+
+<p>If the verification fails, a <code class="highlighter-rouge">SignatureException</code> will be thrown. Otherwise, we will be able to store the metadata in a claims variable that will be available to consume later.</p>
+
+<h3 id="troubleshooting">Troubleshooting</h3>
+
+<p>In case you are using <strong>Java 9</strong>, make sure you add an explicit dependency to the <em>POM file</em>.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>javax.xml.bind<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>jaxb-api<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">jaxb-api</code> is missing in <em>Java 9</em>, and until <strong>jjwt</strong> adds the dependency or removes the usage of <em>JAXB classes</em>, we have to add it manually.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/jwt-example">
+  Source Code
+</a>
+</p>

@@ -1,0 +1,104 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#optionals">
+Optionals</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#drawbacks">
+Drawbacks</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Before <strong>Java 8</strong> there were only two possible ways to return something when a value was not available:</p>
+
+<ul>
+  <li><em><strong>null</strong></em>: efficient, but risky (we have to make sure that the client is going to handle a possible null return).</li>
+  <li><em><strong>Exception</strong></em>: elegant, but expensive (the stack trace is captured).</li>
+</ul>
+
+<h2 id="optionals">Optionals</h2>
+
+<p>Since <strong>Java 8</strong> we have a third alternative, <strong>Optionals</strong>, which can contain an element or nothing. <strong>Optional</strong> allows us to return an empty result.</p>
+
+<p>The optional library provides two ways to return an empty Optional: <code class="highlighter-rouge">Optional.empty()</code> and <code class="highlighter-rouge">Optional.ofNullable(nullValue)</code>. But do not use <code class="highlighter-rouge">Optional.of(value)</code> if a null value is expected to be returned, because in that case it will throw a <code class="highlighter-rouge">NullPointerException</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">MyClass</span> <span class="o">{</span>
+
+	<span class="kd">public</span> <span class="kd">static</span> <span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="nf">findMyLuckyNumber</span><span class="o">(</span><span class="n">List</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">list</span><span class="o">,</span> <span class="n">Integer</span> <span class="n">luckyNumber</span><span class="o">)</span> <span class="o">{</span>
+		
+		<span class="k">if</span> <span class="o">(</span><span class="n">list</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span>
+			<span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">empty</span><span class="o">();</span>
+		<span class="o">}</span>
+		
+		<span class="n">Integer</span> <span class="n">result</span> <span class="o">=</span> <span class="kc">null</span><span class="o">;</span>
+		
+		<span class="k">for</span> <span class="o">(</span><span class="n">Integer</span> <span class="n">value</span> <span class="o">:</span> <span class="n">list</span><span class="o">)</span> <span class="o">{</span>
+			<span class="k">if</span> <span class="o">(</span><span class="n">value</span> <span class="o">==</span> <span class="n">luckyNumber</span> <span class="o">)</span> <span class="o">{</span>
+				<span class="n">result</span> <span class="o">=</span> <span class="n">value</span><span class="o">;</span>
+			<span class="o">}</span>
+		<span class="o">}</span>
+		
+		<span class="k">return</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="n">result</span><span class="o">);</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">Logger</span> <span class="n">LOGGER</span> <span class="o">=</span> <span class="n">Logger</span><span class="o">.</span><span class="na">getLogger</span><span class="o">(</span><span class="n">Main</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+
+<span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+	
+	<span class="c1">// returns Optional with value</span>
+	<span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">MyClass</span><span class="o">.</span><span class="na">findMyLuckyNumber</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">),</span> <span class="mi">9</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+	<span class="c1">// returns empty Optional</span>
+	<span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">MyClass</span><span class="o">.</span><span class="na">findMyLuckyNumber</span><span class="o">(</span><span class="n">List</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">2</span><span class="o">,</span> <span class="mi">5</span><span class="o">,</span> <span class="mi">9</span><span class="o">),</span> <span class="mi">1</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+	<span class="c1">// returns empty Optional</span>
+	<span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="n">MyClass</span><span class="o">.</span><span class="na">findMyLuckyNumber</span><span class="o">(</span><span class="k">new</span> <span class="n">ArrayList</span><span class="o">&lt;&gt;(),</span> <span class="mi">1</span><span class="o">).</span><span class="na">toString</span><span class="o">());</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><strong>Should I always used Optional instead of returning null or throwing an exception?</strong> In most of the cases it is recommended to return an <em><strong>Optional</strong></em>, because returning null or throwing an unchecked exception might be ignored by the client, and returning a checked exception forces the client side to write more code. Therefore, if an <em>Optional</em> is returned the client can decide what to do.</p>
+
+<p>A default behaviour can also be specified when null is returned by appending <code class="highlighter-rouge">.orElse(“Empty…”)</code> or <code class="highlighter-rouge">orElseThrow(Exception::new)</code>. Another alternative is to use <code class="highlighter-rouge">.orElseGet(Supplier)</code>, which is more efficient than <code class="highlighter-rouge">.orElse()</code>, because the value is only retrieved when necessary. Remember that all these options return unwrapped values.</p>
+
+<p><strong>Java 9</strong> added three new methods into the <em>Optional</em> class: <code class="highlighter-rouge">.or(Supplier&lt;T&gt;)</code>, <code class="highlighter-rouge">ifPresentOrElse(Consumer, Runnable)</code> and the stream method, which allows us to use <em>Optionals</em> as streams. The main advantage of the first two methods is that now we can return an <em>Optional</em> as default value.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">defaultValue</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">of</span><span class="o">(</span><span class="mi">99</span><span class="o">);</span>
+<span class="n">Optional</span><span class="o">&lt;</span><span class="n">Integer</span><span class="o">&gt;</span> <span class="n">emptyValue</span> <span class="o">=</span> <span class="n">Optional</span><span class="o">.</span><span class="na">ofNullable</span><span class="o">(</span><span class="kc">null</span><span class="o">);</span>
+<span class="c1">// prints 99</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">emptyValue</span><span class="o">.</span><span class="na">or</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="n">defaultValue</span><span class="o">).</span><span class="na">get</span><span class="o">());</span>
+</code></pre></div></div>
+
+<p>You can also check if a <em>Optional</em> is empty by calling <code class="highlighter-rouge">isPresent()</code>, but since we have the methods mentioned above, you would rather use those for simplicity.</p>
+
+<h2 id="drawbacks">Drawbacks</h2>
+
+<p>But returning <em>Optional</em> is not always the best solution. For those cases when a list needs to be returned, it is better to just return an empty list. Another drawback of <em>Optional</em> is the cost of use it, since Optionals require to be allocated and initialized. Moreover, for primitives values Optional is not suitable, instead you have to use <code class="highlighter-rouge">OptionalInt</code>, <code class="highlighter-rouge">OptionalLong</code> or <code class="highlighter-rouge">OptionalDouble</code>. Finally, you also should not use <em>Optionals</em> as keys, values or elements in collections or arrays.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+  <li><strong>Return <em>null</em> or <em>Exception</em> when performance is priority</strong>.</li>
+  <li><strong>Only use <em>Optional</em> as a return value</strong>.</li>
+  <li><strong><em>Optional</em> fields are sometimes considered as <em>code smell</em></strong>, because maybe there should be a subclass containing the optional values.</li>
+</ul>

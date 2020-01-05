@@ -1,0 +1,306 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#main-features">
+Main Features</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#dynamodb-components">
+DynamoDB Components</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#guidelines">
+Guidelines</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#spring-integration">
+Spring Integration</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#getting-started">
+Getting Started</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#dynamodb-set-up">
+DynamoDB Set Up</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#spring-configuration">
+Spring Configuration</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#repositories">
+Repositories</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#entities">
+Entities</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://aws.amazon.com/dynamodb/?sc_channel=PS&amp;sc_campaign=acquisition_UK&amp;sc_publisher=google&amp;sc_medium=dynamodb_hv_b&amp;sc_content=dynamodb_e&amp;sc_detail=dynamodb&amp;sc_category=dynamodb&amp;sc_segment=62042493529&amp;sc_matchtype=e&amp;sc_country=UK&amp;s_kwcid=AL!4422!3!62042493529!e!!g!!dynamodb&amp;ef_id=EAIaIQobChMIncaip-jP3wIVmoXVCh3v2QHsEAAYASAAEgLIzPD_BwE:G:s">DynamoDB</a> is a NoSQL database provided by AWS, and in the same way as <a href="https://www.mongodb.com/">MongoDB</a> or <a href="http://cassandra.apache.org/">Cassandra</a>, it is very suitable to boost horizontal scalability and increase development speed.</p>
+
+<h2 id="main-features">Main Features</h2>
+
+<ul>
+  <li>Fully managed <em>NoSQL</em>.</li>
+  <li>Document or Key-Value.</li>
+  <li>Scales to any workload. DynamoDB allows you to auto-scaling, so the throughput adapts to your actual traffic.</li>
+  <li>Fast and consistent.</li>
+  <li>Provides access control.</li>
+  <li>Enables <em>Event Driven Programming</em>.</li>
+</ul>
+
+<h2 id="dynamodb-components">DynamoDB Components</h2>
+
+<ul>
+  <li><strong>Tables</strong>. Catalog</li>
+  <li><strong>Items</strong>. Group of attributes</li>
+  <li><strong>Attributes</strong>. Data elements</li>
+  <li><strong>Partition Key</strong>. Mandatory, Key-Value access pattern. Determines data distribution</li>
+  <li><strong>Sort Key</strong>. Optional. Model 1:N relationships. Enables rich query capabilities</li>
+</ul>
+
+<h2 id="guidelines">Guidelines</h2>
+<ul>
+  <li>Understand the use case.
+    <ul>
+      <li>Nature of the application.</li>
+      <li>Define the <a href="https://en.wikipedia.org/wiki/Entity%E2%80%93relationship_model">E/R Model</a></li>
+      <li>Identify the data life cycle (<em>TTL</em>, Backups…).</li>
+    </ul>
+  </li>
+  <li>Identify the access patterns.
+    <ul>
+      <li>Read/Write workloads.</li>
+      <li>Query dimensions.</li>
+    </ul>
+  </li>
+  <li>Avoid relational design patterns, and instead, use one table to reduce round trips and simplify access patterns. Identify <em>Primary Keys</em> and define indexes for secondary access patterns.</li>
+  <li>Select a strong <em>Partition Key</em> with a large number of distinct values. Do not use things like <em>Status</em> or <em>Gender</em>. Use UUID, CustomerId, DeviceId…</li>
+  <li>Items are uniformly requested and randomly distributed.</li>
+  <li>Select <em>Sort Keys</em> which follows a model 1:n and n:n relationships.</li>
+  <li>Use efficient and selective patterns for <em>Sort Keys</em>. Query multiple entities at the same time to avoid many round trips.</li>
+</ul>
+
+<p>The official <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/best-practices.html">DynamoDB documentation for best practices</a> provides more information.</p>
+
+<p>However, <strong>DynamoDB</strong> is not for everyone. In <em>NoSQL</em>, you are tuning the data to the access particular patterns. Therefore, if you do not know what queries are going to be performed, or your system is very normalized, <em>NoSQL</em> databases might not be a good candidate.</p>
+
+<h2 id="spring-integration">Spring Integration</h2>
+
+<p><a href="https://docs.aws.amazon.com/sdk-for-java/v1/developer-guide/basics.html">One of the languages supported by DynamoDB is Java</a>, and you can develop you own API to query <em>DynamoDB</em>. However, you will realize soon that there is a lot of boilerplate for very simple queries.</p>
+
+<p>Spring provides a community <a href="https://github.com/derjust/spring-data-dynamodb">module to integrate DynamoDB on Spring</a>, which is built on top of <a href="https://spring.io/projects/spring-data">Spring Data</a>. This module supports:</p>
+
+<ul>
+  <li><strong>CRUD</strong> operations for DynamoDB entities.</li>
+  <li><strong>Lookup strategy</strong> from query method names (only supported from 5.1.0-SNAPSHOT).</li>
+  <li><strong>Integration with custom repositories</strong>.</li>
+  <li><strong>Spring annotations</strong>.</li>
+  <li><strong>REST support</strong> via spring-data-rest.</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>To start using this module, you just need to add these two dependencies:</p>
+
+<p><a href="https://mvnrepository.com/artifact/com.github.derjust/spring-data-dynamodb">spring-data-dynamodb</a>
+<a href="https://mvnrepository.com/artifact/com.amazonaws/aws-java-sdk-dynamodb">aws-java-sdk-dynamodb</a></p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;profiles&gt;</span>
+    <span class="nt">&lt;profile&gt;</span>
+        <span class="nt">&lt;id&gt;</span>allow-snapshots<span class="nt">&lt;/id&gt;</span>
+        <span class="nt">&lt;activation&gt;&lt;activeByDefault&gt;</span>true<span class="nt">&lt;/activeByDefault&gt;&lt;/activation&gt;</span>
+        <span class="nt">&lt;repositories&gt;</span>
+        <span class="nt">&lt;repository&gt;</span>
+            <span class="nt">&lt;id&gt;</span>snapshots-repo<span class="nt">&lt;/id&gt;</span>
+            <span class="nt">&lt;url&gt;</span>https://oss.sonatype.org/content/repositories/snapshots<span class="nt">&lt;/url&gt;</span>
+            <span class="nt">&lt;releases&gt;&lt;enabled&gt;</span>false<span class="nt">&lt;/enabled&gt;&lt;/releases&gt;</span>
+            <span class="nt">&lt;snapshots&gt;&lt;enabled&gt;</span>true<span class="nt">&lt;/enabled&gt;&lt;/snapshots&gt;</span>
+        <span class="nt">&lt;/repository&gt;</span>
+        <span class="nt">&lt;/repositories&gt;</span>
+    <span class="nt">&lt;/profile&gt;</span>
+<span class="nt">&lt;/profiles&gt;</span>
+</code></pre></div></div>
+
+<h3 id="dynamodb-set-up">DynamoDB Set Up</h3>
+
+<p>First of all, you need a DynamoDB web service instance on AWS or run locally a downloadable version of <em>DynamoDB</em>. For testing, you can simply use a dockerized <em>DynamoDB</em> version:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-p</span> 8000:8000 amazon/dynamodb-local
+</code></pre></div></div>
+
+<h3 id="spring-configuration">Spring Configuration</h3>
+
+<p>Firstly, you need to add <code class="highlighter-rouge">@EnableDynamoDBRepositories</code> annotation on our configuration class. And you can have two <em>Spring</em> configuration classes, one for testing and another for production.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Profile</span><span class="o">(</span><span class="s">"dev"</span><span class="o">)</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableDynamoDBRepositories</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">"org.smartinrubio.springbootdynamodb.repository"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DynamoDBConfigDev</span> <span class="o">{</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${amazon.dynamodb.endpoint}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">amazonDynamoDBEndpoint</span><span class="o">;</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${amazon.dynamodb.region}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">amazonDynamoDBRegion</span><span class="o">;</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DynamoDBMapperConfig</span> <span class="nf">dynamoDBMapperConfig</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">DynamoDBMapperConfig</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DynamoDBMapper</span> <span class="nf">dynamoDBMapper</span><span class="o">(</span><span class="n">AmazonDynamoDB</span> <span class="n">amazonDynamoDB</span><span class="o">,</span> <span class="n">DynamoDBMapperConfig</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">DynamoDBMapper</span><span class="o">(</span><span class="n">amazonDynamoDB</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">AmazonDynamoDB</span> <span class="nf">amazonDynamoDB</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">AmazonDynamoDBClientBuilder</span>
+                <span class="o">.</span><span class="na">standard</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">withEndpointConfiguration</span><span class="o">(</span>
+                        <span class="k">new</span> <span class="n">AwsClientBuilder</span>
+                                <span class="o">.</span><span class="na">EndpointConfiguration</span><span class="o">(</span><span class="n">amazonDynamoDBEndpoint</span><span class="o">,</span> <span class="n">amazonDynamoDBRegion</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DynamoDB</span> <span class="nf">dynamoDB</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">DynamoDB</span><span class="o">(</span><span class="n">amazonDynamoDB</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The first bean (<code class="highlighter-rouge">DynamoDBMapperConfig</code>) is created to override default behaviors so you can set things like types of loading data (<code class="highlighter-rouge">LAZY_LOADING</code>, <code class="highlighter-rouge">EAGER_LOADING</code>, <code class="highlighter-rouge">ITERATION_ONLY</code>), read configuration (<code class="highlighter-rouge">EVENTUAL</code> (default), <code class="highlighter-rouge">CONSISTENT</code>), or how the mapper should deal with attributes during save operations (<code class="highlighter-rouge">UPDATE</code>, <code class="highlighter-rouge">CLOBBER</code>). <a href="https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBMapper.OptionalConfig.html">More info</a>.</p>
+
+<p><strong>AmazonDynamoDB</strong> bean configures the connection with your <em>DynamoDB</em> host to perform query operations.</p>
+
+<p>Lastly, <em>DynamoDB</em> bean was created to provide another instance with more refined query operations.</p>
+
+<p>Additionally, in case you want to point to the web version, you will need to set up:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">AWS_ACCESS_KEY_ID</code></li>
+  <li><code class="highlighter-rouge">AWS_SECRET_KEY</code></li>
+  <li><code class="highlighter-rouge">AWSCredentials</code> bean</li>
+  <li>Set credentials on <code class="highlighter-rouge">AmazonDynamoDB</code> bean.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Profile</span><span class="o">(</span><span class="s">"prod"</span><span class="o">)</span>
+<span class="nd">@Configuration</span>
+<span class="nd">@EnableDynamoDBRepositories</span><span class="o">(</span><span class="n">basePackages</span> <span class="o">=</span> <span class="s">"org.smartinrubio.springbootdynamodb.repository"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">DynamoDBConfigProd</span> <span class="o">{</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${amazon.dynamodb.accesskey}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">amazonDynamoDBAccessKey</span><span class="o">;</span>
+    <span class="nd">@Value</span><span class="o">(</span><span class="s">"${amazon.dynamodb.secretkey}"</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">amazonDynamoDBSecretKey</span><span class="o">;</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">AWSCredentials</span> <span class="nf">amazonAWSCredentials</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">BasicAWSCredentials</span><span class="o">(</span><span class="n">amazonDynamoDBAccessKey</span><span class="o">,</span> <span class="n">amazonDynamoDBSecretKey</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DynamoDBMapperConfig</span> <span class="nf">dynamoDBMapperConfig</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">DynamoDBMapperConfig</span><span class="o">.</span><span class="na">DEFAULT</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DynamoDBMapper</span> <span class="nf">dynamoDBMapper</span><span class="o">(</span><span class="n">AmazonDynamoDB</span> <span class="n">amazonDynamoDB</span><span class="o">,</span> <span class="n">DynamoDBMapperConfig</span> <span class="n">config</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">DynamoDBMapper</span><span class="o">(</span><span class="n">amazonDynamoDB</span><span class="o">,</span> <span class="n">config</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">AmazonDynamoDB</span> <span class="nf">amazonDynamoDB</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">AmazonDynamoDBClientBuilder</span>
+                <span class="o">.</span><span class="na">standard</span><span class="o">()</span>
+                <span class="o">.</span><span class="na">withCredentials</span><span class="o">(</span><span class="n">amazonAWSCredentialsProvider</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">withRegion</span><span class="o">(</span><span class="n">Regions</span><span class="o">.</span><span class="na">US_WEST_2</span><span class="o">)</span>
+                <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+    <span class="o">}</span>
+    <span class="nd">@Bean</span>
+    <span class="kd">public</span> <span class="n">DynamoDB</span> <span class="nf">dynamoDB</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">DynamoDB</span><span class="o">(</span><span class="n">amazonDynamoDB</span><span class="o">());</span>
+    <span class="o">}</span>
+    <span class="kd">public</span> <span class="n">AWSCredentialsProvider</span> <span class="nf">amazonAWSCredentialsProvider</span><span class="o">()</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">AWSStaticCredentialsProvider</span><span class="o">(</span><span class="n">amazonAWSCredentials</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="repositories">Repositories</h3>
+
+<p>Repositories need to be annotated with <code class="highlighter-rouge">@EnableScan</code> to use method name as queries.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EnableScan</span>
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">HotelRepository</span> <span class="kd">extends</span> <span class="n">CrudRepository</span><span class="o">&lt;</span><span class="n">Hotel</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="o">,</span> <span class="n">CustomHotelRepository</span><span class="o">{</span>
+    <span class="n">List</span><span class="o">&lt;</span><span class="n">Hotel</span><span class="o">&gt;</span> <span class="nf">findAllByName</span><span class="o">(</span><span class="n">String</span> <span class="n">name</span><span class="o">);</span>
+<span class="o">}</span>
+<span class="n">And</span> <span class="n">as</span> <span class="n">you</span> <span class="n">can</span> <span class="n">see</span> <span class="n">on</span> <span class="n">the</span> <span class="n">previous</span> <span class="n">code</span> <span class="n">snippet</span><span class="o">,</span> <span class="n">method</span> <span class="n">query</span> <span class="n">operations</span> <span class="n">like</span> <span class="n">findAllByName</span> <span class="n">are</span> <span class="n">allowed</span><span class="o">.</span>
+
+<span class="n">For</span> <span class="n">custom</span> <span class="n">queries</span> <span class="n">we</span> <span class="n">can</span> <span class="n">create</span> <span class="n">an</span> <span class="kd">interface</span> <span class="nc">to</span> <span class="n">support</span> <span class="n">the</span> <span class="n">additional</span> <span class="n">queries</span><span class="o">.</span>
+
+<span class="kd">public</span> <span class="kd">interface</span> <span class="nc">CustomHotelRepository</span> <span class="o">{</span>
+    <span class="kt">void</span> <span class="nf">createTable</span><span class="o">();</span>
+    <span class="kt">void</span> <span class="nf">loadData</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">IOException</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="entities">Entities</h3>
+
+<p><code class="highlighter-rouge">DynamoDBMapper</code> allows you to convert <em>DynamoDB</em> items to <em>POJOs</em>, and generate table definitions.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Data</span>
+<span class="nd">@DynamoDBTable</span><span class="o">(</span><span class="n">tableName</span> <span class="o">=</span> <span class="s">"Hotels"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">Hotel</span> <span class="o">{</span>
+    <span class="nd">@DynamoDBHashKey</span>
+    <span class="nd">@DynamoDBGeneratedUuid</span><span class="o">(</span><span class="n">DynamoDBAutoGenerateStrategy</span><span class="o">.</span><span class="na">CREATE</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">id</span><span class="o">;</span>
+    <span class="nd">@DynamoDBAttribute</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="n">name</span><span class="o">;</span>
+    <span class="nd">@DynamoDBAttribute</span>
+    <span class="nd">@DynamoDBTypeConverted</span><span class="o">(</span><span class="n">converter</span> <span class="o">=</span> <span class="n">GeoTypeConverter</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+    <span class="kd">private</span> <span class="n">Geo</span> <span class="n">geo</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>For this particular example, the <em>Partition Key</em> is the field annotated with <code class="highlighter-rouge">@DynamoDBHashKey</code>, which will be generated randomly.</p>
+
+<p>In case you have inner objects, you will need to use <code class="highlighter-rouge">@DynamoDBTypeConverted</code> with a converter since this Spring module is not able to serialize objects by itself and only allows strings as values.</p>
+
+<p>There are also other useful annotations such as <code class="highlighter-rouge">@DynamoDBIndexRangeKey</code> for secondary indexes on a <em>DynamoDB table</em>.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/spring-boot-dynamodb">
+  Source Code
+</a>
+</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<ul>
+  <li><strong>NoSQL does not mean non-relational</strong>.</li>
+  <li><strong>E/R diagrams are still valid</strong>.</li>
+  <li><strong>NoSQL databases do not replace RDBMS</strong>.</li>
+  <li><em>NoSQL</em> is good for <strong>On-line Transaction Processing</strong> (<em>OLTP</em>) or <strong>Decision Support Systems</strong> (<em>DSS</em>) at scale.</li>
+  <li><em>RDBMS</em> is good for <strong>On-line Analytical Processing</strong> (<em>OLAP</em>) or <em>OLTP</em> when scale is not important.</li>
+</ul>

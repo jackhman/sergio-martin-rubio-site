@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by Youssef Raafat
+  Free for personal and commercial use under the MIT license
+  https://github.com/YoussefRaafatNasry/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.">
+
+  <title>Sergio Martin Rubio</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" type="text/css"/>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
+
+    <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Sergio Martin Rubio" />
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137749111-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-137749111-1');
+</script>
+
+
+  
+  </head>
+
+<body class="d-flex flex-column h-100">
+
+  <main class="flex-shrink-0 container mt-5">
+  <nav class="navbar navbar-expand-lg navbar-light">
+
+  <a class="navbar-brand" href="/"><h5><b>Sergio Martin Rubio</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+      
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="nav-item nav-link " href=" /articles/ ">Articles</a>
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="nav-item nav-link  active " href=" /projects/ ">Projects</a>
+          
+        
+      
+        
+          
+            <a class="nav-item nav-link " href=" /about/ ">About</a>
+          
+        
+      
+    </div>
+  </div>
+
+</nav>
+  <div class="col-lg-10 mx-auto mt-5 article">
+  <h2 id="reparto-manager">Reparto Manager</h2>
+
+<div class="video">
+  <iframe src="https://www.youtube.com/embed/UrYdKVSVUbI" frameborder="0" allowfullscreen=""></iframe>
+</div>
+
+<p><strong>Reparto Manager</strong> is a simple and light application made for delivery companies, and its main purpose is to optimize the management of orders based on locations, sale prices, and order priorities. Through an intuitive interface, Reparto Manager will allow you to generate new orders and improve logistics.</p>
+
+<h3 id="features">Features</h3>
+
+<p>Automate delivery of products through the following operations:</p>
+<ul>
+  <li>Register a new order given customer_name , Postcode, distance, price, phone and email.</li>
+  <li>Choose the best order to deliver: The closest one will be selected; then, by the highest price; and then by date. Ther order can be removed, call the customer or send an email.</li>
+  <li>Choose the best group of orders. A group of orders is composed
+for those who have the same cod_postal. The group price is the sum of all orders from a particular group, and the selected group will be the one with the highest price. All orders from a group can be deleted or can be selected individually to obtain individual information.</li>
+  <li>Show a map with orders locations grouped by zip code and display a delivery route.</li>
+</ul>
+
+<h3 id="technologies">Technologies</h3>
+
+<ol>
+  <li><strong>Storate</strong>: <strong>SQLite Database</strong></li>
+  <li><strong>Geolocation</strong>: <strong>Google Maps</strong></li>
+</ol>
+
+<h4 id="database">Database</h4>
+<p>A database is used to store orders with the respective customer information, such as name, zip code, distance, price, phone and email. This information can be retrieve by SQL queries.</p>
+
+<p><em>SQL</em> has been used, since this application can host a large amount of information, and this technology also makes it easier for us to run complex queries using techniques of
+nested subqueries or derived tables.</p>
+
+<p><em>SQL</em> query to obtain the best order:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">db</span><span class="o">.</span><span class="na">rawQuery</span><span class="o">(</span><span class="s">"SELECT _id, nombre, telefono, email FROM pedidos WHERE _id = (SELECT MIN(_id) FROM pedidos WHERE precio IN (SELECT MAX(precio) FROM pedidos WHERE distancia IN (SELECT MIN(distancia) FROM pedidos)))"</span><span class="o">,</span> <span class="kc">null</span><span class="o">);</span>
+</code></pre></div></div>
+<p>Query to retrieve best group of orders:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">db</span><span class="o">.</span><span class="na">rawQuery</span><span class="o">(</span><span class="s">"SELECT codigo_postal, MAX(derivada.total) FROM 
+(SELECT codigo_postal, SUM(precio) AS total FROM pedidos GROUP BY codigo_postal)derivada"</span><span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+
+<span class="n">db</span><span class="o">.</span><span class="na">rawQuery</span><span class="o">(</span><span class="s">"SELECT _id, nombre, telefono, email FROM pedidos WHERE codigo_postal = "</span> <span class="o">+</span> <span class="n">codigoPostalMejorGrupo</span><span class="o">()</span> <span class="o">,</span><span class="kc">null</span><span class="o">);</span>
+</code></pre></div></div>
+
+<p>There previous two query are the same as:</p>
+<div class="language-sql highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">SELECT</span> <span class="n">_id</span><span class="p">,</span> <span class="n">nombre</span><span class="p">,</span> <span class="n">codigo_postal</span><span class="p">,</span> <span class="n">distancia</span><span class="p">,</span> <span class="n">precio</span>
+<span class="k">FROM</span> <span class="n">pedidos</span> <span class="k">WHERE</span> <span class="n">codigo_postal</span> <span class="o">=</span> <span class="p">(</span><span class="k">SELECT</span>
+<span class="n">derivada2</span><span class="p">.</span><span class="n">codigo_postal</span> <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">codigo_postal</span><span class="p">,</span> <span class="k">MAX</span><span class="p">(</span><span class="n">derivada</span><span class="p">.</span><span class="n">total</span><span class="p">)</span> <span class="k">FROM</span> <span class="p">(</span><span class="k">SELECT</span> <span class="n">codigo_postal</span><span class="p">,</span> <span class="k">SUM</span><span class="p">(</span><span class="n">precio</span><span class="p">)</span> <span class="k">AS</span> <span class="n">total</span> <span class="k">FROM</span> <span class="n">pedidos</span> <span class="k">GROUP</span> <span class="k">BY</span> <span class="n">codigo_postal</span><span class="p">)</span><span class="n">derivada</span><span class="p">)</span><span class="n">derivada2</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>However, Android is not able to prcess it.</p>
+
+<p>On the other hand, we will use <em>SQL</em> queries to delete ordres or find locations that will be placed on <strong>Google Maps</strong>.</p>
+
+<h4 id="geolocation">Geolocation</h4>
+
+<p><strong>Google Maps API</strong> for <strong>Android</strong> allows us to place markers to locate orders, showing the best route by postal code on the Google Maps view.</p>
+
+<p>Moroover, when clicking on one of the personalized markers, a message will pop up and it will show same information like postal code and number of orders for a particular postal code.</p>
+
+<blockquote>
+  <p>Postal codes are retrieved in advance by <em>SQL</em> queries.</p>
+</blockquote>
+
+<h3 id="functional-descripion">Functional Descripion</h3>
+
+<p>Reparto Manager is composed by 6 different views, including the Splash screen which runs during start up. Views:</p>
+
+<ol>
+  <li><strong>Splash</strong> (Splash)</li>
+  <li><strong>Main</strong> (Main)</li>
+  <li><strong>Create Order</strong> (CrearPedido)</li>
+  <li><strong>Best Order Information</strong> (InfoMejorPedido)</li>
+  <li><strong>Best Group of Orders Information</strong> (InfoMejorGrupo)</li>
+  <li><strong>Map</strong> (Mapa)</li>
+</ol>
+
+</div>
+  </main>
+
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Sergio Martin Rubio</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center">
+
+  
+
+  
+
+    
+    
+      
+
+    
+    
+      
+
+    
+    
+
+    
+    <a class="social mx-1"  href="mailto:me@sergiomartinrubio.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a>
+  
+  
+
+    
+    
+
+    
+    <a class="social mx-1"  href="https://www.github.com/smartinrub"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a>
+  
+  
+
+    
+    
+
+    
+    <a class="social mx-1"  href="https://www.linkedin.com/in/sergiomartinrubio"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+  
+  
+
+    
+    
+
+    
+    <a class="social mx-1"  href="https://www.twitter.com/smartinrubio"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#1da1f2'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-twitter fa-1x"></i>
+    </a>
+  
+  
+
+</div>
+
+  <div class="container-fluid justify-content-center">
+      <a href="/privacy-policy/">Privacy Policy</a>
+  </div>
+
+</footer>
+
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Card Animation jQuery -->
+<script src="/assets/js/card-animation.js"></script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
+</body>
+
+</html>

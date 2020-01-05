@@ -1,0 +1,217 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#spotbugs">
+SpotBugs</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#what-it-is">
+What it is</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#how-to-use">
+How To Use</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#advance-configuration">
+Advance Configuration</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#alternatives">
+Alternatives</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>Every developer should ensure code quality and follow language conventions, otherwise <a href="https://medium.com/existek/what-is-technical-debt-and-how-to-calculate-it-80193e4e746d">Technical Debt</a> is created, and at some point in the future you will have to revisit that smelly piece of code.</p>
+
+<p><strong>Code Debt</strong> can be created without even realizing when: development has to be done before a deadline; you do not have enough experience; or simply you are having a bad day. Because of this, it is very important that before merging changes into master we double check that we are not introducing performance or security issues, or any other kind of code smell.</p>
+
+<h3 id="spotbugs">SpotBugs</h3>
+
+<h4 id="what-it-is">What it is</h4>
+
+<ul>
+  <li><a href="https://spotbugs.github.io/">SpotBugs</a> helps you analize your <strong>Java</strong> code to find bugs.</li>
+  <li>Free open source tool which was previously named <a href="http://findbugs.sourceforge.net/">FindBugs</a>.</li>
+  <li>It is a plugin available for Maven, Gradle, Eclipse, Ant…</li>
+  <li>It looks at your source code and runs a static analysis.</li>
+</ul>
+
+<h4 id="how-to-use-it">How To Use It</h4>
+
+<p>There are a few ways of using <strong>SpotBugs</strong>, however, we are going to focus on the SpotBugs plugin for Maven. Alternatevely, you can execute SpotBugs on <em>Windows</em>, <em>macOS</em> or <em>Linux</em> to run the <em>SpotBugs GUI</em>; install a plugin for Eclipse; integrate it with <strong>Ant</strong> or add a <strong>Gradle Plugin</strong>.</p>
+
+<ol>
+  <li>Add the SpotBugs plugin into your pom.xml file:</li>
+</ol>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;plugin&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>com.github.spotbugs<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spotbugs-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+  <span class="nt">&lt;version&gt;</span>3.1.11<span class="nt">&lt;/version&gt;</span>
+  <span class="nt">&lt;dependencies&gt;</span>
+    <span class="nt">&lt;dependency&gt;</span>
+      <span class="nt">&lt;groupId&gt;</span>com.github.spotbugs<span class="nt">&lt;/groupId&gt;</span>
+      <span class="nt">&lt;artifactId&gt;</span>spotbugs<span class="nt">&lt;/artifactId&gt;</span>
+      <span class="nt">&lt;version&gt;</span>4.0.0-beta1<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;/dependency&gt;</span>
+  <span class="nt">&lt;/dependencies&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Run one of the goals provided by the plugin:</li>
+</ol>
+
+<ul>
+  <li><strong>spotbugs</strong> goal: runs analysis</li>
+  <li><strong>check</strong> goal: runs analisys and fails build if bugs are found</li>
+  <li><strong>gui</strong> goal: launches GUI to see results</li>
+  <li><strong>help</strong> goal: shows how to use SpotBugs plugin</li>
+</ul>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean <span class="nb">install </span>spotbugs:spotbugs
+</code></pre></div></div>
+
+<h4 id="advance-configuration">Advance Configuration</h4>
+
+<p>Aditionally, we can know more about one particular goal if we run</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn spotbugs:help <span class="nt">-Ddetail</span><span class="o">=</span><span class="nb">true</span> <span class="nt">-Dgoal</span><span class="o">=</span>check
+</code></pre></div></div>
+
+<p>and set configuration properties like</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean <span class="nb">install </span>spotbugs:check <span class="nt">-Dspotbugs</span>.failOnError<span class="o">=</span><span class="nb">false</span>
+</code></pre></div></div>
+
+<p>or in a configuratio block inside the <strong>SpotBugs Maven plugin</strong> block like below</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;configuration&gt;</span>
+    <span class="nt">&lt;threshold&gt;</span>Low<span class="nt">&lt;/threshold&gt;</span>
+    <span class="nt">&lt;effort&gt;</span>Max<span class="nt">&lt;/effort&gt;</span>
+    <span class="nt">&lt;debug&gt;</span>true<span class="nt">&lt;/debug&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div></div>
+
+<p>SpotBugs also allows advance <a href="https://spotbugs.readthedocs.io/en/stable/filter.html#">filter configuration</a> in order to include or exclude specific classes or methods from the report. First, we need to create a xml file where we are going to define our <em>Match</em> elements.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>your-project-root-folder
+<span class="nb">touch </span>spotbugs.xml
+</code></pre></div></div>
+
+<p>and add it in your SpotBugs plugin configuration</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;includeFilterFile&gt;</span>spotbugs.xml<span class="nt">&lt;/includeFilterFile&gt;</span>
+</code></pre></div></div>
+
+<p>A filter file is a <em>XML</em> file with a parent FindBugsFilter tag which contains as many <code class="highlighter-rouge">Match</code> tags as you want, and each <code class="highlighter-rouge">Match</code> element accepts many <a href="https://spotbugs.readthedocs.io/en/stable/filter.html#types-of-match-clauses">types of Match clauses</a>. Moreover, you can use <a href="https://docs.oracle.com/javase/8/docs/api/java/util/regex/Pattern.html">Java regular expressions</a> to include/exclude classes, methods, fields or sources.</p>
+
+<p>An example with some of the SpotBugs clauses can be found below.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;FindBugsFilter&gt;</span>
+    <span class="nt">&lt;Match&gt;</span>
+        <span class="nt">&lt;Class</span> <span class="na">name=</span><span class="s">"com.sergiomartinrubio.spotbugsexample.PerformanceBugs"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;Bug</span> <span class="na">category=</span><span class="s">"PERFORMANCE"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/Match&gt;</span>
+    <span class="nt">&lt;Match&gt;</span>
+        <span class="nt">&lt;Class</span> <span class="na">name=</span><span class="s">"com.sergiomartinrubio.spotbugsexample.CorrectnessBugs"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;Not&gt;</span>
+            <span class="nt">&lt;Method</span> <span class="na">name=</span><span class="s">"test"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Not&gt;</span>
+    <span class="nt">&lt;/Match&gt;</span>
+    <span class="nt">&lt;Match&gt;</span>
+        <span class="nt">&lt;Class</span> <span class="na">name=</span><span class="s">"com.sergiomartinrubio.spotbugsexample.BadPracticeBugs"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;Or&gt;</span>
+            <span class="nt">&lt;Method</span> <span class="na">name=</span><span class="s">"removeAllFromCollection"</span> <span class="na">returns=</span><span class="s">"void"</span> <span class="nt">/&gt;</span>
+            <span class="nt">&lt;Method</span> <span class="na">name=</span><span class="s">"NamingConvention"</span> <span class="na">returns=</span><span class="s">"void"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;/Or&gt;</span>
+        <span class="nt">&lt;Bug</span> <span class="na">category=</span><span class="s">"BAD_PRACTICE"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/Match&gt;</span>
+
+    <span class="nt">&lt;Match&gt;</span>
+        <span class="nt">&lt;Package</span> <span class="na">name=</span><span class="s">"~.*\.spotbugsexample"</span> <span class="nt">/&gt;</span>
+        <span class="nt">&lt;Bug</span> <span class="na">pattern=</span><span class="s">"UCF_USELESS_CONTROL_FLOW"</span> <span class="nt">/&gt;</span>
+    <span class="nt">&lt;/Match&gt;</span>
+<span class="nt">&lt;/FindBugsFilter&gt;</span>
+</code></pre></div></div>
+
+<p class="text-center">
+<a class="m-1 btn btn-dark btn-3 " href="https://github.com/smartinrub/spotbugs-example">
+  Code Examples
+</a>
+</p>
+
+<h4 id="gui">GUI</h4>
+
+<p>SpotBugs has a GUI out-of-the-box by simply running</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn spotbugs:gui
+</code></pre></div></div>
+
+<blockquote>
+  <p>A build and SpotBugs analysis is required</p>
+</blockquote>
+
+<p>A new window will pop up with a bug tree which gives us the following information:</p>
+<ul>
+  <li>Bug Category</li>
+  <li>Bug Kind</li>
+  <li>Bug Pattern</li>
+  <li>Bug Rank</li>
+</ul>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/ANLKz0dfuvd1m0fKUhuUkBCGg5mBbObv0li-eiqbHiXeJpdy5a9N8LfJE5KZY0t0KtKjcb4_FntTYwYCsVUiKFQBVUOdGIPIppwLGokGYtoyhIcsda3J8BURIlDj3XCNao7L8uZm=w2400" class="figure-img img-fluid rounded" alt="SpotBugs GUI - Hierarky" />
+  
+    <figcaption class="figure-caption text-center">SpotBugs GUI - Hierarky</figcaption>
+  
+</figure>
+
+<p>When a particular bug is selected we will see a pane with the class and highlighted line code, and at the botton a description and possible solution.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/_Tr_pt9VWpFMnJFYqwTPncFcaXofAyao5qpfG1veW6pEC0h9pzSDwneraWbY1hF3DaiE2Hb6_7xvnswG6lfoPXNHkp2GjJqtTXfcOg_dhaDOjANqkuYqBcmJGbAT1vIpt3ChiyIY=w2400" class="figure-img img-fluid rounded" alt="SpotBugs GUI - Source Code and Description Panel" />
+  
+    <figcaption class="figure-caption text-center">SpotBugs GUI - Source Code and Description Panel</figcaption>
+  
+</figure>
+
+<p>You can also save the report and import or export filters.</p>
+
+<blockquote>
+  <p>The GUI can also be run by itself and load the jar file that we want to analyze.</p>
+</blockquote>
+
+<h3 id="alternatives">Alternatives</h3>
+
+<p>Probably you have already heard about <a href="https://www.sonarqube.org/"><strong>SonarQube</strong></a>, which basically provides SpotBugs features and a few extra more. In fact, <em>SonarQube</em> used to use <em>FindBugs</em> plugin to generate bug reports, until they decided to used their own analyzer and stop using <strong><a href="http://checkstyle.sourceforge.net/">Checkstyle</a></strong>, <strong><a href="https://pmd.github.io/">PMD</a></strong> and <strong>FindBugs</strong>.</p>
+
+<p><strong>Why would you choose SpotBugs?</strong> Because it is easier to integrate into your Maven build, rather than relying on a separate Sonar server, and having to learn an additional <em>API</em>. The greatest benefit of <strong>SonarQube</strong> is the GUI, which lets you configure anything easily. Nevertheless, you could run something like <a href="https://github.com/jenkinsci/warnings-ng-plugin">Jenkins Warnings Next Generation Plugin</a> as part of your <strong>Jenkins CI build</strong> and have nice graphs.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Whether you are a junior or senior developer, code analysis tools like Spotbugs can be very useful to improve code quality and avoid bugs, so you should consider adding this tool to your build.</p>

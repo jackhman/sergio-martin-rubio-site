@@ -1,0 +1,244 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#getting-started">
+Getting Started</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#when-should-i-use-micronaut">
+When should I use Micronaut?</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#caveats">
+Caveats</a>
+    
+  
+
+</div>
+
+<h3 id="introduction">Introduction</h3>
+
+<p><strong><a href="https://micronaut.io/">Micronaut</a></strong> is a web framework similar to <strong>Spring Boot</strong>, which started at <a href="https://objectcomputing.com/">OCI</a> and was initially developed by <em>Groovy</em> and <em>Rails</em> developers from <strong>Pivotal</strong>.</p>
+
+<p>Micranaut is really a competitor for Spring Boot, and if you are comfortable with Spring Boot, Micronaut provides a Spring-like way of creating web applications. It uses JAX-RS annotations and specific Micronaut annotations similar to the Spring Boot ones (sometimes the only difference is the package name (<code class="highlighter-rouge">io.micronaut</code>)).</p>
+
+<h3 id="getting-started">Getting Started</h3>
+
+<p>A <strong>CLI tool</strong> similar to the one provided by Spring is avaialable to create your Micronaut applications. The simplest way to start using the CLI tool is to install it through SDKMAM.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-s</span> https://get.sdkman.io | bash
+<span class="nb">source</span> <span class="s2">"</span><span class="nv">$HOME</span><span class="s2">/.sdkman/bin/sdkman-init.sh"</span>
+sdk <span class="nb">install </span>micronaut
+mn <span class="nt">--version</span>
+
+</code></pre></div></div>
+
+<p>Now you can create your first Micronaut project.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mn create-app com.sergiomartinrubio.micronaut-example <span class="nt">--build</span> maven
+</code></pre></div></div>
+
+<p>By default, it uses <strong>Gradle</strong> build system and Java as the main language, however, you can tweat these setting by using these two flags: <code class="highlighter-rouge">--build</code> [gradle, manven] and <code class="highlighter-rouge">--lang</code> [java, groovy, kotlin]. You can also add features to the project, like <strong>GraalVM</strong> support, <a href="http://sergiomartinrubio.com/articles/troubleshooting-tools-for-microservices-architecture"><strong>Zipkin</strong></a> for tracing, type of rendering…</p>
+
+<blockquote>
+  <p><strong>GraalVM</strong>: it is an ecosystem which supports many languages and allows you to run your applications like a native one, so in the case of Java, it will translate your bytecode into machine code.</p>
+</blockquote>
+
+<p>When <code class="highlighter-rouge">nm</code> command is run, it esentially creates a base folder with the build system file chosen (if you choose Gradle, it also provides a Gradle wrapper, so it downloads it for you), a <strong>Dockerfile</strong> ready to run, and a logback file for log configuration.</p>
+
+<h3 id="features">Features</h3>
+
+<p>You can crate controllers by using <code class="highlighter-rouge">@Controller</code> annotation and define your endpoints with http method annotations like <code class="highlighter-rouge">@Get</code>. When you run the application, you can hit the endpoint at http://localhost:8080, so it will feel as a <strong>Spring Boot</strong> application.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Controller</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">UpperCaseController</span> <span class="o">{</span>
+
+    <span class="nd">@Get</span><span class="o">(</span><span class="s">"/touppercase/{input}"</span><span class="o">)</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">toUpperCase</span><span class="o">(</span><span class="nd">@PathVariable</span><span class="o">(</span><span class="s">"input"</span><span class="o">)</span> <span class="n">String</span> <span class="n">input</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">input</span><span class="o">.</span><span class="na">toUpperCase</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Tests are also created in a similar way as the <strong>Spring Boot</strong> way. Instead of 
+<code class="highlighter-rouge">@SpringBootTest</code> annotation, it uses <code class="highlighter-rouge">@MicronautTest</code>, and <code class="highlighter-rouge">RxHttpClient</code> annotated with <code class="highlighter-rouge">@Client</code> instead of autowiring <code class="highlighter-rouge">TestRestTemplate</code>, to make HTTP requests to your controller.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@MicronautTest</span>
+<span class="kd">class</span> <span class="nc">UpperCaseControllerTest</span> <span class="o">{</span>
+
+    <span class="nd">@Inject</span>
+    <span class="nd">@Client</span><span class="o">(</span><span class="s">"/"</span><span class="o">)</span>
+    <span class="n">RxHttpClient</span> <span class="n">client</span><span class="o">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">toUpperCase_givenStringPathParam_whenParamIsValid_thenReturnsStringInUpperCase</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">HttpRequest</span> <span class="n">request</span> <span class="o">=</span> <span class="n">HttpRequest</span><span class="o">.</span><span class="na">GET</span><span class="o">(</span><span class="s">"/touppercase/test"</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">response</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">toBlocking</span><span class="o">().</span><span class="na">retrieve</span><span class="o">(</span><span class="n">request</span><span class="o">);</span>
+
+        <span class="n">assertNotNull</span><span class="o">(</span><span class="n">response</span><span class="o">);</span>
+        <span class="n">assertEquals</span><span class="o">(</span><span class="s">"TEST"</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/micronaut-example">
+  Source Code
+</a>
+</p>
+
+<p>Micronaut provides a compile-time <em>AOP API</em> that does not use reflection. For those who don’t know what reflection is, it is basically a way to the program to introspect itself, so it asks itself if a class has specific methods, annotations, parameters… and Spring uses intensively reflection to search for controllers, endpoints, beans… so there is a performance penalty that you pay, and most of this work is done during startup. Therefore, Micronaut has a great advantage in the serverless model, where startup times are very important.</p>
+
+<p>Micronaut relies on annotations, it uses these annotations in a different way as Spring. During compile-time, it scans all the different annotations and add extra code to hook everything up. This means that once the Java jar is compiled, annotations are not needed anymore, so there is no need to do any reflection, because the code is already baked into the jar. Bear in mind that Micranaut doesn’t modify the original classes, instead it creates extra classes, so if you need to debug your code, it will stop on the line you are expecting to stop.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/nGgRatrpzZdn-_ZvPwut4KXsFHZqmpOy-EGr7QuDAPuafOhqCQKE4Xon8XxvXV25g9F_BthT9XC6CNP3raJoSk6O10WoHLivEhiWnFRQax5ImF81t4RABMBsjxm6p45wBq8Ml_M4jQ=w400" class="figure-img img-fluid rounded" alt="Micronaut Additional Classes" />
+  
+    <figcaption class="figure-caption text-center">Micronaut Additional Classes</figcaption>
+  
+</figure>
+
+<p>Micranaut tries to make it compatible with <strong>GraalVM</strong> as much as possible, and even has a feature to generate a project with Graal support. This is done by creating a Docker image with GraalVM, <em>JDK</em> and the Java binaries.</p>
+
+<p><strong>Micronaut only supports Netty</strong> and <strong>there is no way at the moment to switch to Tomcat</strong>, so you have to considerer if Spring metrics and threading handling of Tomcat is a must. However, it is compatible with <strong>Micrometer</strong>, <strong>provides refresh and healthcheck endpoints, cache endpoints…</strong>.</p>
+
+<p>Other features:</p>
+<ul>
+  <li><strong>Bean configuration and lifecycle modifications</strong>.</li>
+  <li>A number of different formats for your <strong>application properties</strong> like application.yaml, application.properties or application.groovy.</li>
+  <li><em>AOP</em>.</li>
+  <li><strong>Environment specific configuration</strong>.</li>
+  <li><strong>AWS Lambda</strong>.</li>
+  <li><a href="https://github.com/openfaas/faas">OpenFaaS</a>, <a href="http://sergiomartinrubio.com/articles/serverless-hello-world-with-fn-framework">ProjectFn</a> and <a href="https://github.com/projectriff/riff">riff</a>.</li>
+  <li><strong>Cloud Native support</strong>: <em>Consul</em>, <em>Eureka</em>, <em>Kubernetes</em>, <em>Spring Cloud Config</em>…</li>
+  <li><strong>Tracing</strong> with <strong>Zipkin</strong>.</li>
+  <li><strong>Ribbon</strong>.</li>
+  <li>Kafka and RabbitMQ.</li>
+  <li><strong>Support for data access configuration</strong>: <em>mongoDB</em>, <em>Hibernate</em>, <em>Redis</em>, <em>Cassandra</em>…</li>
+  <li><strong>Authentication</strong>: LDAP…</li>
+  <li><strong>Circuit Breaker</strong> (Hystrix).</li>
+  <li><strong>Websockets</strong>.
+…</li>
+</ul>
+
+<h3 id="mironaut-vs-spring-boot-performance">Mironaut vs Spring Boot performance</h3>
+
+<p>Three metrics will be measure to decide which framework performs better. Both, <strong>Spring Boot</strong> and <strong>Micronaut</strong> applications contain same features: http web support with only one class where a controller is defined, and a single endpoint, which converts a string to upper case. Spring uses Tomcat as the embedded web server, whereas the Micronaut one uses Netty.</p>
+
+<h4 id="startup-time">Startup Time</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-p</span> 8090:8090 spring-boot-example
+
+  <span class="nb">.</span>   ____          _            __ _ _
+ /<span class="se">\\</span> / ___<span class="s1">'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '</span>_ | <span class="s1">'_| | '</span>_ <span class="se">\/</span> _<span class="sb">`</span> | <span class="se">\ \ \ \</span>
+ <span class="se">\\</span>/  ___<span class="o">)</span>| |_<span class="o">)</span>| | | | | <span class="o">||</span> <span class="o">(</span>_| |  <span class="o">)</span> <span class="o">)</span> <span class="o">)</span> <span class="o">)</span>
+  <span class="s1">'  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+ :: Spring Boot ::        (v2.1.4.RELEASE)
+
+2019-04-30 11:18:47.729  INFO 1 --- [           main] c.s.s.SpringBootExampleApplication       : Starting SpringBootExampleApplication v0.0.1-SNAPSHOT on 960c5b1f8f80 with PID 1 (/spring-boot-example.jar started by root in /)
+2019-04-30 11:18:47.733  INFO 1 --- [           main] c.s.s.SpringBootExampleApplication       : No active profile set, falling back to default profiles: default
+2019-04-30 11:18:49.503  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8090 (http)
+2019-04-30 11:18:49.546  INFO 1 --- [           main] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2019-04-30 11:18:49.546  INFO 1 --- [           main] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.17]
+2019-04-30 11:18:49.634  INFO 1 --- [           main] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2019-04-30 11:18:49.635  INFO 1 --- [           main] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1828 ms
+2019-04-30 11:18:49.974  INFO 1 --- [           main] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService '</span>applicationTaskExecutor<span class="s1">'
+2019-04-30 11:18:50.247  INFO 1 --- [           main] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8090 (http) with context path ''
+2019-04-30 11:18:50.252  INFO 1 --- [           main] c.s.s.SpringBootExampleApplication       : Started SpringBootExampleApplication in 3.001 seconds (JVM running for 4.299)
+2019-04-30 11:21:49.215  INFO 1 --- [nio-8090-exec-7] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet '</span>dispatcherServlet<span class="s1">'
+2019-04-30 11:21:49.216  INFO 1 --- [nio-8090-exec-7] o.s.web.servlet.DispatcherServlet        : Initializing Servlet '</span>dispatcherServlet<span class="s1">'
+2019-04-30 11:21:49.247  INFO 1 --- [nio-8090-exec-7] o.s.web.servlet.DispatcherServlet        : Completed initialization in 30 ms
+
+</span></code></pre></div></div>
+
+<p>It takes <strong>~3 seconds</strong> to start the Spring Boot application.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-p</span> 8080:8080 micronaut-example  
+11:19:08.888 <span class="o">[</span>main] INFO  io.micronaut.runtime.Micronaut - Startup completed <span class="k">in </span>1352ms. Server Running: http://bca092ae4eb6:8080
+
+</code></pre></div></div>
+
+<p>In only <strong>~1.3 seconds</strong> the Micranaut app is up and running.</p>
+
+<p>Spring Boot startup is more than 50% slower.</p>
+
+<p><strong>Winner</strong>: <strong>Micronaut</strong></p>
+
+<h4 id="initial-memory-consumption">Initial Memory Consumption</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker ps
+
+CONTAINER ID        IMAGE                 COMMAND                  CREATED              STATUS              PORTS
+                             NAMES
+b883c35548e1        spring-boot-example   <span class="s2">"/bin/sh -c 'java -X…"</span>   About a minute ago   Up About a minute   8080/t
+<span class="nb">cp</span>, 0.0.0.0:8090-&gt;8090/tcp   tender_booth
+ba1be364bd13        micronaut-example     <span class="s2">"/bin/sh -c 'java -X…"</span>   About a minute ago   Up About a minute   0.0.0.
+0:8080-&gt;8080/tcp             crazy_blackwell
+</code></pre></div></div>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker stats
+
+CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+ba1be364bd13        crazy_blackwell     0.11%               47.36MiB / 7.676GiB   0.60%               7.99kB / 168B       34.9MB / 4.1kB      29
+b883c35548e1        tender_booth        0.27%               70.78MiB / 7.676GiB   0.90%               5.87kB / 0B         20.4MB / 4.1kB      45
+
+</code></pre></div></div>
+<p>where <em>b883c35548e1</em> is the Spring Boot app and <em>ba1be364bd13</em> is Micronaut.</p>
+
+<p>Micronaut consumes around 30% less memory than Spring Boot.</p>
+
+<p><strong>Winner: Micronaut</strong></p>
+
+<h4 id="heavy-load-memory-consumption">Heavy Load Memory Consumption</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>CONTAINER ID        NAME                CPU %               MEM USAGE / LIMIT     MEM %               NET I/O             BLOCK I/O           PIDS
+ba1be364bd13        crazy_blackwell     23.80%              339.1MiB / 7.676GiB   4.31%               3.24MB / 2.45MB     38MB / 4.1kB        52
+b883c35548e1        tender_booth        22.52%              123.4MiB / 7.676GiB   1.57%               3.23MB / 2.35MB     21.9MB / 4.1kB      170
+
+</code></pre></div></div>
+
+<p>Surprisingly, under heavy load Micronaut performs much worese in terms of memory consumption. Micronaut uses 65% more memory than Spring under the same conditions.</p>
+
+<p><strong>Winner: Spring Boot</strong></p>
+
+<h4 id="response-time">Response Time</h4>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Micronaut Request	9994	2	2	4	5	9	0	50	0.0	97.26710008953945	12.823299328210767	12.443349718486004
+Spring Boot Request	9994	2	2	3	4	8	0	63	0.0	97.27467393420285	11.114391455372786	12.444318638066965
+</code></pre></div></div>
+
+<p>Both frameworks perform in the same way.</p>
+
+<p><strong>Winner: tie</strong></p>
+
+<h4 id="conclusion">Conclusion</h4>
+
+<p>Micronaut startup time and initial memory consumption are much better than Spring Boot ones, however, the high memory consumption of Micronaut during heavy load is quite concerning and it seems memory management is not that great.</p>
+
+<h3 id="when-should-i-use-micronaut">When should I use Micronaut?</h3>
+
+<p><strong>Micronaut</strong> team advertise it as a low memory consumption framework with a quick startup time, so it is very suitable for the <em>serverless</em> world.</p>
+
+<p>This framework is also a good choice if you are moving your application to the cloud or you are creating a project from scratch.</p>
+
+<h3 id="caveats">Caveats</h3>
+
+<ul>
+  <li>It is still fairly new, and the community is quite small compare to the Spring one, though big enterprise companies like ThoughtWorks has already included it on their tech radar.</li>
+  <li>Netty is the only client web server available.</li>
+  <li>For new developers used to Spring, it might be a little big challenging, because, under the hood it works in a completely different way.</li>
+</ul>

@@ -1,0 +1,172 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#setting-up-a-cluster">
+Setting Up a Cluster</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#prerequisites">
+Prerequisites</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#getting-started">
+Getting Started</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#deploying-microservices">
+Deploying Microservices</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#troubleshooting">
+Troubleshooting</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://kubernetes.io">Kubernetes</a> is growing in popularity and many companies use it to orchestrate their containerized microservices. Moreover, microservices are increasing the release cycle, because you do not have to build and deploy a huge monolith application every time a small change is made, therefore <em>DevOps</em> teams should be able to deploy multiple times per day. However, the continuous integration and delivery process is becoming a bottleneck, because at the end of the development process, code changes will trigger a pipeline in a <strong>CI tool</strong>, and this tool is usually shared by all your microservices. So, what can we do? The answer is <strong>Jenkins X</strong>:</p>
+
+<p><strong>Jenkins X</strong> allows you to create a distributed and decoupled <em>CI/CD system</em>.</p>
+
+<h2 id="setting-up-a-cluster">Setting Up a Cluster</h2>
+
+<p>To create a <em>Kubernetes</em> cluster with <em>Jenkins X</em>, there are a few alternatives. You can use <em>Minikube</em>, <em>AWS</em>, <em>Azure</em>, <em>Oracle</em>, <em>OpenShift</em> or <em>Google Cloud</em>, but for simplicity, <strong>GCP</strong> will be chosen for this example.</p>
+
+<h3 id="prerequisites">Prerequisites</h3>
+
+<ul>
+  <li>Install <a href="https://jenkins-x.io/es/docs/getting-started/setup/install/">jx tool</a></li>
+  <li>Create <a href="https://console.cloud.google.com/freetrial?pli=1">Google Cloud Account</a></li>
+  <li>Create a <strong>project on Google Cloud</strong></li>
+  <li>Install <strong>Git</strong>, <a href="https://cloud.google.com/sdk/docs/downloads-apt-get">gcloud</a>) and <a href="https://kubernetes.io/docs/tasks/tools/install-kubectl/">kubectl</a></li>
+</ul>
+
+<h3 id="getting-started">Getting Started</h3>
+
+<p>Login into your Google Cloud Account:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>gcloud auth login
+</code></pre></div></div>
+
+<p><strong>Create cluster:</strong></p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jx create cluster gke <span class="nt">--skip-login</span> <span class="nt">--default-admin-password</span><span class="o">=</span>mypassword <span class="nt">-n</span> jenkinsx-demo
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">--default-admin-password</code> sets the password to access <strong>Jenkins</strong> with the <em>admin user</em>; <code class="highlighter-rouge">-n</code> sets the <em>Kubernetes cluster name</em>.</p>
+
+<p>Follow the prompts on the console: select your <em>Google Cloud project</em> (<code class="highlighter-rouge">my-jenkinsx-demo</code>), <em>Google Cloud zone</em> (in this case, <code class="highlighter-rouge">europe-west2-a</code>), machine type (<code class="highlighter-rouge">n1-standard-2</code>),  minimum number of nodes (3 by default), maximum number of nodes (3), install ingress controller, set domain (choose default), set <em>GitHub</em> username, and recreate <em>Jenkins X</em> cloud environment.</p>
+
+<p>After the process is done, two new repositories will be created on your <em>GitHub</em> account, and the <em>Kubernetes</em> context will be switched to the Jenkins X one.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>kubectl config get-contexts
+CURRENT   NAME                                                CLUSTER                                             
+<span class="k">*</span>         gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo   gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo  
+AUTHINFO                                            NAMESPACE
+gke_my-jenkinsx-demo_europe-west2-a_jenkinsx-demo   jx
+
+</code></pre></div></div>
+
+<p>Now you are ready to create your microservices and deploy them on your new <em>Kubernetes</em> cluster!</p>
+
+<h2 id="deploying-microservices">Deploying Microservices</h2>
+
+<p>There are three alternatives to create your microservice and deploy it:</p>
+
+<ul>
+  <li>Create your microservice manually and then import it using <a href="https://jenkins-x.io/commands/jx_import/">jx import</a>.</li>
+  <li>Use the <a href="https://jenkins-x.io/commands/jx_create_spring/">jx create</a> <em>Spring</em> command which provides an easy way to create a microservice with <em>Spring Boot</em> from your terminal. Dependencies can be specified by including the <code class="highlighter-rouge">-d</code> argument followed by the dependency you want to add, e.g.  <code class="highlighter-rouge">jx create spring -d web -d actuator</code>.</li>
+  <li>Use <a href="https://jenkins-x.io/commands/jx_create_quickstart/">jx create quickstart</a> which allows you to select one of the <a href="https://github.com/jenkins-x-quickstarts">templates provided by Jenkins X</a>.</li>
+</ul>
+
+<p><strong>What happens when you use jx tool?</strong></p>
+
+<ul>
+  <li>Creates an application in a directory.</li>
+  <li>Initializes the repository and pushes code to <em>GitHub</em>.</li>
+  <li>Adds <em>Dockerfile</em> (to create container) and <em>Jenkinsfile</em> (to create pipeline).</li>
+  <li>Creates a <em>Helm chart</em> to deploy on Kubernetes</li>
+  <li>Registers <em>webhook</em> on your git repository for your <em>teams jenkins</em></li>
+  <li>Triggers the pipeline for the first time</li>
+</ul>
+
+<p>For this example, Golang will be used with the quickstart tool provided by Jenkins X.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jx create quickstart <span class="nt">-l</span> Go
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">-l</code> argument allows us to filter by language.</p>
+
+<blockquote>
+  <p>Note: The only available template for <em>Golang</em> at the moment is <em>golang-http</em>.</p>
+</blockquote>
+
+<p>After following all the steps and the pipeline runs, the <em>Go</em> application will be deployed on the staging namespace (<code class="highlighter-rouge">jx-staging</code>).</p>
+
+<p>Kubernetes specifications include an ingress for the microservice, so you will be able to hit it from outside the cluster.</p>
+
+<p>The <em>URL</em> to hit the service can be found by running the following command:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jx get app
+APPLICATION               STAGING PODS URL                                                               
+golang-http               0.0.1   1/1  http://golang-http.jx-staging.your-google-cloud-ip.nip.io
+
+PRODUCTION PODS URL
+</code></pre></div></div>
+
+<p>The application was only deployed on the staging environment and now it is time to promote it to production.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>jx promote golang-http <span class="nt">--version</span> 0.0.1 <span class="nt">--env</span> production
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: Make sure that the version match with the one in staging, otherwise the promotion pipeline will fail.</p>
+</blockquote>
+
+<p>The previous command will open a pull request on the production repository, and only when the changes are merged, the production pipeline on <em>Jenkins</em> will be triggered. If everything goes well, the application should be deployed on your <code class="highlighter-rouge">jx-production</code> namespace, and the production URL will be available.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>APPLICATION    STAGING PODS URL           
+golang-http    0.0.1   1/1  http://golang-http.jx-staging.your-google-cloud-ip.nip.io               
+
+PRODUCTION PODS URL
+0.0.1      1/1  http://golang-http.jx-production.your-google-cloud-ip.nip.io
+</code></pre></div></div>
+
+<p>Congratulations! You have just deployed your first application on <strong>Kubernetes</strong> with <strong>Jenkins X</strong>!</p>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<p>Depending on your <strong>jx version</strong> you might come across a <strong>Helm error</strong> like this:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="s1">'Error: UPGRADE FAILED: incompatible versions client[v2.10.0-rc.1] server[v2.9.1]'</span>: <span class="nb">exit </span>status 1
+</code></pre></div></div>
+
+<p>This happens because <em>Helm</em> is not back compatible and <em>Jenkins X</em> might have installed an old version. This can be solved by installing the latest <em>Helm</em> version on your local machine.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>helm init <span class="nt">--upgrade</span>
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>As you can see, <em>Jenkins X</em> will take care of your microservices deployment pipeline and will save you the time of creating pipelines for each microservice.</p>

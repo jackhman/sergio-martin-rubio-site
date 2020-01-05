@@ -1,0 +1,81 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#annotation">
+Annotation</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#use-cases-for-functional-interfaces">
+Use cases for Functional Interfaces</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#default-methods">
+Default methods</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><strong>Functional interfaces</strong> are the ones which only have one abstract method different from the public methods of <code class="highlighter-rouge">Object.class</code> (<em>equals</em>, <em>hashCode</em>…), so that the contract is only one function.</p>
+
+<h2 id="annotation">Annotation</h2>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">Foo</span> <span class="o">{</span>
+	<span class="kt">void</span> <span class="nf">method</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">@FunctionalInterface</code> annotation is not mandatory but highly recommended, because the interface will be checked at compiling time if in fact, your interface is functional. Moreover, this annotation makes your architecture easier to understand.</p>
+
+<h2 id="use-cases-for-functional-interfaces">Use cases for Functional Interfaces</h2>
+
+<p>Since <strong>Java 8</strong> has been released functional interfaces are very useful when combining with lambda expressions.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">Foo</span> <span class="o">{</span>
+	<span class="n">String</span> <span class="nf">method</span><span class="o">(</span><span class="n">String</span> <span class="n">string</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>And you can use it like this:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Foo</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">string</span> <span class="o">+</span> <span class="s">"world!"</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">foo</span><span class="o">.</span><span class="na">method</span><span class="o">(</span><span class="s">"Hello "</span><span class="o">));</span>
+</code></pre></div></div>
+
+<p>It is important to mention that <strong>Java 8</strong> already provides some functional interfaces out-of-the-box in <code class="highlighter-rouge">Function&lt;T,R&gt;</code> from the <code class="highlighter-rouge">java.util.function</code>. Therefore, in same cases as the explained before we can make use of it.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">Function</span><span class="o">&lt;</span><span class="n">String</span><span class="o">,</span> <span class="n">String</span><span class="o">&gt;</span> <span class="n">function</span> <span class="o">=</span> <span class="n">string</span> <span class="o">-&gt;</span> <span class="n">string</span> <span class="o">+</span> <span class="s">"world!"</span><span class="o">;</span>
+<span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="n">function</span><span class="o">.</span><span class="na">apply</span><span class="o">(</span><span class="s">"Hello "</span><span class="o">));</span>
+</code></pre></div></div>
+
+<h2 id="default-methods">Default methods</h2>
+
+<p><strong>Default methods</strong> are allowed in functional interfaces since they are not abstract methods.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@FunctionalInterface</span>
+<span class="kd">interface</span> <span class="nc">Foo</span> <span class="o">{</span>
+	<span class="n">String</span> <span class="nf">method</span><span class="o">(</span><span class="n">String</span> <span class="n">string</span><span class="o">);</span>
+		
+	<span class="k">default</span> <span class="n">String</span> <span class="nf">defaultMethod</span><span class="o">()</span> <span class="o">{</span>
+		<span class="k">return</span> <span class="s">"Hello World!"</span><span class="o">;</span>
+	<span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Although, you are allowed to define default methods in functional interfaces, it is not a good practice overuse this technique, because default methods might clash with each other when your interface extends several interfaces with default methods.</p>

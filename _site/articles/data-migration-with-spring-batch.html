@@ -1,0 +1,234 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#features">
+Features</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#use-case">
+Use Case</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#getting-started">
+Getting Started</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://docs.spring.io/spring-batch/trunk/reference/html/">Spring Batch</a> is a batch framework designed to process large volumes of data. You can run either chunks or tasklets (single task per step).</p>
+
+<p>This framework is lightweight and very easy to use, so it’s very recommended for tasks that will run for a long time and you want to forget about it.</p>
+
+<h2 id="features">Features</h2>
+
+<ul>
+  <li>Stop/start/restart jobs and maintain state between executions.</li>
+  <li>Skip and retry records as they are being processed.</li>
+  <li>Transaction management. Spring Batch handles transactions for us.</li>
+  <li>The ability to notify other systems when errors occur via messaging by integrating Spring Integration.</li>
+  <li>Java or XML based configuration.</li>
+  <li>All the Spring features like DI, AOP, testability, etc.</li>
+  <li>It is open source.</li>
+  <li>Many scalable options and allows us to use multithreding.</li>
+  <li>Support for big data.</li>
+</ul>
+
+<h2 id="use-case">Use Case</h2>
+<p>Spring Batch allows us to run database migrations without hassle. For this example we want to migrate our plain text passwords to BCrypt. To achieve that we will have to:</p>
+
+<ul>
+  <li>Read from database.</li>
+  <li>Write plain text passwords on a backup table.</li>
+  <li>Hash plain text passwords.</li>
+  <li>Update passwords on the original table.</li>
+</ul>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<ol>
+  <li><strong>Add dependency</strong> <code class="highlighter-rouge">spring-boot-starter-batch</code> and create configuration class with readers, writers, steps and job. The configuration class has to be annotated with <code class="highlighter-rouge">@Configuration</code> and <code class="highlighter-rouge">@EnableBatchProcessing</code>.</li>
+  <li><strong>Create reader</strong>: readers are responsible for getting the data from a source such as a file or a database.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">JdbcCursorItemReader</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;</span> <span class="nf">reader</span><span class="o">(</span><span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">JdbcCursorItemReaderBuilder</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;()</span>
+            <span class="o">.</span><span class="na">name</span><span class="o">(</span><span class="s">"credentialsReader"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">sql</span><span class="o">(</span><span class="n">SQL_SELECT_QUERY</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">rowMapper</span><span class="o">(</span><span class="k">new</span> <span class="n">CredentialsRowMapper</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The data source is set up on the property file to point to your <strong>MySQL</strong> database. A row mapper is also required, so you can map the database columns with your <code class="highlighter-rouge">Credentials</code> object.</p>
+
+<ol>
+  <li><strong>Create writer</strong>: writers are responsible for saving the modified data into a data source.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">JdbcBatchItemWriter</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;</span> <span class="nf">writer1</span><span class="o">(</span><span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">JdbcBatchItemWriterBuilder</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;()</span>
+            <span class="o">.</span><span class="na">itemSqlParameterSourceProvider</span><span class="o">(</span><span class="k">new</span> <span class="n">BeanPropertyItemSqlParameterSourceProvider</span><span class="o">&lt;&gt;())</span>
+            <span class="o">.</span><span class="na">sql</span><span class="o">(</span><span class="n">SQL_INSERT_QUERY</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">JdbcBatchItemWriter</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;</span> <span class="nf">writer2</span><span class="o">(</span><span class="n">DataSource</span> <span class="n">dataSource</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="n">JdbcBatchItemWriterBuilder</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;()</span>
+            <span class="o">.</span><span class="na">itemSqlParameterSourceProvider</span><span class="o">(</span><span class="k">new</span> <span class="n">BeanPropertyItemSqlParameterSourceProvider</span><span class="o">&lt;&gt;())</span>
+            <span class="o">.</span><span class="na">sql</span><span class="o">(</span><span class="n">SQL_UPDATE_QUERY</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">dataSource</span><span class="o">(</span><span class="n">dataSource</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The first writer is responsible for saving the plain text password on the backup table, and the second one replaces the plain text password with the hashed password. The <code class="highlighter-rouge">itemSqlParameterSourceProvider</code> allows you to use database columns name to match object names.</p>
+
+<ol>
+  <li><strong>Create steps</strong>: steps define the flow of the batch.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">Step</span> <span class="nf">step1</span><span class="o">(</span><span class="n">JdbcBatchItemWriter</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;</span> <span class="n">writer1</span><span class="o">,</span> <span class="n">JdbcCursorItemReader</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;</span> <span class="n">reader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">stepBuilderFactory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"step1"</span><span class="o">)</span>
+            <span class="o">.&lt;</span><span class="n">Credentials</span><span class="o">,</span> <span class="n">Credentials</span><span class="o">&gt;</span><span class="n">chunk</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">reader</span><span class="o">(</span><span class="n">reader</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">writer</span><span class="o">(</span><span class="n">writer1</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+<span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">Step</span> <span class="nf">step2</span><span class="o">(</span><span class="n">JdbcBatchItemWriter</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;</span> <span class="n">writer2</span><span class="o">,</span> <span class="n">JdbcCursorItemReader</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">&gt;</span> <span class="n">reader</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">stepBuilderFactory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"step2"</span><span class="o">)</span>
+            <span class="o">.&lt;</span><span class="n">Credentials</span><span class="o">,</span> <span class="n">Credentials</span><span class="o">&gt;</span><span class="n">chunk</span><span class="o">(</span><span class="mi">4</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">reader</span><span class="o">(</span><span class="n">reader</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">processor</span><span class="o">(</span><span class="n">processor</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">writer</span><span class="o">(</span><span class="n">writer2</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Both of the steps will run chunks of 4 rows. During the <strong>step1</strong> it will first use the previous reader and the writer to save the plain text password into the db; whereas on the <strong>step2</strong> you will also apply a processor to do the hashing before updating the password.</p>
+
+<ol>
+  <li><strong>Create processor</strong>: processors are responsible for making changes on the data.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">PasswordProcessor</span> <span class="nf">processor</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="k">new</span> <span class="nf">PasswordProcessor</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>and this processor is defined on the <code class="highlighter-rouge">PasswordProcessor</code> class:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Slf4j</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">PasswordProcessor</span> <span class="kd">implements</span> <span class="n">ItemProcessor</span><span class="o">&lt;</span><span class="n">Credentials</span><span class="o">,</span> <span class="n">Credentials</span><span class="o">&gt;</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="kt">int</span> <span class="n">BCRYPT_ROUNDS</span> <span class="o">=</span> <span class="mi">13</span><span class="o">;</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="n">Credentials</span> <span class="nf">process</span><span class="o">(</span><span class="n">Credentials</span> <span class="n">credentials</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+        <span class="kd">final</span> <span class="n">String</span> <span class="n">hashPassword</span> <span class="o">=</span> <span class="n">hashPassword</span><span class="o">(</span><span class="n">credentials</span><span class="o">.</span><span class="na">getPassword</span><span class="o">());</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"hashing password ("</span>  <span class="o">+</span> <span class="n">credentials</span><span class="o">.</span><span class="na">getPassword</span><span class="o">()</span> <span class="o">+</span> <span class="s">") into ("</span> <span class="o">+</span> <span class="n">hashPassword</span> <span class="o">+</span> <span class="s">")"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="k">new</span> <span class="nf">Credentials</span><span class="o">(</span><span class="n">credentials</span><span class="o">.</span><span class="na">getId</span><span class="o">(),</span> <span class="n">hashPassword</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="kd">private</span> <span class="n">String</span> <span class="nf">hashPassword</span><span class="o">(</span><span class="n">String</span> <span class="n">password</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">return</span> <span class="n">BCrypt</span><span class="o">.</span><span class="na">hashpw</span><span class="o">(</span><span class="n">password</span><span class="o">,</span> <span class="n">BCrypt</span><span class="o">.</span><span class="na">gensalt</span><span class="o">(</span><span class="n">BCRYPT_ROUNDS</span><span class="o">));</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Create job</strong>: jobs are responsible for running the different steps, listeners and other options for steps.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Bean</span>
+<span class="kd">public</span> <span class="n">Job</span> <span class="nf">credentialsJob</span><span class="o">(</span><span class="n">JobCompletionNotificationListener</span> <span class="n">listener</span><span class="o">,</span> <span class="n">Step</span> <span class="n">step1</span><span class="o">,</span> <span class="n">Step</span> <span class="n">step2</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="n">jobBuilderFactory</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"credentialsJob"</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">incrementer</span><span class="o">(</span><span class="k">new</span> <span class="n">RunIdIncrementer</span><span class="o">())</span>
+            <span class="o">.</span><span class="na">listener</span><span class="o">(</span><span class="n">listener</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">start</span><span class="o">(</span><span class="n">step1</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">next</span><span class="o">(</span><span class="n">step2</span><span class="o">)</span>
+            <span class="o">.</span><span class="na">preventRestart</span><span class="o">()</span>
+            <span class="o">.</span><span class="na">build</span><span class="o">();</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The job uses an incrementer to keep track of the current chunk, so we are able to stop and continue the batch. We also use a listener to log some information of the batch state. <code class="highlighter-rouge">PreventRestart</code> prevents the restart of the job even if it fails.</p>
+
+<blockquote>
+  <p>Note: To continue a job from the latest state you will have to create a few tables or set <code class="highlighter-rouge">setspring.batch.initialize-schema=always</code> on your property file.</p>
+</blockquote>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mysql&gt; show tables<span class="p">;</span>
++------------------------------+
+| Tables_in_batch              |
++------------------------------+
+| BATCH_JOB_EXECUTION          |
+| BATCH_JOB_EXECUTION_CONTEXT  |
+| BATCH_JOB_EXECUTION_PARAMS   |
+| BATCH_JOB_EXECUTION_SEQ      |
+| BATCH_JOB_INSTANCE           |
+| BATCH_JOB_SEQ                |
+| BATCH_STEP_EXECUTION         |
+| BATCH_STEP_EXECUTION_CONTEXT |
+| BATCH_STEP_EXECUTION_SEQ     |
+| DATABASECHANGELOG            |
+| DATABASECHANGELOGLOCK        |
+| credentials                  |
+| credentials_backup           |
++------------------------------+
+13 rows <span class="k">in </span><span class="nb">set</span> <span class="o">(</span>0.00 sec<span class="o">)</span>
+</code></pre></div></div>
+
+<ol>
+  <li><strong>Listeners</strong>: responsible for providing information about the batches.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Slf4j</span>
+<span class="nd">@Component</span>
+<span class="nd">@AllArgsConstructor</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">JobCompletionNotificationListener</span> <span class="kd">extends</span> <span class="n">JobExecutionListenerSupport</span> <span class="o">{</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">SQL_SELECT_CREDENTIALS</span> <span class="o">=</span> <span class="s">"SELECT * FROM credentials"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">final</span> <span class="n">String</span> <span class="n">SQL_SELECT_CREDENTIALS_BACKUP</span> <span class="o">=</span> <span class="s">"SELECT * FROM credentials_backup"</span><span class="o">;</span>
+    <span class="kd">private</span> <span class="kd">final</span> <span class="n">JdbcTemplate</span> <span class="n">jdbcTemplate</span><span class="o">;</span>
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">afterJob</span><span class="o">(</span><span class="n">JobExecution</span> <span class="n">jobExecution</span><span class="o">)</span> <span class="o">{</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">jobExecution</span><span class="o">.</span><span class="na">getStatus</span><span class="o">()</span> <span class="o">==</span> <span class="n">BatchStatus</span><span class="o">.</span><span class="na">COMPLETED</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"HASHING IS DONE!!!"</span><span class="o">);</span>
+            <span class="n">jdbcTemplate</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">SQL_SELECT_CREDENTIALS</span><span class="o">,</span>
+                    <span class="o">(</span><span class="n">rs</span><span class="o">,</span> <span class="n">row</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">Credentials</span><span class="o">(</span>
+                            <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                            <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+            <span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">credentials</span> <span class="o">-&gt;</span> <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"New credentials -&gt; "</span> <span class="o">+</span> <span class="n">credentials</span><span class="o">));</span>
+            <span class="n">jdbcTemplate</span><span class="o">.</span><span class="na">query</span><span class="o">(</span><span class="n">SQL_SELECT_CREDENTIALS_BACKUP</span><span class="o">,</span>
+                    <span class="o">(</span><span class="n">rs</span><span class="o">,</span> <span class="n">row</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="k">new</span> <span class="n">Credentials</span><span class="o">(</span>
+                            <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">1</span><span class="o">),</span>
+                            <span class="n">rs</span><span class="o">.</span><span class="na">getString</span><span class="o">(</span><span class="mi">2</span><span class="o">))</span>
+            <span class="o">).</span><span class="na">forEach</span><span class="o">(</span><span class="n">credentials</span> <span class="o">-&gt;</span> <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Backup credentials -&gt; "</span> <span class="o">+</span> <span class="n">credentials</span><span class="o">));</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/spring-batch-demo">
+  Source Code
+</a>
+</p>

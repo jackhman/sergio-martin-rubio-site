@@ -1,0 +1,366 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#getting-started">
+Getting Started</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#client-side">
+Client Side</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#server-side">
+Server Side</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#encrypted-properties">
+Encrypted Properties</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#symmetric">
+Symmetric</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#asymmetric">
+Asymmetric</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#dynamic-configuration-changes">
+Dynamic Configuration Changes</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#other-features">
+Other Features</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p><a href="https://cloud.spring.io/spring-cloud-config/reference/html/">Spring Cloud Config Server</a> provides remote configuration for your Spring applications or any application running in any language. This tool has been out there for a long time, so it is very mature and reliable. Spring Cloud Config Server comes in handy when you need to set up configurations for microservices in multiple environments, so you can manage properties separately and avoid the hassle of triggering application builds when only the configuration is updated.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+
+<p>By default <em>Spring Cloud Config Server</em> uses git to store the configuration files, however you could write your own implementation and use a different version control system (VCS).</p>
+
+<p>Clients retrieve the configuration through Spring Cloud Config Server and both client and server have to be mapped to the Spring <code class="highlighter-rouge">Environment</code>, which contains:</p>
+
+<ul>
+  <li>
+    <p><code class="highlighter-rouge">{application}</code> is <code class="highlighter-rouge">spring.application.name</code> on the client side.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">{profile}</code> is <code class="highlighter-rouge">spring.profiles.active</code> on the client.</p>
+  </li>
+  <li>
+    <p><code class="highlighter-rouge">{label}</code> is the commit id, branch name, or tag.</p>
+  </li>
+</ul>
+
+<p>Property files can be named and located as follows:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code> /<span class="o">{</span>application<span class="o">}</span>/<span class="o">{</span>profile<span class="o">}[</span>/<span class="o">{</span>label<span class="o">}]</span>
+ /<span class="o">{</span>application<span class="o">}</span>-<span class="o">{</span>profile<span class="o">}</span>.yml
+ /<span class="o">{</span>label<span class="o">}</span>/<span class="o">{</span>application<span class="o">}</span>-<span class="o">{</span>profile<span class="o">}</span>.yml
+ /<span class="o">{</span>application<span class="o">}</span>-<span class="o">{</span>profile<span class="o">}</span>.properties
+ /<span class="o">{</span>label<span class="o">}</span>/<span class="o">{</span>application<span class="o">}</span>-<span class="o">{</span>profile<span class="o">}</span>.properties
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: Active profiles take precedence over defaults. When multiple profiles are selected, the last one will be chosen.</p>
+</blockquote>
+
+<blockquote>
+  <p>Note: If the git branch or tag name contains slashes (<code class="highlighter-rouge">/</code>) they must be replaced with underscores (<code class="highlighter-rouge">_</code>).</p>
+</blockquote>
+
+<h3 id="client-side">Client Side</h3>
+
+<p>The following Maven dependency is required on the config server clients:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-config<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>then you only need to set a few Spring properties in <code class="highlighter-rouge">bootstrap.yml</code>:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">spring</span><span class="pi">:</span>
+  <span class="na">application</span><span class="pi">:</span>
+    <span class="na">name</span><span class="pi">:</span> <span class="s">first-client</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">uri</span><span class="pi">:</span> <span class="s">http://localhost:8888</span>
+  <span class="na">profiles</span><span class="pi">:</span> 
+    <span class="na">active</span><span class="pi">:</span> <span class="s">development</span>
+</code></pre></div></div>
+
+<p>where the <code class="highlighter-rouge">spring.application.name</code> will be mapped to the <code class="highlighter-rouge">{application}</code> part of the property file stored in git; <code class="highlighter-rouge">spring.cloud.config.uri</code> is the <code class="highlighter-rouge">Spring Config Server</code> application address; and <code class="highlighter-rouge">spring.profiles.active</code> will be mapped to the <code class="highlighter-rouge">{profile}</code> part of the property file. Addionally, you could set <code class="highlighter-rouge">spring.cloud.config.label</code> which would be mapped to the commit id, branch name, or tag. For the previous example you should have a property file named <code class="highlighter-rouge">first-client-development.yml</code> on your git config repo in order to use the remote cofiguration.</p>
+
+<blockquote>
+  <p>Note: Remember that <code class="highlighter-rouge">bootstrap.yml</code> is loaded before <code class="highlighter-rouge">application.yml</code>, and so the first one is needed if your application’s configuration is stored on a remote configuration server and properties need to be decrypted.</p>
+</blockquote>
+
+<h3 id="server-side">Server Side</h3>
+
+<p>The Maven dependency required on the server side is:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-config-server<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>By simply using the <code class="highlighter-rouge">@EnableConfigServer</code> annotation, Spring Cloud Cloud is configured in the Spring Boot application.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@EnableConfigServer</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ConfigServerApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">ConfigServerApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>also a couple of properties have to be set on the application property file:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">server</span><span class="pi">:</span>
+  <span class="na">port</span><span class="pi">:</span> <span class="s">8888</span>
+<span class="na">spring</span><span class="pi">:</span>
+  <span class="na">cloud</span><span class="pi">:</span>
+    <span class="na">config</span><span class="pi">:</span>
+      <span class="na">server</span><span class="pi">:</span>
+        <span class="na">git</span><span class="pi">:</span>
+          <span class="na">uri</span><span class="pi">:</span> <span class="s">https://github.com/smartinrub/spring-cloud-bus-config-server.git</span> 
+</code></pre></div></div>
+
+<p>where <code class="highlighter-rouge">server.port</code> is used to run the application in a particular port; and <code class="highlighter-rouge">spring.cloud.config.server.git.uri</code> is the git repository URL where the property files are stored.</p>
+
+<blockquote>
+  <p>Note: You could create a git repository on your local machine, commit the changes and set <code class="highlighter-rouge">spring.cloud.config.server.git.uri</code> to somthing like <code class="highlighter-rouge">file://${user.home}/config-repo</code>, so you can test your configuration locally.</p>
+</blockquote>
+
+<h3 id="encrypted-properties">Encrypted Properties</h3>
+
+<p><em>Spring Cloud Config Server</em> supports property encryption. You can use either symmetric or asymmetric key encryption. Spring recommends to use a symmetric key since you will only need to configure a single value in the bootstrap property file, however you might want to use asymmetric keys if you want to increase the security.</p>
+
+<p>You can encrypt and decrypt properties with <code class="highlighter-rouge">/encrypt</code> and <code class="highlighter-rouge">/decrypt</code> endpoints, or use the <a href="https://docs.spring.io/spring-boot/docs/current/reference/html/spring-boot-cli.html">Spring CLI tool</a> with the <a href="https://spring.io/projects/spring-cloud-cli">Spring Cloud plugin</a>.</p>
+
+<p>For instance, you can encrypt a property like this:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl localhost:8888/encrypt <span class="nt">-d</span> mysecret
+</code></pre></div></div>
+
+<p>and to decrypt it like this:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl localhost:8888/decrypt <span class="nt">-d</span> 682bc583f4641835fa2db009355293665d2647dade3375c0ee201de2a49f7bda
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: Encrypted vales require the prefix <code class="highlighter-rouge">{cipher}</code> when you put them in <code class="highlighter-rouge">application.properties</code> (or <code class="highlighter-rouge">.yml</code>).</p>
+</blockquote>
+
+<h4 id="symmetric">Symmetric</h4>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">encrypt</span><span class="pi">:</span>
+  <span class="na">key</span><span class="pi">:</span> <span class="s">${ENCRYPT_KEY}</span> <span class="c1">## any string</span>
+</code></pre></div></div>
+
+<p>To configure a symmetric key, you need to set <code class="highlighter-rouge">encrypt.key</code> to a plain text string in Spring <em>Cloud Config Server</em> (the client does not require this key since values are decrypted automatically before they are sent to the client) and set the <code class="highlighter-rouge">ENCRYPT_KEY</code> environment variable to keep it out of plain-text repository files. For example, you can pass it using Jenkins while running your pipeline.</p>
+
+<blockquote>
+  <p>Important: <a href="https://github.com/spring-cloud/spring-cloud-config/issues/1493">Automatic decryption is not working for 2.2.0.M3</a> when headers contain <code class="highlighter-rouge">application/vnd.spring-cloud.config-server.v2+json</code>, since <code class="highlighter-rouge">includeOrigin</code> is set to true. This is happening because the property source now contains a  <code class="highlighter-rouge">PropertyValueDescriptor</code> instead of a string value, so <code class="highlighter-rouge">toString()</code> method returns the object address. In the meantime you are force to decrypt the values in the client by setting the <code class="highlighter-rouge">encrypt.key</code> property.</p>
+</blockquote>
+
+<blockquote>
+  <p>Note: <code class="highlighter-rouge">ENCRYPT_KEY</code> overrides <code class="highlighter-rouge">encrypt.key</code> value.</p>
+</blockquote>
+
+<p>You can also disable decryption of properties before sending them to the client. To do this you have to set <code class="highlighter-rouge">spring.cloud.config.server.encrypt.enabled</code> to <code class="highlighter-rouge">false</code> (<code class="highlighter-rouge">true</code> is the default value). When this property is set to <code class="highlighter-rouge">false</code>, <code class="highlighter-rouge">encrypt.key</code> is required in the client for decryption during start up.</p>
+
+<h4 id="asymmetric">Asymmetric</h4>
+
+<p>The symmetric key is superior in terms of security, but it is usually less convinient since you have to set a few properties.</p>
+
+<p>A keystore is needed to set up an asymmetric key. This requires a password which itself would have to be stored unencrypted and then set the keystore password as an environment variable.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>keytool <span class="nt">-genkeypair</span> <span class="nt">-alias</span> myKeyStore <span class="nt">-keyalg</span> RSA <span class="se">\</span>
+  <span class="nt">-dname</span> <span class="s2">"CN=Web Server,OU=Unit,O=Organization,L=City,S=State,C=US"</span> <span class="se">\</span>
+  <span class="nt">-keystore</span> server.jks <span class="nt">-storepass</span> password123
+</code></pre></div></div>
+
+<p>Finally, set the keystore configuration in the <em>Spring Cloud Config Server</em>:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">encrypt</span><span class="pi">:</span>
+  <span class="na">key-store</span><span class="pi">:</span>
+    <span class="na">location</span><span class="pi">:</span> <span class="s">classpath:keys/server.jks</span>
+    <span class="na">password</span><span class="pi">:</span> <span class="s">${ENCRYPT_KEY}</span>
+    <span class="na">alias</span><span class="pi">:</span> <span class="s">myKeyStore</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: If a property cannot be decrypted the value will be replaced with <code class="highlighter-rouge">&lt;n/a&gt;</code>.</p>
+</blockquote>
+
+<h3 id="dynamic-configuration-changes">Dynamic Configuration Changes</h3>
+
+<p>Another important feature of <em>Spring Cloud Config Server</em> is the posibility of refreshing the client configuration at runtime without restarting the JVM. By default, configuration values are read on the client’s startup. To take advantage of this feature you need to enable the <code class="highlighter-rouge">/refresh</code> endpoint. To do so, go to your client application properties file and include the endpoint:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">management</span><span class="pi">:</span>
+  <span class="na">endpoints</span><span class="pi">:</span>
+    <span class="na">web</span><span class="pi">:</span>
+      <span class="na">exposure</span><span class="pi">:</span>
+        <span class="na">include</span><span class="pi">:</span> <span class="s">refresh</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: <code class="highlighter-rouge">spring-boot-starter-actuator</code> dependency is required in order to activate management endpoints.</p>
+</blockquote>
+
+<p>Once the endpoint is enabled in the client you can hit the <code class="highlighter-rouge">/refresh</code> endpoint:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> POST localhost:8080/actuator/refresh
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: <strong>What’s happening under the hood?</strong> The <code class="highlighter-rouge">ContextRefresher</code> class is called, then it iterates through all the property sources and searches for changes, publishes an event to signal a change in the environment and finally it destroys the current instance of all beans in this scope and forces a refresh on next method execution.</p>
+</blockquote>
+
+<p>As you can see this is a very nice feature, however it is not very convinient out-of-the-box, because once you start having many services running refreshing each one will become a hassle, that’s why Spring provides a practical way to trigger the refresh event for all related services when property change, and this can be achieved with <a href="https://cloud.spring.io/spring-cloud-bus/reference/html/">Spring Cloud Bus</a>. How does it work? When the refresh event of one of the services is triggered, this event is automatically broadcasted through all the other services by using a message broker, and this can be traslated as a distributed <strong>Actuator</strong>.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/miHCBc1VpFzGFG3SW3mqLSVFE8iGHew2vGhpDdi8gxB8jglRk2qe5G9LBUXwdopQfMPseQV_2nXZMbUbJcLUNelLUm5k5Vk66faEUUfDXTSKurO2bLBdak3JHGWxUmMO__ZyYOchWw=w1000" class="figure-img img-fluid rounded" alt="Spring Cloud Config Server Diagram" />
+  
+    <figcaption class="figure-caption text-center">Spring Cloud Config Server Diagram</figcaption>
+  
+</figure>
+
+<p>Spring Cloud Bus uses a message broker, and you can choose between <a href="https://www.rabbitmq.com">RabbitMQ</a> or <a href="http://kafka.apache.org">Kafka</a>. In case of <em>RabbitQM</em> you can <a href="https://hub.docker.com/_/rabbitmq/">run it with Docker</a> as follows:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>docker run <span class="nt">-d</span> <span class="nt">--hostname</span> my-rabbit <span class="nt">--name</span> some-rabbit <span class="nt">-p</span> 15672:15672 <span class="nt">-p</span> 5672:5672 rabbitmq:3-management
+</code></pre></div></div>
+
+<p>and add the following dependency to all the client services:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-bus-amqp<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>In order to enable <code class="highlighter-rouge">/actuator/bus-refresh</code> you have to add another exclusion in the services consuming the properties:</p>
+
+<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">management</span><span class="pi">:</span>
+  <span class="na">endpoints</span><span class="pi">:</span>
+    <span class="na">web</span><span class="pi">:</span>
+      <span class="na">exposure</span><span class="pi">:</span>
+        <span class="na">include</span><span class="pi">:</span> <span class="s">refresh, bus-refresh</span>
+</code></pre></div></div>
+
+<p>Now if you hit the endpoint <code class="highlighter-rouge">/actuator/bus-refresh</code> of one of your services:</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> POST localhost:<span class="o">{</span>server-port<span class="o">}</span>/actuator/bus-refresh
+</code></pre></div></div>
+
+<p>the selected service will publish a refresh event in the chosen message broker and will broadcast it across all the connected services.</p>
+
+<p>The broker message configuration can be shared by creating a <code class="highlighter-rouge">application.yml</code> or <code class="highlighter-rouge">application.properties</code> to the root of your configuration repo and adding the connection properties to it.</p>
+
+<blockquote>
+  <p>Note: Any property that is added in to the <code class="highlighter-rouge">application.properties</code> (or <code class="highlighter-rouge">.yml</code>) in the root of your configuration repository is shared among all services. This is very useful when you want to share common configuration (like database addresses) across applications.</p>
+</blockquote>
+
+<h4 id="whats-next">What’s next?</h4>
+
+<p>You can go a step further by automating the task of hitting the bus refresh endpoint. Many source code repositories like GitHub, Gitlab or Bitbucket notify you of changes in a repository through a <a href="https://developer.github.com/webhooks/">webhook</a>. The <a href="https://cloud.spring.io/spring-cloud-config/multi/multi__push_notifications_and_spring_cloud_bus.html">webhook can be configured to listen changes in your config repo and broadcasting the refresh event for the all connected services through Spring Cloud Bus</a>.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/SNicX8hqYJ_D_WMTQiE3fMc88PYqfe5NWn7gffw3xXxxZLDsqVhYKOxu7MWrQ17GhUEvJ1qYN66UBjOijojPXySYZxFPcrkn8cudR4BZQM616P88mWdfw-P0DfXhC5hl1slyBKlJLQ=w1000" class="figure-img img-fluid rounded" alt="Spring Cloud Config Server With Webhook Diagram" />
+  
+    <figcaption class="figure-caption text-center">Spring Cloud Config Server With Webhook Diagram</figcaption>
+  
+</figure>
+
+<p>A couple of dependencies in the Spring Cloud Config server are needed to make this work:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-stream-rabbit<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+
+<span class="nt">&lt;dependency&gt;</span>
+  <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+  <span class="nt">&lt;artifactId&gt;</span>spring-cloud-config-monitor<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>and set to true <code class="highlighter-rouge">spring.cloud.bus.enabled</code> property in <code class="highlighter-rouge">application.yml</code> (or <code class="highlighter-rouge">.properties</code>). Finally, you have to set up a webhook on Github as follows:</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/rgL3p_tEbYVIs3mQVfr7dmV1BOyD8LOwYv_pizN-h1PgomG9ScA3lCMeQ4Yzs2cM-BY13JtLLcCkGaupX8UmO1sSzYTy5860ceETXYKSC8Kt9NCNyA_oBurqz0rUPpFa6CofSzh2Tw=w1000" class="figure-img img-fluid rounded" alt="Spring Cloud Config Server GitHub Webhooks" />
+  
+    <figcaption class="figure-caption text-center">Spring Cloud Config Server GitHub Webhooks</figcaption>
+  
+</figure>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/P8iTW8qq9SlaiSI-uC2uzLCk-OSWH01lexYdPlvXmOZTbVRwmnFLFbwivH3npV5E0DDP2Kc9YaZABbbWyAxH8cSCxr4szTzgK1ciQeXvnm3neZelg4NPK_sDeZOiUDYoP-vThcbOHQ=w1000" class="figure-img img-fluid rounded" alt="GitHub Webhooks Deliveries" />
+  
+    <figcaption class="figure-caption text-center">GitHub Webhooks Deliveries</figcaption>
+  
+</figure>
+
+<p>To try this out you can either make the Spring Cloud Config Server application public or you can simulate a git push notification request.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>curl <span class="nt">-X</span> POST <span class="s2">"http://localhost:8888/monitor"</span> 
+<span class="nt">-H</span> <span class="s1">'X-GitHub-Event: push'</span> 
+<span class="nt">-H</span> <span class="s2">"Content-Type: application/json"</span> 
+<span class="nt">-d</span> <span class="s1">'{
+    "commits": [
+        {
+            "modified": [
+                "application.yml"
+            ]
+        }
+    ]
+}'</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: To make your application public you could set up you router with a port forwarding rule.</p>
+</blockquote>
+
+<p>The config server application will create a refresh event in the message broker and based on the application name used for the property file name, it will send the refresh event to the services that need to be refreshed.</p>
+
+<h3 id="other-features">Other Features</h3>
+
+<ul>
+  <li>Set multiple repositories with <code class="highlighter-rouge">spring.cloud.config.server.git.repo</code>.</li>
+  <li>Set the timeout for retrieving properties from git with <code class="highlighter-rouge">spring.cloud.config.server.git.timeout</code> (default value is 5 seconds).</li>
+  <li>Force the pull from git if you set <code class="highlighter-rouge">spring.cloud.config.server.git.force-pull</code> to true.</li>
+</ul>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/spring-cloud-bus-config-server">
+  Source Code
+</a>
+</p>

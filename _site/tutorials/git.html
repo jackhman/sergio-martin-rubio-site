@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+
+<!--
+  portfolYOU Jekyll theme by Youssef Raafat
+  Free for personal and commercial use under the MIT license
+  https://github.com/YoussefRaafatNasry/portfolYOU
+-->
+
+<html lang="en" class="h-100">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Always code as if the guy who ends up maintaining your code will be a violent psychopath who knows where you live.">
+
+  <title>Sergio Martin Rubio</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico">
+
+  <!-- Font Awesome CDN -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css">
+
+  <!-- Bootstrap CSS CDN -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <!-- Animate CSS CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.css" type="text/css"/>
+  
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="/assets/css/style.css" type="text/css">
+
+    <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Sergio Martin Rubio" />
+
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-137749111-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-137749111-1');
+</script>
+
+
+  
+  </head>
+
+<body class="d-flex flex-column h-100">
+
+  <main class="flex-shrink-0 container mt-5">
+  <nav class="navbar navbar-expand-lg navbar-light">
+
+  <a class="navbar-brand" href="/"><h5><b>Sergio Martin Rubio</b></h5></a>
+
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+      
+      
+        
+      
+        
+          
+        
+      
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="nav-item nav-link " href=" /articles/ ">Articles</a>
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+        
+      
+        
+          
+            <a class="nav-item nav-link " href=" /projects/ ">Projects</a>
+          
+        
+      
+        
+          
+            <a class="nav-item nav-link " href=" /about/ ">About</a>
+          
+        
+      
+    </div>
+  </div>
+
+</nav>
+  <div class="col-lg-10 mx-auto mt-5 article">
+  <h1 id="git">Git</h1>
+
+<h2 id="git-areas">Git Areas</h2>
+
+<blockquote>
+  <p>“Git has three main states that your files can reside in: committed, modified, and staged.”</p>
+</blockquote>
+
+<p>All files can be found on your working tree area and you can see them by running <code class="highlighter-rouge">git status</code>. Git will start tracking files when they are staged or added to the staging area, and to do so, you need to run <code class="highlighter-rouge">git add &lt;file or directory name&gt;</code>.</p>
+
+<p>Now if you track new files or make changes on the already tracked ones, you need to somehow move them to your local repository. The git command <code class="highlighter-rouge">git commit -m "message"</code> takes all changes in the Staging Area, wraps them together and puts them in your Local Repository.</p>
+
+<h2 id="essential-git-commands-every-developer-should-know">Essential git commands every developer should know</h2>
+
+<ol>
+  <li><code class="highlighter-rouge">git init</code>: creates an empty git repo, which is a <em>.git</em> directory with subdirectories for objects. <em>HEAD</em> is also created to point to the <em>HEAD</em> of the <em>master</em> branch.</li>
+  <li><code class="highlighter-rouge">git add &lt;file or directory name&gt;</code>: adds files to the staging area. To commit changes, firstly files need to be added to staging.</li>
+  <li><code class="highlighter-rouge">git commit -m "message"</code>: moves tracked files from staging to your local repository.</li>
+  <li><code class="highlighter-rouge">git status</code>: non tracked and modified files will be displayed.</li>
+  <li><code class="highlighter-rouge">git push</code>: it will push your local repository to the configured remote repository (Github, Gitlab, Bitbucket…).</li>
+  <li><code class="highlighter-rouge">git config --global user.name/use.email</code>: configures the name and email to be used with your commits.</li>
+  <li><code class="highlighter-rouge">git clone</code>: clones a repository in a new directory.</li>
+  <li><code class="highlighter-rouge">git fetch</code>: downloads remote repository changes.</li>
+  <li><code class="highlighter-rouge">git merge &lt;branch_name&gt;</code>: merges branch into current branch.</li>
+  <li><code class="highlighter-rouge">git pull</code>: fetches and merge remote changes on your local repository (<code class="highlighter-rouge">git fetch</code> + <code class="highlighter-rouge">git merge</code>).</li>
+  <li><code class="highlighter-rouge">git rebase &lt;branch_name&gt;</code>: reapplies commits of a branch on top of your current branch.</li>
+  <li><code class="highlighter-rouge">git stash</code>: parks unfinished changes that you can reapply later.</li>
+  <li><code class="highlighter-rouge">git stash list</code>: shows stored stashes.</li>
+  <li><code class="highlighter-rouge">git stash apply</code>: applies most recent stash. Supply a stash id to apply a particular stash.</li>
+  <li><code class="highlighter-rouge">git log</code>: lists the commits made in your local repository. You can add options and filters (<code class="highlighter-rouge">-p</code>: difference in each commit; <code class="highlighter-rouge">--stat</code>: abreviated stats for each commit; <code class="highlighter-rouge">--pretty=&lt;oneline/short/full/format:"%h - %an, %ar : %s"&gt;</code>; <code class="highlighter-rouge">--graph</code>:graph with branch and merge history).</li>
+  <li><code class="highlighter-rouge">git branch &lt;branch_name&gt;</code>: creates branch with the given name.</li>
+  <li><code class="highlighter-rouge">git checkout &lt;branch_name&gt;</code>: switch to given branch name. If <code class="highlighter-rouge">-b</code> option is provided it will create the branch if it does not exist.</li>
+</ol>
+
+<h2 id="gitignore">.gitignore</h2>
+
+<blockquote>
+  <p>“A gitignore file specifies intentionally untracked files that Git should ignore. Files already tracked by Git are not affected”</p>
+</blockquote>
+
+<p>You can specify patterns to ignore a particular folder or set of files.</p>
+
+<p>.gitignore file template</p>
+<noscript><pre>400: Invalid request
+</pre></noscript>
+<script src="https://gist.github.com/11f72e06a93ac0bc08da0059cf49f033.js?file=.gitignore"> </script>
+
+
+</div>
+  </main>
+
+  <footer class="mt-auto py-3 text-center">
+
+  <small class="text-muted mb-2">
+    <i class="fas fa-code"></i> with <i class="fas fa-heart"></i>
+    by <strong>Sergio Martin Rubio</strong>
+  </small>
+
+  <div class="container-fluid justify-content-center">
+
+  
+
+  
+
+    
+    
+      
+
+    
+    
+      
+
+    
+    
+
+    
+    <a class="social mx-1"  href="mailto:me@sergiomartinrubio.com"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#db4437'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fas fa-envelope fa-1x"></i>
+    </a>
+  
+  
+
+    
+    
+
+    
+    <a class="social mx-1"  href="https://www.github.com/smartinrub"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#333333'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-github fa-1x"></i>
+    </a>
+  
+  
+
+    
+    
+
+    
+    <a class="social mx-1"  href="https://www.linkedin.com/in/sergiomartinrubio"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#007bb5'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-linkedin-in fa-1x"></i>
+    </a>
+  
+  
+
+    
+    
+
+    
+    <a class="social mx-1"  href="https://www.twitter.com/smartinrubio"
+       style="color: #6c757d"
+       onMouseOver="this.style.color='#1da1f2'"
+       onMouseOut="this.style.color='#6c757d'">
+      <i class="fab fa-twitter fa-1x"></i>
+    </a>
+  
+  
+
+</div>
+
+  <div class="container-fluid justify-content-center">
+      <a href="/privacy-policy/">Privacy Policy</a>
+  </div>
+
+</footer>
+
+  <!-- GitHub Buttons -->
+<script async defer src="https://buttons.github.io/buttons.js"></script>
+
+<!-- jQuery CDN -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- Popper.js CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+
+<!-- Bootstrap JS CDN -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+
+<!-- wow.js CDN & Activation -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/wow/1.1.2/wow.js"></script>
+<script> new WOW().init(); </script>
+
+<!-- Card Animation jQuery -->
+<script src="/assets/js/card-animation.js"></script>
+
+<!-- Initialize all tooltips -->
+<script>
+$(function () {
+    $('[data-toggle="tooltip"]').tooltip()
+})
+</script>
+
+</body>
+
+</html>

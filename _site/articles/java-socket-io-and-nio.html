@@ -1,0 +1,248 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#java-blocking-io">
+Java Blocking IO</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#java-nio">
+Java NIO</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#java-io-vs-nio">
+Java IO vs NIO</a>
+    
+  
+
+</div>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>Sockets use <em>TCP/IP</em> transport protocol and are the last piece of a network communication between two hosts. You do not usually have to deal with them, since there are protocols built on top of them like <em>HTTP</em> or <em>FTP</em>, however it is important to know how they work.</p>
+
+<blockquote>
+  <p><em>TCP</em>: It is a reliable data transfer protocol that ensures that the data sent is complete and correct and requires to establish a connection.</p>
+</blockquote>
+
+<p>Java offers a blocking and non blocking alternative to create sockets, and depending on your requirements you might consider the one or the other.</p>
+
+<h3 id="java-blocking-io">Java Blocking IO</h3>
+
+<p>The Java blocking IO API is included in <strong>JDK</strong> under the package <code class="highlighter-rouge">java.net</code> and is generally the simplest to use.</p>
+
+<p>This API is based on flows of byte streams and character streams that can be read or written. There is not an index that you can use to move forth and back, like in an array, it is simply a continuous flow of data.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/B5e8q-Kn1kzI_apnfLbX8n2abY-uJzTzaFevpdr7ewQBarkSDut0zdpDQeqVUo6cPAqTieIa9S8U0GVgB7DMPHqPU3n386ZIM5g_KzZktCj0iCTn7tsUZxubg4ESaEIwNShIPoXiuw=w600" class="figure-img img-fluid rounded" alt="Java Blocking IO" />
+  
+    <figcaption class="figure-caption text-center">Java Blocking IO</figcaption>
+  
+</figure>
+
+<p>Every time a client request a connection to the server, it will block a thread. Therefore, we have to create a pool of threads large enough if we expect to have many simultaneous connections.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ServerSocket</span> <span class="n">serverSocket</span> <span class="o">=</span> <span class="k">new</span> <span class="n">ServerSocket</span><span class="o">(</span><span class="n">PORT_NUMBER</span><span class="o">);</span>
+
+<span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">Socket</span> <span class="n">client</span> <span class="o">=</span> <span class="n">serverSocket</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+    <span class="k">try</span> <span class="o">{</span>
+        <span class="n">BufferedReader</span> <span class="n">in</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedReader</span><span class="o">(</span>
+            <span class="k">new</span> <span class="nf">InputStreamReader</span><span class="o">(</span><span class="n">client</span><span class="o">.</span><span class="na">getInputStream</span><span class="o">())</span>
+        <span class="o">);</span>
+        <span class="n">OutputStream</span> <span class="n">out</span> <span class="o">=</span> <span class="n">client</span><span class="o">.</span><span class="na">getOutputStream</span><span class="o">();</span>
+        <span class="n">in</span><span class="o">.</span><span class="na">lines</span><span class="o">().</span><span class="na">forEach</span><span class="o">(</span><span class="n">line</span> <span class="o">-&gt;</span> <span class="o">{</span>
+            <span class="k">try</span> <span class="o">{</span>
+                <span class="n">out</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">line</span><span class="o">.</span><span class="na">getBytes</span><span class="o">());</span>
+            <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+                <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+            <span class="o">}</span>
+        <span class="o">});</span>
+        <span class="n">client</span><span class="o">.</span><span class="na">close</span><span class="o">();</span>
+    <span class="o">}</span> <span class="k">catch</span> <span class="o">(</span><span class="n">IOException</span> <span class="n">e</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">e</span><span class="o">.</span><span class="na">printStackTrace</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>A <code class="highlighter-rouge">ServerSocket</code> is created with a given port to listen on.</li>
+  <li>The server will block when <code class="highlighter-rouge">accept()</code> is invoked and starts listening for clients connections.</li>
+  <li>If a client requests a connection a Socket is returned by <code class="highlighter-rouge">accept()</code>.</li>
+  <li>Now we can read from the client (<code class="highlighter-rouge">InputStream</code>) and send data back to the client (<code class="highlighter-rouge">OutputStream</code>).</li>
+</ol>
+
+<p>If we want to allow multiple connections, we have to create a <strong>Thread Pool</strong>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">ExecutorService</span> <span class="n">threadPool</span> <span class="o">=</span> <span class="n">Executors</span><span class="o">.</span><span class="na">newFixedThreadPool</span><span class="o">(</span><span class="mi">100</span><span class="o">);</span>
+
+ <span class="n">threadPool</span><span class="o">.</span><span class="na">execute</span><span class="o">(()</span> <span class="o">-&gt;</span> <span class="o">{</span>
+     <span class="c1">// SOCKET CREATION</span>
+ <span class="o">});</span>
+</code></pre></div></div>
+
+<p>As you can see, this API has some limitations. We won’t be able to accept more connections than threads available in our machine. Therefore, if you are expecting to have many connections, you need an alternative.</p>
+
+<h3 id="java-nio">Java NIO</h3>
+
+<p><strong>java.nio</strong> is a non blocking API for socket connections which means you are not tight to the number of threads available. With this library one thread can handle multiple connections at once.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/UPsm3Jc2Gicv6fHuIqnSjOrwvXhO73u5bDYcWMU2WtuCKM9Q6ePPEGoJPKxKA0dl9DQwrkr5B3YNcQ505xgQUtwZB-jKnSx3uetK0bkRK01g9S1lsWWAPZ-hSfVfeP0ZpvL7ap3RrA=w600" class="figure-img img-fluid rounded" alt="Java NIO" />
+  
+    <figcaption class="figure-caption text-center">Java NIO</figcaption>
+  
+</figure>
+
+<p>Main elements:</p>
+
+<ul>
+  <li><strong>Channel</strong>: channels are a combination of input and output streams, so they allow you to read and write, and they use buffers to do this operations.</li>
+  <li><strong>Buffer</strong>: it is a block of memory used to read from a <code class="highlighter-rouge">Channel</code> and write into it. When you want to read data from a <code class="highlighter-rouge">Buffer</code> you need to invoke<code class="highlighter-rouge">flip()</code>, so that it will set <code class="highlighter-rouge">pos</code> to 0.
+    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">read</span> <span class="o">=</span> <span class="n">socketChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span> <span class="c1">// pos = n &amp; lim = 1024</span>
+<span class="k">while</span> <span class="o">(</span><span class="n">read</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span>
+  <span class="n">buffer</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span> <span class="c1">// set buffer in read mode - pos = 0 &amp; lim = n</span>
+  <span class="k">while</span><span class="o">(</span><span class="n">buffer</span><span class="o">.</span><span class="na">hasRemaining</span><span class="o">()){</span>
+      <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">print</span><span class="o">((</span><span class="kt">char</span><span class="o">)</span> <span class="n">buffer</span><span class="o">.</span><span class="na">get</span><span class="o">());</span> <span class="c1">// read 1 byte at a time</span>
+  <span class="o">}</span>
+  <span class="n">buffer</span><span class="o">.</span><span class="na">clear</span><span class="o">();</span> <span class="c1">// make buffer ready for writing - pos = 0 &amp; lim = 1024</span>
+  <span class="n">read</span> <span class="o">=</span> <span class="n">socketChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">buffer</span><span class="o">);</span> <span class="c1">// set to -1</span>
+<span class="o">}</span>
+</code></pre></div>    </div>
+    <ol>
+      <li>On line 1, pos will be equals to the number of bytes written into the <code class="highlighter-rouge">Buffer</code>.</li>
+      <li>On line 3, <code class="highlighter-rouge">flip()</code> is called to set position to 0 and limit to the number of bytes previously written.</li>
+      <li>On line 5, it reads from <code class="highlighter-rouge">Buffer</code> one byte at a time up to the limit.</li>
+      <li>On line 7, finally we clear the <code class="highlighter-rouge">Buffer</code>.</li>
+    </ol>
+  </li>
+  <li><strong>Selector</strong>: A <code class="highlighter-rouge">Selector</code> can register multiple Channels and will check which ones are ready for accepting new connections. Similar to <code class="highlighter-rouge">accept()</code> method of blocking IO, when <code class="highlighter-rouge">select()</code> is invoked it will block the application until a <code class="highlighter-rouge">Channel</code> is ready to do an operation. Because a <code class="highlighter-rouge">Selector</code> can register many channels, only one thread is required to handler multiple connections.</li>
+  <li><strong>Selection Key</strong>: It contains properties for a particular <strong>Channel</strong> (interest set, ready set, selector/channel and an optional attached object). Selection keys are mainly use to know the current interest of the channel (<code class="highlighter-rouge">isAcceptable()</code>, <code class="highlighter-rouge">isReadable()</code>, <code class="highlighter-rouge">isWritable()</code>), get the channel and do operations with that channel.</li>
+</ul>
+
+<h4 id="example">Example</h4>
+
+<p>We will use an <strong>Echo Socket Channel</strong> server to show how NIO works.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">var</span> <span class="n">serverSocketChannel</span> <span class="o">=</span> <span class="n">ServerSocketChannel</span><span class="o">.</span><span class="na">open</span><span class="o">();</span>
+<span class="n">serverSocketChannel</span><span class="o">.</span><span class="na">configureBlocking</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+<span class="n">serverSocketChannel</span><span class="o">.</span><span class="na">socket</span><span class="o">().</span><span class="na">bind</span><span class="o">(</span><span class="k">new</span> <span class="n">InetSocketAddress</span><span class="o">(</span><span class="mi">8080</span><span class="o">));</span>
+
+<span class="kt">var</span> <span class="n">selector</span> <span class="o">=</span> <span class="n">Selector</span><span class="o">.</span><span class="na">open</span><span class="o">();</span>
+<span class="n">serverSocketChannel</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">selector</span><span class="o">,</span> <span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_ACCEPT</span><span class="o">);</span>
+
+<span class="k">while</span> <span class="o">(</span><span class="kc">true</span><span class="o">)</span> <span class="o">{</span>
+    <span class="n">selector</span><span class="o">.</span><span class="na">select</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">keys</span> <span class="o">=</span> <span class="n">selector</span><span class="o">.</span><span class="na">selectedKeys</span><span class="o">().</span><span class="na">iterator</span><span class="o">();</span>
+
+    <span class="k">while</span> <span class="o">(</span><span class="n">keys</span><span class="o">.</span><span class="na">hasNext</span><span class="o">())</span> <span class="o">{</span>
+        <span class="kt">var</span> <span class="n">selectionKey</span> <span class="o">=</span> <span class="o">(</span><span class="n">SelectionKey</span><span class="o">)</span> <span class="n">keys</span><span class="o">.</span><span class="na">next</span><span class="o">();</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">selectionKey</span><span class="o">.</span><span class="na">isAcceptable</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">createChannel</span><span class="o">(</span><span class="n">serverSocketChannel</span><span class="o">,</span> <span class="n">selectionKey</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">selectionKey</span><span class="o">.</span><span class="na">isReadable</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">doRead</span><span class="o">(</span><span class="n">selectionKey</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="k">if</span> <span class="o">(</span><span class="n">selectionKey</span><span class="o">.</span><span class="na">isWritable</span><span class="o">())</span> <span class="o">{</span>
+            <span class="n">doWrite</span><span class="o">(</span><span class="n">selectionKey</span><span class="o">);</span>
+        <span class="o">}</span>
+        <span class="n">keys</span><span class="o">.</span><span class="na">remove</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<ol>
+  <li>From lines 1 to 3 a <code class="highlighter-rouge">ServerSocketChannel</code> is created, and you have to set it to non-blocking mode explicitly. The socket is also configure to listen on <em>port 8080</em>.</li>
+  <li>On line 5 and 6, a <code class="highlighter-rouge">Selector</code> is created and <code class="highlighter-rouge">ServerSocketChannel</code> is registered on the Selector with a <code class="highlighter-rouge">SelectionKey</code> pointing to ACCEPT operations.</li>
+  <li>To keep the application listening all the time the blocking method <code class="highlighter-rouge">select()</code> is inside an infinite while loop, and <code class="highlighter-rouge">select()</code> will return when at least one channel is selected <code class="highlighter-rouge">wakeup()</code> is invoked or the thread is interrupted.</li>
+  <li>Then on line 10 a set of keys are returned from the <code class="highlighter-rouge">Selector</code> and we will iterate through them in order to execute the ready channels.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">createChannel</span><span class="o">(</span><span class="n">ServerSocketChannel</span> <span class="n">serverSocketChannel</span><span class="o">,</span> <span class="n">SelectionKey</span> <span class="n">selectionKey</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="kt">var</span> <span class="n">socketChannel</span> <span class="o">=</span> <span class="n">serverSocketChannel</span><span class="o">.</span><span class="na">accept</span><span class="o">();</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Accepted connection from "</span> <span class="o">+</span> <span class="n">socketChannel</span><span class="o">);</span>
+    <span class="n">socketChannel</span><span class="o">.</span><span class="na">configureBlocking</span><span class="o">(</span><span class="kc">false</span><span class="o">);</span>
+    <span class="n">socketChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">ByteBuffer</span><span class="o">.</span><span class="na">wrap</span><span class="o">((</span><span class="s">"Welcome: "</span> <span class="o">+</span> <span class="n">socketChannel</span><span class="o">.</span><span class="na">getRemoteAddress</span><span class="o">()</span> <span class="o">+</span>
+            <span class="s">"\nThe thread assigned to you is: "</span> <span class="o">+</span> <span class="n">Thread</span><span class="o">.</span><span class="na">currentThread</span><span class="o">().</span><span class="na">getId</span><span class="o">()</span> <span class="o">+</span> <span class="s">"\n"</span><span class="o">).</span><span class="na">getBytes</span><span class="o">()));</span>
+    <span class="n">dataMap</span><span class="o">.</span><span class="na">put</span><span class="o">(</span><span class="n">socketChannel</span><span class="o">,</span> <span class="k">new</span> <span class="n">LinkedList</span><span class="o">&lt;&gt;());</span> <span class="c1">// store socket connection</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Total clients connected: "</span> <span class="o">+</span> <span class="n">dataMap</span><span class="o">.</span><span class="na">size</span><span class="o">());</span>
+    <span class="n">socketChannel</span><span class="o">.</span><span class="na">register</span><span class="o">(</span><span class="n">selectionKey</span><span class="o">.</span><span class="na">selector</span><span class="o">(),</span> <span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_READ</span><span class="o">);</span> <span class="c1">// selector pointing to READ operation</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Every time a new connection is created <code class="highlighter-rouge">isAcceptable()</code> will be true and a new <code class="highlighter-rouge">Channel</code> will be registered into the <code class="highlighter-rouge">Selector</code>.</li>
+  <li>To keep track of the data of each channel, it is put in a <code class="highlighter-rouge">Map</code> with the socket channel as the key and a list of ByteBuffers.</li>
+  <li>Then the selector will point to <em>READ</em> operation.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">doRead</span><span class="o">(</span><span class="n">SelectionKey</span> <span class="n">selectionKey</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Reading..."</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">socketChannel</span> <span class="o">=</span> <span class="o">(</span><span class="n">SocketChannel</span><span class="o">)</span> <span class="n">selectionKey</span><span class="o">.</span><span class="na">channel</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">byteBuffer</span> <span class="o">=</span> <span class="n">ByteBuffer</span><span class="o">.</span><span class="na">allocate</span><span class="o">(</span><span class="mi">1024</span><span class="o">);</span> <span class="c1">// pos=0 &amp; lim=1024</span>
+    <span class="kt">int</span> <span class="n">read</span> <span class="o">=</span> <span class="n">socketChannel</span><span class="o">.</span><span class="na">read</span><span class="o">(</span><span class="n">byteBuffer</span><span class="o">);</span> <span class="c1">// pos=numberOfBytes &amp; lim=1024</span>
+    <span class="k">if</span> <span class="o">(</span><span class="n">read</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="o">)</span> <span class="o">{</span> <span class="c1">// if connection is closed by the client</span>
+        <span class="n">doClose</span><span class="o">(</span><span class="n">socketChannel</span><span class="o">);</span>
+    <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+        <span class="n">byteBuffer</span><span class="o">.</span><span class="na">flip</span><span class="o">();</span> <span class="c1">// put buffer in read mode by setting pos=0 and lim=numberOfBytes</span>
+        <span class="n">dataMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">socketChannel</span><span class="o">).</span><span class="na">add</span><span class="o">(</span><span class="n">byteBuffer</span><span class="o">);</span> <span class="c1">// find socket channel and add new byteBuffer queue</span>
+        <span class="n">selectionKey</span><span class="o">.</span><span class="na">interestOps</span><span class="o">(</span><span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_WRITE</span><span class="o">);</span> <span class="c1">// set mode to WRITE to send data</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>In the read block the channel will be retrieved and the incoming data will be written into a <code class="highlighter-rouge">ByteBuffer</code>.</li>
+  <li>On line 6 we check if the connection has been closed.</li>
+  <li>On line 9 and 10, the buffer is set to read mode with <code class="highlighter-rouge">flip()</code> and added to the Map.</li>
+  <li>Then, <code class="highlighter-rouge">interestOps()</code> is invoked to point to <em>WRITE</em> operation.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">doWrite</span><span class="o">(</span><span class="n">SelectionKey</span> <span class="n">selectionKey</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Writing..."</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">socketChannel</span> <span class="o">=</span> <span class="o">(</span><span class="n">SocketChannel</span><span class="o">)</span> <span class="n">selectionKey</span><span class="o">.</span><span class="na">channel</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">pendingData</span> <span class="o">=</span> <span class="n">dataMap</span><span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="n">socketChannel</span><span class="o">);</span> <span class="c1">// find channel</span>
+    <span class="k">while</span> <span class="o">(!</span><span class="n">pendingData</span><span class="o">.</span><span class="na">isEmpty</span><span class="o">())</span> <span class="o">{</span> <span class="c1">// start sending to client from queue</span>
+        <span class="kt">var</span> <span class="n">buf</span> <span class="o">=</span> <span class="n">pendingData</span><span class="o">.</span><span class="na">poll</span><span class="o">();</span>
+        <span class="n">socketChannel</span><span class="o">.</span><span class="na">write</span><span class="o">(</span><span class="n">buf</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="n">selectionKey</span><span class="o">.</span><span class="na">interestOps</span><span class="o">(</span><span class="n">SelectionKey</span><span class="o">.</span><span class="na">OP_READ</span><span class="o">);</span> <span class="c1">// change the key to READ</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ol>
+  <li>Once again, the channel is retrieved in order to write the data saved in the <code class="highlighter-rouge">Map</code> into it.</li>
+  <li>Then, we set the <code class="highlighter-rouge">Selector</code> to <em>READ</em> operations.</li>
+</ol>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">doClose</span><span class="o">(</span><span class="n">SocketChannel</span> <span class="n">socketChannel</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">IOException</span> <span class="o">{</span>
+    <span class="n">dataMap</span><span class="o">.</span><span class="na">remove</span><span class="o">(</span><span class="n">socketChannel</span><span class="o">);</span>
+    <span class="kt">var</span> <span class="n">socket</span> <span class="o">=</span> <span class="n">socketChannel</span><span class="o">.</span><span class="na">socket</span><span class="o">();</span>
+    <span class="kt">var</span> <span class="n">remoteSocketAddress</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="na">getRemoteSocketAddress</span><span class="o">();</span>
+    <span class="n">LOGGER</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Connection closed by client: "</span> <span class="o">+</span> <span class="n">remoteSocketAddress</span><span class="o">);</span>
+    <span class="n">socketChannel</span><span class="o">.</span><span class="na">close</span><span class="o">();</span> <span class="c1">// closes channel and cancels selection key</span>
+<span class="o">}</span>
+</code></pre></div></div>
+<ol>
+  <li>In case the connection is closed, the channel is removed from the <code class="highlighter-rouge">Map</code> and we close the channel.</li>
+</ol>
+
+<h3 id="java-io-vs-nio">Java IO vs NIO</h3>
+
+<p>Choosing between IO and NIO will depend on the use case. For fewer connections and a simple solution, IO might be better fit for you.
+Whereas, if you want something more efficient which can handle thousands of connections simultaneously NIO is probably a better choice, but bear in mind that it will introduce much code complexity, however, there frameworks like <a href="https://netty.io/">Netty</a> or <a href="https://mina.apache.org/">Apache MINA</a> that are built on top of NIO and hide the programming complexity.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-sockets">
+  Source Code
+</a>
+</p>

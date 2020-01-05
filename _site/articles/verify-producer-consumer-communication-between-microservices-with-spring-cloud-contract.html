@@ -1,0 +1,275 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#what-to-test">
+What to test</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#tools">
+Tools</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#spring-cloud-contract">
+Spring Cloud Contract</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#producer">
+Producer</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#consumer">
+Consumer</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h3 id="introduction">Introduction</h3>
+
+<p>Before <strong>microservices</strong> became popular, we did not have to worry about making sure that different components of your application were using the same POJO class, and any change in a particular entity will affect all its users straight away.</p>
+
+<p>In a microservices architecture, some <strong>testing</strong> aspects have changed, and now our applications <strong>require a different strategy</strong>. <strong>Contract Testing</strong> is one of the solutions which consists of writing tests to ensure that the contracts of our microservices are satisfied and work as expected.</p>
+
+<p>When we talk about Contract Tests, there are <strong>two roles</strong>:</p>
+
+<ul>
+  <li><strong>Producer</strong>: it is the application providing a service.</li>
+  <li><strong>Consumer</strong>: it is entity consuming the producer API.</li>
+</ul>
+
+<h3 id="what-to-test">What to test</h3>
+
+<p>Contracts should define API specifications offered by microservices, so there is no need for us to test service availability, integrations of layers or load tolerance.</p>
+
+<p>Our contract should contain elements like HTTP status (e.g. 200, 400…), headers (content-type, cookies…) or response body, for a particular request (method type + paht + …).</p>
+
+<h3 id="tools">Tools</h3>
+
+<p><strong><a href="https://spring.io/projects/spring-cloud-contract">Spring Cloud Contract</a></strong> provides a simple way to test contracts by implementing the <a href="https://martinfowler.com/articles/consumerDrivenContracts.html">Consumer-Driven Contracts</a> pattern. In this tecnique, consumers need to satisfy producers expectations, therefore providers are responsible for defining these contracts and share them with its consumers.</p>
+
+<h3 id="spring-cloud-contract">Spring Cloud Contract</h3>
+
+<h4 id="producer">Producer</h4>
+
+<p>We need to add this dependecy to the producer POM file:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-contract-verifier<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>${contract.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>Additionally, a plugin in the producer is required to generate tests and stubs for you.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;plugin&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-contract-maven-plugin<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;version&gt;</span>${contract.version}<span class="nt">&lt;/version&gt;</span>
+    <span class="nt">&lt;extensions&gt;</span>true<span class="nt">&lt;/extensions&gt;</span>
+    <span class="nt">&lt;configuration&gt;</span>
+        <span class="nt">&lt;baseClassForTests&gt;</span>com.sergiomartinrubio.reviewservice.BaseClass<span class="nt">&lt;/baseClassForTests&gt;</span>
+        <span class="nt">&lt;testMode&gt;</span>EXPLICIT<span class="nt">&lt;/testMode&gt;</span>
+    <span class="nt">&lt;/configuration&gt;</span>
+<span class="nt">&lt;/plugin&gt;</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>A base class might need to be created to mock responses or set the context, and this class needs to be set in <em>baseClassForTests</em>.</p>
+</blockquote>
+
+<p>Now we can start defining the contract. Add contracts written in Groovy or YAML to <em>/src/test/resources/contracts/</em> package. For example:</p>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">contracts</span>
+
+<span class="kn">import</span> <span class="nn">org.springframework.cloud.contract.spec.Contract</span>
+
+<span class="n">Contract</span><span class="o">.</span><span class="na">make</span> <span class="o">{</span>
+
+    <span class="n">description</span><span class="o">(</span><span class="s2">"should return all Reviews"</span><span class="o">)</span>
+
+    <span class="n">request</span> <span class="o">{</span>
+        <span class="n">method</span><span class="o">(</span><span class="n">GET</span><span class="o">())</span>
+        <span class="n">url</span><span class="o">(</span><span class="s2">"/reviews"</span><span class="o">)</span>
+    <span class="o">}</span>
+
+    <span class="n">response</span> <span class="o">{</span>
+
+        <span class="n">status</span><span class="o">(</span><span class="mi">200</span><span class="o">)</span>
+        <span class="n">headers</span> <span class="o">{</span>
+            <span class="n">contentType</span><span class="o">(</span><span class="n">applicationJsonUtf8</span><span class="o">())</span>
+        <span class="o">}</span>
+
+        <span class="n">body</span><span class="o">(</span><span class="s2">"""
+            [
+                {"id":"1", "author":"Sergio", "message":"content"}
+            ]
+        """</span><span class="o">)</span>
+    <span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>Base class:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@SpringBootTest</span><span class="o">(</span><span class="n">webEnvironment</span> <span class="o">=</span> <span class="n">SpringBootTest</span><span class="o">.</span><span class="na">WebEnvironment</span><span class="o">.</span><span class="na">RANDOM_PORT</span><span class="o">,</span> <span class="n">properties</span> <span class="o">=</span> <span class="s">"server.port=0"</span><span class="o">)</span>
+<span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@Import</span><span class="o">(</span><span class="n">ProducerRestConfiguration</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BaseClass</span> <span class="o">{</span>
+
+    <span class="nd">@LocalServerPort</span>
+    <span class="kd">private</span> <span class="kt">int</span> <span class="n">port</span><span class="o">;</span>
+
+    <span class="nd">@MockBean</span>
+    <span class="kd">private</span> <span class="n">ReviewRepository</span> <span class="n">reviewRepository</span><span class="o">;</span>
+
+    <span class="nd">@Before</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">setUp</span><span class="o">()</span> <span class="o">{</span>
+
+        <span class="n">RestAssured</span><span class="o">.</span><span class="na">baseURI</span> <span class="o">=</span> <span class="s">"http://localhost:"</span> <span class="o">+</span> <span class="k">this</span><span class="o">.</span><span class="na">port</span><span class="o">;</span>
+
+        <span class="n">when</span><span class="o">(</span><span class="n">reviewRepository</span><span class="o">.</span><span class="na">findAll</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">thenReturn</span><span class="o">(</span><span class="n">Flux</span><span class="o">.</span><span class="na">just</span><span class="o">(</span><span class="k">new</span> <span class="n">Review</span><span class="o">(</span><span class="s">"1"</span><span class="o">,</span> <span class="s">"Sergio"</span><span class="o">,</span> <span class="s">"content"</span><span class="o">)));</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p>Once the contract and base class are defined, we can run Maven to generate tests and stubs.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean <span class="nb">install</span>
+</code></pre></div></div>
+
+<p>Tests will be generated in <em>/target/generated-test-sources/contracts/</em>. For the given example the output will be:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kd">class</span> <span class="nc">ContractVerifierTest</span> <span class="kd">extends</span> <span class="n">BaseClass</span> <span class="o">{</span>
+
+	<span class="nd">@Test</span>
+	<span class="kd">public</span> <span class="kt">void</span> <span class="nf">validate_shouldReturnAllReviews</span><span class="o">()</span> <span class="kd">throws</span> <span class="n">Exception</span> <span class="o">{</span>
+		<span class="c1">// given:</span>
+			<span class="n">RequestSpecification</span> <span class="n">request</span> <span class="o">=</span> <span class="n">given</span><span class="o">();</span>
+
+		<span class="c1">// when:</span>
+			<span class="n">Response</span> <span class="n">response</span> <span class="o">=</span> <span class="n">given</span><span class="o">().</span><span class="na">spec</span><span class="o">(</span><span class="n">request</span><span class="o">)</span>
+					<span class="o">.</span><span class="na">get</span><span class="o">(</span><span class="s">"/reviews"</span><span class="o">);</span>
+
+		<span class="c1">// then:</span>
+			<span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">statusCode</span><span class="o">()).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="mi">200</span><span class="o">);</span>
+			<span class="n">assertThat</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">header</span><span class="o">(</span><span class="s">"Content-Type"</span><span class="o">)).</span><span class="na">matches</span><span class="o">(</span><span class="s">"application/json;charset=UTF-8.*"</span><span class="o">);</span>
+		<span class="c1">// and:</span>
+			<span class="n">DocumentContext</span> <span class="n">parsedJson</span> <span class="o">=</span> <span class="n">JsonPath</span><span class="o">.</span><span class="na">parse</span><span class="o">(</span><span class="n">response</span><span class="o">.</span><span class="na">getBody</span><span class="o">().</span><span class="na">asString</span><span class="o">());</span>
+			<span class="n">assertThatJson</span><span class="o">(</span><span class="n">parsedJson</span><span class="o">).</span><span class="na">array</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="s">"['message']"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"content"</span><span class="o">);</span>
+			<span class="n">assertThatJson</span><span class="o">(</span><span class="n">parsedJson</span><span class="o">).</span><span class="na">array</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="s">"['author']"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"Sergio"</span><span class="o">);</span>
+			<span class="n">assertThatJson</span><span class="o">(</span><span class="n">parsedJson</span><span class="o">).</span><span class="na">array</span><span class="o">().</span><span class="na">contains</span><span class="o">(</span><span class="s">"['id']"</span><span class="o">).</span><span class="na">isEqualTo</span><span class="o">(</span><span class="s">"1"</span><span class="o">);</span>
+	<span class="o">}</span>
+
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The stub will be located under stubs/mappings:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="s2">"id"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ba196f42-7f5f-47b3-a1ce-863fe8b96423"</span><span class="p">,</span><span class="w">
+  </span><span class="s2">"request"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"url"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"/reviews"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"method"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"GET"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"response"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="s2">"status"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="mi">200</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"body"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"[{</span><span class="se">\"</span><span class="s2">id</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">1</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">name</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">Sergio</span><span class="se">\"</span><span class="s2">,</span><span class="se">\"</span><span class="s2">text</span><span class="se">\"</span><span class="s2">:</span><span class="se">\"</span><span class="s2">text</span><span class="se">\"</span><span class="s2">}]"</span><span class="p">,</span><span class="w">
+    </span><span class="s2">"headers"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="s2">"Content-Type"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"application/json;charset=UTF-8"</span><span class="w">
+    </span><span class="p">},</span><span class="w">
+    </span><span class="s2">"transformers"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"> </span><span class="s2">"response-template"</span><span class="w"> </span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="s2">"uuid"</span><span class="w"> </span><span class="p">:</span><span class="w"> </span><span class="s2">"ba196f42-7f5f-47b3-a1ce-863fe8b96423"</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p>The Maven Plugin will also create a jar with stubs to be uploaded to a central repository (e.g. <code class="highlighter-rouge">/target/review-service-0.0.1-SNAPSHOT-stubs.jar</code>), so you will be able to run it during the integration test phase.</p>
+
+<h4 id="consumer">Consumer</h4>
+
+<p>The consumer will use a stub runner that allows you to automatically download stubs generated by the producer (or pick those from the classpath), start WireMock servers and feed them with stub definitions.</p>
+
+<p>Consumer dependency:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-contract-stub-runner<span class="nt">&lt;/artifactId&gt;</span>
+    <span class="nt">&lt;scope&gt;</span>test<span class="nt">&lt;/scope&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>Consumer test suite:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@RunWith</span><span class="o">(</span><span class="n">SpringRunner</span><span class="o">.</span><span class="na">class</span><span class="o">)</span>
+<span class="nd">@AutoConfigureStubRunner</span><span class="o">(</span><span class="n">ids</span> <span class="o">=</span> <span class="s">"com.sergiomartinrubio:review-service:+:8080"</span><span class="o">,</span>
+        <span class="n">stubsMode</span> <span class="o">=</span> <span class="n">StubRunnerProperties</span><span class="o">.</span><span class="na">StubsMode</span><span class="o">.</span><span class="na">LOCAL</span><span class="o">)</span>
+<span class="nd">@Import</span><span class="o">({</span><span class="n">ReviewConsumerApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">ReviewClient</span><span class="o">.</span><span class="na">class</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">ReviewWireMockTest</span> <span class="o">{</span>
+
+    <span class="nd">@Autowired</span>
+    <span class="kd">private</span> <span class="n">ReviewClient</span> <span class="n">reviewClient</span><span class="o">;</span>
+
+    <span class="nd">@Test</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">clientShouldReturnReview</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">StepVerifier</span><span class="o">.</span><span class="na">create</span><span class="o">(</span><span class="n">reviewClient</span><span class="o">.</span><span class="na">getAllReviews</span><span class="o">())</span>
+                <span class="o">.</span><span class="na">expectNextMatches</span><span class="o">(</span><span class="n">review</span> <span class="o">-&gt;</span> <span class="n">review</span><span class="o">.</span><span class="na">getAuthor</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"Sergio"</span><span class="o">)</span> <span class="o">&amp;&amp;</span> <span class="n">review</span><span class="o">.</span><span class="na">getMessage</span><span class="o">().</span><span class="na">equals</span><span class="o">(</span><span class="s">"content"</span><span class="o">))</span>
+                <span class="o">.</span><span class="na">verifyComplete</span><span class="o">();</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">@AutoconfigurationStubRunner</code> will set:</p>
+
+<ul>
+  <li>ids:
+    <ul>
+      <li><em>groupId</em> of the artifact.</li>
+      <li><em>artifactId</em> of the producer.</li>
+      <li>producer version (+ means latest).</li>
+      <li>port on which the generated stub will run.</li>
+    </ul>
+  </li>
+  <li>stubsMode:
+    <ul>
+      <li><code class="highlighter-rouge">StubRunnerProperties.StubsMode.CLASSPATH</code> (default value) - will pick stubs from the classpath.</li>
+      <li><code class="highlighter-rouge">StubRunnerProperties.StubsMode.LOCAL</code> - will pick stubs from a local storage (e.g. <em>.m2</em>).</li>
+      <li><code class="highlighter-rouge">StubRunnerProperties.StubsMode.REMOTE</code> - will pick stubs from a remote location.</li>
+    </ul>
+  </li>
+</ul>
+
+<p>As we mentioned, the consumer uses the stub generated by the producer, so if the producer changes the API the contract will break.</p>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Making sure that our APIs work as advertised is very important in the microservices era, since many teams might work in different part of our system and we need to align producers and consumers to avoid misunderstandings at a late stage of the development process. Using Wiremock in isolation is not enough, because producers may change their specification and we might not be aware of these changes, therefore it is very important to test the contract defined between producers and consumers at every stage.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/testing-spring-microservices">
+  Source Code
+</a>
+</p>

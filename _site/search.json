@@ -1,0 +1,291 @@
+[
+  
+    {
+      "title"    : "Get Started With Mockito",
+      "category" : "",
+      "tags"     : "Testing, Java, Mockito",
+      "url"      : "/articles/get-started-with-mockito",
+      "date"     : "2019-12-16 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Get Started With Java Servlets",
+      "category" : "",
+      "tags"     : "Java, Web Applications",
+      "url"      : "/articles/get-started-with-java-servlets",
+      "date"     : "2019-11-11 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Centralized Configuration With Spring Cloud Config Server",
+      "category" : "",
+      "tags"     : "Spring, Spring Boot, Spring Cloud, Configuration, Microservices",
+      "url"      : "/articles/centralized-configuration-with-spring-cloud-config-server",
+      "date"     : "2019-10-21 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Automated Dependency Updates With Dependabot",
+      "category" : "",
+      "tags"     : "Dependency Management, Git",
+      "url"      : "/articles/automated-dependency-updates-with-dependabot",
+      "date"     : "2019-10-10 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Java Memory Model Overview",
+      "category" : "",
+      "tags"     : "Java",
+      "url"      : "/articles/java-memory-model-overview",
+      "date"     : "2019-07-31 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Moving Beyond REST with GraphQL",
+      "category" : "",
+      "tags"     : "API Integration, GraphQL, Spring",
+      "url"      : "/articles/moving-beyond-rest-with-graphql",
+      "date"     : "2019-07-11 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Java Socket IO and NIO",
+      "category" : "",
+      "tags"     : "Java",
+      "url"      : "/articles/java-socket-io-and-nio",
+      "date"     : "2019-07-01 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Verify Producer-Consumer Communication between Microservices with Spring Cloud Contract",
+      "category" : "",
+      "tags"     : "Java, Spring, Testing, Microservices",
+      "url"      : "/articles/verify-producer-consumer-communication-between-microservices-with-spring-cloud-contract",
+      "date"     : "2019-06-01 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Micronaut, a New Contender for the Microservices Era",
+      "category" : "",
+      "tags"     : "Java, Web Applications",
+      "url"      : "/articles/micronaut-a-new-contender-for-the-microservices-era",
+      "date"     : "2019-04-29 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Spring Bean Lifecycle Fundamentals",
+      "category" : "",
+      "tags"     : "Java, Spring",
+      "url"      : "/articles/spring-bean-lifecycle-fundamentals",
+      "date"     : "2019-04-15 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Tech Events in 2019",
+      "category" : "",
+      "tags"     : "Events",
+      "url"      : "/articles/tech-events-in-2019",
+      "date"     : "2019-04-10 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Improve Code Quality with SpotBugs",
+      "category" : "",
+      "tags"     : "Java, Code Quality, Performance",
+      "url"      : "/articles/improve-code-quality-with-spotbugs",
+      "date"     : "2019-04-08 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Integer Caching in Java",
+      "category" : "",
+      "tags"     : "Java, Performance",
+      "url"      : "/articles/integer-caching-in-java",
+      "date"     : "2019-03-28 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Troubleshooting Tools for Microservices Architecture",
+      "category" : "",
+      "tags"     : "Microservices, Zipkin, Splunk, Spring Boot, Tracing, Docker",
+      "url"      : "/articles/troubleshooting-tools-for-microservices-architecture",
+      "date"     : "2019-03-25 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Reduce Startup Time With Spring Boot 2.2",
+      "category" : "",
+      "tags"     : "Java, Spring, Spring Boot",
+      "url"      : "/articles/reduce-startup-time-with-spring-boot-2-2",
+      "date"     : "2019-03-19 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Quick Introduction to ThreadLocal",
+      "category" : "",
+      "tags"     : "Java, Threading, ThreadLocal",
+      "url"      : "/articles/quick-introduction-to-threadlocal",
+      "date"     : "2019-02-25 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Quick Introduction to Reactive Programming",
+      "category" : "",
+      "tags"     : "Java, Spring, Project Reactor, Reactive Programming",
+      "url"      : "/articles/quick-introduction-to-reactive-programming",
+      "date"     : "2019-02-18 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Getting Started With DynamoDB and Spring",
+      "category" : "",
+      "tags"     : "Cloud, Database, Java, Spring",
+      "url"      : "/articles/getting-started-with-dynamodb-and-spring",
+      "date"     : "2019-01-11 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "First Steps in JMeter",
+      "category" : "",
+      "tags"     : "Java, Performance, Testing",
+      "url"      : "/articles/first-steps-in-jmeter",
+      "date"     : "2018-11-27 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Debugging Guidelines in Java",
+      "category" : "",
+      "tags"     : "Java, Debugging, JMeter, JStack",
+      "url"      : "/articles/debugging-guidelines-in-java",
+      "date"     : "2018-11-12 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Data Migration with Spring Batch",
+      "category" : "",
+      "tags"     : "Java, Spring Batch, Migration, Database",
+      "url"      : "/articles/data-migration-with-spring-batch",
+      "date"     : "2018-11-05 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Start using Aspect Oriented Programming with Spring AOP",
+      "category" : "",
+      "tags"     : "Java, AOP, Spring, Aspects",
+      "url"      : "/articles/start-using-aspect-oriented-programming-with-spring-aop",
+      "date"     : "2018-10-29 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "Speed Up Your Microservices Development With Telepresence",
+      "category" : "",
+      "tags"     : "Microservices, Kubernetes, Testing",
+      "url"      : "/articles/speed-up-your-microservices-development-with-telepresence",
+      "date"     : "2018-10-04 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Take Unit Testing to the next level with JUnit 5",
+      "category" : "",
+      "tags"     : "Java, Testing, JUnit",
+      "url"      : "/articles/take-unit-testing-to-the-next-level-with-junit-5",
+      "date"     : "2018-09-24 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Hands-On CI/CD for Microservices With Jenkins X",
+      "category" : "",
+      "tags"     : "Microservices, Kubernetes, DevOps, CI/CD, Jenkins",
+      "url"      : "/articles/hands-on-cicd-with-jenkins-x",
+      "date"     : "2018-07-25 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Iteration vs. Recursion in Java",
+      "category" : "",
+      "tags"     : "Java, Algorithm",
+      "url"      : "/articles/iteration-vs-recursion-in-java",
+      "date"     : "2018-07-18 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Behavioral Patterns Features",
+      "category" : "",
+      "tags"     : "Java, Design Pattern",
+      "url"      : "/articles/behavioral-patterns-features",
+      "date"     : "2018-07-09 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Structural Patterns Features",
+      "category" : "",
+      "tags"     : "Java, Design Pattern",
+      "url"      : "/articles/structural-patterns-features",
+      "date"     : "2018-07-02 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Initialise fields wisely in Java",
+      "category" : "",
+      "tags"     : "Java",
+      "url"      : "/articles/initialise-fields-wisely-in-java",
+      "date"     : "2018-05-29 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Approaches when you cannot return a value since Java 8",
+      "category" : "",
+      "tags"     : "Java",
+      "url"      : "/articles/approaches-when-you-cannot-return-a-value-since-java-8",
+      "date"     : "2018-05-14 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Storing Passwords Securely With Bcrypt and Java",
+      "category" : "",
+      "tags"     : "Java, Security",
+      "url"      : "/articles/storing-passwords-securely-with-bcrypt-and-java",
+      "date"     : "2018-05-07 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "JWTs With Spring Boot and Java 9",
+      "category" : "",
+      "tags"     : "Java, Spring, Security",
+      "url"      : "/articles/jwts-with-spring-boot-and-java-9",
+      "date"     : "2018-04-24 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Functional Interfaces Fundamentals",
+      "category" : "",
+      "tags"     : "Java",
+      "url"      : "/articles/functional-interfaces-fundamentals",
+      "date"     : "2018-04-09 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Serverless “Hello World” with Fn Framework",
+      "category" : "",
+      "tags"     : "Serverless, Oracle, Docker",
+      "url"      : "/articles/serverless-hello-world-with-fn-framework",
+      "date"     : "2018-04-04 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Recipes to @Override “equals” and “hashCode” methods",
+      "category" : "",
+      "tags"     : "Java",
+      "url"      : "/articles/recipes-to-override-equals-and-hashcode-methods",
+      "date"     : "2018-03-26 00:00:00 +0100"
+    } ,
+  
+    {
+      "title"    : "Creational Patterns Features",
+      "category" : "",
+      "tags"     : "Java, Desgign Pattern",
+      "url"      : "/articles/creational-patterns-features",
+      "date"     : "2018-03-18 00:00:00 +0000"
+    } 
+  
+]

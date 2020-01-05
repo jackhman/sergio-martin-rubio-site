@@ -1,0 +1,345 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#what-is-a-servlet">What Is a Servlet?</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#how-a-client-request-is-processed-by-the-web-server">
+How a Client Request is processed by the Web Server</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#servlet-lifecycle">
+Servlet Lifecycle</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#servlet-component">
+Servlet Component</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#filters">
+Filters</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#event-listeners">
+Event Listeners</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#exception-handling">
+Exception Handling</a>
+    
+  
+
+</div>
+
+<h2 id="what-is-a-servlet">What Is a Servlet?</h2>
+
+<p>A <strong>Java Servlet</strong> is simply a class that extends from one of the classes in <code class="highlighter-rouge">javax.servlet.http</code> or <code class="highlighter-rouge">javax.servlet</code> packages and is used in applications to handle network communication like <em>HTTP request-response</em> model.</p>
+
+<p>A <strong>Container</strong> is an interface between a component (Servlet, data persistance…) and the low-level functionalities that supports the component. Web containers receive network requests and redirect those requests to a servlet object by mapping the URL path contained in the request to the servlet. A URL path contains the context root and, optionally, a URL pattern:</p>
+
+<p>http://host:port/context-root[/url-pattern]</p>
+
+<p>Servlet containers handle many tedious tasks like opening sockets; tranformations to convert HTTP into Java API calls; or provide a set of interfaces to write your own servlet implementation.</p>
+
+<blockquote>
+  <p>Note: Servlets and JSPs require Servlet Containers liket Apache <a href="http://tomcat.apache.org/">Tomcat</a>, <a href="https://wildfly.org/">WildFly</a>, etc..</p>
+</blockquote>
+
+<h2 id="how-a-client-request-is-processed-by-the-web-server">How a Client Request is processed by the Web Server</h2>
+
+<ol>
+  <li>The web server receives the HTTP request.</li>
+  <li>The request is forwarded to the <em>Servlet Container</em>.</li>
+  <li>The Servlet Container creates two objects the <code class="highlighter-rouge">HttpServletRequest</code> and <code class="highlighter-rouge">HttpServletResponse</code>.</li>
+  <li>The container creates a thread for the request, passes the request and reponse objects as arguments and delegates the request to a particular Servlet chosen between the Servlets it contains.</li>
+  <li>The <code class="highlighter-rouge">service()</code> method is executed and evaluates which Servlet method will be called (<code class="highlighter-rouge">doGet()</code>, <code class="highlighter-rouge">doPost()</code>, <code class="highlighter-rouge">doPut()</code>, <code class="highlighter-rouge">doDelete()</code>, <code class="highlighter-rouge">doHead()</code>, …) based on the request sent by the client (<code class="highlighter-rouge">GET</code>, <code class="highlighter-rouge">POST</code>, <code class="highlighter-rouge">PUT</code>, <code class="highlighter-rouge">DELETE</code>, <code class="highlighter-rouge">HEAD</code>, …).</li>
+  <li>The Servlet handles the client request and generates content to be returned to the client.</li>
+  <li>The container sends the Servlet response to the client.</li>
+</ol>
+
+<blockquote>
+  <p>Note: <code class="highlighter-rouge">ServletRequest</code> contains parameters such as name, values, attributes, and an input stream.</p>
+</blockquote>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/Ig7kjtbUiYNt86tx49lpvMsZY-Cc-4teAFboao1-szXV450v4J11BEfUFX1qhAnlM5g7t2gp3flPbitnaSqHv285gttOEPkNFCZf8IIk6gkpatXSba3XtbkfnNnmUlRn96SsuGVr9g=w2400" class="figure-img img-fluid rounded" alt="Web Server and Servlet Container" />
+  
+    <figcaption class="figure-caption text-center">Web Server and Servlet Container</figcaption>
+  
+</figure>
+
+<h2 id="servlet-lifecycle">Servlet Lifecycle</h2>
+
+<p>The servlet container is responsible for controlling the Servlet lifecycle. What happen when a request comes in?</p>
+
+<ol>
+  <li>If an instance of the Servlet does not exist, the web container:
+    <ul>
+      <li>Loads the servlet class.</li>
+      <li>Creates an instance of the class.</li>
+      <li>Calls <code class="highlighter-rouge">init()</code> method to initialize the servlet.</li>
+    </ul>
+  </li>
+  <li>If an instance already exists the container calls the <code class="highlighter-rouge">service()</code> and passes the request and response objects.</li>
+</ol>
+
+<p>Servlets stay in memory waiting for other requests, and will not be unloaded unless the servlet container sees a shortage of memory. Before the servlet is ready to be garbage collected the <code class="highlighter-rouge">destroy()</code> method is called. This will  happen when all servlet methods are completed or after a server-specific grace period.</p>
+
+<blockquote>
+  <p>Note: when <code class="highlighter-rouge">destroy()</code> method is called you release resources created by the <code class="highlighter-rouge">init()</code> method like database connections.</p>
+</blockquote>
+
+<h2 id="servlet-component">Servlet Component</h2>
+
+<p>Use the <code class="highlighter-rouge">@WebServlet(name = "ConvertServlet")</code> annotation or the deployment descriptor <code class="highlighter-rouge">web.xml</code>.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;servlet&gt;</span>
+    <span class="nt">&lt;servlet-name&gt;</span>ConvertServlet<span class="nt">&lt;/servlet-name&gt;</span>
+    <span class="nt">&lt;servlet-class&gt;</span>com.sergiomartinrubio.javaservletfilters.servlet.IpAddressConverterServlet<span class="nt">&lt;/servlet-class&gt;</span>
+<span class="nt">&lt;/servlet&gt;</span>
+</code></pre></div></div>
+
+<p>Both the annotated servlet or the XML servlet declarion must specify at least one URL pattern. In case of annation use the <code class="highlighter-rouge">urlPatterns</code> attribute when other attributes are also used. For XML declaration:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;servlet-mapping&gt;</span>
+    <span class="nt">&lt;servlet-name&gt;</span>ConvertServlet<span class="nt">&lt;/servlet-name&gt;</span>
+    <span class="nt">&lt;url-pattern&gt;</span>/convert<span class="nt">&lt;/url-pattern&gt;</span>
+<span class="nt">&lt;/servlet-mapping&gt;</span>
+</code></pre></div></div>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebServlet</span><span class="o">(</span><span class="n">urlPatterns</span> <span class="o">=</span> <span class="s">"/convert"</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"ConvertServlet"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">IpAddressConverterServlet</span> <span class="kd">extends</span> <span class="n">HttpServlet</span> <span class="o">{</span> 
+    <span class="c1">// servlet methods (doGet(), doPost(), doPut())</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: Annotations require <em>Servlet API 3.0</em> or higher and <em>tomcat7</em> or any later version of <em>Tomcat</em>.</p>
+</blockquote>
+
+<p><mark class="px-2">From now on most of the servlet definitions will be shown with annotations.</mark></p>
+
+<p>The servlet initialization process can be customize if you override the <code class="highlighter-rouge">init()</code> method of the <code class="highlighter-rouge">Servlet</code> interface, or if you use the <code class="highlighter-rouge">initParams</code> anotation attribute in combination with <code class="highlighter-rouge">@WebInitParam</code> annotation.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebServlet</span><span class="o">(</span><span class="n">urlPatterns</span> <span class="o">=</span> <span class="s">"/convert"</span><span class="o">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"ConvertServlet"</span><span class="o">,</span> <span class="n">initParams</span> <span class="o">=</span> <span class="o">{</span>
+        <span class="nd">@WebInitParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"param2"</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"hello"</span><span class="o">),</span>
+        <span class="nd">@WebInitParam</span><span class="o">(</span><span class="n">name</span> <span class="o">=</span> <span class="s">"param2"</span><span class="o">,</span> <span class="n">value</span> <span class="o">=</span> <span class="s">"goodbye"</span><span class="o">)</span>
+<span class="o">})</span>
+</code></pre></div></div>
+
+<p>Initializatio paramters are used to provide data that a Servlet needs. The values can be retrieve with the  <code class="highlighter-rouge">getInitParameter()</code> method.</p>
+
+<h3 id="servlet-request">Servlet Request</h3>
+
+<p>Clients send data to the Servlet in the <code class="highlighter-rouge">HttpServletRequest</code>, which contains the request URL, HTTP headers, query string, and so on. Query strings contain a set of parameters and values, that can be retrieved by using the <code class="highlighter-rouge">getParameter()</code> method.</p>
+
+<p>e.g.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">String</span> <span class="n">myParameter</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"myParameter"</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h3 id="servlet-response">Servlet Response</h3>
+
+<p>Servlets return responses to clients in the <code class="highlighter-rouge">HttpServletResponse</code>. To send character data, use the <code class="highlighter-rouge">PrintWriter</code> returned by the response’s <code class="highlighter-rouge">getWriter()</code> method. You can also send binary data with the <code class="highlighter-rouge">ServletOutputStream</code> returned by <code class="highlighter-rouge">getOutputStream()</code> method. Additionally, the response object allows you to set things like content type, status codes, cookies.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">PrintWriter</span> <span class="n">out</span> <span class="o">=</span> <span class="n">response</span><span class="o">.</span><span class="na">getWriter</span><span class="o">();</span>
+<span class="n">response</span><span class="o">.</span><span class="na">setStatus</span><span class="o">(</span><span class="n">HttpServletResponse</span><span class="o">.</span><span class="na">SC_OK</span><span class="o">);</span>
+<span class="n">response</span><span class="o">.</span><span class="na">setContentType</span><span class="o">(</span><span class="s">"application/json"</span><span class="o">);</span>
+<span class="n">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"{\"value\":\"Hello World}\""</span><span class="o">);</span>
+</code></pre></div></div>
+
+<h2 id="filters">Filters</h2>
+
+<p>A <strong>filter</strong> is used to transform headers or content of a request or reponse. Filters are attatched to web components, but they should be independent from web resources, so they can reused with multiple web components.</p>
+
+<p>Common use cases:</p>
+
+<ul>
+  <li>Retrieve request and add some business logic around it.</li>
+  <li>Block the request or reponse. e.g. check for authentication tokens in the headers.</li>
+  <li>Modify request headers and data. e.g. set new attributes.</li>
+  <li>Modify response headers and data. e.g. add tracing id.</li>
+  <li>Interact with external resources.</li>
+</ul>
+
+<p>Use the <code class="highlighter-rouge">@WebFilter</code> annotation with at least one URL pattern to define a filter in a web application. Classes annotated with the <code class="highlighter-rouge">@WebFilter</code> annotation must implement the <code class="highlighter-rouge">javax.servlet.Filter</code> interface.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebFilter</span><span class="o">(</span><span class="n">urlPatterns</span> <span class="o">=</span> <span class="s">"/convert"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FormatFilter</span> <span class="kd">implements</span> <span class="n">Filter</span> <span class="o">{</span> 
+    <span class="c1">// filter methods (doFilter(), init(), destroy())</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p><code class="highlighter-rouge">doFilter()</code> is the main method in a <code class="highlighter-rouge">Filter</code> and is used to access and/or modify the request and reponse headers, invoke the next filter in the filter chain. If the current filter is the last filter in the chain that ends with the target web component or static resource. However, the filter can block the request and handle the reponse. In addition to doFilter, you must implement the init and destroy methods.</p>
+
+<p>Filters can modify, add or remove data in the request and reponse by calling methods like <code class="highlighter-rouge">setAttribute()</code>. You can also  override HTTP request methods by wrapping the request in an object that extends either <code class="highlighter-rouge">HttpServletRequestWrapper</code>. To override HTTP response methods, you wrap the response in an object that extends either <code class="highlighter-rouge">HttpServletResponseWrapper</code>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebFilter</span><span class="o">(</span><span class="n">urlPatterns</span> <span class="o">=</span> <span class="s">"/convert"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FormatFilter</span> <span class="kd">implements</span> <span class="n">Filter</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="n">FilterConfig</span> <span class="n">filterConfig</span><span class="o">)</span> <span class="kd">throws</span> <span class="n">ServletException</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"The filter "</span> <span class="o">+</span> <span class="n">FormatFilter</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">" has been created!"</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">doFilter</span><span class="o">(</span><span class="n">ServletRequest</span> <span class="n">request</span><span class="o">,</span> <span class="n">ServletResponse</span> <span class="n">response</span><span class="o">,</span> <span class="n">FilterChain</span> <span class="n">chain</span><span class="o">)</span>
+            <span class="kd">throws</span> <span class="n">IOException</span><span class="o">,</span> <span class="n">ServletException</span> <span class="o">{</span>
+
+        <span class="c1">// FormatRequestWrapper extends HttpServletRequestWrapper</span>
+        <span class="n">request</span> <span class="o">=</span> <span class="k">new</span> <span class="n">FormatRequestWrapper</span><span class="o">((</span><span class="n">HttpServletRequest</span><span class="o">)</span> <span class="n">request</span><span class="o">);</span>
+        <span class="n">String</span> <span class="n">format</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="na">getParameter</span><span class="o">(</span><span class="s">"format"</span><span class="o">);</span>
+
+        <span class="k">if</span> <span class="o">(</span><span class="n">format</span> <span class="o">!=</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>
+            <span class="n">chain</span><span class="o">.</span><span class="na">doFilter</span><span class="o">(</span><span class="n">request</span><span class="o">,</span> <span class="n">response</span><span class="o">);</span>
+        <span class="o">}</span> <span class="k">else</span> <span class="o">{</span>
+            <span class="k">throw</span> <span class="k">new</span> <span class="nf">InputParameterException</span><span class="o">(</span><span class="s">"Missing format parameter!"</span><span class="o">);</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">destroy</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Destroy method is invoked for the servlet "</span> <span class="o">+</span> <span class="n">FormatFilter</span><span class="o">.</span><span class="na">class</span><span class="o">.</span><span class="na">getName</span><span class="o">());</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: A web container uses filter mappings to decide how to apply filters to web resources. A filter mapping matches a filter to a web component by name or to web resources by URL pattern. The filters are invoked in the order in which filter mappings appear in the filter mapping list of a WAR.</p>
+</blockquote>
+
+<p>Filter constrains:</p>
+
+<ul>
+  <li><code class="highlighter-rouge">REQUEST</code>: Request comes directly from the client.</li>
+  <li><code class="highlighter-rouge">ASYNC</code>: Asynchronous request from the client.</li>
+  <li><code class="highlighter-rouge">FORWARD</code>: Request has been forwarded to a component.</li>
+  <li><code class="highlighter-rouge">INCLUDE</code>: Request is being processed by a component that has been included.</li>
+  <li><code class="highlighter-rouge">ERROR</code>: Request is being processed with the error page mechanism.</li>
+</ul>
+
+<p>The default dispatcher type is <code class="highlighter-rouge">REQUEST</code> and multiple types can be selected as follows:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebFilter</span><span class="o">(</span><span class="n">urlPatterns</span> <span class="o">=</span> <span class="s">"/convert"</span><span class="o">,</span> <span class="n">dispatcherTypes</span> <span class="o">=</span> <span class="o">{</span><span class="n">DispatcherType</span><span class="o">.</span><span class="na">REQUEST</span><span class="o">,</span> <span class="n">DispatcherType</span><span class="o">.</span><span class="na">FORWARD</span><span class="o">})</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">FormatFilter</span> <span class="kd">implements</span> <span class="n">Filter</span> <span class="o">{</span>
+    <span class="c1">// filter methods (doFilter(), init(), destroy())</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="event-listeners">Event Listeners</h3>
+
+<p>Event Listeners are used to track events in your Web application. There are two types of servlet events:</p>
+
+<ol>
+  <li>Servlet context-level catches events about <code class="highlighter-rouge">ServletContext</code> lifecycle changes.</li>
+  <li>Session-level events are about requests coming into and going out of scope of a web application.</li>
+</ol>
+
+<p>Both types can catch lifecycle and attribute changes.</p>
+
+<p>You can implement <code class="highlighter-rouge">ServletRequestListener</code>, <code class="highlighter-rouge">ServletRequestAttributeListener</code>, <code class="highlighter-rouge">ServletContextAttributeListener</code>, <code class="highlighter-rouge">ServletContxtListener</code>, <code class="highlighter-rouge">HttpSessionAttributeListener</code>… and use the <code class="highlighter-rouge">@WebListener</code> annotation to define an event listener.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@WebListener</span><span class="o">(</span><span class="s">"Checks for new attributes during request"</span><span class="o">)</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">NewAttributeListener</span> <span class="kd">implements</span> <span class="n">ServletRequestAttributeListener</span> <span class="o">{</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">attributeAdded</span><span class="o">(</span><span class="n">ServletRequestAttributeEvent</span> <span class="n">servletRequestAttributeEvent</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"The attribute \""</span> <span class="o">+</span> <span class="n">servletRequestAttributeEvent</span><span class="o">.</span><span class="na">getName</span><span class="o">()</span> <span class="o">+</span> <span class="s">"\" with value \""</span>
+                <span class="o">+</span> <span class="n">servletRequestAttributeEvent</span><span class="o">.</span><span class="na">getValue</span><span class="o">()</span> <span class="o">+</span> <span class="s">"\" was added."</span><span class="o">);</span>
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">attributeReplaced</span><span class="o">(</span><span class="n">ServletRequestAttributeEvent</span> <span class="n">servletRequestAttributeEvent</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+
+    <span class="nd">@Override</span>
+    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">attributeRemoved</span><span class="o">(</span><span class="n">ServletRequestAttributeEvent</span> <span class="n">servletRequestAttributeEvent</span><span class="o">)</span> <span class="o">{</span>
+
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="exception-handling">Exception Handling</h2>
+
+<p>The Servlet API provides support for custom servlet error handling. This can be configured in the <code class="highlighter-rouge">web.xml</code> file in your project.</p>
+
+<p>Exceptions can be mapped to <em>Servlets</em> or <em>JSP</em>.</p>
+
+<p>Mapping error to a servlet:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;error-page&gt;</span>
+    <span class="nt">&lt;exception-type&gt;</span>com.sergiomartinrubio.javaservletfilters.exception.InputParameterException<span class="nt">&lt;/exception-type&gt;</span>
+    <span class="nt">&lt;location&gt;</span>/ExceptionHandler<span class="nt">&lt;/location&gt;</span>
+<span class="nt">&lt;/error-page&gt;</span>
+</code></pre></div></div>
+
+<p>Mapping error to JPS:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;error-page&gt;</span>
+    <span class="nt">&lt;exception-type&gt;</span>com.sergiomartinrubio.javaservletfilters.exception.InputParameterException<span class="nt">&lt;/exception-type&gt;</span>
+    <span class="nt">&lt;location&gt;</span>/WEB-INF/jsp/400.jsp<span class="nt">&lt;/location&gt;</span>
+<span class="nt">&lt;/error-page&gt;</span>
+</code></pre></div></div>
+
+<p>In either case you can access the error attributes in the request, so the exception response can be customized.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Request Attribute</th>
+      <th>Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>javax.servlet.error.status_code</td>
+      <td>java.lang.Integer</td>
+    </tr>
+    <tr>
+      <td>javax.servlet.error.exception_type</td>
+      <td>java.lang.Class</td>
+    </tr>
+    <tr>
+      <td>javax.servlet.error.message</td>
+      <td>java.lang.String</td>
+    </tr>
+    <tr>
+      <td>javax.servlet.error.exception</td>
+      <td>java.lang.Throwable</td>
+    </tr>
+    <tr>
+      <td>javax.servlet.error.request_uri</td>
+      <td>java.lang.String</td>
+    </tr>
+    <tr>
+      <td>javax.servlet.error.servlet_name</td>
+      <td>java.lang.String</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>Error codes can also be mapped as follows:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;error-page&gt;</span>
+    <span class="nt">&lt;error-code&gt;</span>500<span class="nt">&lt;/error-code&gt;</span>
+    <span class="nt">&lt;location&gt;</span>/WEB-INF/jsp/400.jsp<span class="nt">&lt;/location&gt;</span>
+<span class="nt">&lt;/error-page&gt;</span>
+</code></pre></div></div>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-servlets.git">
+  Source Code
+</a>
+</p>

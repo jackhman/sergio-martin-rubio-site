@@ -1,0 +1,205 @@
+<p>One of the biggest challenges when transitioning to a <strong>microservices architecture</strong> is <strong>troubleshooting</strong> and <strong>debugging</strong>. When the number of microservices grows a simple <em>HTTP</em> request can hit dozens of applications, and in case something goes wrong or the performance is not as good as expected, it might be quite tricky to know where the issue is.</p>
+
+<p><strong>Logging</strong> and <strong>instrumentation</strong> are very important tools to understand what is going on in a microservices architecture.</p>
+
+<ul>
+  <li><strong>Logging</strong>: it is used to show what is happening inside your application (errors, exceptions, timeouts, HTTP status…).</li>
+  <li><strong>Instrumentation</strong>: it should be used mainly to capture <a href="https://grafana.com/blog/2018/08/02/the-red-method-how-to-instrument-your-services/">Request rate (count), Error rate (count), and Duration of requests</a>.</li>
+</ul>
+
+<p>One of the most famous tools to capture and process logs is <strong><a href="https://www.splunk.com/">Splunk</a></strong>. Basically, this tool allows us to centralized and manage application logs. It also provides metrics, generates reports and alerts for a particular search, and offers a friendly user interface.</p>
+
+<p>On the other hand, for instrumentation we can use <strong><a href="https://zipkin.io/">Zipkin</a></strong>, which provides a distributed tracing system, and will help you troubleshoot latency issues.</p>
+
+<p>In order to understand how these tools can help us, we are going to build a Spring Boot application which will be fully integrated with <strong>Zipkin</strong> through <strong><a href="https://spring.io/projects/spring-cloud-sleuth">Spring Cloud Sleuth</a></strong>.</p>
+
+<h3 id="spring-boot-app">Spring Boot App</h3>
+
+<p>This <a href="https://github.com/smartinrub/spring-boot-zipkin-sleuth-splunk">web application</a> will only contain an endpoint which will log a simple string with <strong><a href="https://www.slf4j.org/">Slf4j</a></strong>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">@Slf4j</span>
+<span class="nd">@RestController</span>
+<span class="nd">@SpringBootApplication</span>
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SpringBootZipkinSleuthSplunkApplication</span> <span class="o">{</span>
+    <span class="kd">public</span> <span class="kd">static</span> <span class="kt">void</span> <span class="nf">main</span><span class="o">(</span><span class="n">String</span><span class="o">[]</span> <span class="n">args</span><span class="o">)</span> <span class="o">{</span>
+        <span class="n">SpringApplication</span><span class="o">.</span><span class="na">run</span><span class="o">(</span><span class="n">SpringBootZipkinSleuthSplunkApplication</span><span class="o">.</span><span class="na">class</span><span class="o">,</span> <span class="n">args</span><span class="o">);</span>
+    <span class="o">}</span>
+    <span class="nd">@GetMapping</span>
+    <span class="kd">public</span> <span class="n">String</span> <span class="nf">helloWorld</span><span class="o">()</span> <span class="o">{</span>
+        <span class="n">log</span><span class="o">.</span><span class="na">info</span><span class="o">(</span><span class="s">"Hello World Endpoint"</span><span class="o">);</span>
+        <span class="k">return</span> <span class="s">"Hello World!"</span><span class="o">;</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The <code class="highlighter-rouge">application.properties</code> file will contain the configuration for <strong>Sleuth</strong> and <strong>Zipkin</strong>.</p>
+
+<div class="language-properties highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">spring.application.name</span><span class="p">=</span><span class="s">spring-boot-zipkin-sleuth-splunk</span>
+<span class="py">spring.sleuth.sampler.probability</span><span class="p">=</span><span class="s">1.0</span>
+<span class="py">spring.zipkin.service.name</span><span class="p">=</span><span class="s">spring-boot-zipkin-sleuth-splunk</span>
+<span class="py">spring.zipkin.base-url</span><span class="p">=</span><span class="s">http://zipkin:9411</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: In order to explicitly provide a different service name for all spans coming from your application we can set  <code class="highlighter-rouge">spring.zipkin.service.name</code> to the desired name.</p>
+</blockquote>
+
+<blockquote>
+  <p><code class="highlighter-rouge">spring.sleuth.sampler.probability</code> value is 1, which is 100% (default: 0.1, which is 10 percent)</p>
+</blockquote>
+
+<blockquote>
+  <p><em>localhost</em> cannot be used in this example, since the <strong>Spring Boot</strong> application will run inside a <strong>Docker</strong> container, so we have to use the name specified for <strong>Zipkin</strong> on our docker compose file (<em>http://zipkin:9411</em>)</p>
+</blockquote>
+
+<p><strong>Sleuth</strong> sends its tracing data to <strong>Zipkin</strong> by default, if the following dependency is added to your project.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;dependency&gt;</span>
+    <span class="nt">&lt;groupId&gt;</span>org.springframework.cloud<span class="nt">&lt;/groupId&gt;</span>
+    <span class="nt">&lt;artifactId&gt;</span>spring-cloud-starter-sleuth<span class="nt">&lt;/artifactId&gt;</span>
+<span class="nt">&lt;/dependency&gt;</span>
+</code></pre></div></div>
+
+<p>This library is also responsible for adding the trace IDs and store them locally in order to continue the trace.</p>
+
+<p>A <strong><a href="https://logback.qos.ch/">Logback</a></strong> configuration file is also necessary in order to visualise the traces ID in <strong>Splunk</strong>.</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;configuration&gt;</span>
+    <span class="nt">&lt;include</span> <span class="na">resource=</span><span class="s">"org/springframework/boot/logging/logback/base.xml"</span><span class="nt">/&gt;</span>
+    ​
+    <span class="nt">&lt;springProperty</span> <span class="na">scope=</span><span class="s">"context"</span> <span class="na">name=</span><span class="s">"appName"</span> <span class="na">source=</span><span class="s">"spring.application.name"</span><span class="nt">/&gt;</span>
+    ​
+    <span class="nt">&lt;appender</span> <span class="na">name=</span><span class="s">"logstash"</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.RollingFileAppender"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;file&gt;</span>${LOG_FILE}.json<span class="nt">&lt;/file&gt;</span>
+        <span class="nt">&lt;rollingPolicy</span> <span class="na">class=</span><span class="s">"ch.qos.logback.core.rolling.TimeBasedRollingPolicy"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;fileNamePattern&gt;</span>${LOG_FILE}.json.%d{yyyy-MM-dd}.gz<span class="nt">&lt;/fileNamePattern&gt;</span>
+            <span class="nt">&lt;maxHistory&gt;</span>7<span class="nt">&lt;/maxHistory&gt;</span>
+        <span class="nt">&lt;/rollingPolicy&gt;</span>
+        <span class="nt">&lt;encoder</span> <span class="na">class=</span><span class="s">"net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder"</span><span class="nt">&gt;</span>
+            <span class="nt">&lt;providers&gt;</span>
+                <span class="nt">&lt;timestamp&gt;</span>
+                    <span class="nt">&lt;timeZone&gt;</span>UTC<span class="nt">&lt;/timeZone&gt;</span>
+                <span class="nt">&lt;/timestamp&gt;</span>
+                <span class="nt">&lt;pattern&gt;</span>
+                    <span class="nt">&lt;pattern&gt;</span>
+                        {
+                        "severity": "%level",
+                        "service": "${appName:-}",
+                        "trace": "%X{X-B3-TraceId:-}",
+                        "span": "%X{X-B3-SpanId:-}",
+                        "parent": "%X{X-B3-ParentSpanId:-}",
+                        "thread": "%thread",
+                        "class": "%logger{40}",
+                        "message": "%message"
+                        }
+                    <span class="nt">&lt;/pattern&gt;</span>
+                <span class="nt">&lt;/pattern&gt;</span>
+            <span class="nt">&lt;/providers&gt;</span>
+        <span class="nt">&lt;/encoder&gt;</span>
+    <span class="nt">&lt;/appender&gt;</span>
+    ​
+    <span class="nt">&lt;root</span> <span class="na">level=</span><span class="s">"INFO"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;appender-ref</span> <span class="na">ref=</span><span class="s">"logstash"</span><span class="nt">/&gt;</span>
+    <span class="nt">&lt;/root&gt;</span>
+<span class="nt">&lt;/configuration&gt;</span>
+</code></pre></div></div>
+
+<p><strong>Zipkin</strong> defines <strong>three kind of ids</strong>:</p>
+
+<ul>
+  <li><strong>Trace Id</strong>: ID shared by every span in a trace</li>
+  <li><strong>Span Id</strong>: ID of a particular span which might be the same as the trace id if only one service is involved during the tracing.</li>
+  <li><strong>Parent Id</strong>: ID present on child spans to know which was the previous span ID. If the span does not have a parent id is considered the root of the trace.</li>
+</ul>
+
+<p>Finally, here is the <code class="highlighter-rouge">docker-compose.yml</code> that powers the whole setup.</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">2'</span>
+<span class="na">services</span><span class="pi">:</span>
+  <span class="na">app</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">com.thedeveloperhive/spring-boot-zipkin-sleuth-splunk</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">LOGGING_FILE=/logs/app.log</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">8080:8080"</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">log_volume:/logs</span>
+  <span class="na">splunk</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">splunk/splunk</span>
+    <span class="na">hostname</span><span class="pi">:</span> <span class="s">splunk</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">SPLUNK_START_ARGS=--accept-license</span>
+      <span class="pi">-</span> <span class="s">SPLUNK_ENABLE_LISTEN=9997</span>
+      <span class="pi">-</span> <span class="s">SPLUNK_PASSWORD=password</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">8000:8000"</span>
+  <span class="na">splunkforwarder</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">splunk/universalforwarder:6.5.3-monitor</span>
+    <span class="na">hostname</span><span class="pi">:</span> <span class="s">splunkforwarder</span>
+    <span class="na">environment</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">SPLUNK_START_ARGS=--accept-license --answer-yes</span>
+      <span class="pi">-</span> <span class="s">SPLUNK_FORWARD_SERVER=splunk:9997</span>
+      <span class="pi">-</span> <span class="s">SPLUNK_ADD=monitor /logs</span>
+      <span class="pi">-</span> <span class="s">SPLUNK_PASSWORD=password</span>
+    <span class="na">restart</span><span class="pi">:</span> <span class="s">always</span>
+    <span class="na">depends_on</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">splunk</span>
+    <span class="na">volumes</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">log_volume:/logs</span>
+  <span class="na">zipkin</span><span class="pi">:</span>
+    <span class="na">image</span><span class="pi">:</span> <span class="s">openzipkin/zipkin</span>
+    <span class="na">ports</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s2">"</span><span class="s">9411:9411"</span>
+<span class="na">volumes</span><span class="pi">:</span>
+  <span class="na">log_volume</span><span class="pi">:</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: <strong>Splunk</strong> works on the client-server model. <strong>Splunk Forwarder</strong> is used to collect the machine generated data from client side and forward to Splunk server.</p>
+</blockquote>
+
+<h3 id="getting-started">Getting Started</h3>
+
+<p>Build application and run docker compose:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean <span class="nb">install
+</span>docker-compose up
+</code></pre></div></div>
+
+<blockquote>
+  <p>Note: A docker image will be built during the Maven install stage, since the Spotify docker-maven-plugin was added on the pom file.</p>
+</blockquote>
+
+<p>If we hit the web service at <em><a href="http://localhost:8080">http://localhost:8080</a></em> a log entry will be generated and forwarded to <strong>Splunk</strong> and <strong>Zipkin</strong>.</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>app_1 | 2019-03-22 21:55:35.647  INFO [-,73d169f5b5e76599,73d169f5b5e76599,false] 1 --- [or-http-epoll-3] .SpringBootZipkinSleuthSplunkApplication : Hello World Endpoint
+</code></pre></div></div>
+<p>As we can see the <strong>trace ID</strong> is the same as the <strong>span ID</strong>, since only one service was involved during the tracing, and there is <strong>no parent ID</strong>.</p>
+
+<p><strong>Zipkin</strong> interface is available at <em><a href="http://localhost:9411">http://localhost:9411</a></em></p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/Idvgyeh6Fa7ryJMsC1JaebEf-HRCm7o6Ha_BFUTcwP79Qgv95TOcJYnhPBLhCwCd4YMNELlNXAWrCM-ojJh_0EXoaTwhJapZ8vIMaeVKbyhKUjeCSlAzVQuq0rZk7gr3pBoqTbnb=w2400" class="figure-img img-fluid rounded" alt="Zipkin UI." />
+  
+    <figcaption class="figure-caption text-center">Zipkin UI.</figcaption>
+  
+</figure>
+
+<p>Now login into Splunk web console (<a href="http://localhost:8000"><em>http://localhost:8000</em></a>) and search for “<em>73d169f5b5e76599</em>”.</p>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/61G5AkQxY04-ZUX69Khlb5nSkzfPs2p5aId2utTRFbXwQmGY0c-RsvsalyCafZPiLnB-UyarqcYkTw-qwC5E6qBgDUWiIxADHbxqyeE9dWFUbSzqQ_ZiHHPdYXB_WJpSENCWdT46=w2400" class="figure-img img-fluid rounded" alt="Splunk UI" />
+  
+    <figcaption class="figure-caption text-center">Splunk UI</figcaption>
+  
+</figure>
+
+<h3 id="conclusion">Conclusion</h3>
+
+<p>Both <strong>logging</strong> and <strong>instrumentation</strong> are essential in any enterprise microservices architecture, and tools like Splunk and <strong>Zipkin</strong> can be exellent allies to act fast and precisely when issues arise.</p>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/spring-boot-zipkin-sleuth-splunk">
+  Source Code
+</a>
+</p>

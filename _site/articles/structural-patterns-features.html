@@ -1,0 +1,224 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#structural-patterns-features">Structural Patterns Features</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#proxy-pattern">
+Proxy Pattern</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#adapter-pattern">
+Adapter Pattern</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#decorator-pattern">
+Decorator Pattern</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#bridge-pattern">
+Bridge Pattern</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#choose-the-right-pattern">
+Choose the Right Pattern</a>
+    
+  
+
+</div>
+
+<h3 id="structural-patterns-features">Structural Patterns Features</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Intent</th>
+      <th>Motivation</th>
+      <th>Applicability</th>
+      <th>Consequences</th>
+      <th>Implementation</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Proxy</strong></td>
+      <td>It encapsulates an object to control references to it</td>
+      <td>Proxy pattern is usually used to control access of resources. For instance, if you only need to use some methods at a particular moment, there is no point in instantiating an initializing a costly object until the resources are needed</td>
+      <td>Considering the following example which is base on a calculator of prime numbers, we can see that there is no need to do the heavy computation until getNumberOfPrimes is called, therefore the proxy pattern could be a solution to lazily perform the computation when the data is actually needed</td>
+      <td>This pattern hides the original class behaviour to the client. Therefore, the risk of using this pattern it is that you might not be aware of what is happening behind the scenes, and code could be inefficient</td>
+      <td> </td>
+    </tr>
+    <tr>
+      <td><strong>Adapter</strong></td>
+      <td>This pattern wraps an interface of a class into another interface that is required by the client. so it works as a bridge between to classes</td>
+      <td>It used when a specific interface is required by the client</td>
+      <td>This pattern can be apply when the target interface and the one required by the client are very similar</td>
+      <td>The adapter class should do only the necessary to adapt the original class, so no additional logic should be added to the adapter</td>
+      <td>In case that the interface required by the client and the Adaptee are very different, it will require further modifications in order to make them compatible</td>
+    </tr>
+    <tr>
+      <td><strong>Decorator</strong></td>
+      <td>The main purpose of the Decorator Pattern is to add additional features, behaviours or responsibilities dynamically to an object</td>
+      <td>This pattern is a great alternative to subclassing, because instead of using inheritance to provide new functionalities, the decorator pattern wraps the target object with decorator classes to add the new behaviours</td>
+      <td>It is used when functionalities or responsibilities need to be added dynamically to a class, because otherwise many subclasses need to be created to get the same results</td>
+      <td>This pattern allows you to add or remove functionalities dynamically and avoids producing an explosion of subclasses to support every combination</td>
+      <td>Keep in mind that many decorators can be hard to maintain and distinguish and debugging is harder, since the behaviour of the object changes at runtime</td>
+    </tr>
+    <tr>
+      <td><strong>Bridge</strong></td>
+      <td>It decouples abstraction from implementation and avoids class explosion</td>
+      <td>This pattern give you the freedom of developing abstraction and implementation independently and create multiple combinations. The client only have access to the abstraction and does not need to know anything about the implementation</td>
+      <td>This pattern can be use when we want to decouple abstraction and implementation because they change independently, and we want to avoid a class explosion</td>
+      <td>Abstraction and implementation can be extended independently, so increases the loose coupling between class abstraction and its implementation. On the other hand, bridge pattern increases complexity due to the fact that it uses composition over inheritance</td>
+      <td>When using this pattern make sure you are grouping related abstractions and implementation to use the same abstract class or interface</td>
+    </tr>
+  </tbody>
+</table>
+
+<h3 id="proxy-pattern">Proxy Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/kxocuD48AXcfJ0Fj-VuM9_AAJCsEQhMrXM1orNdEUgwqGeZMEoo7utS6eX7bZGhJ0S070bri6xmJ5Hine0bkZQVrVPGMmIZuUoAmFEuSSEMZrRKzSJIoA1D9gRDNs0sO1l6LhTj6PA=w2400" class="figure-img img-fluid rounded" alt="Proxy Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Proxy Pattern - UML</figcaption>
+  
+</figure>
+
+<h4 id="use-cases">Use Cases</h4>
+
+<ul>
+  <li>An expensive computation needs to be performed.</li>
+  <li>A network call is necessary.</li>
+</ul>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/primes-proxypattern">
+  Source Code
+</a>
+</p>
+
+<h3 id="adapter-pattern">Adapter Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/vZA2TM2eVe2R6KBc022BYmGFB5D09ktaytHFJnDUTLPfblNGUgyOZs8qHN9voJAbsukihubjZypPiGSivlswyz4AskDIGGQkU6hIksAswN8PRaPQVB4_yDeXsFdDVcm56L9Wqmvtzw=w2400" class="figure-img img-fluid rounded" alt="Adapter Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Adapter Pattern - UML</figcaption>
+  
+</figure>
+
+<h4 id="use-cases-1">Use Cases</h4>
+
+<ul>
+  <li>It is commonly used to adapt third party libraries and frameworks.</li>
+</ul>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-adapter-pattern">
+  Source Code
+</a>
+</p>
+
+<h3 id="decorator-pattern">Decorator Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/ltO5XFAoBiJCieliVbbkPjFTXBk2POGgKz0fz0KP236sbWeZl1t_b3TsXyazmFSESgdQdqe8bZ9YT8loHFut9vCS3H8iyuMZ4ffCVp0d_Z4Q_Bbj3AiISRkPl7A9jFgDB0r36sUJPg=w2400" class="figure-img img-fluid rounded" alt="Decorator Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Decorator Pattern - UML</figcaption>
+  
+</figure>
+
+<h4 id="use-cases-2">Use Cases</h4>
+
+<ul>
+  <li>The Java I/O library makes use of the Decorator Pattern</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">BufferedInputStream</span> <span class="n">bis</span> <span class="o">=</span> <span class="k">new</span> <span class="n">BufferedInputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">FileInputStream</span><span class="o">(</span><span class="k">new</span> <span class="n">File</span><span class="o">(</span><span class="s">"a.txt"</span><span class="o">)));</span>
+<span class="k">while</span><span class="o">(</span><span class="n">bis</span><span class="o">.</span><span class="na">available</span><span class="o">()</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">){</span>
+        <span class="kt">char</span> <span class="n">c</span> <span class="o">=</span> <span class="o">(</span><span class="kt">char</span><span class="o">)</span><span class="n">bis</span><span class="o">.</span><span class="na">read</span><span class="o">();</span>
+        <span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">.</span><span class="na">println</span><span class="o">(</span><span class="s">"Char: "</span> <span class="o">+</span> <span class="n">c</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-decorator-pattern">
+  Source Code
+</a>
+</p>
+
+<h3 id="bridge-pattern">Bridge Pattern</h3>
+
+<figure class="figure w-100">
+  <img src="https://lh3.googleusercontent.com/T1SOpKGNRgTcSoIy737rYAbJ6nSGqEoPfCBzdy0RIvmBJYMOpa1vYOi-6Zm9uaioFAGiejVz726pxa2RCox7m67fWCC3k8RQAD6UfY8E2ZYTLPqhA5zPI-ESk9NZVmI2e8vjK2YcUQ=w2400" class="figure-img img-fluid rounded" alt="Bridge Pattern - UML" />
+  
+    <figcaption class="figure-caption text-center">Bridge Pattern - UML</figcaption>
+  
+</figure>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-bridge-pattern">
+  Source Code
+</a>
+</p>
+
+<h3 id="choose-the-right-pattern">Choose the Right Pattern</h3>
+
+<p>The following table shows the main five structural patterns with definitions from “Head First Design Patterns” and “Design Patterns: Elements of Reusable Object-Oriented Softwar“.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Pattern</th>
+      <th>Definition</th>
+      <th>Technique</th>
+      <th>When to use</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><strong>Decorator</strong></td>
+      <td>Attaches additional responsibilities to an object dynamically</td>
+      <td>Uses composition instead of inheritance to combine classes</td>
+      <td>Decouple behaviours and compose them in different ways</td>
+    </tr>
+    <tr>
+      <td><strong>Facade</strong></td>
+      <td>Provides an unified interface to a set of interfaces in a subsystem</td>
+      <td>Wraps a complex system</td>
+      <td>Provide a higher level interface that interacts with a complex subsystem</td>
+    </tr>
+    <tr>
+      <td><strong>Adapter</strong></td>
+      <td>Converts the interface of a class into another interface that the client expects</td>
+      <td>Wraps an object inside another object</td>
+      <td>Adapt one interface to another interface</td>
+    </tr>
+    <tr>
+      <td><strong>Proxy</strong></td>
+      <td>Provides a place holder for another object in order to control access to it</td>
+      <td>Proxy and target object share same interface</td>
+      <td>Control access to another object</td>
+    </tr>
+    <tr>
+      <td><strong>Bridge</strong></td>
+      <td>Decouples an abstraction from its implementation</td>
+      <td>Abstraction and implementation implement different interfaces</td>
+      <td>Combine two ways of doing something</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As you can see, these patterns are very similar but they solve different problems, so it is important to make sure you use the right one in each architectural problem you want to solve.</p>
+

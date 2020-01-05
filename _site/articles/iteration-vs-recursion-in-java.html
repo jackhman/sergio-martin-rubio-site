@@ -1,0 +1,156 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#getting-started">
+Getting Started</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#algorithms">
+Algorithms</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#run-jmh-benchmark">
+Run JMH Benchmark</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Iteration and recursion are exchangeable in most cases. In theory, every program can be rewritten to avoid iteration using recursion. However, it is important to know that when using one or the other, this decision might have severe impacts on performance or potentially raise unexpected errors.</p>
+
+<h2 id="getting-started">Getting Started</h2>
+<h3 id="algorithms">Algorithms</h3>
+
+<ul>
+  <li><code class="highlighter-rouge">for</code> loop: is the most traditional way to iterate an array or collection</li>
+  <li>Recursion: cleaned and simplified way to achieve the same as iterations</li>
+  <li>Tail recursion: an optimized version of recursion</li>
+  <li><code class="highlighter-rouge">stream</code> library: the functional perspective to iterate collections</li>
+</ul>
+
+<p>The problem of calculating the factorial of a number is that it shows performance differences between iteration and recursion. <strong>JMH</strong> harness is used to conduct the test in a single thread with the following setup:</p>
+
+<ul>
+  <li>Factorial of number: 20</li>
+  <li>CPU: 1.4GHz quad-core Intel Core i5, Turbo Boost up to 3.9GHz</li>
+  <li>OS: macOS Catalina</li>
+</ul>
+
+<p>Both warm up and test iterations ran for 2 seconds, with two forks, three warmups, and three iterations. The code to be tested is:</p>
+
+<ul>
+  <li><strong><code class="highlighter-rouge">for</code> loop</strong>:</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">long</span> <span class="nf">factorialForLoop</span><span class="o">(</span><span class="kt">long</span> <span class="n">number</span><span class="o">){</span>
+    <span class="kt">long</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">1</span><span class="o">;</span>
+    <span class="k">for</span><span class="o">(;</span> <span class="n">number</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="o">;</span> <span class="n">number</span><span class="o">--){</span>
+        <span class="n">result</span> <span class="o">*=</span> <span class="n">number</span><span class="o">;</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+<span class="o">}</span>
+
+<span class="n">publiclongfactorialRecursive</span><span class="o">(</span><span class="kt">long</span> <span class="n">number</span><span class="o">){</span>
+    <span class="k">return</span> <span class="n">number</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">number</span> <span class="o">*</span> <span class="n">factorialRecursive</span><span class="o">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>Recursion</strong>:</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">long</span> <span class="nf">factorialRecursive</span><span class="o">(</span><span class="kt">long</span> <span class="n">number</span><span class="o">){</span>
+<span class="k">return</span> <span class="n">number</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="mi">1</span> <span class="o">:</span> <span class="n">number</span> <span class="o">*</span> <span class="n">factorialRecursive</span><span class="o">(</span><span class="n">number</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>Tail recursion</strong>:</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">long</span> <span class="nf">factorialTailRecursive</span><span class="o">(</span><span class="kt">long</span> <span class="n">num</span><span class="o">){</span>
+    <span class="n">returnfactorial</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">num</span><span class="o">);</span>
+<span class="o">}</span>
+
+<span class="kd">public</span> <span class="kt">long</span> <span class="nf">factorial</span><span class="o">(</span><span class="kt">long</span> <span class="n">accumulator</span><span class="o">,</span><span class="kt">long</span> <span class="n">val</span><span class="o">){</span>
+    <span class="k">return</span> <span class="n">val</span> <span class="o">==</span> <span class="mi">1</span> <span class="o">?</span> <span class="n">accumulator</span> <span class="o">:</span> <span class="n">factorial</span><span class="o">(</span><span class="n">accumulator</span> <span class="o">*</span> <span class="n">val</span><span class="o">,</span> <span class="n">val</span> <span class="o">-</span> <span class="mi">1</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<ul>
+  <li><strong>“Stream” Library</strong>:</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">public</span> <span class="kt">long</span> <span class="nf">factorialStream</span><span class="o">(</span><span class="kt">long</span> <span class="n">number</span><span class="o">){</span>
+    <span class="k">return</span> <span class="n">LongStream</span><span class="o">.</span><span class="na">rangeClosed</span><span class="o">(</span><span class="mi">1</span><span class="o">,</span> <span class="n">number</span><span class="o">)</span>
+    <span class="o">.</span><span class="na">reduce</span><span class="o">(</span><span class="mi">1</span><span class="o">,(</span><span class="n">n1</span><span class="o">,</span> <span class="n">n2</span><span class="o">)</span> <span class="o">-&gt;</span> <span class="n">n1</span> <span class="o">*</span> <span class="n">n2</span><span class="o">);</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h3 id="run-jmh-benchmark">Run JMH Benchmark</h3>
+
+<p>Run <strong>JMH</strong> is quite simple. You only need to add some annotations and a couple of dependencies to the pom file. Then, you can run the jar file with maven.</p>
+
+<div class="language-shell highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mvn clean <span class="nb">install
+</span>java <span class="nt">-jar</span> target/benchmar.jar
+</code></pre></div></div>
+
+<p class="text-center">
+<a class="m-1 btn btn-outline-primary btn-2 " href="https://github.com/smartinrub/java-iterative-benchmark">
+  Source Code
+</a>
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Benchmark</th>
+      <th>Score</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>for Loop</td>
+      <td>8.437 ns/op</td>
+    </tr>
+    <tr>
+      <td>Tail Recursion</td>
+      <td>15.500 ns/op</td>
+    </tr>
+    <tr>
+      <td>Recursion</td>
+      <td>16.887 ns/op</td>
+    </tr>
+    <tr>
+      <td>stream</td>
+      <td>76.064  ns/op</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>As you can see, for loop is the winner, as expected, because of the simplicity of the operations done during the iteration. However, this does not mean that it is always the best choice. Loops might be problematic when dealing with data structures shared by the caller of a method. It mutates the state of the object, so this is not a side-effect free option. Another negative factor of loops is their readability. Therefore, in case we want to use immutable data objects and write a cleaner code, there are other options.</p>
+
+<p>In terms of readability, the winner is the stream. The functional style allows to write the iteration in a really simple manner and is side-effect free. However, the performance is quite bad since it is four times slower than the for  loop. The next candidate is recursion, which is also side-effect free. Before Java 8 was released, recursion had been used frequently over loops to improve readability and problems, such as Fibonacci, factorial, or Ackermann that make use of this technique. The main problem of recursion is the risk of receiving a  StackOverFlowError. This error happens because the accumulated result needs to be saved until the end of every call. The method pushes a new frame onto a thread’s stack when it calls itself to keep all the intermediate operation, parameters, and variables. If the method keeps pushing frames for too long, the stack will exceed the limit and the  StackOverFlowError  will be thrown. But, there is an answer to this problem — tail recursion. Tail recursion avoids creating frames every time the method calls itself because the intermediate result is passed to the next call. Therefore, instead of accumulating frames, each frame can be reused. The bad news is that the compiler needs to be smart enough to do this optimization, and, at the moment, this is not supported by the JVM. However, I experienced a slightly better result when using tail recursion instead of recursion.</p>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>If performance is the priority, traditional loops are the way to go. In regards to readability and immutability, if these are top priority, streams  are the best option. Lastly, if you are looking for something in between, recursion offers a good performance and is side-effect free.</p>

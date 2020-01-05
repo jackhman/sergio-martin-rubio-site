@@ -1,0 +1,126 @@
+
+<div class="list-group my-3">
+
+  
+    <a class="list-group-item list-group-item-action active disabled text-white">Table of Contents</a>
+  
+
+  
+    
+      <a class="list-group-item list-group-item-action" href="#introduction">Introduction</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#eager-initialization">
+Eager Initialization</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#lazy-initialization">
+Lazy Initialization</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#use-cases">
+Use Cases</a>
+    
+  
+    
+      <a class="list-group-item list-group-item-action" href="#conclusion">
+Conclusion</a>
+    
+  
+
+</div>
+
+<h2 id="introduction">Introduction</h2>
+
+<p>Mainly there <strong>two ways of initialize a field</strong>, <strong>eager</strong> and <strong>lazy</strong> initalization. On the one hand, lazy initialization consists of initializing the field when the value is needed, whereas the eager option is base on initializing the variable when it is declared.</p>
+
+<p>Both choices are compatible with <em>static</em> and <em>instance fields</em>, however the implementation may differ when trying to achieve performance improvement.</p>
+
+<h2 id="eager-initialization">Eager Initialization</h2>
+
+<p>Eager initialisation is commonly used when:</p>
+
+<ul>
+  <li><strong>Performance is not a priority</strong>.</li>
+  <li><strong>Not expensive to initialise</strong>.</li>
+  <li><strong>High number of accesses inside a class</strong>.</li>
+  <li><strong>Many threads</strong>.</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">final</span> <span class="n">Object</span> <span class="n">eagerObject</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+</code></pre></div></div>
+
+<h2 id="lazy-initialization">Lazy Initialization</h2>
+
+<p>Lazy initialisation is preferable when:</p>
+
+<ul>
+  <li><strong>Improve performance</strong>.</li>
+  <li><strong>Reduced access from instances of a class</strong>.</li>
+  <li><strong>Costly to initialise</strong>.</li>
+  <li><strong>Not many threads</strong> (when two o more threads, <em>synchronisation</em> might be required).</li>
+</ul>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="n">Object</span> <span class="n">lazyObject</span><span class="o">;</span>
+
+<span class="kd">private</span> <span class="kd">synchronized</span> <span class="n">Object</span> <span class="nf">getLazyObject</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">lazyObject</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>
+
+        <span class="n">lazyObject</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+
+    <span class="k">return</span> <span class="n">lazyObject</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="use-cases">Use Cases</h2>
+
+<p>As you can see it is really important to know the context of the field and how it is going to be accessed to decide what kind of initialisation is preferred. However, bear in mind that most of the times eager initialisation is preferable.</p>
+
+<p>When <strong>lazy initialisation</strong> and <strong>static</strong> fields are combined the lazy initialisation holder class idiom is recommended.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">static</span> <span class="kd">class</span> <span class="nc">OjbectHolder</span> <span class="o">{</span>
+
+    <span class="kd">static</span> <span class="kd">final</span> <span class="n">Object</span> <span class="n">object</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+<span class="o">}</span>
+
+<span class="kd">private</span> <span class="kd">static</span> <span class="n">Object</span> <span class="nf">getField</span><span class="o">()</span> <span class="o">{</span> <span class="k">return</span> <span class="n">OjbectHolder</span><span class="o">.</span><span class="na">object</span><span class="o">;</span> <span class="o">}</span>
+</code></pre></div></div>
+
+<p>By doing this, the static object is going to be initialise only the first time <code class="highlighter-rouge">getField()</code> is called, since it access ObjectHolder.object and the object gets initialised. In addition, the <code class="highlighter-rouge">getField()</code> method is not synchronised and it is only a field access, therefore there is no cost of access.</p>
+
+<p>In case you want to use lazy initialisation for an instance field use the <a href="http://www.java67.com/2016/04/why-double-checked-locking-was-broken-before-java5.html">Double Check Locking Pattern</a>.</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">private</span> <span class="kd">volatile</span> <span class="n">Object</span> <span class="n">lazyIntanceObject</span><span class="o">;</span>
+
+<span class="kd">private</span> <span class="n">Object</span> <span class="nf">getLazyIntanceObject</span><span class="o">()</span> <span class="o">{</span>
+
+    <span class="n">Object</span> <span class="n">result</span> <span class="o">=</span> <span class="n">lazyIntanceObject</span><span class="o">;</span>
+
+    <span class="k">if</span> <span class="o">(</span><span class="n">result</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span> <span class="o">{</span>  <span class="c1">// 1st check</span>
+
+        <span class="kd">synchronized</span><span class="o">(</span><span class="k">this</span><span class="o">)</span> <span class="o">{</span>
+
+            <span class="k">if</span> <span class="o">(</span><span class="n">lazyIntanceObject</span> <span class="o">==</span> <span class="kc">null</span><span class="o">)</span>  <span class="c1">// 2nd check (locking thread)</span>
+                <span class="n">lazyIntanceObject</span> <span class="o">=</span> <span class="n">result</span> <span class="o">=</span> <span class="k">new</span> <span class="n">Object</span><span class="o">();</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="o">;</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>The previous code snipped might look complicated and it is indeed.</p>
+
+<ul>
+  <li>A <strong>volatile</strong> field is created to hold the object. The variable is stored in the main memory, so reading or writing to the <em>volatile</em> variable will be on the main memory and not only on the <em>CPU</em> cache. This ensured that the field will never be half initialised.</li>
+  <li>The new variable is created to ensure that the field is read only.</li>
+  <li>The first check is to improve performance by verifying if the field is already initialised before locking and allowing that multiple threads can access to the field.</li>
+  <li>The synchronised block ensures that only one thread can go inside the block, checks if the field is already initialised (it might happen there is a <a href="http://tutorials.jenkov.com/java-concurrency/race-conditions-and-critical-sections.html">race condition</a>), and if not, initialises the object.</li>
+</ul>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>You should choose eager initialisation over the lazy one in most cases. Only use lazy initialisation when the performance is a priority or in order to break <em>initialisation circularity</em>.</p>
