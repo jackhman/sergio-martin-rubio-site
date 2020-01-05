@@ -59,7 +59,6 @@ defaults:
 
 plugins:
   - jekyll-feed
-  - jemoji
   - jekyll-paginate
 
 ### Exclude from processing ###
