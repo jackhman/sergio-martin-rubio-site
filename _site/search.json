@@ -137,11 +137,27 @@
     } ,
   
     {
+      "title"    : "Git Guide",
+      "category" : "",
+      "tags"     : "Version Control, Git",
+      "url"      : "/articles/git-guide",
+      "date"     : "2019-02-01 00:00:00 +0000"
+    } ,
+  
+    {
       "title"    : "Getting Started With DynamoDB and Spring",
       "category" : "",
       "tags"     : "Cloud, Database, Java, Spring",
       "url"      : "/articles/getting-started-with-dynamodb-and-spring",
       "date"     : "2019-01-11 00:00:00 +0000"
+    } ,
+  
+    {
+      "title"    : "MySQL Guide",
+      "category" : "",
+      "tags"     : "Databases, MySQL",
+      "url"      : "/articles/mysql-guide",
+      "date"     : "2019-01-01 00:00:00 +0000"
     } ,
   
     {

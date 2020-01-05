@@ -41,9 +41,6 @@ permalink: articles/:title
 
 ### Collections ###
 collections:
-  tutorials:
-    output: true
-    permalink: /tutorials/:name
   projects:
     output: true
     permalink: /projects/:name
@@ -54,11 +51,6 @@ collections:
 
 ### Defaults for collections ###
 defaults:
-  - scope:
-      path: ""
-      type: "tutorials"
-    values:
-      layout: "page"
   - scope:
       path: ""
       type: "projects"
@@ -77,4 +69,3 @@ exclude:
   - LICENSE
   - Gemfile
   - Gemfile.lock
-  
