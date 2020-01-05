@@ -40,17 +40,11 @@ paginate_path: "/tutorials/page-:num/"
 ### Posts Permalink ###
 permalink: articles/:title
 
-### Articles Permalink ###
-permalink: tutorials/:title
-
 ### Collections ###
 collections:
   projects:
     output: true
     permalink: /projects/:name
-  tutorials:
-    output: true
-    permalink: /tutorials/:name
   privacy_policy: 
     output: true
     permalink: /privacy-policy/
