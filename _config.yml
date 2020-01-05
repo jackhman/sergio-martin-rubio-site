@@ -35,13 +35,15 @@ author:
 ### Pagination ###
 paginate: 6
 paginate_path: "/articles/page-:num/"
-paginate_path: "/tutorials/page-:num/"
 
 ### Posts Permalink ###
 permalink: articles/:title
 
 ### Collections ###
 collections:
+  tutorials:
+    output: true
+    permalink: /tutorials/:name
   projects:
     output: true
     permalink: /projects/:name
@@ -54,6 +56,11 @@ collections:
 defaults:
   - scope:
       path: ""
+      type: "tutorials"
+    values:
+      layout: "page"
+  - scope:
+      path: ""
       type: "projects"
     values:
       layout: "page"
@@ -61,11 +68,13 @@ defaults:
 plugins:
   - jekyll-feed
   - jemoji
+  - jekyll-paginate
 
 ### Exclude from processing ###
 exclude:
-- README.md
-- CONTRIBUTING.md
-- LICENSE
-- Gemfile
-- Gemfile.lock
+  - README.md
+  - CONTRIBUTING.md
+  - LICENSE
+  - Gemfile
+  - Gemfile.lock
+  
